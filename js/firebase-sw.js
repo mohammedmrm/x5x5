@@ -1,5 +1,6 @@
 importScripts("https://www.gstatic.com/firebasejs/7.12.0/firebase-app.js");
 importScripts("https://www.gstatic.com/firebasejs/7.12.0/firebase-messaging.js");
+importScripts('https://storage.googleapis.com/workbox-cdn/releases/3.5.0/workbox-sw.js');
 // Your web app's Firebase configuration
 var firebaseConfig = {
     apiKey: "AIzaSyCmIr87Ihp8nXtHrKWZyeH1GcvFrHxmtJw",
@@ -22,3 +23,11 @@ messaging.setBackgroundMessageHandler(function(payload){
     }
     return self.registration.showNotification(title,options)
 });
+
+
+if (workbox) {
+    console.log(`Yay! Workbox is loaded 🎉`);
+    workbox.precaching.precacheAndRoute([]);
+} else {
+    console.log(`Boo! Workbox didn't load 😬`);
+}

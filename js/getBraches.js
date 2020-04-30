@@ -6,7 +6,7 @@ $.ajax({
    console.log(res);
    elem.html("");
      elem.append(
-       '<option>... اختر فرع ...</option>'
+       '<option value="">... اختر فرع ...</option>'
      );
    $.each(res.data,function(){
      elem.append(

@@ -84,7 +84,15 @@ $se = $_SESSION['role'];
                         <li class="kt-menu__item " aria-haspopup="true" >
                             <a href="?page=pages/invoices.php" class="kt-menu__link ">
                                 <i class="kt-menu__link-bullet kt-menu__link-bullet--dot"><span></span></i>
-                                <span class="kt-menu__link-text">الكشوفات</span>
+                                <span class="kt-menu__link-text">كشوفات العملاء</span>
+                            </a>
+                        </li>
+                        <?php } ?>
+                        <?php  if($se==1 || $se==2 || $se==3 || $se==5){?>
+                        <li class="kt-menu__item " aria-haspopup="true" >
+                            <a href="?page=pages/driverInvoices.php" class="kt-menu__link ">
+                                <i class="kt-menu__link-bullet kt-menu__link-bullet--dot"><span></span></i>
+                                <span class="kt-menu__link-text">كشوفات السواق</span>
                             </a>
                         </li>
                         <?php } ?>
@@ -154,6 +162,12 @@ $se = $_SESSION['role'];
                             <a href="?page=pages/receipt.php" class="kt-menu__link ">
                                 <i class="kt-menu__link-bullet kt-menu__link-bullet--dot"><span></span></i>
                                 <span class="kt-menu__link-text">طلبات الوصولات</span>
+                            </a>
+                        </li>
+                        <li class="kt-menu__item " aria-haspopup="true" >
+                            <a href="?page=pages/companyReceipt.php" class="kt-menu__link ">
+                                <i class="kt-menu__link-bullet kt-menu__link-bullet--dot"><span></span></i>
+                                <span class="kt-menu__link-text">طباعه وصولات للشركات</span>
                             </a>
                         </li>
                         <?php } ?>

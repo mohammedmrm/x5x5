@@ -190,7 +190,7 @@ legend
             </div>
             <div class="col-lg-2 kt-margin-b-10-tablet-and-mobile">
             	<label>المندوبين:</label>
-            	<select class="selectpicker form-control kt-input" name="driver_action" id="driver_action" data-col-index="2">
+            	<select class="selectpicker form-control kt-input" data-live-search="true" name="driver_action" id="driver_action" data-col-index="2">
             		<option value="">... اختر مندوب ...</option>
             	</select>
             </div>
@@ -222,7 +222,7 @@ legend
 <script src="js/getBraches.js" type="text/javascript"></script>
 <script src="js/getClients.js" type="text/javascript"></script>
 <script src="js/getorderStatus.js" type="text/javascript"></script>
-<script src="js/getDrivers.js" type="text/javascript"></script>
+<script src="js/getAllDrivers.js" type="text/javascript"></script>
 <script src="js/getCities.js" type="text/javascript"></script>
 <script type="text/javascript">
 function getorders(){
@@ -342,9 +342,11 @@ function getorderspage(page){
 function getclient(){
  getClients($("#client"),$("#branch").val());
  getorders();
- getDrivers($("#driver_action"),$("#to_branch").val());
+ getAllDrivers($("#driver_action"),$("#branch").val());
 }
+
 $( document ).ready(function(){
+getAllDrivers($("#driver_action"),$("#branch").val());
 getorders();
 $("#allselector").change(function() {
     var ischecked= $(this).is(':checked');
@@ -409,7 +411,7 @@ function disable(){
     $("#driver_action").removeAttr("disabled");
     $("#status_action").removeAttr("disabled");
   }
-  getDrivers($("#driver_action"),$("#branch").val());
+  getAllDrivers($("#driver_action"),$("#branch").val());
   $('.selectpicker').selectpicker('refresh');
    console.log($("#action").val());
 }

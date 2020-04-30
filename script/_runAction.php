@@ -16,8 +16,14 @@ if(isset($_REQUEST['ids'])){
     if($driver >= 1){
       try{
          $query = "update orders set driver_id=? where id=?";
+         $record = "call update_or_insert(?,?,?)";
+         $order = "update orders set order_status_id = ? where id =?";
+         $query2 = "insert into tracking (order_id,order_status_id,date) values(?,?,?)";
          foreach($ids as $v){
            $data = setData($con,$query,[$driver,$v]);
+           setData($con,$record,[$driver,$v,3]);
+           setData($con,$order,[3,$v]);
+           setData($con,$query2,[$v,3,date('Y-m-d H:i:s')]);
            $success="1";
          }
       } catch(PDOException $ex) {
@@ -47,9 +53,12 @@ if(isset($_REQUEST['ids'])){
       try{
          $query = "update orders set order_status_id=? where id=?";
          $query2 = "insert into tracking (order_id,order_status_id,date) values(?,?,?)";
+         $updateRecord = "update driver_records INNER join orders on orders.id = driver_records.order_id set driver_records.order_status_id = ? where driver_records.driver_id = orders.driver_id and driver_records.order_id = ?";
+
          foreach($ids as $v){
            $data = setData($con,$query,[$status,$v]);
            setData($con,$query2,[$v,$status,date('Y-m-d H:i:s')]);
+           setData($con,$updateRecord,[$status,$v]);
            $success="1";
          }
       } catch(PDOException $ex) {

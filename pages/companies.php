@@ -42,7 +42,7 @@ access([1]);
 								<th>شعار الشركه</th>
 								<th>اسم الشركه</th>
 								<th>رقم الهاتف</th>
-								<th>البريد الالكتروني</th>
+								<th>نص تسجيل الشركه</th>
 								<th>تعديل</th>
 		  					</tr>
       	            </thead>
@@ -54,7 +54,7 @@ access([1]);
 								<th>شعار الشركه</th>
 								<th>اسم الشركه</th>
 								<th>رقم الهاتف</th>
-								<th>البريد الالكتروني</th>
+								<th>نص تسجيل الشركه</th>
 								<th>تعديل</th>
 					</tr>
 	           </tfoot>
@@ -90,10 +90,10 @@ $.ajax({
      elem.append(
        '<tr>'+
             '<td>'+this.id+'</td>'+
+            '<td><img src="img/'+this.logo+'" width="100px"></td>'+
             '<td>'+this.name+'</td>'+
             '<td>'+this.phone+'</td>'+
-            '<td>'+this.email+'</td>'+
-            '<td>'+this.branch+'</td>'+
+            '<td>'+this.text1+'</td>'+
             '<td width="150px">'+
               '<button class="btn btn-clean btn-icon-lg" onclick="editCompany('+this.id+')" data-toggle="modal" data-target="#editCompany"><span class="flaticon-edit"></sapn>'+
               '<button class="btn btn-clean btn-icon-lg" onclick="deleteCompany('+this.id+')" data-toggle="modal" data-target="#deleteCompany"><span class="flaticon-delete"></sapn>'+
@@ -128,7 +128,7 @@ getAllcompanies($("#getAllcompaniesTable"));
       <div class="modal-content">
         <div class="modal-header">
           <button type="button" class="close" data-dismiss="modal">&times;</button>
-          <h4 class="modal-title">تحديث بيانات العميل</h4>
+          <h4 class="modal-title">تحديث بيانات الشركه</h4>
         </div>
         <div class="modal-body">
 		<!--begin::Portlet-->
@@ -138,20 +138,14 @@ getAllcompanies($("#getAllcompaniesTable"));
 			<form class="kt-form" id="editCompanyForm">
 				<div class="kt-portlet__body">
 					<div class="form-group">
-						<label>الفرع</label>
-						<select data-show-subtext="true" data-live-search="true" type="text" class="selectpicker form-control dropdown-primary" name="e_Company_branch" id="e_Company_branch"  value="">
-                        </select>
-                        <span class="form-text text-danger" id="e_Company_branch_err"></span>
-					</div>
-					<div class="form-group">
-						<label>الاسم الكامل:</label>
+						<label>اسم الشركه:</label>
 						<input type="name" id="e_Company_name" name="e_Company_name" class="form-control"  placeholder="ادخل الاسم الكامل">
 						<span class="form-text  text-danger" id="e_Company_name_err"></span>
 					</div>
 					<div class="form-group">
-						<label>الايميل:</label>
-						<input type="email" id="e_Company_email" name="e_Company_email" class="form-control" placeholder="ادخل البريد الالكتروني">
-						<span class="form-text text-danger" id="e_Company_email_err"></span>
+						<label>شعار الشركه:</label>
+						<input type="file" id="e_Company_phone" name="e_Company_phone" class="form-control" placeholder="ادخل رقم الهاتف">
+						<span  id="e_Company_phone_err"class="form-text  text-danger"></span>
 					</div>
 					<div class="form-group">
 						<label>رقم الهاتف:</label>
@@ -159,8 +153,8 @@ getAllcompanies($("#getAllcompaniesTable"));
 						<span  id="e_Company_phone_err"class="form-text  text-danger"></span>
 					</div>
 					<div class="form-group">
-						<label>كلمة السر:</label>
-						<input type="password" id="e_Company_password" name="e_Company_password" class="form-control" placeholder="ادخل كلمة السر">
+						<label>النص الاول:</label>
+						<textarea id="e_Company_text1" name="e_Company_text1" class="form-control"></textarea>
 						<span class="form-text  text-danger" id="e_Company_password_err"></span>
 					</div>
 	            </div>
@@ -270,13 +264,13 @@ function deleteCompany(id){
 </script>
   <!-- Modal -->
   <div class="modal fade " id="addCompanyModal" role="dialog">
-    <div class="modal-dialog modal-lg">
+    <div class="modal-dialog">
 
       <!-- Modal content-->
       <div class="modal-content">
         <div class="modal-header">
           <button type="button" class="close" data-dismiss="modal">&times;</button>
-          <h4 class="modal-title">اضافة عميل</h4>
+          <h4 class="modal-title">اضافة شركه</h4>
         </div>
         <div class="modal-body">
 		<!--begin::Portlet-->
@@ -285,23 +279,16 @@ function deleteCompany(id){
 			<!--begin::Form-->
 			<form class="kt-form" id="addCompanyForm">
                 <div class="row">
-  				  <div class="col-md-6">
-  				    <div class="kt-portlet__body">
+  				  <div class="kt-portlet__body">
   					<div class="form-group">
-  						<label>الفرع</label>
-  						<select data-show-subtext="true" data-live-search="true" type="text" class="selectpicker form-control dropdown-primary" name="Company_branch" id="Company_branch"  value="">
-                          </select>
-                          <span class="form-text text-danger" id="Company_branch_err"></span>
-  					</div>
-  					<div class="form-group">
-  						<label>الاسم الكامل:</label>
-  						<input type="name" name="Company_name" class="form-control"  placeholder="ادخل الاسم الكامل">
+  						<label>الاسم الشركه:</label>
+  						<input type="name" name="Company_name" class="form-control"  placeholder="ادخل الاسم ">
   						<span class="form-text  text-danger" id="Company_name_err"></span>
   					</div>
   					<div class="form-group">
-  						<label>الايميل:</label>
-  						<input type="email" name="Company_email" class="form-control" placeholder="ادخل البريد الالكتروني">
-  						<span class="form-text text-danger" id="Company_email_err"></span>
+  						<label>شعار الشركه:</label>
+  						<input type="file" name="Company_logo" class="form-control">
+  						<span  id="Company_logo_err"class="form-text  text-danger"></span>
   					</div>
   					<div class="form-group">
   						<label>رقم الهاتف:</label>
@@ -309,33 +296,16 @@ function deleteCompany(id){
   						<span  id="Company_phone_err"class="form-text  text-danger"></span>
   					</div>
   					<div class="form-group">
-  						<label>كلمة السر:</label>
-  						<input type="password" name="Company_password" class="form-control" placeholder="ادخل كلمة السر">
-  						<span class="form-text  text-danger" id="Company_password_err"></span>
+  						<label>نص تسجيل الشركه:</label>
+  						<textarea  name="Company_text1" class="form-control" ></textarea>
+  						<span class="form-text  text-danger" id="Company_text1_err"></span>
+  					</div>
+  					<div class="form-group">
+  						<label>نص افرع الشركه:</label>
+  						<textarea  name="Company_text2" class="form-control" ></textarea>
+  						<span class="form-text  text-danger" id="Company_text2_err"></span>
   					</div>
   	            </div>
-  	            </div>
-                  <div class="col-md-6">
-                    <div class="kt-portlet__body">
-    					<div class="form-group">
-    						<label>سعر التوصيل بغداد:</label>
-    						<input type="text" name="Company_dev_price_b" class="form-control" placeholder="">
-    						<span class="form-text  text-danger" id="Company_dev_price_b_err"></span>
-    					</div>
-    					<div class="form-group">
-    						<label>سعر التوصيل باقي المحافضات:</label>
-    						<input type="text" name="Company_dev_price_o" class="form-control" placeholder="">
-    						<span class="form-text  text-danger" id="Company_dev_price_o_err"></span>
-    					</div>
-    					<div class="form-group">
-    						<label>استثنائات:</label>
-    						<button type="button" onclick="addexpetionprice()" name="" class="btn btn-success" placeholder="">
-                             <span class="flaticon-add"></span>&nbsp;&nbsp;اضافة سعر توصيل لمحافظة معينة
-                            </button>
-    					 </div>
-                         <div id="exceptionCities"></div>
-                    </div>
-                  </div>
                 </div>
 	            <div class="kt-portlet__foot kt-portlet__foot--solid">
 					<div class="kt-form__actions kt-form__actions--right">
@@ -353,55 +323,26 @@ function deleteCompany(id){
     </div>
   </div>
 
-  <!-- Modal -->
-  <div class="modal fade " id="devPriceCompany" role="dialog">
-    <div class="modal-dialog">
-
-      <!-- Modal content-->
-      <div class="modal-content">
-        <div class="modal-header">
-          <button type="button" class="close" data-dismiss="modal">&times;</button>
-          <h4 class="modal-title">تعديل اسعار التوصيل للعميل</h4>
-        </div>
-        <div class="modal-body">
-		<!--begin::Portlet-->
-		<div class="kt-portlet">
-
-			<!--begin::Form-->
-			<form class="kt-form" id="devPriceCompanyForm">
-                <div class="row">
-                <div class="col-md-12">
-  				   <div id="devPriceItems" class=""></div>
-                   <label class="text-danger" id="devPrice_err"></label>
-                </div>
-                 </div>
-	            <div class="kt-portlet__foot kt-portlet__foot--solid">
-					<div class="kt-form__actions kt-form__actions--right">
-						<button type="button" onclick="updateDevPriceCompany()" class="btn btn-brand">تحديث اسعار التوصيل</button>
-						<button type="reset" data-dismiss="modal" class="btn btn-secondary">الغاء</button>
-					</div>
-				</div>
-                <input type="hidden" name="Company_id" id="Company_id"/>
-			</form>
-			<!--end::Form-->
-		</div>
-		<!--end::Portlet-->
-        </div>
-      </div>
-
-    </div>
-  </div>
-
   <script src="assets/js/demo1/pages/custom/profile/overview-3.js" type="text/javascript"></script>
   <script type="text/javascript" src="js/getCities.js"></script>
   <script type="text/javascript">
-  getBraches($("#Company_branch"));
-  getBraches($("#e_Company_branch"));
   function addCompany(){
+    var myform = document.getElementById('addCompanyForm');
+    var fd = new FormData(myform);
   $.ajax({
      url:"script/_addCompany.php",
      type:"POST",
-     data:$("#addCompanyForm").serialize(),
+     data:fd,
+     processData: false,  // tell jQuery not to process the data
+     contentType: false,
+   	 cache: false,
+     beforeSend:function(){
+          $("#Company_name_err").text('');
+           $("#Company_phone_err").text('');
+           $("#Company_text1_err").text('');
+           $("#Company_text2_err").text('');
+           $("#Company_logo_err").text('');
+     },
      success:function(res){
        console.log(res);
        if(res.success == 1){
@@ -411,11 +352,10 @@ function deleteCompany(id){
        }else{
            $("#Company_name_err").text(res.error["Company_name_err"]);
            $("#Company_phone_err").text(res.error["Company_phone_err"]);
-           $("#Company_email_err").text(res.error["Company_email_err"]);
-           $("#Company_branch_err").text(res.error["Company_branch_err"]);
-           $("#Company_password_err").text(res.error["Company_password_err"]);
+           $("#Company_text1_err").text(res.error["Company_text1_err"]);
+           $("#Company_text2_err").text(res.error["Company_text2_err"]);
+           $("#Company_logo_err").text(res.error["Company_logo_err"]);
        }
-
      },
      error:function(e){
        console.log(e);

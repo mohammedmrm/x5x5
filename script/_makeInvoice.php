@@ -197,11 +197,11 @@ if($orders > 0){
           $total['discount'] += $data[$i]['discount'];
           $total['dev_price'] += $data[$i]['dev_price'];
           $total['client_price'] += $data[$i]['client_price'];
-          $i++;
-
           //--- update invoice for each order
            $sql = "update orders set invoice_id =? where id=?";
            $res = setData($con,$sql,[$invoice,$v['id']]);
+           
+           $i++;
        }
        $total['invoice'] = $invoice;
        $total['status'] = $status_name;
