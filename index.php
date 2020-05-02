@@ -69,7 +69,29 @@ require_once("config.php");
           src: local('Cairo'), local('Cairo-Regular'), url(Cairofont.woff2) format('woff2');
           unicode-range: U+0100-024F, U+0259, U+1E00-1EFF, U+2020, U+20A0-20AB, U+20AD-20CF, U+2113, U+2C60-2C7F, U+A720-A7FF;
         }
+      fieldset {
 
+      		margin: 0;
+      		xmin-width: 0;
+      		padding: 10px;
+      		position: relative;
+      		border-radius:4px;
+              border-bottom:2px solid #FF6600;
+      		background-color:#f5f5f5;
+      		padding-left:10px !important;
+      		width:100%;
+      }
+      legend
+      {
+      	font-size:14px;
+      	font-weight:bold;
+      	margin-bottom: 0px;
+      	width: 55%;
+      	border: 1px solid #ddd;
+      	border-radius: 4px;
+      	padding: 5px 5px 5px 10px;
+      	background-color: #ffffff;
+      }
         body * :not(.fa):not(.la):not(.kt-widget-20__label):not(.kt-widget-19__label):not(.close) {
           font-family: 'Cairo', sans-serif !important;
         }
@@ -245,6 +267,7 @@ function formatMoney(amount, decimalCount = 0, decimal = ".", thousands = ",") {
   <!-- Add Firebase products that you want to use -->
   <script src="https://www.gstatic.com/firebasejs/7.12.0/firebase-auth.js"></script>
   <script src="https://www.gstatic.com/firebasejs/7.12.0/firebase-firestore.js"></script>
+  <script src="js/app.js"></script>
   <script>
     // Your web app's Firebase configuration
     var firebaseConfig = {
@@ -304,6 +327,7 @@ function updateUserToken(token){
            },
      });
 }
+
 </script>
     </body>
     <!-- end::Body -->

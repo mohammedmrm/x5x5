@@ -39,13 +39,17 @@ try{
   $query = "select orders.*,date_format(orders.date,'%Y-%m-%d') as date,
             clients.name as client_name,clients.phone as client_phone,
             cites.name as city,towns.name as town,branches.name as branch_name,
-            stores.name as store_name
+            stores.name as store_name,
+            if(companies.logo is null,'logos/logo.png',companies.logo) as logo,
+            companies.text1 as text1,
+            companies.text2 as text2,orders.company_id as com_id
             from orders left join
             clients on clients.id = orders.client_id
             left join cites on  cites.id = orders.to_city
             left join towns on  towns.id = orders.to_town
             left join stores on  stores.id = orders.store_id
             left join branches on  branches.id = orders.to_branch
+            left join companies on  companies.id = orders.company_id
             where orders.id = ?";
 
   $data = getData($con,$query,[$id]);
@@ -81,7 +85,12 @@ $pdf->setLanguageArray($lg);
 $pdf->SetFont('aealarabiya', '', 12);
 
 // set default header data
-$pdf->SetHeaderData("../../../".$config['Company_logo'],30,"");
+if($data['com_id'] != 0){
+  $logo = '../../../img/'.$data['logo'];
+}else{
+  $logo = "../../../".$config['Company_logo'];
+}
+$pdf->SetHeaderData($logo,33,"");
 
 // set header and footer fonts
 $pdf->setHeaderFont(Array('aealarabiya', '', 12));
@@ -161,6 +170,10 @@ $tbl = '
   </tr>
 </table>
 ';
+if($data['com_id'] != 0){
+$comp = $data['text1']."<br />".$data['text2'].
+"<br /><br /><span>* يسقط حق المطالبة بالوصال بعد مرور شهر من تاريخ الوصل </span>";
+}else{
 $comp = "
 <span>ﺍﻟﺸﺮﻛﻪ ﻣﺴﺠﻠﻪ ﻗﺎﻧﻮﻧﻴﺎ/ ﺭﻗﻢ ﺍﻟﺘﺴﺠﻴﻞ: ﻡ.ﺵ.ﺃ - 20 - 7088 &nbsp;&nbsp;&nbsp; ﺍﻟﺸﺮﻛﻪ ﻣﺴﺆﻭﻟﻪ ﻋﻦ ﺗﻮﺻﻴﻞ ﺍﻟﻄﻠﺒﺎﺕ ﻓﻘﻂ</span>
 <br /> <br />
@@ -171,6 +184,8 @@ $comp = "
 <br /><br />
 <span>* يسقط حق المطالبة بالوصال بعد مرور شهر من تاريخ الوصل </span>
 ";
+}
+
 $pdf->writeHTML($style.$tbl, true, false, false, false, '');
 $htmlpersian = $hcontent;
 $pdf->cell('','','توقيع العميل','');

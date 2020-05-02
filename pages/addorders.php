@@ -6,29 +6,7 @@ access([1,2,5,6]);
 include("config.php");
 ?>
 <style>
-fieldset {
 
-		margin: 0;
-		xmin-width: 0;
-		padding: 10px;
-		position: relative;
-		border-radius:4px;
-        border-bottom:2px solid #FF6600;
-		background-color:#f5f5f5;
-		padding-left:10px !important;
-		width:100%;
-}
-legend
-{
-	font-size:14px;
-	font-weight:bold;
-	margin-bottom: 0px;
-	width: 55%;
-	border: 1px solid #ddd;
-	border-radius: 4px;
-	padding: 5px 5px 5px 10px;
-	background-color: #ffffff;
-}
 @media print {
   body * {
     visibility: hidden;
@@ -134,9 +112,10 @@ legend
                 <span id="maincity_err" class="form-text text-danger"></span>
 			</div>
             <div class="form-group col-lg-2">
-				<label>رمز الشركه</label>
-				<input type="text" class="form-control" id="prefix" name="prefix" value="">
-				<span id="prefix_err" class="form-text text-danger"></span>
+				<label> الشركه</label>
+                <select data-show-subtext="true" data-live-search="true" type="text" class="selectpicker form-control dropdown-primary" name="company" id="company"  value="">
+                </select>
+                <span  id="company_err"class="form-text  text-danger"></span>
 			</div>
           </div>
          <div id="order-section">
@@ -664,5 +643,27 @@ function customerHistory(ref){
         }
   });
 }
-
+function getCompanies(elem){
+$.ajax({
+  url:"script/_getcompanies.php",
+  type:"POST",
+  success:function(res){
+   console.log(res);
+   elem.html("");
+     elem.append(
+       '<option value="0">الشركه الرئسيه</option>'
+     );
+   $.each(res.data,function(){
+     elem.append(
+       '<option value="'+this.id+'">'+this.name +'</option>'
+     );
+     elem.selectpicker('refresh');
+   });
+  },
+  error:function(e){
+    console.log(e);
+  }
+});
+}
+getCompanies($("#company"));
 </script>

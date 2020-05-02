@@ -27,7 +27,7 @@ if($v->passes()){
                  $success = 1;
                  $sql = "update orders set driver_invoice_id = 0 where driver_invoice_id=?";
                  $result = setData($con,$sql,[$id]);
-                 unlink('../invoice/'.$re[0]['path']);
+                 unlink('../driver_invoice/'.$re[0]['path']);
              }else{
                 $msg = "فشل  حذف كشف";
              }

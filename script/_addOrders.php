@@ -63,7 +63,7 @@ $order_price = $_REQUEST['order_price'];
 $branch = $_REQUEST['branch'];
 $store = $_REQUEST['store'];
 $client_phone = $_REQUEST['client_phone'];
-
+$company = $_REQUEST['company'];
 $customer_name = "";//$_REQUEST['customer_name'];
 $customer_phone =  str_replace('-','',$_REQUEST['customer_phone']);
 $city_to = $_REQUEST['city'];
@@ -99,6 +99,7 @@ foreach($onumber as $k=>$val){
           'with_dev'      => [$with_dev,  'required'],
           'order_note'    => [$order_note[$k],  'max(250)'],
           'order_address' => [$order_address[$k],  'max(250)'],
+          'company' => [$company,  'int'],
       ]);
 
       }else{
@@ -119,6 +120,7 @@ foreach($onumber as $k=>$val){
           'with_dev'      => [$with_dev,  'required'],
           'order_note'    => [$order_note[$k],  'max(250)'],
           'order_address' => [$order_address[$k],  'max(250)'],
+          'company' => [$company,  'int'],
       ]);
 
       }
@@ -173,14 +175,14 @@ if($v->passes()) {
         $sql = 'insert into orders (manager_id,order_no,order_type,weight,qty,
                                     price,dev_price,from_branch,
                                     client_id,client_phone,store_id,customer_name,
-                                    customer_phone,to_city,to_town,to_branch,with_dev,note,new_price,address)
+                                    customer_phone,to_city,to_town,to_branch,with_dev,note,new_price,address,company_id,confirm)
                                     VALUES
-                                    (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)';
+                                    (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)';
         $result = setData($con,$sql,
                          [$manger,$prefix.$onumber[$k],$order_type,$weight,$qty,
                           $order_price[$k],$dev_price,$branch,
                           $client,$client_phone[$k],$mainstore,$customer_name,
-                          $customer_phone[$k],$city_to[$k],$town_to[$k],$branch_to,$with_dev,$order_note[$k],0,$order_address[$k]]);
+                          $customer_phone[$k],$city_to[$k],$town_to[$k],$branch_to,$with_dev,$order_note[$k],0,$order_address[$k],$company,1]);
           $sqlNote = 'select token from clients where id ='.$client;
           $res = getData($con,$sqlNote,[$client]);
           foreach($res as $k => $val){
@@ -239,14 +241,14 @@ if($v->passes()) {
         $sql = 'insert into orders (manager_id,order_no,order_type,weight,qty,
                                     price,dev_price,from_branch,
                                     client_id,client_phone,store_id,customer_name,
-                                    customer_phone,to_city,to_town,to_branch,with_dev,note,new_price,address)
+                                    customer_phone,to_city,to_town,to_branch,with_dev,note,new_price,address,company_id,confirm)
                                     VALUES
-                                    (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)';
+                                    (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)';
         $result = setData($con,$sql,
                          [$manger,$prefix.$onumber[$k],$order_type[$k],$weight[$k],$qty[$k],
                           $order_price[$k],$dev_price,$mainbranch,
                           $client,$client_phone[$k],$store[$k],$customer_name[$k],
-                          $customer_phone[$k],$maincity,$town_to[$k],$branch_to[$k],$with_dev,$order_note[$k],0,$order_address[$k]]);
+                          $customer_phone[$k],$maincity,$town_to[$k],$branch_to[$k],$with_dev,$order_note[$k],0,$order_address[$k],$company,1]);
           $sql = 'select token from clients where id = ? ';
           $res = getData($con,$sql,[$client]);
           foreach($res as $k => $val){
