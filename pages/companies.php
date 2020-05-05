@@ -1,6 +1,8 @@
 <?php
+if(file_exists("script/_access.php")){
 require_once("script/_access.php");
 access([1]);
+}
 ?>
 <style>
 </style>

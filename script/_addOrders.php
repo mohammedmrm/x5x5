@@ -152,14 +152,14 @@ if($v->passes()) {
        if($order_id[$k] > 0 && !empty($order_id[$k])){
                $sql = 'update orders set manager_id =? ,order_no = ?,order_type =? ,weight =? ,qty =?,
                                     price=?,dev_price=?,client_phone = ?,customer_name = ?  ,
-                                    customer_phone=?,to_city=?,to_town = ?,to_branch = ?,with_dev = ?,note = ?,address = ? , confirm = ?
+                                    customer_phone=?,to_city=?,to_town = ?,to_branch = ?,with_dev = ?,note = ?,address = ? , confirm = ? , date = ?
                                     where id = ?
                                     ';
 
         $result = setData($con,$sql,
                          [$manger,$prefix.$onumber[$k],$order_type,$weight,$qty,
                           $order_price[$k],$dev_price,$client_phone[$k],$customer_name,
-                          $customer_phone[$k],$city_to[$k],$town_to[$k],$branch_to,$with_dev,$order_note[$k],$order_address[$k],1,$order_id[$k]]);
+                          $customer_phone[$k],$city_to[$k],$town_to[$k],$branch_to,$with_dev,$order_note[$k],$order_address[$k],1,$order_id[$k],date('Y-m-d H:m:i')]);
          // get nofificaton tokens
          $sql = 'select token from orders
                   inner join clients on clients.id = orders.client_id
@@ -223,13 +223,13 @@ if($v->passes()) {
       if($order_id[$k] > 0 && !empty($order_id[$k])){
                $sql = 'update orders set manager_id =? ,order_no = ?,order_type =? ,weight =? ,qty =?,
                                     price=?,dev_price=?,client_phone = ?,customer_name = ?  ,
-                                    customer_phone=?,store_id=?,to_town = ?,to_branch = ?,with_dev = ?,note = ?,address = ? , confirm = ?
+                                    customer_phone=?,store_id=?,to_town = ?,to_branch = ?,with_dev = ?,note = ?,address = ? , confirm = ? , date = ?
                                     where id = ?
                                     ';
         $result = setData($con,$sql,
                          [$manger,$prefix.$onumber[$k],$order_type,$weight,$qty,
                           $order_price[$k],$dev_price,$client_phone[$k],$customer_name,
-                          $customer_phone[$k],$store[$k],$town_to[$k],$branch_to,$with_dev,$order_note[$k],$order_address[$k],1,$order_id[$k]]);
+                          $customer_phone[$k],$store[$k],$town_to[$k],$branch_to,$with_dev,$order_note[$k],$order_address[$k],1,$order_id[$k],date('Y-m-d H:m:i')]);
           $sql = 'select token from clients where id = ? ';
           $res = getData($con,$sql,[$client]);
           foreach($res as $k => $val){

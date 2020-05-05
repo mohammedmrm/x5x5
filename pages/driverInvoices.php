@@ -1,6 +1,8 @@
 <?php
+if(file_exists("script/_access.php")){
 require_once("script/_access.php");
 access([1,2]);
+}
 ?>
 <?
 include("config.php");
@@ -325,8 +327,11 @@ function makeDriverInvoice() {
             url:"script/_makeDriverInvoice.php",
             type:"POST",
             data: $("#driverInvoicesForm").serialize(),
+            beforeSend:function(){
+               $("#driver_data").addClass('loading');
+            },
             success:function(res){
-            console.log(res);
+            $("#driver_data").removeClass('loading');
                   if(res.success == 1){
                     getdriverInvoices();
                   }else{
@@ -334,6 +339,7 @@ function makeDriverInvoice() {
                   }
                 },
                 error:function(e){
+                  $("#driver_data").removeClass('loading');
                   console.log(e);
                 }
               });

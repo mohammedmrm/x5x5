@@ -49,7 +49,7 @@ try{
      $filter = preg_replace('/^ and/', '', $filter);
      $filter = $where." ".$filter;
      $count .= " ".$filter;
-     $query .= " ".$filter." order by orders.date";
+     $query .= " ".$filter." order by to_city,to_town,id";
   }else{
     $query .=" order by orders.date";
   }
@@ -132,14 +132,14 @@ if($orders > 0){
 
         $hcontent .=
          '<tr>
-           <td width="30" align="center">'.($i+1).'</td>
+           <td width="30"  align="center">'.($i+1).'</td>
            <td width="100" align="center">'.$data[$i]['dat'].'</td>
-           <td align="center">'.$data[$i]['order_no'].'</td>
-           <td width="100" align="center">'.$data[$i]['customer_phone'].'</td>
-           <td align="center" width="180">'.$data[$i]['city'].'/'.$data[$i]['town'].$data[$i]['address'].'</td>
-           <td align="center">'.number_format($data[$i]['price']).'</td>
-           <td align="center">'.number_format($data[$i]['new_price']).'</td>
-           <td align="center">'.number_format($data[$i]['dev_price']).'</td>
+           <td width="80"  align="center">'.$data[$i]['order_no'].'</td>
+           <td width="120" align="center">'.phone_number_format($data[$i]['customer_phone']).'</td>
+           <td width="160" align="center" >'.$data[$i]['city'].' - '.$data[$i]['town'].' - '.$data[$i]['address'].'</td>
+           <td width="80" align="center">'.number_format($data[$i]['price']).'</td>
+           <td width="80" align="center">'.number_format($data[$i]['new_price']).'</td>
+           <td width="80" align="center">'.number_format($data[$i]['dev_price']).'</td>
            <td align="center">'.number_format($data[$i]['client_price']).'</td>
            <td align="center">'.$data[$i]['note'].'</td>
          </tr>';
@@ -149,11 +149,11 @@ if($orders > 0){
           //--- update invoice for each order
            $sql = "update orders set invoice_id =? where id=?";
            $res = setData($con,$sql,[$invoice,$v['id']]);
-           $i++; 
+           $i++;
        }
        $total['invoice'] = $invoice;
        $total['status'] = $status_name;
-       $total['date'] = $res[0]['id'];
+       $total['date'] = $res[0]['date'];
     }
 
 
@@ -163,8 +163,8 @@ if($orders > 0){
            $total['client'] = $data[0]['client_name'];
            $total['store'] = $data[0]['store_name'];
           }else{
-           $total['client'] = 'لم يتم تحديد عميل';
-           $total['store'] = 'لم يتم التحديد';
+           $total['client'] = '/';
+           $total['store'] = '/';
           }
 
     } catch(PDOException $ex) {
@@ -190,13 +190,13 @@ class MYPDF extends TCPDF {
           <td></td>
          </tr>
          <tr>
-          <td width="230px">اسم العميل او الصفحه:'. $t['client'].'</td>
-          <td width="400px" style="color:#FF0000;text-align:center;display:block;">كشف حساب ('.$t['status'].')</td>
-          <td >التاريخ:'.$t['date'].'</td>
+          <td width="350px">اسم العميل او الصفحه : ('.$t['client'].')'.$t['store'].'</td>
+          <td width="300px" style="color:#FF0000;text-align:center;display:block;">كشف حساب العميل</td>
+          <td >التاريخ:'.date('Y-m-d').'</td>
          </tr>
          <tr>
-          <td width="230px">الصافي للعميل:'.$t['client_price'].'</td>
-          <td width="400px" style="text-align:center;display:block;">عدد الطلبيات:'.$t['orders'].'</td>
+          <td width="350px">الصافي للعميل:'.number_format($t['client_price']).'</td>
+          <td width="300px" style="text-align:center;display:block;">عدد الطلبيات:'.$t['orders'].'</td>
           <td >رقم الكشف:'.$t['orders'].'</td>
          </tr>
         </table>
@@ -250,18 +250,18 @@ $pdf->AddPage('L', 'A4');
 
 // Persian and English content
 
-$htmlpersian = '		<table border="1" class="table">
+$htmlpersian = '		<table border="1" class="table" cellpadding="5">
 			       <thead>
 	  						<tr  class="head-tr">
                                         <th width="30">#</th>
                                         <th width="100">تاريخ الادخال</th>
-										<th>رقم الوصل</th>
-										<th width="100">اسم ورقم هاتف المستلم</th>
-										<th width="180">عنوان الارسال</th>
-                                        <th>سعر الوصل</th>
-										<th>المبلغ المستلم</th>
-										<th>سعر التوصيل</th>
-										<th>السعر الصافي للعميل</th>
+										<th width="80">رقم الوصل</th>
+										<th width="120">هاتف المستلم</th>
+										<th width="160">عنوان المستلم</th>
+                                        <th width="80">مبلغ الوصل</th>
+										<th width="80">المبلغ المستلم</th>
+										<th width="80">مبلغ التوصيل</th>
+										<th> المبلغ الصافي للعميل </th>
 										<th>الملاحظات</th>
 							</tr>
       	            </thead>

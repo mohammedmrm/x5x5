@@ -185,12 +185,12 @@ if($orders > 0){
          '<tr>
            <td width="30" align="center">'.($i+1).'</td>
            <td width="100" align="center">'.$data[$i]['date'].'</td>
-           <td align="center">'.$data[$i]['order_no'].'</td>
-           <td width="100" align="center">'.$data[$i]['customer_phone'].'</td>
-           <td width="180" align="center">'.$data[$i]['city'].' - '.$data[$i]['town'].' - '.$data[$i]['adress'].'</td>
-           <td align="center">'.number_format($data[$i]['price']).'</td>
-           <td align="center">'.number_format($data[$i]['new_price']).'</td>
-           <td align="center">'.number_format($data[$i]['dev_price']).'</td>
+           <td width="80" align="center">'.$data[$i]['order_no'].'</td>
+           <td width="120" align="center">'.$data[$i]['customer_phone'].'</td>
+           <td width="160" align="center">'.$data[$i]['city'].' - '.$data[$i]['town'].' - '.$data[$i]['adress'].'</td>
+           <td width="80" align="center">'.number_format($data[$i]['price']).'</td>
+           <td width="80" align="center">'.number_format($data[$i]['new_price']).'</td>
+           <td width="80" align="center">'.number_format($data[$i]['dev_price']).'</td>
            <td align="center">'.number_format($data[$i]['client_price']).'</td>
            <td align="center">'.$data[$i]['note'].'</td>
          </tr>';
@@ -215,8 +215,8 @@ if($orders > 0){
            $total['client'] = $data[0]['client_name'];
            $total['store'] = $data[0]['store_name'];
           }else{
-           $total['client'] = 'لم يتم تحديد عميل';
-           $total['store'] = 'لم يتم التحديد';
+           $total['client'] = '/';
+           $total['store'] = '/';
           }
 
     } catch(PDOException $ex) {
@@ -241,13 +241,13 @@ class MYPDF extends TCPDF {
           <td></td>
          </tr>
          <tr>
-          <td width="230px">اسم العميل او الصفحه:'. $t['client'].'</td>
-          <td width="400px" style="color:#FF0000;text-align:center;display:block;">كشف حساب ('.$t['status'].')</td>
+          <td width="350px">اسم العميل او الصفحه : ('.$t['client'].')'.$t['store'].'</td>
+          <td width="300px" style="color:#FF0000;text-align:center;display:block;">كشف حساب ('.$t['status'].')</td>
           <td >التاريخ:'.$t['date'].'</td>
          </tr>
          <tr>
-          <td width="230px">الصافي للعميل:'.$t['client_price'].'</td>
-          <td width="400px" style="text-align:center;display:block;">عدد الطلبيات:'.$t['orders'].'</td>
+          <td width="350px">الصافي للعميل:'.number_format($t['client_price']).'</td>
+          <td width="300px" style="text-align:center;display:block;">عدد الطلبيات:'.$t['orders'].'</td>
           <td >رقم الكشف:'.$t['invoice'].'</td>
          </tr>
         </table>
@@ -301,18 +301,18 @@ $pdf->AddPage('L', 'A4');
 
 // Persian and English content
 
-$htmlpersian = '		<table border="1" class="table">
+$htmlpersian = '		<table border="1" class="table" cellpadding="5">
 			       <thead>
 	  						<tr  class="head-tr">
                                         <th width="30">#</th>
                                         <th width="100">تاريخ الادخال</th>
-										<th>رقم الوصل</th>
-										<th width="100">هاتف المستلم</th>
-										<th width="180">عنوان الارسال</th>
-                                        <th>سعر الوصل</th>
-										<th>المبلغ المستلم</th>
-										<th>سعر التوصيل</th>
-										<th>السعر الصافي للعميل</th>
+										<th width="80">رقم الوصل</th>
+										<th width="120">هاتف المستلم</th>
+										<th width="160">عنوان المستلم</th>
+                                        <th width="80">مبلغ الوصل</th>
+										<th width="80">المبلغ المستلم</th>
+										<th width="80">مبلغ التوصيل</th>
+										<th>المبلغ الصافي للعميل</th>
 										<th>ملاحظات</th>
 							</tr>
       	            </thead>

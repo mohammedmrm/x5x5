@@ -9,8 +9,8 @@ $style='
 <style>
 
   td,th{
-    padding:3px;
     text-align:center;
+    vertical-align: middle;
   }
   .head-tr {
    background-color: #ddd;
@@ -24,6 +24,8 @@ $city = $_REQUEST['city'];
 $customer = $_REQUEST['customer'];
 $order = $_REQUEST['order_no'];
 $client= $_REQUEST['client'];
+$driver = $_REQUEST['driver'];
+$invoice= $_REQUEST['invoice'];
 $status = $_REQUEST['orderStatus'];
 $start = trim($_REQUEST['start']);
 $end = trim($_REQUEST['end']);
@@ -32,7 +34,7 @@ $end = trim($_REQUEST['end']);
  $total = [];
 $money_status = trim($_REQUEST['money_status']);
 if(empty($end)) {
-  $end = date('Y-m-d 00:00:00', strtotime($end. ' + 1 day'));
+  $end = date('Y-m-d 00:00:00', strtotime(' + 1 day'));
 }else{
    $end =date('Y-m-d', strtotime($end. ' + 1 day'));
    $end .=" 00:00:00";
@@ -47,17 +49,29 @@ try{
   $count = "select count(*) as count from orders ";
   $query = "select orders.*,date_format(orders.date,'%Y-%m-%d') as date,
             clients.name as client_name,clients.phone as client_phone,
-            cites.name as city,towns.name as town,branches.name as branch_name
+            cites.name as city,towns.name as town,branches.name as branch_name,staff.name as driver_name
             from orders left join
             clients on clients.id = orders.client_id
             left join cites on  cites.id = orders.to_city
             left join towns on  towns.id = orders.to_town
             left join branches on  branches.id = orders.to_branch
+            left join staff on  staff.id = orders.driver_id
             ";
-$where = "where";
-  $filter = "";
+   $where = "where";
+   $filter = " and orders.confirm = 1";
+
   if($branch >= 1){
    $filter .= " and from_branch =".$branch;
+  }
+  if($driver >= 1){
+   $filter .= " and driver_id =".$driver;
+  }
+
+
+  if($invoice == 1){
+    $filter .= " and (orders.invoice_id ='' or orders.invoice_id =0)";
+  }else if($invoice == 2){
+    $filter .= " and (orders.invoice_id !='' and orders.invoice_id != 0)";
   }
   if($city >= 1){
     $filter .= " and to_city=".$city;
@@ -76,7 +90,7 @@ $where = "where";
     $filter .= " and order_no like '%".$order."%'";
   }
   if($status >= 1){
-    $filter .= " and order_status =".$status;
+    $filter .= " and order_status_id =".$status;
   }
 
   function validateDate($date, $format = 'Y-m-d H:i:s')
@@ -91,7 +105,7 @@ $where = "where";
     $filter = preg_replace('/^ and/', '', $filter);
     $filter = $where." ".$filter;
     $count .= " ".$filter;
-    $query .= " ".$filter." order by date";
+    $query .= " ".$filter." order by to_city,to_town,id";
   }else{
     $query .=" order by date";
   }
@@ -125,16 +139,14 @@ foreach($data as $k=>$v){
 
 $hcontent .=
  '<tr>
-   <td width="30" align="center">'.$i.'</td>
+   <td width="60"  align="center">'.($i+1).'</td>
    <td align="center">'.$data[$i]['order_no'].'</td>
-   <td align="center" width="110">'.$data[$i]['client_name'].'<br />'.$data[$i]['client_phone'].'</td>
-   <td width="110" align="center">'.$data[$i]['customer_phone'].'</td>
-   <td align="center">'.$data[$i]['city'].'-'.$data[$i]['town'].'-'.$data[$i]['address'].'</td>
-   <td width="100" align="center">'.$data[$i]['date'].'</td>
+   <td align="center" width="130">'.$data[$i]['client_name'].'</td>
+   <td align="center" width="130">'.phone_number_format($data[$i]['client_phone']).'</td>
+   <td width="130" align="center">'.phone_number_format($data[$i]['customer_phone']).'</td>
+   <td align="center">'.$data[$i]['city'].' - '.$data[$i]['town'].' - '.$data[$i]['address'].'</td>
+   <td width="130" align="center">'.$data[$i]['date'].'</td>
    <td align="center">'.number_format($data[$i]['price']).'</td>
-   <td align="center">'.number_format($data[$i]['new_price']).'</td>
-   <td align="center">'.number_format($data[$i]['dev_price']).'</td>
-   <td align="center">'.number_format($data[$i]['client_price']).'</td>
  </tr>';
   $total['discount'] += $data[$i]['discount'];
   $total['dev_price'] += $data[$i]['dev_price'];
@@ -142,10 +154,10 @@ $hcontent .=
   $i++;
 }
 $total['orders'] = $orders;
-if($client >=1){
- $total['client'] = $data[0]['client_name'];
+if($driver >=1){
+ $total['driver'] = $data[0]['driver_name'];
 }else{
- $total['client'] = 'لم يتم تحديد عميل';
+ $total['driver'] = 'لم يتم تحديد مندوب';
 }
 
 } catch(PDOException $ex) {
@@ -161,24 +173,24 @@ class MYPDF extends TCPDF {
         $this->SetFont('aealarabiya', 'B', 12);
         // Title
         $this->writeHTML('
-
-         <table>
+         <table >
          <tr>
-          <td rowspan="4"><img src="../img/logos/logo.png" height="90px"/></td>
-          <td></td>
-          <td></td>
-          <td></td>
-          <td></td>
+          <td width="180" rowspan="2">
+            <span align="center" style="color:#DC143C;">التسليمات المطلوبه</span><br />
+            <img src="../img/logos/logo.png" height="80px"/>
+          </td>
+          <td ></td>
+          <td ></td>
          </tr>
          <tr>
-          <td width="230px">اسم العميل او الصفحه:'. $t['client'].'</td>
-          <td width="400px" style="color:#FF0000;text-align:center;display:block;">كشف</td>
-          <td >التاريخ:'.date('Y-m-d').'</td>
-         </tr>
-         <tr>
-          <td width="230px">الصافي للعميل:'.$t['client_price'].'</td>
-          <td width="400px" style="text-align:center;display:block;">عدد الطلبيات:'.$t['orders'].'</td>
-          <td >كشف عام</td>
+          <td style="text-align:right;" width="200">المندوب : '.$t['driver'].'</td>
+          <td  width="150">عدد الطلبيات : '.$t['orders'].'</td>
+          <td  width="150">التاريخ:'.date('Y-m-d').'</td>
+          <td  width="180">
+            <span style="display:inline-block;width:80px;">الواصل :     &nbsp;&nbsp;&nbsp;</span><span style="color:#A9A9A9">........................</span><br />
+            <span style="display:inline-block;width:80px;">الراجع :  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="color:#A9A9A9">........................</span><br />
+            <span style="display:inline-block;width:80px;">المؤجل : &nbsp;&nbsp;&nbsp;</span><span style="color:#A9A9A9">........................</span>
+          </td>
          </tr>
         </table>
         ');
@@ -230,20 +242,18 @@ $pdf->AddPage('L', 'A4');
 
 // Persian and English content
 
-$htmlpersian = '		<table border="1" class="table">
+$htmlpersian = '		<table border="1" class="table" cellpadding="10">
 			       <thead>
 	  						<tr  class="head-tr">
-                                        <th width="30">#</th>
+                                        <th width="60">#</th>
                                         <th>رقم الوصل</th>
-										<th width="110">اسم ورقم هاتف العميل</th>
-										<th width="110">اسم   المستلم</th>
-										<th>عنوان الارسال</th>
-                                        <th width="100">تاريخ الادخال</th>
-										<th>سعر الوصل</th>
-										<th>المبلغ المستلم</th>
-										<th>سعر التوصيل</th>
-										<th>السعر الصافي للعميل</th>
-							</tr>
+										<th width="130">اسم العميل</th>
+										<th width="130">هاتف العميل</th>
+										<th width="130">هاتف   المستلم</th>
+										<th>عنوان المستلم</th>
+                                        <th width="130">تاريخ الادخال</th>
+										<th>مبلغ الوصل</th>
+						   </tr>
       	            </thead>
                             <tbody id="ordersTable">'
                             .$hcontent.
@@ -260,6 +270,6 @@ $pdf->SetFontSize(10);
 $pdf->Ln();  
 //Close and output PDF document
 ob_end_clean();
-//print_r($hcontent);
+
 $pdf->Output('order'.date('Y-m-d h:i:s').'.pdf', 'I');
 ?>

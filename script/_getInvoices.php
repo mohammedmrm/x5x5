@@ -10,8 +10,6 @@ $start = $_REQUEST['start'];
 $end = $_REQUEST['end'];
 if(empty($end)) {
    $end = date('Y-m-d', strtotime(' + 1 day'));
-}else{
-   $end =date('Y-m-d', strtotime(' + 1 day'));
 }
 if(empty($start)) {
    $start = date('Y-m-d',strtotime(' - 7 day'));
@@ -25,8 +23,15 @@ try{
            inner join clients on stores.client_id = clients.id
            ";
 
+    function validateDate($date, $format = 'Y-m-d')
+    {
+        $d = DateTime::createFromFormat($format, $date);
+        return $d && $d->format($format) == $date;
+    }
+    if(validateDate($start) && validateDate($end)){
+      $filter = "where invoice.date between '".$start."' AND '".$end."'";
+    }
 
-    $filter = "where invoice.date between '".$start."' AND '".$end."'";
     if($client >= 1){
        $filter .= " and stores.client_id =".$client;
     }
@@ -42,5 +47,5 @@ try{
    $data=["error"=>$ex];
    $success="0";
 }
-print_r(json_encode(array("success"=>$success,"data"=>$data,$query)));
+print_r(json_encode(array("success"=>$success,"data"=>$data)));
 ?>

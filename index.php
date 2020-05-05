@@ -47,6 +47,7 @@ require_once("config.php");
         <link href="./assets/css/demo1/skins/brand/navy.rtl.css" rel="stylesheet" type="text/css" />
         <link href="./assets/css/demo1/skins/aside/navy.rtl.css" rel="stylesheet" type="text/css" />
         <link href="bootstrap-4.3.1-dist/css/toast.css" rel="stylesheet" type="text/css" />
+        <link rel="manifest" href="pwa/manifest.webmanifest">
         <!--end::Layout Skins -->
         <link href="" rel="stylesheet">
         <link rel="shortcut icon" href="img/logos/logo.png" />
@@ -269,6 +270,14 @@ function formatMoney(amount, decimalCount = 0, decimal = ".", thousands = ",") {
   <script src="https://www.gstatic.com/firebasejs/7.12.0/firebase-firestore.js"></script>
   <script src="js/app.js"></script>
   <script>
+  // Check that service workers are supported
+  if ('serviceWorker' in navigator) {
+     window.addEventListener('load', () => {
+      navigator.serviceWorker.register('sw.js')
+    });
+  }
+  </script>
+  <script>
     // Your web app's Firebase configuration
     var firebaseConfig = {
       apiKey: "AIzaSyCmIr87Ihp8nXtHrKWZyeH1GcvFrHxmtJw",
@@ -311,22 +320,26 @@ function formatMoney(amount, decimalCount = 0, decimal = ".", thousands = ",") {
         console.log(Notification.getToken());
       });
     }
+    function updateUserToken(token){
+         $.ajax({
+               url:"script/_updateToken.php",
+               data:{token : token},
+               type:"POST",
+               success:function(res){
+                console.log(res);
+               },
+               error:function(e){
+                 console.log(e);
+               },
+         });
+    }
+//// ---- indexedDB
+////-- db created
 
 
 
-function updateUserToken(token){
-     $.ajax({
-           url:"script/_updateToken.php",
-           data:{token : token},
-           type:"POST",
-           success:function(res){
-            console.log(res);
-           },
-           error:function(e){
-             console.log(e);
-           },
-     });
-}
+
+
 
 </script>
     </body>

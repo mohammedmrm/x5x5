@@ -25,7 +25,7 @@ if(empty($end)) {
 $start .=" 00:00:00";
 try{
   $count = "select count(*) as count from orders ";
-  $query = "select orders.*,DATE_FORMAT(orders.date,'%Y-%m-%m') as date,
+  $query = "select orders.*,DATE_FORMAT(orders.date,'%Y-%m-%d') as date,
             clients.name as client_name,clients.phone as client_phone,
             cites.name as city,towns.name as town,branches.name as branch_name
             from orders left join
@@ -35,7 +35,7 @@ try{
             left join branches on  branches.id = orders.to_branch
             ";
   $where = "where";
-  $filter = "";
+  $filter = " and orders.confirm = 1";
   if($branch >= 1){
    $filter .= " and from_branch =".$branch;
   }

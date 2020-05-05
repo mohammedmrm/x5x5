@@ -1,6 +1,8 @@
 <?php
+if(file_exists("script/_access.php")){
 require_once("script/_access.php");
 access([1,2]);
+}
 ?>
 <?
 include("config.php");
@@ -16,6 +18,7 @@ fieldset {
 		background-color:#f5f5f5;
 		padding-left:10px !important;
 		width:100%;
+
 }
 legend
 {
@@ -188,7 +191,7 @@ legend
           <div class="row kt-margin-b-20">
             <div class="col-lg-2 kt-margin-b-10-tablet-and-mobile">
             	<label>الفرع:</label>
-            	<select onchange="getclient()" class="form-control kt-input" id="branch" name="branch" data-col-index="6">
+            	<select onchange="getclient();getAllDrivers($('#driver'),$('#branch').val())" class="form-control kt-input" id="branch" name="branch" data-col-index="6">
             	</select>
             </div>
             <div class="col-lg-2 kt-margin-b-10-tablet-and-mobile">
@@ -221,13 +224,18 @@ legend
             </div>
           </div>
           <div class="row kt-margin-b-20">
-            <div class="col-lg-2 kt-margin-b-10-tablet-and-mobile">
+            <div class="col-lg-1 kt-margin-b-10-tablet-and-mobile">
             	<label>رقم الوصل:</label>
             	<input id="order_no" name="order_no" onkeyup="getorders()" type="text" class="form-control kt-input" placeholder="" data-col-index="0">
             </div>
             <div class="col-lg-2 kt-margin-b-10-tablet-and-mobile">
             	<label>اسم او هاتف المستلم:</label>
             	<input name="customer" onkeyup="getorders()" type="text" class="form-control kt-input" placeholder="" data-col-index="1">
+            </div>
+            <div class="col-lg-2 kt-margin-b-10-tablet-and-mobile">
+            	<label>المندوب:</label>
+                <select id="driver" name="driver" onchange="getorders()" class="form-control kt-input" data-col-index="2">
+            	</select>
             </div>
             <div class="col-lg-2 kt-margin-b-10-tablet-and-mobile">
             	<label>حالة تسليم المبلغ للعميل:</label>
@@ -245,11 +253,11 @@ legend
             		<option value="2">طلبات كشف</option>
                 </select>
             </div>
-            <div class="col-lg-2 kt-margin-b-10-tablet-and-mobile">
+            <div class="col-lg-1 kt-margin-b-10-tablet-and-mobile">
                 	<label class="">توليد كشف:</label><br />
                     <input  id="invoicebtn" name="invoicebtn" type="button" value="كشف" onclick="makeInvoice()" class="btn btn-danger" placeholder="" data-col-index="1">
             </div>
-            <div class="col-lg-2 kt-margin-b-10-tablet-and-mobile">
+            <div class="col-lg-1 kt-margin-b-10-tablet-and-mobile">
                 	<label class="">تحميل التقرير:</label><br />
                     <input id="download" name="download" type="button" value="تحميل التقرير" onclick="downloadReport()" class="btn btn-success" placeholder="" data-col-index="1">
             </div>
@@ -279,27 +287,28 @@ legend
                </div>
           </div>
           </div>
-		<table class="table table-striped  table-bordered table-hover table-checkable responsive no-wrap" id="tb-orders">
+		<table class="table table-striped  table-bordered table-hover table-checkable responsive nowrap" id="tb-orders">
 			       <thead>
 	  						<tr>
+										<th>رقم الشحنه</th>
 										<th>رقم الوصل</th>
 										<th width="100px">اسم وهاتف العميل</th>
 										<th>رقم هاتف و المستلم اسم</th>
-										<th width="150px">عنوان الارسال</th>
+										<th width="120px">عنوان الارسال</th>
                                         <th width="100px">تاريخ الادخال</th>
 										<th>مبلغ الوصل</th>
 										<th>سعر التوصيل</th>
 										<th>المبلغ المستلم</th>
-										<th>الخصم</th>
 										<th>السعر الصافي للعميل</th>
-										<th width="250px">تعديل</th>
+										<th width="280px">تعديل</th>
 		  					</tr>
       	            </thead>
                             <tbody id="ordersTable">
                             </tbody>
                             <tfoot>
 	                <tr>
-										<th>رقم الوصل</th>
+										<th>رقم الشحنه</th>
+                                        <th>رقم الوصل</th>
 										<th>اسم وهاتف العميل</th>
 										<th>رقم هاتف و المستلم اسم</th>
 										<th>عنوان الارسال</th>
@@ -307,7 +316,6 @@ legend
 										<th>مبلغ الوصل</th>
 										<th>سعر التوصيل</th>
 										<th>المبلغ المستلم</th>
-										<th>الخصم</th>
 										<th>السعر الصافي للعميل</th>
 										<th >تعديل</th>
 					</tr>
@@ -544,9 +552,11 @@ legend
 <script src="js/getTowns.js" type="text/javascript"></script>
 <script src="js/getManagers.js" type="text/javascript"></script>
 <script src="js/getBraches.js" type="text/javascript"></script>
+<script src="js/getAllDrivers.js" type="text/javascript"></script>
 <script type="text/javascript">
 getStores($("#store"));
 getStores($("#e_store_id"));
+getAllDrivers($("#driver"),$("#branch").val());
 function getorders(){
 $.ajax({
   url:"script/_getOrdersReport.php",
@@ -557,7 +567,6 @@ $.ajax({
   },
   success:function(res){
    $("#section-to-print").removeClass('loading');
-   console.log(res);
    $("#tb-orders").DataTable().destroy();
    $("#ordersTable").html("");
    $("#pagination").html("");
@@ -629,6 +638,7 @@ $.ajax({
      }
      $("#ordersTable").append(
        '<tr>'+
+            '<td>'+this.id+'</td>'+
             '<td>'+this.order_no+'</td>'+
             '<td>'+this.client_name+'<br />'+this.client_phone+'</td>'+
             '<td>'+this.customer_phone+'</td>'+
@@ -637,7 +647,6 @@ $.ajax({
             '<td>'+formatMoney(this.price)+'</td>'+
             '<td>'+formatMoney(this.dev_price)+'</td>'+
             '<td>'+formatMoney(this.new_price)+'</td>'+
-            '<td>-'+formatMoney(this.discount)+'</td>'+
             '<td>'+formatMoney(this.client_price)+'</td>'+
             '<td>'+
                 '<button type="button" class="btn btn-clean" onclick="editOrder('+this.id+')" data-toggle="modal" data-target="#editOrderModal"><span class="flaticon-edit"></sapn></button>'+
@@ -653,21 +662,7 @@ $.ajax({
      });
 
      var myTable= $('#tb-orders').DataTable({
-     columns:[
 
-    //"dummy" configuration
-        { visible: true, css:'tdstyle' }, //col 1
-        { visible: true, css:'tdstyle' }, //col 2
-        { visible: true, css:'tdstyle' }, //col 3
-        { visible: true }, //col 4
-        { visible: true }, //col 5
-        { visible: true }, //col 6
-        { visible: true }, //col 7
-        { visible: true }, //col 8
-        { visible: true }, //col 9
-        { visible: true }, //col 10
-        { visible: true }, //col 11
-        ],
       "oLanguage": {
         "sLengthMenu": "عرض_MENU_سجل",
         "sSearch": "بحث:"
@@ -1038,8 +1033,11 @@ function makeInvoice() {
               $.ajax({
                 url:"script/_makeInvoice.php",
                 data: $("#ordertabledata").serialize(),
+                beforeSend:function(){
+                 $("#ordertabledata").addClass("loading");
+                },
                 success:function(res){
-                  console.log(res);
+                  $("#ordertabledata").removeClass("loading");
                   if(res.success == 1){
                     getorders();
                     window.open('invoice/'+res.invoice, '_blank');
@@ -1048,12 +1046,13 @@ function makeInvoice() {
                   }
                 },
                 error:function(e){
+                  $("#ordertabledata").removeClass("loading");
                   console.log(e);
                 }
               });
         }else{
           console.log(Number($("#invoice").val()));
-         Toast.warning("يحب تحديد الطلبات بدون كشف");
+          Toast.warning("يحب تحديد الطلبات بدون كشف");
         }
     }else{
       Toast.warning("يحب تحديد الصفحه");

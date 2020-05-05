@@ -29,6 +29,7 @@ $order = $_REQUEST['order_no'];
 $store= $_REQUEST['store'];
 $invoice= $_REQUEST['invoice'];
 $status = $_REQUEST['orderStatus'];
+$driver = $_REQUEST['driver'];
 $start = trim($_REQUEST['start']);
 $end = trim($_REQUEST['end']);
 $limit = 10;
@@ -87,6 +88,10 @@ if($_SESSION['role'] != 1){
   if($branch >= 1){
    $filter .= " and from_branch =".$branch;
   }
+  if($driver >= 1){
+   $filter .= " and driver_id =".$driver;
+  }
+
   if($city >= 1){
     $filter .= " and to_city=".$city;
   }
@@ -99,7 +104,7 @@ if($_SESSION['role'] != 1){
   if($invoice == 1){
     $filter .= " and (orders.invoice_id ='' or orders.invoice_id =0)";
   }else if($invoice == 2){
-    $filter .= " and orders.invoice_id !=''";
+    $filter .= " and (orders.invoice_id !='' and orders.invoice_id != 0)";
   }
   if(!empty($customer)){
     $filter .= " and (customer_name like '%".$customer."%' or

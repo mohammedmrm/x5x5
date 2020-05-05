@@ -14,7 +14,9 @@ $style='
     text-align:center;
   }
   .head-tr {
-  background-color:#4682B4;
+    background-color:#00008B;
+    color:#F5F5F5;
+    padding:5px;
   }
 </style>' ;
 require("../config.php");
@@ -46,6 +48,10 @@ if($_REQUEST['price'] > 0){
 }else {
   $driver_price = $config['driver_price'];
 }
+
+
+
+
 try{
  $count = "select count(*) as count from orders";
  $query = "select orders.*,date_format(orders.date,'%Y-%m-%d') as dat,  order_status.status as status_name,
@@ -112,13 +118,12 @@ if($orders > 0){
               $hcontent .=
                '<tr>
                  <td width="30" align="center">'.($i+1).'</td>
-                 <td width="100" align="center">'.$data[$i]['date'].'</td>
+                 <td width="100" align="center">'.$data[$i]['dat'].'</td>
                  <td align="center">'.$data[$i]['order_no'].'</td>
-                 <td width="100" align="center">'.$data[$i]['customer_phone'].'</td>
+                 <td width="120" align="center">'.phone_number_format($data[$i]['customer_phone']).'</td>
                  <td width="180" align="center">'.$data[$i]['city_name'].' - '.$data[$i]['town_name'].' - '.$data[$i]['adress'].'</td>
                  <td align="center">'.number_format($data[$i]['price']).'</td>
                  <td align="center">'.number_format($data[$i]['new_price']).'</td>
-                 <td align="center">'.number_format($data[$i]['dev_price']).'</td>
                  <td align="center">'.number_format($data[$i]['driver_price']).'</td>
                  <td align="center">'.$data[$i]['status_name'].'</td>
                </tr>';
@@ -132,6 +137,17 @@ if($orders > 0){
            }
            $total['invoice'] = $invoice;
            $total['date'] = $date;
+              $hcontent .=
+               '<tr>
+                 <td colspan="3" align="center">المجموع</td>
+
+                 <td width="120" align="center"></td>
+                 <td width="180" align="center"></td>
+                 <td align="center"></td>
+                 <td align="center">'.number_format($total['income']).'</td>
+                 <td align="center">'.number_format($total['driver_price']).'</td>
+                 <td align="center"></td>
+               </tr>';
         }
         $total['orders'] = $orders;
         if($driver >=1){
@@ -163,7 +179,7 @@ class MYPDF extends TCPDF {
          </tr>
          <tr>
           <td width="230px">اسم المندوب:'. $t['driver'].'</td>
-          <td width="400px" style="color:#00008B;text-align:center;display:block;">كشف حسااب لاسائق</td>
+          <td width="400px" style="color:#00008B;text-align:center;display:block;">كشف حسااب المندوب</td>
           <td >التاريخ:'.$t['date'].'</td>
          </tr>
          <tr>
@@ -222,18 +238,17 @@ $pdf->AddPage('L', 'A4');
 
 // Persian and English content
 
-$htmlpersian = '		<table border="1" class="table">
+$htmlpersian = '		<table border="1" class="table" cellpadding="2">
 			       <thead>
-	  						<tr  class="head-tr">
-                                        <th width="30">#</th>
+	  						<tr class="head-tr">
+                                        <th  width="30">#</th>
                                         <th width="100">تاريخ الادخال</th>
 										<th>رقم الوصل</th>
-										<th width="100">هاتف المستلم</th>
-										<th width="180">عنوان الارسال</th>
-                                        <th>سعر الوصل</th>
+										<th width="120">هاتف المستلم</th>
+										<th width="180">عنوان المستلم</th>
+                                        <th>مبلغ الوصل</th>
 										<th>المبلغ المستلم</th>
-										<th>سعر التوصيل</th>
-										<th>السعر الصافي للمندوب</th>
+										<th>المبلغ الصافي للمندوب</th>
 										<th>الحاله</th>
 							</tr>
       	            </thead>
