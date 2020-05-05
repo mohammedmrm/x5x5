@@ -1435,10 +1435,6 @@ self.__precacheManifest = [
     revision: "a66269048f71e80838e2a0cc45eba8fe",
   },
   {
-    url: "pages/dashboard.php",
-    revision: "dca4f565734129db72a7bcb3098ee94b",
-  },
-  {
     url: "pages/driverInvoices.php",
     revision: "811109cbfb187f4428b7e24691829188",
   },
