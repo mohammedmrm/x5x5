@@ -1150,54 +1150,6 @@ self.__precacheManifest = [
     url: "charts/_getOrdersCount.php",
     revision: "42ca098f8954ac912649a75ae5aac3d0",
   },
-  {
-    url: "companyReceipt/2020-05-02_5ead8f72b65bd.pdf",
-    revision: "f73a026922395b1e3af806fa57903efe",
-  },
-  {
-    url: "companyReceipt/2020-05-02_5ead8fbd46893.pdf",
-    revision: "5dfae31f7fccc3149c8f1cb3d59c731c",
-  },
-  {
-    url: "companyReceipt/2020-05-02_5ead91d56cd23.pdf",
-    revision: "413ce4f30708ee86ca1425e5b633f5d5",
-  },
-  {
-    url: "companyReceipt/2020-05-02_5ead970e8d7be.pdf",
-    revision: "9b8a26b0ff63291fdf5fa3f28a1379f9",
-  },
-  {
-    url: "companyReceipt/2020-05-02_5eada9b31c914.pdf",
-    revision: "f827faef01440f3f8d8dd0c95e9c234d",
-  },
-  {
-    url: "companyReceipt/2020-05-02_5eadaa2d9bc2f.pdf",
-    revision: "62179b468a66c041539a207138460da7",
-  },
-  {
-    url: "companyReceipt/2020-05-02_5eadac0d07b75.pdf",
-    revision: "d3f34947682aeff1099a7a2d80cbaffb",
-  },
-  {
-    url: "companyReceipt/2020-05-02_5eadad2278a88.pdf",
-    revision: "b33748ed8ca9147509c84ae5217acfe7",
-  },
-  {
-    url: "companyReceipt/2020-05-02_5eadad5e562c4.pdf",
-    revision: "d2fa689eabf6f89d4a3c2737104ef850",
-  },
-  {
-    url: "companyReceipt/2020-05-02_5eadad69aa9fe.pdf",
-    revision: "372616798fcbd361c1a05d64a1b6cc66",
-  },
-  {
-    url: "companyReceipt/2020-05-02_5eadae8e8ee1a.pdf",
-    revision: "6e281aa49a8ef81829c336c3b1b9e6a6",
-  },
-  {
-    url: "companyReceipt/2020-05-02_5eadb5969b9fa.pdf",
-    revision: "9f9da6b27c1a6a933f974da5970c6018",
-  },
   { url: "composer.json", revision: "f5915d9c8b98458149bbf77cddce2105" },
   { url: "config.php", revision: "4d8aa92c0bd5689af3f3e36e1ffc4a42" },
 
