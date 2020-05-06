@@ -117,7 +117,7 @@ function getNotification(){
             bg = "";
           }
          $("#noti_menu").append(
-         '<a href="'+this.link+'?&notification='+this.id+'" class="'+bg+' kt-notification__item">'+
+         '<a href="?page=pages/reports.php&order_no='+this.order_no+'&notification='+this.id+'" class="'+bg+' kt-notification__item">'+
             '<div class="kt-notification__item-icon"> <i class="flaticon2-pie-chart kt-font-focus"></i> </div>'+
             '<div class="kt-notification__item-details">'+
                 '<div class="kt-notification__item-title"><b>'+this.title+'</b><br />'+this.body+'</div>'+

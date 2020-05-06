@@ -99,6 +99,7 @@ require_once("config.php");
 
         body {
            background-color: #F0F8FF;
+           overflow-x: hidden;
         }
 
         body,body * :not([type="tel"]):not(.other):not(td):not(th) {
@@ -333,6 +334,15 @@ function formatMoney(amount, decimalCount = 0, decimal = ".", thousands = ",") {
                },
          });
     }
+
+function phone_format(text) {
+  if(text.length == 10){
+    return text.replace(/(\d{3})(\d{3})(\d{4})/, '$1-$2-$3');
+  }
+  if(text.length == 11){
+    return text.replace(/(\d{4})(\d{3})(\d{4})/, '$1-$2-$3');
+  }
+};
 //// ---- indexedDB
 ////-- db created
 

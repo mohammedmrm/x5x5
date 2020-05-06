@@ -131,18 +131,16 @@ legend
 			       <thead>
 	  						<tr>
 										<th><input  id="allselector" type="checkbox"><span></span></th>
-										<th>رقم الوصل</th>
-										<th>اسم العميل</th>
-										<th>رقم هاتف العميل</th>
-										<th>اسم المستلم</th>
-										<th>رقم هاتف المستلم</th>
-										<th>الفرع المرسل له</th>
-										<th>عنوان الارسال</th>
+										<th>رقم الشحنه</th>
+                                        <th>رقم الوصل</th>
+										<th width="150px">اسم و هاتف العميل</th>
+										<th width="150px">رقم هاتف المستلم</th>
+										<th>عنوان المستلم</th>
 										<th>مبلغ الوصل</th>
                                         <th>مع التوصيل</th>
-										<th>سعر التوصيل</th>
+										<th>مبلغ التوصيل</th>
                                         <th>الخصم</th>
-                                        <th>حالة السعر</th>
+                                        <th>حالة المبلغ</th>
                                         <th width="100px">التاريخ</th>
 						   </tr>
       	            </thead>
@@ -151,18 +149,16 @@ legend
                             <tfoot>
 	                <tr>
 										<th></th>
+										<th>رقم الشحنه</th>
 										<th>رقم الوصل</th>
-										<th>اسم العميل</th>
-										<th>رقم هاتف العميل</th>
-										<th>اسم المستلم</th>
-										<th>رقم هاتف المستلم</th>
-										<th>الفرع المرسل له</th>
-										<th>عنوان الارسال</th>
+										<th width="150px">اسم و هاتف العميل</th>
+										<th width="150px">رقم هاتف المستلم</th>
+										<th>عنوان المستلم</th>
 										<th>مبلغ الوصل</th>
                                         <th>مع التوصيل</th>
-										<th>سعر التوصيل</th>
+										<th>مبلغ التوصيل</th>
                                         <th>الخصم</th>
-                                        <th>حالة السعر</th>
+                                        <th>حالة المبلغ</th>
                                         <th width="100px">التاريخ</th>
 				   </tr>
 	           </tfoot>
@@ -287,40 +283,21 @@ $.ajax({
       $('#ordersTable').append(
        '<tr>'+
             '<td class=""><input type="checkbox" name="id[]" rowid="'+this.id+'"><span></span></td>'+
+            '<td>'+this.id+'</td>'+
             '<td>'+this.order_no+'</td>'+
-            '<td>'+this.client_name+'</td>'+
-            '<td>'+this.client_phone+'</td>'+
-            '<td>'+this.customer_name+'</td>'+
-            '<td>'+this.customer_phone+'</td>'+
-            '<td>'+this.branch_name+'</td>'+
+            '<td>'+this.client_name+'<br />'+phone_format(this.client_phone)+'</td>'+
+            '<td>'+phone_format(this.customer_phone)+'</td>'+
             '<td>'+this.city+'/'+this.town+'<br />'+this.address+'</td>'+
-            '<td>'+this.price+'</td>'+
+            '<td>'+formatMoney(this.price)+'</td>'+
             '<td>'+this.with_dev+'</td>'+
-            '<td>'+this.dev_price+'</td>'+
-            '<td>'+this.discount+'</td>'+
+            '<td>'+formatMoney(this.dev_price)+'</td>'+
+            '<td>'+formatMoney(this.discount)+'</td>'+
             '<td>'+this.money_status+'</td>'+
             '<td>'+this.date+'</td>'+
          '</tr>');
      });
 
      var myTable= $('#tb-orders').DataTable({
-     columns:[
-    //"dummy" configuration
-        { visible: true }, //col 1
-        { visible: true }, //col 2
-        { visible: true }, //col 3
-        { visible: true }, //col 4
-        { visible: true }, //col 5
-        { visible: true }, //col 6
-        { visible: true }, //col 7
-        { visible: true }, //col 8
-        { visible: true }, //col 9
-        { visible: true }, //col 10
-        { visible: true }, //col 11
-        { visible: true }, //col 12
-        { visible: true }, //col 13
-        { visible: true }, //col 14
-        ],
       "oLanguage": {
         "sLengthMenu": "عرض_MENU_سجل",
         "sSearch": "بحث:"

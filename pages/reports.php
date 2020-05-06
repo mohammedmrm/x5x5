@@ -215,7 +215,7 @@ legend
             <div class="col-lg-3 kt-margin-b-10-tablet-and-mobile">
             <label>الفترة الزمنية :</label>
             <div class="input-daterange input-group" id="kt_datepicker">
-  				<input value="<?php echo date('Y-m-d', strtotime(' - 7 day'));?>" onchange="getorders()" type="text" class="form-control kt-input" name="start" id="start" placeholder="من" data-col-index="5">
+  				<input value="" onchange="getorders()" type="text" class="form-control kt-input" name="start" id="start" placeholder="من" data-col-index="5">
   				<div class="input-group-append">
   					<span class="input-group-text"><i class="la la-ellipsis-h"></i></span>
   				</div>
@@ -226,7 +226,7 @@ legend
           <div class="row kt-margin-b-20">
             <div class="col-lg-1 kt-margin-b-10-tablet-and-mobile">
             	<label>رقم الوصل:</label>
-            	<input id="order_no" name="order_no" onkeyup="getorders()" type="text" class="form-control kt-input" placeholder="" data-col-index="0">
+            	<input id="order_no" name="order_no" value="<?php if(!empty($_GET['order_no'])){ echo $_GET['order_no'];} ?>" onkeyup="getorders()" type="text" class="form-control kt-input" placeholder="" data-col-index="0">
             </div>
             <div class="col-lg-2 kt-margin-b-10-tablet-and-mobile">
             	<label>اسم او هاتف المستلم:</label>
@@ -274,7 +274,7 @@ legend
                     <label>الصفحه او (Page Or Store):&nbsp;</label><label id="total-client"> لم يتم تحديد عميل </label>
                  </div>
                  <div class="row">
-                    <label>السعر الصافي:&nbsp;</label><label id="total-price"> 0.0 </label>
+                    <label>المبلغ الصافي:&nbsp;</label><label id="total-price"> 0.0 </label>
                  </div>
                </div>
                <div class="col-sm-6 kt-margin-b-10-tablet-and-mobile">
@@ -292,14 +292,14 @@ legend
 	  						<tr>
 										<th>رقم الشحنه</th>
 										<th>رقم الوصل</th>
-										<th width="100px">اسم وهاتف العميل</th>
-										<th>رقم هاتف و المستلم اسم</th>
-										<th width="120px">عنوان الارسال</th>
+										<th width="150px">اسم وهاتف العميل</th>
+										<th>هاتف المستلم</th>
+										<th width="120px">عنوان المستلم</th>
                                         <th width="100px">تاريخ الادخال</th>
 										<th>مبلغ الوصل</th>
-										<th>سعر التوصيل</th>
+										<th>مبلغ التوصيل</th>
 										<th>المبلغ المستلم</th>
-										<th>السعر الصافي للعميل</th>
+										<th>المبلغ الصافي للعميل</th>
 										<th width="280px">تعديل</th>
 		  					</tr>
       	            </thead>
@@ -564,8 +564,11 @@ $.ajax({
   data:$("#ordertabledata").serialize(),
   beforeSend:function(){
     $("#section-to-print").addClass('loading');
+
+
   },
   success:function(res){
+    console.log(res);
    $("#section-to-print").removeClass('loading');
    $("#tb-orders").DataTable().destroy();
    $("#ordersTable").html("");
@@ -640,8 +643,8 @@ $.ajax({
        '<tr>'+
             '<td>'+this.id+'</td>'+
             '<td>'+this.order_no+'</td>'+
-            '<td>'+this.client_name+'<br />'+this.client_phone+'</td>'+
-            '<td>'+this.customer_phone+'</td>'+
+            '<td>'+this.client_name+'<br />'+(this.client_phone)+'</td>'+
+            '<td>'+(this.customer_phone)+'</td>'+
             '<td>'+this.city+'/'+this.town+'</td>'+
             '<td>'+this.date+'</td>'+
             '<td>'+formatMoney(this.price)+'</td>'+
