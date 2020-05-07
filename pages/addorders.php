@@ -42,6 +42,10 @@ include("config.php");
  .form-group {
     margin-bottom: 0rem;
 }
+.sp {
+  background-color:#FFFACD;
+}
+
 @page {
   size: landscape;
   margin: 5mm 5mm 5mm 5mm;
@@ -130,12 +134,12 @@ include("config.php");
 			</div>-->
             <div class="form-group col-lg-2">
 				<label>المبلغ الكلي</label>
-				<input   price="price" onkeyup="CurrencyFormatted($(this),$(this).val())" type="text" class="form-control" id="order" name="order_price[]" placeholder="المبلغ" value="">
+				<input   price="price" onkeyup="CurrencyFormatted($(this),$(this).val())" type="text" class="form-control sp" id="order" name="order_price[]" placeholder="المبلغ" value="">
 				<span id="order_price_err1" class="form-text text-danger"></span>
 			</div>
             <div class="form-group col-lg-2">
             	<label>رقم الوصل:</label>
-            	<input  no="no" id="order_no1" name="order_no[]" barcode="barcode"  type="text" class="form-control kt-input" placeholder="">
+            	<input  no="no" id="order_no1" name="order_no[]" barcode="barcode"  type="text" class="form-control kt-input sp" placeholder="">
                <span id="order_no_err1" class="form-text text-danger"></span>
            </div>
 			<div class="form-group col-lg-2" style="display:none;" >
@@ -171,7 +175,7 @@ include("config.php");
 			</div>
             <div class="form-group  col-lg-2">
 				<label>رقم الهاتف المستلم</label>
-				<input  type="tel" phone="phone" style="direction: ltr !important;"  data-inputmask="'mask': '9999-999-9999'" value="" class="form-control" id="customer_phone1" name="customer_phone[]"/>
+				<input  type="tel" phone="phone" style="direction: ltr !important;"  data-inputmask="'mask': '9999-999-9999'" value="" class="form-control sp" id="customer_phone1" name="customer_phone[]"/>
 				<span id="customer_phone_err1"  class="form-text text-danger"></span>
 			</div>
             <div class="form-group  col-lg-2">
@@ -370,12 +374,12 @@ function addMore(){
           <div class="row">
            <div  class="form-group col-lg-2">
 				<label>المبلغ الكلي</label>
-				<input foucs="foucs" price="price" onkeyup="CurrencyFormatted($(this))" type="text" class="form-control" id="order_price`+number+`" name="order_price[]" placeholder="المبلغ" value="">
+				<input foucs="foucs" price="price" onkeyup="CurrencyFormatted($(this))" type="text" class="form-control sp" id="order_price`+number+`" name="order_price[]" placeholder="المبلغ" value="">
 				<span id="order_price_err`+number+`" class="form-text text-danger"></span>
 			</div>
             <div class="form-group col-lg-2">
             	<label>رقم الوصل:</label>
-            	<input  no="no" id="order_no`+number+`" value="" name="order_no[]"  type="text" class="form-control kt-input" placeholder="">
+            	<input  no="no" id="order_no`+number+`" value="" name="order_no[]"  type="text" class="form-control sp" placeholder="">
                 <span id="order_no_err`+number+`" class="form-text text-danger"></span>
             </div>
 			<div class="form-group col-lg-2" style="display:none;">
@@ -408,10 +412,10 @@ function addMore(){
 				<label>ملاحظات</label>
 				<textarea  note="note" type="text" class="form-control" name="order_note[]" style="height: 38px;">`+order_note+`</textarea>
 				<span id="order_note_err`+number+`" class="form-text text-danger"></span>
-			</div>            
+			</div>
             <div class="form-group  col-lg-2">
 				<label>رقم الهاتف</label>
-				<input  phone="phone" type="tel" style="direction: ltr !important;" data-inputmask="'mask': '9999-999-9999'" class="form-control" id="customer_phone`+number+`" name="customer_phone[]" value="" />
+				<input  phone="phone" type="tel" style="direction: ltr !important;" data-inputmask="'mask': '9999-999-9999'" class="form-control sp" id="customer_phone`+number+`" name="customer_phone[]" value="" />
 				<span id="customer_phone_err`+number+`" class="form-text text-danger"></span>
 			</div>
 
