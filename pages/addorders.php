@@ -45,7 +45,9 @@ include("config.php");
 .sp {
   background-color:#FFFACD;
 }
-
+input:focus, button:focus,  textarea:focus {
+  border: 3px solid #8B0000;
+}
 @page {
   size: landscape;
   margin: 5mm 5mm 5mm 5mm;
@@ -603,7 +605,7 @@ $(document).keydown(function(e) {
 if (event.which === 13 || event.keyCode === 13 ) {
     event.stopPropagation();
     event.preventDefault();
-    $(":focus").closest('fieldset').nextAll().find('[no="no"]').focus();
+    $(":focus").closest('fieldset').next().find('[price="price"]').focus();
 }
 
 

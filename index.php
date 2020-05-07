@@ -391,7 +391,6 @@ function saveEventDataLocally(data) {
 
 }
 
-
 </script>
     </body>
     <!-- end::Body -->
