@@ -344,11 +344,52 @@ function phone_format(text) {
   }
 };
 //// ---- indexedDB
+function createIndexedDB() {
+  var dbName = 'albarqdb';
+  var dbVersion = 3;
+  var dbRequest = indexedDB.open(dbName, dbVersion);
+
+  dbRequest.onupgradeneeded = function(event) {
+    var db = event.target.result;
+    db.createObjectStore('orders',{keyPath:"id"});
+    db.createObjectStore('clients',{keyPath:"id"});
+    db.createObjectStore('branches',{keyPath:"id"});
+    db.createObjectStore('cities',{keyPath:"id"});
+    db.createObjectStore('towns',{keyPath:"id"});
+    db.createObjectStore('stores',{keyPath:"id"});
+    db.createObjectStore('companies',{keyPath:"id"});
+    db.createObjectStore('role',{keyPath:"id"});
+  };
+
+  dbRequest.onerror = function(event) {
+    console.log('Error!');
+    console.log(event.target.errorCode);
+  };
+
+  dbRequest.onsuccess = function(event) {
+    console.log('Success');
+    console.log(event.target.result);
+  };
+
+  dbRequest.onblocked = function(event) {
+    console.log('Blocked');
+  };
+  return  dbRequest;
+};
 ////-- db created
+var dbRequest = createIndexedDB();
+function saveEventDataLocally(data) {
+  if (!('indexedDB' in window)) {return null;}
+    var db = dbRequest.result;
+    const tx = db.transaction('orders', 'readwrite');
+    const store = tx.objectStore('orders');
+    return Promise.all(data.map(event => store.put(event)))
+    .catch(() => {
+      tx.abort();
+      throw Error('Events were not added to the store');
+    });
 
-
-
-
+}
 
 
 </script>

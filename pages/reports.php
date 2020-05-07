@@ -568,7 +568,8 @@ $.ajax({
 
   },
   success:function(res){
-    console.log(res);
+   console.log(res);
+   saveEventDataLocally(res.data);
    $("#section-to-print").removeClass('loading');
    $("#tb-orders").DataTable().destroy();
    $("#ordersTable").html("");
