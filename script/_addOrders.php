@@ -31,12 +31,16 @@ $v->addRule('isPrice', function($value, $input, $args) {
   return   $x;
 });
 
-$v->addRuleMessage('unique', 'القيمة المدخلة مستخدمة بالفعل ');
+$v->addRuleMessage('unique', 'هناك تكرار برقم الوصل وهاتف المستلم');
 
 $v->addRule('unique', function($value, $input, $args) {
     $value  = trim($value);
-    $exists = getData($GLOBALS['con'],"SELECT * FROM orders WHERE order_no ='".$value."'");
-    return ! (bool) count($exists);
+    if($args['0'] == 1){
+        $exists = getData($GLOBALS['con'],"SELECT * FROM orders WHERE customer_phone ='".$value."' and order_no=".$args['1']);
+      return ! (bool) count($exists);
+    }else{
+      return (bool) 1;
+    }
 });
 $v->addRuleMessages([
     'required' => 'الحقل مطلوب',
@@ -58,7 +62,8 @@ $prefix = $_REQUEST['prefix'];
 $order_type = "multi";//$_REQUEST['order_type'];
 $weight = 1;//$_REQUEST['weight'];
 $qty = 1;//$_REQUEST['qty'];
-$order_price = $_REQUEST['order_price'];
+$order_price = str_replace(',','',$_REQUEST['order_price']);
+$order_price = str_replace('.','',$order_price);
 
 $branch = $_REQUEST['branch'];
 $store = $_REQUEST['store'];
@@ -82,6 +87,12 @@ if(empty($number)){
 $no = 0;
 foreach($onumber as $k=>$val){
   $no=$_REQUEST['num'][$k];
+  if($_REQUEST['check'][$k] == 1){
+   $check = 0;
+  }else{
+   $check = 1;
+  }
+
   if($by == 'store'){
       $v->validate([
           'manger'        => [$manger,    'required|int'],
@@ -92,7 +103,7 @@ foreach($onumber as $k=>$val){
           'qty'           => [$qty/*$qty[$k]*/,'int'],
           'order_price'   => [$order_price[$k],   "required|isPrice"],
           'store'         => [$mainstore,  'required|int'],
-          'customer_phone'=> [$customer_phone[$k],  'required|isPhoneNumber'],
+          'customer_phone'=> [$customer_phone[$k],  'required|isPhoneNumber|unique('.$check.',"'.$prefix.$onumber[$k].'")'],
           'city'          => [$city_to[$k],  'required|int'],
           'town'          => [$town_to[$k],  'required|int'],
           'branch_to'     => [$branch_to/*$branch_to[$k]*/,  'required|int'],
@@ -106,14 +117,14 @@ foreach($onumber as $k=>$val){
       $v->validate([
           'mainbranch'    => [$mainbranch,    'required|int'],
           'manger'        => [$manger,    'required|int'],
-          'order_no'      => [$onumber[$k],    'required|min(2)|max(100)|unique()'],
+          'order_no'      => [$onumber[$k],    'required|min(2)|max(100)'],
           'prefix'        => [$prefix,  'min(1)|max(10)'],
           'order_type'    => [$order_type/*$order_type[$k]*/,    'required|min(3)|max(10)'],
           'weight'        => [$weight/*$weight[$k]*/,   'int'],
           'qty'           => [$qty/*$qty[$k]*/,'int'],
           'order_price'   => [$order_price[$k],   "required|isPrice"],
           'store'         => [$store[$k],  'required|int'],
-          'customer_phone'=> [$customer_phone[$k],  'required|isPhoneNumber'],
+          'customer_phone'=> [$customer_phone[$k],  'required|isPhoneNumber|unique('.$check.',"'.$onumber[$k].'")'],
           'city'          => [$maincity,  'required|int'],
           'town'          => [$town_to[$k],  'required|int'],
           'branch_to'     => [$branch_to/*$branch_to[$k]*/,  'required|int'],
@@ -293,5 +304,5 @@ $error = [
            ];
 }
 $fcm = sendNotification($tokens,$orders,'طلبات','اضافه مجموعه طلبيات','orderDetails.php');
-echo json_encode(['success'=>$success, 'error'=>$error]);
+echo json_encode([$_REQUEST,'success'=>$success, 'error'=>$error]);
 ?>

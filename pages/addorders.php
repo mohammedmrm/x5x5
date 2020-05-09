@@ -1,7 +1,7 @@
 <?php
 if(file_exists("script/_access.php")){
-require_once("script/_access.php");
-access([1,2,5,6]);
+  require_once("script/_access.php");
+  access([1,2,5,6]);
 }
 ?>
 <?
@@ -43,10 +43,10 @@ include("config.php");
     margin-bottom: 0rem;
 }
 .sp {
-  background-color:#FFFACD;
+  background-color:#FDF5E6;
 }
 input:focus, button:focus,  textarea:focus {
-  border: 3px solid #8B0000;
+  border: 3px solid #8B0000 !important;
 }
 @page {
   size: landscape;
@@ -114,7 +114,7 @@ input:focus, button:focus,  textarea:focus {
             </div>-->
             <div class="form-group col-lg-2" style="display: ">
 				<label>المدينه</label>
-                <select  onchange="updatetown()" data-show-subtext="true" data-live-search="true" type="text" class="  form-control dropdown-primary" name="maincity" id="maincity"  value="">
+                <select  onchange="updatetown()" onfocus="$(this).addClass('open')" data-show-subtext="true" data-live-search="true" type="text" class="  form-control dropdown-primary" name="maincity" id="maincity"  value="">
 
                 </select>
                 <span id="maincity_err" class="form-text text-danger"></span>
@@ -146,14 +146,14 @@ input:focus, button:focus,  textarea:focus {
            </div>
 			<div class="form-group col-lg-2" style="display:none;" >
 				<label>الصفحه (البيج)</label>
-				<select store='store'  data-show-subtext="true" data-live-search="true" type="text" class="selectpicker  form-control dropdown-primary" name="store[]" id="store1"  value="">
+				<select store='store'   data-show-subtext="true" data-live-search="true" type="text" class="selectpicker  form-control dropdown-primary" name="store[]" id="store1"  value="">
 
                 </select>
                 <span id="store_err1" storeerr="storeerr" class="form-text text-danger"></span>
 			</div>
 			<div class="form-group col-lg-2">
 				<label>المحافظة المرسل لها</label>
-				<select  city="city" onchange='getTowns($("#town1"),$("#city1").val())' city="city" data-show-subtext="true" data-live-search="true" type="text" class="selectpicker  form-control dropdown-primary" name="city[]" id="city1"  value="">
+				<select  city="city"  onchange='getTowns($("#town1"),$("#city1").val())' city="city" data-show-subtext="true" data-live-search="true" type="text" class="selectpicker  form-control dropdown-primary" name="city[]" id="city1"  value="">
 
                 </select>
                 <span id="city_err1"class="form-text text-danger"></span>
@@ -177,7 +177,7 @@ input:focus, button:focus,  textarea:focus {
 			</div>
             <div class="form-group  col-lg-2">
 				<label>رقم الهاتف المستلم</label>
-				<input  type="tel" phone="phone" style="direction: ltr !important;"  data-inputmask="'mask': '9999-999-9999'" value="" class="form-control sp" id="customer_phone1" name="customer_phone[]"/>
+				<input  type="tel" phone="phone" style="direction: ltr !important;"  data-inputmask="'mask': '9999-999-9999'" value="" class="form-control sp" noseq="1" id="customer_phone1" name="customer_phone[]"/>
 				<span id="customer_phone_err1"  class="form-text text-danger"></span>
 			</div>
             <div class="form-group  col-lg-2">
@@ -185,10 +185,16 @@ input:focus, button:focus,  textarea:focus {
 				<span case="case" class="form-text text-success"></span>
 			</div>
             <div class="form-group  col-lg-2">
+				<label>اضافه على كل حال</label>
+				<input  type="checkbox" checkbox="checkbox" onclick="check(1)"  class="form-control" id="checkbox1" name="checkbox[]"/>
+				<input  type="hidden" class="form-control" id="check1" name="check[]"/>
+				<span id="check_err1"  class="form-text text-danger"></span>
+			</div>
+            <div class="form-group  col-lg-1">
 				<label>تاريخ الزبون</label> <br />
 				<button type="button"  class="btn btn-clean btn-icon-lg" onclick="customerHistory(1)"><span class="fa fa-history"></span></button>
             </div>
-            <div class="form-group  col-lg-6">
+            <div class="form-group  col-lg-4">
             <br />
                <div id="customerHistory1"></div>
             </div>
@@ -238,7 +244,7 @@ input:focus, button:focus,  textarea:focus {
             <span> ملاحظه : يمكن اضافه 50 شحنه بالمره الواحده</span>
           <hr /></div>
           <div class="row kt-margin-b-20 text-center">
-              <button type="button" onclick="addOrders()" class="btn btn-info btn-lg text-white">رفع و تاكيد الشحنات</button>
+              <button type="button" onclick="checkPhone()" class="btn btn-info btn-lg text-white">رفع و تاكيد الشحنات</button>
           </div>
           <input  type="hidden" value="1" id="counter"/>
 
@@ -417,52 +423,24 @@ function addMore(){
 			</div>
             <div class="form-group  col-lg-2">
 				<label>رقم الهاتف</label>
-				<input  phone="phone" type="tel" style="direction: ltr !important;" data-inputmask="'mask': '9999-999-9999'" class="form-control sp" id="customer_phone`+number+`" name="customer_phone[]" value="" />
+				<input  phone="phone" noseq="`+number+`" type="tel" style="direction: ltr !important;" data-inputmask="'mask': '9999-999-9999'" class="form-control sp" id="customer_phone`+number+`" name="customer_phone[]" value="" />
 				<span id="customer_phone_err`+number+`" class="form-text text-danger"></span>
 			</div>
-
-<!--            <div class="form-group col-lg-2">
-				<label>الاسم المستلم</label>
-				<input type="text" class="form-control" id="customer_name`+number+`" name="customer_name[]" value="">
-				<span id="customer_name_err`+number+`" class="form-text text-danger"></span>
-			</div>-->
-<!--			<div class="form-group  col-lg-2">
-				<label>الفرع المرسل له</label>
-				<select data-show-subtext="true" data-live-search="true" type="text" class="selectpicker  form-control dropdown-primary" name="branch_to[]" id="branch_to`+number+`"  value="">
-                   `+branch_to+`
-                </select>
-                <span id="branch_to_err`+number+`" class="form-text text-danger"></span>
-			</div>-->
-<!--			<div class="form-group col-lg-2">
-				<label>نوع الطلب</label>
-				<select data-show-subtext="true" data-live-search="true" class="  form-control" id="order_type`+number+`" name="order_type[]" placeholder="نوع الطلب" value="">
-                    <option value="عام">عامة</option>
-                    <option value="ملابس">ملابس</option>
-                    <option value="الكترونيات">الكترونيات</option>
-                    <option value="وثائق">وثائق</option>
-                    <option value="اثاث">اثاث</option>
-                </select>
-				<span id="order_type_err" class="form-text text-danger"></span>
-			</div>-->
-<!--			<div class="form-group col-lg-2">
-				<label>العدد</label>
-				<input type="number" class="form-control" id="qty`+number+`" name="qty[]" value="1"/>
-				<span id="qty_err`+number+`" class="form-text text-danger"></span>
-			</div>
-			<div class="form-group col-lg-1">
-				<label>الوزن</label>
-				<input type="number" class="form-control" id="weight`+number+`" name="weight[]" value="1"/>
-				<span id="weight_err`+number+`" class="form-text text-danger"></span>
-			</div>-->
             <div class="form-group  col-lg-2">
 				<br />
 				<span case="case" class="form-text text-success"></span>
 			</div>
             <div class="form-group  col-lg-2">
+				<label>اضافه على كل حال</label>
+                <input  type="checkbox" onclick="check(`+number+`)" class="form-control" id="checkbox`+number+`" name="checkbox[]"/>
+				<input  type="hidden" id="check`+number+`" name="check[]"/>
+				<span id="check_err`+number+`"  class="form-text text-danger"></span>
+			</div>
+            <div class="form-group  col-lg-1">
 				<label>تاريخ الزبون</label> <br />
 				<button type="button"  class="btn btn-clean btn-icon-lg" onclick="customerHistory(`+number+`)"><span class="fa fa-history"></span></button>
             </div>
-            <div class="form-group  col-lg-5">
+            <div class="form-group  col-lg-4">
              <br />
                <div id="customerHistory`+number+`"></div>
             </div>
@@ -511,9 +489,42 @@ function byupdate(){
   }
 }
 
+function checkPhone(){
+  var arr = [];
+  var id = [];
+  var out = [];
+  counts={};
+  $("input[name='customer_phone[]']").each(function() {
+        arr.push($(this).val());
+        id.push($(this).attr("noseq"));
+  });
+
+  for (var i=0;i<arr.length;i++) {
+      var item = arr[i];
+      var k  = id[i];
+      counts[item] = counts[item] >= 1 ? counts[item] + 1 : 1;
+      if (counts[item] >= 2) {
+        if($("#checkbox"+k).is(':checked')){
+         $("#customer_phone_err"+(k)).text('');
+         $("#customer_phone"+(k)).css('background-color',"#FDF5E6");
+        }else{
+         $("#customer_phone_err"+(k)).text('رقم الهاتف  مكرر');
+         $("#customer_phone"+(k)).css('background-color',"#FFA07A");
+         out.push(item);
+        }
+      }else{
+         $("#customer_phone_err"+(k)).text('');
+         $("#customer_phone"+(k)).css('background-color',"#FDF5E6");
+      }
+   }
+   console.log(out);
+   if(out.length == 0){
+      addOrders();
+    }
+}
 
 function addOrders(){
-  $.ajax({
+ $.ajax({
     url:"script/_addOrders.php",
     type:"POST",
     data:$("#orderstabledata").serialize(),
@@ -585,6 +596,7 @@ function addOrders(){
     }
   });
 }
+
 function updatetown(){
   getTowns($('[town="town"]'),$("#maincity").val());
 }
@@ -744,4 +756,14 @@ function formatNumber(n) {
   return n.replace(/\D/g, "").replace(/\B(?=(\d{3})+(?!\d))/g, ",")
 }
 getCompanies($("#company"));
+
+function check(id){
+ if($("#checkbox"+id).is(':checked')){
+    $("#check"+id).val(1);
+ }else{
+    $("#check"+id).val(0);
+ }
+}
+
+
 </script>

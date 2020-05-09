@@ -246,12 +246,11 @@ function getInvoices(){
      $.each(res.data,function(){
 
      if(this.invoice_status == 1){
-       invoice_status = "<span class='bg-success'>تم التحاسب<span>";
+       invoice_status = "<span >تم التحاسب<span>";
        btn = '<button type="button" class="btn btn-danger" onclick="unpayInvoice('+this.id+')" >الغأ التحاسب</button>';
      }else{
-       invoice_status = "<span class='bg-danger'>لم يتم التحاسب<span>";
+       invoice_status = "<span >لم يتم التحاسب<span>";
        btn = '<button type="button" class="btn btn-success" onclick="payInvoice('+this.id+')">تم التحاسب</button>';
-
      }
      if(this.orders_status == 4){
        bg = 'success';
@@ -261,7 +260,7 @@ function getInvoices(){
        invoice_status = "راجع للعميل";
          btn = '<button type="button" class="btn btn-danger" onclick="unpayInvoice('+this.id+')" >ارجاع للمخزن الرئيسي</button>';
      }else{
-       invoice_status = "راجع بالمخزن الرئيسي";
+       invoice_status = "رواجع";
         btn = '<button type="button" class="btn btn-success" onclick="payInvoice('+this.id+')">راجع للعميل</button>';
      }
      }else if(this.orders_status == 7){

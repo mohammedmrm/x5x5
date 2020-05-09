@@ -1,7 +1,7 @@
 <?php
 if(file_exists("script/_access.php")){
 require_once("script/_access.php");
-access([1,2,3]);
+access([1,2,3,5]);
 }
 ?>
 <style>
@@ -123,6 +123,9 @@ legend
               		<option value="20">20</option>
               		<option value="25">25</option>
               		<option value="30">30</option>
+              		<option value="50">50</option>
+              		<option value="100">10
+                    0</option>
               	</select>
               </div>
             </div>

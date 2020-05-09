@@ -121,8 +121,9 @@ require_once("config.php");
           text-shadow: 0px 0px 0px #000000;
           text-outline: 0px #FF3300;
         }
-
-
+        .nowarp {
+          white-space: nowrap !important;
+        }
         .dropdown-menu {
           z-index: 100 !important;
         }
@@ -368,7 +369,6 @@ function createIndexedDB() {
 
   dbRequest.onsuccess = function(event) {
     console.log('Success');
-    console.log(event.target.result);
   };
 
   dbRequest.onblocked = function(event) {

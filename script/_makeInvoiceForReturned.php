@@ -13,6 +13,12 @@ $style='
     padding:3px;
     text-align:center;
   }
+  .re {
+    background-color: #FFA07A;
+  }
+  .ch {
+    background-color: #FFFACD;
+  }
 ';
 require("../config.php");
 
@@ -62,7 +68,7 @@ $where = "where invoice_id = 0 and ";
   if($store >= 1){
     $filter .= " and store_id=".$store;
    }
-    $filter .= " and (order_status_id = 6 or order_status_id = 9 or order_status_id = 10 or order_status_id = 11)";
+    $filter .= " and (order_status_id = 6 or order_status_id = 9 or order_status_id = 10 or order_status_id = 11 or order_status_id = 5)";
 
 
   function validateDate($date, $format = 'Y-m-d H:i:s')
@@ -86,11 +92,11 @@ $where = "where invoice_id = 0 and ";
   $orders = $count1[0]['count'];
   $data = getData($con,$query);
   $success="1";
-  if($status == 6 || $status == 9 || $status == 10 ){
+/*  if($status == 6 || $status == 9 || $status == 10 ){
     $sql = "update orders set order_status_id = 11 ".$filter;
     $update = setData($con,$sql);
     $status = 6;
-  }
+  }*/
 } catch(PDOException $ex) {
    $data=["error"=>$ex];
    $success="0";
@@ -163,9 +169,17 @@ if($orders > 0){
                 }
                 $data[$i]['dev_price'] = $dev_p;
                 $data[$i]['client_price'] = ($data[$i]['new_price'] -  $dev_p) + $data[$i]['discount'];
-
+               $note =  $data[$i]['note'];
+               if($data[$i]['order_status_id'] == 6){
+                 $bg = "re";
+                 $note = "راجع جزئي";
+               }
+               if($data[$i]['order_status_id'] == 5){
+                 $bg = "ch";
+                 $note = "استبدال";
+               }
         $hcontent .=
-         '<tr>
+         '<tr class="'.$bg.'">
            <td width="30" align="center">'.($i+1).'</td>
            <td width="100" align="center">'.$data[$i]['date'].'</td>
            <td align="center">'.$data[$i]['order_no'].'</td>
@@ -175,7 +189,7 @@ if($orders > 0){
            <td align="center">'.number_format($data[$i]['new_price']).'</td>
            <td align="center">'.number_format($data[$i]['dev_price']).'</td>
            <td align="center">'.number_format($data[$i]['client_price']).'</td>
-           <td align="center">'.$data[$i]['note'].'</td>
+           <td align="center">'.$note.'</td>
          </tr>';
           $total['discount'] += $data[$i]['discount'];
           $total['dev_price'] += $data[$i]['dev_price'];

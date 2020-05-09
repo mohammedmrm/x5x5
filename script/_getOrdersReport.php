@@ -30,9 +30,11 @@ $store= $_REQUEST['store'];
 $invoice= $_REQUEST['invoice'];
 $status = $_REQUEST['orderStatus'];
 $driver = $_REQUEST['driver'];
+$repated = $_REQUEST['repated'];
 $start = trim($_REQUEST['start']);
 $end = trim($_REQUEST['end']);
 $limit = 10;
+$sort ="";
 $page = trim($_REQUEST['p']);
 if(empty($page) || $page <=0){
   $page =1;
@@ -41,14 +43,18 @@ $total = [];
 $money_status = trim($_REQUEST['money_status']);
 if(!empty($end)) {
    $end =date('Y-m-d', strtotime($end. ' + 1 day'));
-   $end .=" 00:00:00";
-}
-if(!empty($start)) {
-   $start .=" 00:00:00";
+}else{
+  $end =date('Y-m-d', strtotime(' + 1 day'));
 }
 
 try{
-  $count = "select count(*) as count from orders ";
+  $count = "select count(*) as count from orders
+            left join (
+             select order_no,count(*) as rep from orders
+              GROUP BY order_no
+              HAVING COUNT(orders.id) > 1
+            ) b on b.order_no = orders.order_no";
+
   $query = "select orders.*, date_format(orders.date,'%Y-%m-%d') as date,
             if(to_city = 1,
                  if(client_dev_price.price is null,(".$config['dev_b']." - discount),(client_dev_price.price - discount)),
@@ -62,19 +68,29 @@ try{
              ) as client_price,
             clients.name as client_name,clients.phone as client_phone,
             stores.name as store_name,a.nuseen_msg,
-            cites.name as city,towns.name as town,branches.name as branch_name
+            cites.name as city,towns.name as town,branches.name as branch_name,
+            order_status.status as status_name,staff.name as staff_name,b.rep as repated
             from orders left join
             clients on clients.id = orders.client_id
             left join cites on  cites.id = orders.to_city
             left join stores on  orders.store_id = stores.id
             left join towns on  towns.id = orders.to_town
             left join branches on  branches.id = orders.from_branch
+            left join staff on  staff.id = orders.manager_id
+            left join order_status on  order_status.id = orders.order_status_id
             left JOIN client_dev_price on client_dev_price.client_id = orders.client_id AND client_dev_price.city_id = orders.to_city
             left join (
              select count(*) as nuseen_msg, max(order_id) as order_id from message
              where is_client = 0 and admin_seen = 0
              group by message.order_id
             ) a on a.order_id = orders.id
+
+            left join (
+             select order_no,count(*) as rep from orders
+              GROUP BY order_no
+              HAVING COUNT(orders.id) > 1
+            ) b on b.order_no = orders.order_no
+
             ";
 $where = "where";
 if($_SESSION['role'] != 1){
@@ -87,7 +103,13 @@ if($_SESSION['role'] != 1){
   if($driver >= 1){
    $filter .= " and driver_id =".$driver;
   }
-
+  if($repated == 1){
+   $filter .= " and b.rep >= 2";
+   $sort = " order by orders.order_no,orders.date ";
+  }else if($repated == 2){
+   $filter .= " and b.rep == null";
+   $sort = " order by orders.order_no,orders.date ";
+  }
   if($city >= 1){
     $filter .= " and to_city=".$city;
   }
@@ -107,13 +129,18 @@ if($_SESSION['role'] != 1){
                       customer_phone like '%".$customer."%')";
   }
   if(!empty($order)){
-    $filter .= " and order_no like '%".$order."%'";
+    $filter .= " and orders.order_no like '%".$order."%'";
   }
-  if($status >= 1){
+  ///-----------------status
+  if($status == 4){
+    $filter .= " and (order_status_id =".$status." or order_status_id = 6)";
+  }else if($status == 9){
+    $filter .= " and (order_status_id =".$status." or order_status_id = 6 or order_status_id = 5)";
+  }else  if($status >= 1){
     $filter .= " and order_status_id =".$status;
   }
-
-  function validateDate($date, $format = 'Y-m-d H:i:s')
+  //---------------------end of status
+  function validateDate($date, $format = 'Y-m-d')
     {
         $d = DateTime::createFromFormat($format, $date);
         return $d && $d->format($format) == $date;
@@ -133,7 +160,7 @@ if($_SESSION['role'] != 1){
   $pages= ceil($count[0]['count'] / $limit);
   $lim = " limit ".(($page-1) * $limit).",".$limit;
 
-  $query .= $lim;
+  $query .= $sort.$lim;
   $data = getData($con,$query);
   $success="1";
 } catch(PDOException $ex) {
@@ -167,9 +194,16 @@ try{
               )
           ) as client_price,
           sum(discount) as discount,
-          count(order_no) as orders
+          count(orders.order_no) as orders
           from orders
-          left JOIN client_dev_price on client_dev_price.client_id = orders.client_id AND client_dev_price.city_id = orders.to_city";
+
+          left JOIN client_dev_price on client_dev_price.client_id = orders.client_id AND client_dev_price.city_id = orders.to_city
+          left join (
+             select order_no,count(*) as rep from orders
+              GROUP BY order_no
+              HAVING COUNT(orders.id) > 1
+            ) b on b.order_no = orders.order_no
+          ";
 
 if($filter != ""){
     $filter = preg_replace('/^ and/', '', $filter);
@@ -217,8 +251,8 @@ if($store >=1){
 }
   $success="1";
 } catch(PDOException $ex) {
-   $data=["error"=>$ex];
+   $total=["error"=>$ex];
    $success="0";
 }
-echo json_encode(array("success"=>$success,"data"=>$data,'total'=>$total,"pages"=>$pages,"page"=>$page));
+echo json_encode(array($query,$sqlt,"success"=>$success,"data"=>$data,'total'=>$total,"pages"=>$pages,"page"=>$page));
 ?>

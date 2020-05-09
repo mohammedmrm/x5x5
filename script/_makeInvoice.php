@@ -13,6 +13,12 @@ $style='
     padding:3px;
     text-align:center;
   }
+  .re {
+    background-color: #FFA07A;
+  }
+  .ch {
+    background-color: #FFFACD;
+  }
 ';
 require("../config.php");
 
@@ -78,9 +84,19 @@ $where = "where invoice_id = 0 and ";
   if(!empty($order)){
     $filter .= " and order_no like '%".$order."%'";
   }
+
   if($status >= 1){
     $filter .= " and order_status_id =".$status;
   }
+  ///-----------------status
+  if($status == 4){
+    $filter .= " and (order_status_id =".$status." or order_status_id = 6)";
+  }else if($status == 9){
+    $filter .= " and (order_status_id =".$status." or order_status_id = 6 or order_status_id = 5)";
+  }else  if($status >= 1){
+    $filter .= " and order_status_id =".$status;
+  }
+  //---------------------end of status
 
   function validateDate($date, $format = 'Y-m-d H:i:s')
     {
@@ -96,18 +112,18 @@ $where = "where invoice_id = 0 and ";
      $count .= " ".$filter;
      $query .= " ".$filter." order by orders.date";
   }else{
-    $query .=" order by orders.date";
+    $query .=" order by to_city,to_town,id";
   }
 
   $count1 = getData($con,$count);
   $orders = $count1[0]['count'];
   $data = getData($con,$query);
   $success="1";
-  if($status == 6 || $status == 9 || $status == 10 ){
+/*  if($status == 6 || $status == 9 || $status == 10 ){
     $sql = "update orders set order_status_id = 11 ".$filter;
     $update = setData($con,$sql);
     $status = 6;
-  }
+  }*/
 } catch(PDOException $ex) {
    $data=["error"=>$ex];
    $success="0";
@@ -122,7 +138,7 @@ if($status == 4){
   }
 </style>
   ";
-}else if($status == 6){
+}else if($status == 6 || $status == 9){
   $status_name = "راجعه";
  $style .= "
   .head-tr {
@@ -141,7 +157,7 @@ if($status == 4){
 </style>
   ";
 }else{
-  $status_name = "غير معروفه";
+  $status_name = "-";
    $style .= "
   .head-tr {
    background-color: #CCCCCC;
@@ -155,7 +171,8 @@ if($orders > 0){
         $i = 0;
         $content = "";
         $success = 0;
-        $pdf_name = date('Y-m-d')."_".uniqid().".pdf";
+        $pdf_name = uniqid().".pdf";
+        $name = $pdf_name;
         $sql = "insert into invoice (path,store_id,orders_status) values(?,?,?)";
         $res = setData($con,$sql,[$pdf_name,$store,$status]);
     if($res > 0){
@@ -180,19 +197,28 @@ if($orders > 0){
                 }
                 $data[$i]['dev_price'] = $dev_p;
                 $data[$i]['client_price'] = ($data[$i]['new_price'] -  $dev_p) + $data[$i]['discount'];
-
+               $bg = "";
+               $note =  $data[$i]['note'];
+               if($data[$i]['order_status_id'] == 6){
+                 $bg = "re";
+                 $note = "راجع جزئي";
+               }
+               if($data[$i]['order_status_id'] == 5){
+                 $bg = "ch";
+                 $note = "استبدال";
+               }
         $hcontent .=
-         '<tr>
+         '<tr class="'.$bg.'">
            <td width="30" align="center">'.($i+1).'</td>
            <td width="100" align="center">'.$data[$i]['date'].'</td>
            <td width="80" align="center">'.$data[$i]['order_no'].'</td>
-           <td width="120" align="center">'.$data[$i]['customer_phone'].'</td>
+           <td width="120" align="center">'.phone_number_format($data[$i]['customer_phone']).'</td>
            <td width="160" align="center">'.$data[$i]['city'].' - '.$data[$i]['town'].' - '.$data[$i]['adress'].'</td>
            <td width="80" align="center">'.number_format($data[$i]['price']).'</td>
            <td width="80" align="center">'.number_format($data[$i]['new_price']).'</td>
            <td width="80" align="center">'.number_format($data[$i]['dev_price']).'</td>
            <td align="center">'.number_format($data[$i]['client_price']).'</td>
-           <td align="center">'.$data[$i]['note'].'</td>
+           <td align="center">'.$note.'</td>
          </tr>';
           $total['discount'] += $data[$i]['discount'];
           $total['dev_price'] += $data[$i]['dev_price'];
@@ -337,5 +363,5 @@ $pdf->Output(dirname(__FILE__).'/../invoice/'.$pdf_name, 'F');
 }else{
   $success = 2;
 }
-echo json_encode(['num'=>$count,'success'=>$success,'invoice'=>$pdf_name]);
+echo json_encode(['num'=>$count,'success'=>$success,'invoice'=>$name]);
 ?>

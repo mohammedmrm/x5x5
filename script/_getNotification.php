@@ -20,7 +20,7 @@ $user_id = $_SESSION['userid'];
 $sql = 'select count(*) as unseen from notification where for_client = 0 and staff_id = ? and admin_seen=0';
 $res = getData($con,$sql,[$user_id]);
 $unseen = $res[0]['unseen'];
-$sql = 'select * from notification
+$sql = 'select *,notification.id as n_id from notification
         left join orders on orders.id = notification.order_id
         where for_client = 0 and staff_id = ?
         order by notification.date DESC limit 20';

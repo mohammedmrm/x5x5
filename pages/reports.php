@@ -189,7 +189,7 @@ legend
     <form id="ordertabledata" class="kt-form kt-form--fit kt-margin-b-20">
           <fieldset><legend>فلتر</legend>
           <div class="row kt-margin-b-20">
-            <div class="col-lg-2 kt-margin-b-10-tablet-and-mobile">
+            <div class="col-lg-1 kt-margin-b-10-tablet-and-mobile">
             	<label>الفرع:</label>
             	<select onchange="getclient();getAllDrivers($('#driver'),$('#branch').val())" class="form-control kt-input" id="branch" name="branch" data-col-index="6">
             	</select>
@@ -222,6 +222,14 @@ legend
   				<input onchange="getorders()" type="text" class="form-control kt-input" name="end"  id="end" placeholder="الى" data-col-index="5">
           	</div>
             </div>
+            <div class="col-lg-2 kt-margin-b-10-tablet-and-mobile">
+            	<label>حالة التكرار:</label>
+                <select name="repated" onchange="getorders()" class="selectpicker form-control kt-input" data-col-index="2">
+            		<option value="">عرض الكل</option>
+            		<option value="1">عرض المكرر فقط</option>
+            		<option value="2">عرض غير المكرر</option>
+                </select>
+            </div>
           </div>
           <div class="row kt-margin-b-20">
             <div class="col-lg-1 kt-margin-b-10-tablet-and-mobile">
@@ -239,7 +247,7 @@ legend
             </div>
             <div class="col-lg-2 kt-margin-b-10-tablet-and-mobile">
             	<label>حالة تسليم المبلغ للعميل:</label>
-                <select name="money_status" onchange="getorders()" class="form-control kt-input" data-col-index="2">
+                <select name="money_status" onchange="getorders()" class="selectpicker form-control kt-input" data-col-index="2">
             		<option value="">... اختر...</option>
             		<option value="1">تم تسليم المبلغ</option>
             		<option value="0">لم يتم تسليم المبلغ</option>
@@ -247,7 +255,7 @@ legend
             </div>
             <div class="col-lg-2 kt-margin-b-10-tablet-and-mobile">
             	<label>حالة الطلبات من الكشف</label>
-                <select id="invoice" name="invoice" onchange="getorders()" class="form-control kt-input" data-col-index="2">
+                <select id="invoice" name="invoice" onchange="getorders()" class="selectpicker form-control kt-input" data-col-index="2">
             		<option value="">... اختر...</option>
             		<option value="1">طلبات بدون كشف</option>
             		<option value="2">طلبات كشف</option>
@@ -287,7 +295,7 @@ legend
                </div>
           </div>
           </div>
-		<table class="table table-striped  table-bordered table-hover table-checkable responsive nowrap" id="tb-orders">
+		<table class="table table-striped  table-bordered responsive nowrap" style="white-space: nowrap;" id="tb-orders">
 			       <thead>
 	  						<tr>
 										<th>رقم الشحنه</th>
@@ -296,11 +304,14 @@ legend
 										<th>هاتف المستلم</th>
 										<th width="120px">عنوان المستلم</th>
                                         <th width="100px">تاريخ الادخال</th>
+										<th width="280px">تعديل</th>
+										<th>الحاله</th>
+                                        <th>المدخل</th>
 										<th>مبلغ الوصل</th>
 										<th>مبلغ التوصيل</th>
 										<th>المبلغ المستلم</th>
 										<th>المبلغ الصافي للعميل</th>
-										<th width="280px">تعديل</th>
+
 		  					</tr>
       	            </thead>
                             <tbody id="ordersTable">
@@ -310,14 +321,17 @@ legend
 										<th>رقم الشحنه</th>
                                         <th>رقم الوصل</th>
 										<th>اسم وهاتف العميل</th>
-										<th>رقم هاتف و المستلم اسم</th>
+										<th>المستلم هاتف</th>
 										<th>عنوان الارسال</th>
                                         <th>تاريخ الادخال</th>
-										<th>مبلغ الوصل</th>
-										<th>سعر التوصيل</th>
-										<th>المبلغ المستلم</th>
-										<th>السعر الصافي للعميل</th>
 										<th >تعديل</th>
+										<th >الحاله</th>
+										<th >المدخل</th>
+										<th>مبلغ الوصل</th>
+										<th>مبلغ التوصيل</th>
+										<th>المبلغ المستلم</th>
+										<th>المبلغ الصافي للعميل</th>
+
 					</tr>
 	           </tfoot>
 		</table>
@@ -569,7 +583,7 @@ $.ajax({
   },
   success:function(res){
    console.log(res);
-   saveEventDataLocally(res.data);
+  // saveEventDataLocally(res.data);
    $("#section-to-print").removeClass('loading');
    $("#tb-orders").DataTable().destroy();
    $("#ordersTable").html("");
@@ -648,10 +662,6 @@ $.ajax({
             '<td>'+(this.customer_phone)+'</td>'+
             '<td>'+this.city+'/'+this.town+'</td>'+
             '<td>'+this.date+'</td>'+
-            '<td>'+formatMoney(this.price)+'</td>'+
-            '<td>'+formatMoney(this.dev_price)+'</td>'+
-            '<td>'+formatMoney(this.new_price)+'</td>'+
-            '<td>'+formatMoney(this.client_price)+'</td>'+
             '<td>'+
                 '<button type="button" class="btn btn-clean" onclick="editOrder('+this.id+')" data-toggle="modal" data-target="#editOrderModal"><span class="flaticon-edit"></sapn></button>'+
                 '<button type="button" class="btn btn-clean" onclick="deleteOrder('+this.id+')" data-toggle="modal" data-target="#deleteOrderModal"><span class="flaticon-delete"></sapn></button>'+
@@ -662,6 +672,12 @@ $.ajax({
                 '</button>'+
                 '<br />'+money+
             '</td>'+
+            '<td>'+this.status_name+'</td>'+
+            '<td>'+this.staff_name+'</td>'+
+            '<td>'+formatMoney(this.price)+'</td>'+
+            '<td>'+formatMoney(this.dev_price)+'</td>'+
+            '<td>'+formatMoney(this.new_price)+'</td>'+
+            '<td>'+formatMoney(this.client_price)+'</td>'+
         '</tr>');
      });
 
@@ -1044,10 +1060,12 @@ function makeInvoice() {
                   $("#ordertabledata").removeClass("loading");
                   if(res.success == 1){
                     getorders();
+                    var d = new Date();
                     window.open('invoice/'+res.invoice, '_blank');
                   }else{
                     Toast.warning("خطأ");
                   }
+                  console.log(res);
                 },
                 error:function(e){
                   $("#ordertabledata").removeClass("loading");

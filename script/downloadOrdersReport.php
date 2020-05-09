@@ -24,29 +24,31 @@ $city = $_REQUEST['city'];
 $customer = $_REQUEST['customer'];
 $order = $_REQUEST['order_no'];
 $client= $_REQUEST['client'];
+$store= $_REQUEST['store'];
 $driver = $_REQUEST['driver'];
 $invoice= $_REQUEST['invoice'];
 $status = $_REQUEST['orderStatus'];
+$repated = $_REQUEST['repated'];
 $start = trim($_REQUEST['start']);
 $end = trim($_REQUEST['end']);
 
 
  $total = [];
 $money_status = trim($_REQUEST['money_status']);
-if(empty($end)) {
-  $end = date('Y-m-d 00:00:00', strtotime(' + 1 day'));
-}else{
+if(!empty($end)) {
    $end =date('Y-m-d', strtotime($end. ' + 1 day'));
-   $end .=" 00:00:00";
-}
-if(empty($start)) {
-  $start = date('Y-m-d 00:00:00');
 }else{
-   $start .=" 00:00:00";
+  $end =date('Y-m-d', strtotime(' + 1 day'));
 }
 
 try{
-  $count = "select count(*) as count from orders ";
+  $count = "select count(*) as count from orders
+            left join (
+             select order_no,count(*) as rep from orders
+              GROUP BY order_no
+              HAVING COUNT(orders.id) > 1
+            ) b on b.order_no = orders.order_no
+           ";
   $query = "select orders.*,date_format(orders.date,'%Y-%m-%d') as date,
             clients.name as client_name,clients.phone as client_phone,
             cites.name as city,towns.name as town,branches.name as branch_name,staff.name as driver_name
@@ -56,6 +58,11 @@ try{
             left join towns on  towns.id = orders.to_town
             left join branches on  branches.id = orders.to_branch
             left join staff on  staff.id = orders.driver_id
+            left join (
+             select order_no,count(*) as rep from orders
+              GROUP BY order_no
+              HAVING COUNT(orders.id) > 1
+            ) b on b.order_no = orders.order_no
             ";
    $where = "where";
    $filter = " and orders.confirm = 1";
@@ -67,6 +74,13 @@ try{
    $filter .= " and driver_id =".$driver;
   }
 
+  if($repated == 1){
+   $filter .= " and b.rep >= 2";
+   $sort = " order by orders.order_no,orders.date ";
+  }else if($repated == 2){
+   $filter .= " and b.rep == null";
+   $sort = " order by orders.order_no,orders.date ";
+  }
 
   if($invoice == 1){
     $filter .= " and (orders.invoice_id ='' or orders.invoice_id =0)";
@@ -82,6 +96,9 @@ try{
   if($client >= 1){
     $filter .= " and client_id=".$client;
   }
+  if($store>= 1){
+    $filter .= " and store_id=".$store;
+  }
   if(!empty($customer)){
     $filter .= " and (customer_name like '%".$customer."%' or
                       customer_phone like '%".$customer."%')";
@@ -92,8 +109,10 @@ try{
   if($status >= 1){
     $filter .= " and order_status_id =".$status;
   }
-
-  function validateDate($date, $format = 'Y-m-d H:i:s')
+  if($status == 4 || $status == 9){
+    $filter .= " or order_status_id = 6";
+  }
+  function validateDate($date, $format = 'Y-m-d')
     {
         $d = DateTime::createFromFormat($format, $date);
         return $d && $d->format($format) == $date;
@@ -105,19 +124,20 @@ try{
     $filter = preg_replace('/^ and/', '', $filter);
     $filter = $where." ".$filter;
     $count .= " ".$filter;
-    $query .= " ".$filter." order by to_city,to_town,id";
+    $query .= " ".$filter." order by to_city,to_town,orders.id";
   }else{
-    $query .=" order by date";
+    $query .=" order by to_city,to_town,orders.id";
   }
-
   $count = getData($con,$count);
   $orders = $count[0]['count'];
   $data = getData($con,$query);
   $success="1";
+
 } catch(PDOException $ex) {
    $data=["error"=>$ex];
    $success="0";
 }
+print($query);
 try{
   $i = 0;
   $content = "";
@@ -141,12 +161,13 @@ $hcontent .=
  '<tr>
    <td width="60"  align="center">'.($i+1).'</td>
    <td align="center">'.$data[$i]['order_no'].'</td>
-   <td align="center" width="130">'.$data[$i]['client_name'].'</td>
+   <td align="center" width="110">'.$data[$i]['client_name'].'</td>
    <td align="center" width="130">'.phone_number_format($data[$i]['client_phone']).'</td>
    <td width="130" align="center">'.phone_number_format($data[$i]['customer_phone']).'</td>
    <td align="center">'.$data[$i]['city'].' - '.$data[$i]['town'].' - '.$data[$i]['address'].'</td>
-   <td width="130" align="center">'.$data[$i]['date'].'</td>
-   <td align="center">'.number_format($data[$i]['price']).'</td>
+   <td width="110" align="center">'.$data[$i]['date'].'</td>
+   <td width="80" align="center">'.number_format($data[$i]['price']).'</td>
+   <td width="130" align="center">'.$data[$i]['note'].'</td>
  </tr>';
   $total['discount'] += $data[$i]['discount'];
   $total['dev_price'] += $data[$i]['dev_price'];
@@ -247,12 +268,13 @@ $htmlpersian = '		<table border="1" class="table" cellpadding="10">
 	  						<tr  class="head-tr">
                                         <th width="60">#</th>
                                         <th>رقم الوصل</th>
-										<th width="130">اسم العميل</th>
+										<th width="110">اسم العميل</th>
 										<th width="130">هاتف العميل</th>
 										<th width="130">هاتف   المستلم</th>
 										<th>عنوان المستلم</th>
-                                        <th width="130">تاريخ الادخال</th>
-										<th>مبلغ الوصل</th>
+                                        <th width="110">تاريخ الادخال</th>
+										<th width="80">مبلغ الوصل</th>
+										<th width="130">ملاحظه</th>
 						   </tr>
       	            </thead>
                             <tbody id="ordersTable">'

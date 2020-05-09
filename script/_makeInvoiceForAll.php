@@ -12,6 +12,9 @@ $style='
     padding:3px;
     text-align:center;
   }
+  .re {
+    background-color: #FFA07A;
+  }
 ';
 require("../config.php");
 
@@ -38,8 +41,8 @@ try{
   $where = "where invoice_id = 0 and ";
   $filter = "";
 
-  if($status >= 1){
-    $filter .= " and order_status_id =".$status;
+  if($status == 4){
+     $filter .= " and (order_status_id =".$status." or order_status_id = 6)";
   }
   if($store >= 1){
     $filter .= " and store_id=".$store;
@@ -129,9 +132,13 @@ if($orders > 0){
                 }
                 $data[$i]['dev_price'] = $dev_p;
                 $data[$i]['client_price'] = ($data[$i]['new_price'] -  $dev_p) + $data[$i]['discount'];
-
+                $note =  $data[$i]['note'];
+                if($data[$i]['order_status_id'] == 6){
+                 $bg = "re";
+                 $note = "راجع جزئي";
+                }
         $hcontent .=
-         '<tr>
+         '<tr class="'.$bg.'">
            <td width="30"  align="center">'.($i+1).'</td>
            <td width="100" align="center">'.$data[$i]['dat'].'</td>
            <td width="80"  align="center">'.$data[$i]['order_no'].'</td>
@@ -141,7 +148,7 @@ if($orders > 0){
            <td width="80" align="center">'.number_format($data[$i]['new_price']).'</td>
            <td width="80" align="center">'.number_format($data[$i]['dev_price']).'</td>
            <td align="center">'.number_format($data[$i]['client_price']).'</td>
-           <td align="center">'.$data[$i]['note'].'</td>
+           <td align="center">'.$note.'</td>
          </tr>';
           $total['discount'] += $data[$i]['discount'];
           $total['dev_price'] += $data[$i]['dev_price'];

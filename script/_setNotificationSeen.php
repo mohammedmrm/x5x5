@@ -11,5 +11,5 @@ $id = $_REQUEST['id'];
 $sql = 'update notification set admin_seen = 1 where for_client = 0 and id = ?';
 $result = setData($con,$sql,[$id]);
 $success = 1;
-echo json_encode(['success'=>$success]);
+echo json_encode([$result,'success'=>$success]);
 ?>

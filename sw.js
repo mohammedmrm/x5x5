@@ -17,7 +17,7 @@ workbox.routing.registerRoute(
     cacheName: "js-cache-client",
   })
 );
-workbox.routing.registerRoute(
+/*workbox.routing.registerRoute(
   // Cache js files.
   /\.php/,
   // Use cache but update in the background.
@@ -25,7 +25,7 @@ workbox.routing.registerRoute(
     // Use a custom cache name.
     cacheName: "php-cache-client",
   })
-);
+);*/
 
 workbox.routing.registerRoute(
   // Cache CSS files.
@@ -36,6 +36,7 @@ workbox.routing.registerRoute(
     cacheName: "css-cache-client",
   })
 );
+
 workbox.routing.registerRoute(
   // Cache image files.
   /\.(?:png|jpg|jpeg|svg|gif)$/,

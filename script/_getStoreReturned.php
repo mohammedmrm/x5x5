@@ -27,7 +27,7 @@ $sql = "select orders.*,date_format(orders.date,'%Y-%m-%d') as dat,  order_statu
           inner join cites on orders.to_city = cites.id
           inner join towns on orders.to_town = towns.id
           left JOIN client_dev_price on client_dev_price.client_id = orders.client_id AND client_dev_price.city_id = orders.to_city
-          where store_id = ? and invoice_id = 0  and (order_status_id = 6 or order_status_id = 9 or order_status_id = 10 or order_status_id = 11)
+          where store_id = ? and invoice_id = 0  and (order_status_id = 6 or order_status_id = 9 or order_status_id = 10 or order_status_id = 11 or order_status_id = 5)
           ";
 $res3= getData($con,$sql,[$id]);
 $data= $res3;

@@ -475,7 +475,7 @@ function getStoreReturned(){
        invoice_status = "راجع للعميل";
        btn = '<button type="button" class="btn btn-danger" onclick="unpayInvoice('+this.id+')" >ارجاع للمخزن الرئيسي</button>';
      }else{
-       invoice_status = "بالمخزن الرئيسي";
+       invoice_status = "رواجع";
        btn = '<button type="button" class="btn btn-success" onclick="payInvoice('+this.id+')">ارجاع للعميل</button>';
 
      }

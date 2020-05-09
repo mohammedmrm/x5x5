@@ -106,7 +106,7 @@ function getNotification(){
       $("#noti_menu").html("");
     },
     success:function(res){
-      console.log(res,'it for noti');
+      //console.log(res);
       if(res.success == 1){
         $("#noti-count").text(res.unseen + ' اشعار جديد');
         $("#noti-new").text(res.unseen);
@@ -117,7 +117,7 @@ function getNotification(){
             bg = "";
           }
          $("#noti_menu").append(
-         '<a href="?page=pages/reports.php&order_no='+this.order_no+'&notification='+this.id+'" class="'+bg+' kt-notification__item">'+
+         '<a href="?page=pages/reports.php&order_no='+this.order_no+'&notification='+this.n_id+'" class="'+bg+' kt-notification__item">'+
             '<div class="kt-notification__item-icon"> <i class="flaticon2-pie-chart kt-font-focus"></i> </div>'+
             '<div class="kt-notification__item-details">'+
                 '<div class="kt-notification__item-title"><b>'+this.title+'</b><br />'+this.body+'</div>'+
@@ -130,7 +130,7 @@ function getNotification(){
       }
     },
     error:function(e){
-      console.log(e,'it for noti');
+      console.log(e);
     }
   });
 }
@@ -139,7 +139,9 @@ if($("#notification_seen_id").val() > 0){
    $.ajax({
     url:"script/_setNotificationSeen.php",
     type:"POST",
-    data:{id:$("#notification_seen_id").val()}
+    data:{id:$("#notification_seen_id").val()},
+/*    success:function(res){ console.log(res,'seeeeeeeeen');},
+    error:function(res){ console.log(res,'seeeeeeeeen');},*/
   });
 }
 </script>

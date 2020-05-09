@@ -65,7 +65,7 @@ foreach($res as $k=>$val){
           count(order_no) as orders
           from orders
           left JOIN client_dev_price on client_dev_price.client_id = orders.client_id AND client_dev_price.city_id = orders.to_city
-          where store_id = ?  and invoice_id = 0 and order_status_id = 4
+          where store_id = ?  and invoice_id = 0 and (order_status_id = 4 or order_status_id = 6)
           ";
           $res4= getData($con,$sql,[$id]);
           $res4= $res4[0];
