@@ -19,6 +19,9 @@ $style='
   .ch {
     background-color: #FFFACD;
   }
+  .repated {
+    background-color:#E0FFFF;
+  }
 ';
 require("../config.php");
 
@@ -52,13 +55,18 @@ try{
   $query = "select orders.*, date_format(orders.date,'%y-%m-%d') as date,
             clients.name as client_name,clients.phone as client_phone,
             cites.name as city,towns.name as town,branches.name as branch_name,
-            stores.name as store_name
+            stores.name as store_name,b.rep as repated
             from orders
             left join clients on clients.id = orders.client_id
             left join cites on  cites.id = orders.to_city
             left join stores on  stores.id = orders.store_id
             left join towns on  towns.id = orders.to_town
             left join branches on  branches.id = orders.to_branch
+            left join (
+             select order_no,count(*) as rep from orders
+              GROUP BY order_no
+              HAVING COUNT(orders.id) > 1
+            ) b on b.order_no = orders.order_no
             ";
 $where = "where invoice_id = 0 and ";
   $filter = "";
@@ -85,9 +93,7 @@ $where = "where invoice_id = 0 and ";
     $filter .= " and order_no like '%".$order."%'";
   }
 
-  if($status >= 1){
-    $filter .= " and order_status_id =".$status;
-  }
+
   ///-----------------status
   if($status == 4){
     $filter .= " and (order_status_id =".$status." or order_status_id = 6)";
@@ -112,7 +118,7 @@ $where = "where invoice_id = 0 and ";
      $count .= " ".$filter;
      $query .= " ".$filter." order by orders.date";
   }else{
-    $query .=" order by to_city,to_town,id";
+    $query .=" order by order_no";
   }
 
   $count1 = getData($con,$count);
@@ -206,6 +212,9 @@ if($orders > 0){
                if($data[$i]['order_status_id'] == 5){
                  $bg = "ch";
                  $note = "استبدال";
+               }
+               if($data[$i]['repated'] > 1){
+                 $bg = "repated";
                }
         $hcontent .=
          '<tr class="'.$bg.'">

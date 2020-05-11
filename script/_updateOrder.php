@@ -73,7 +73,7 @@ if(empty($number)){
 $v->validate([
     'manger'        => [$manger,    'required|int'],
     'id'            => [$id,    'required|int'],
-    'order_no'      => [$number,    'required|min(1)|max(100)|unique()'],
+    'order_no'      => [$number,    'required|min(1)|max(100)'],
     'weight'        => [$weight,   'int'],
     'qty'           => [$qty,'int'],
     'order_price'   => [$order_price,   "required|isPrice"],

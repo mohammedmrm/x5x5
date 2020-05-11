@@ -447,7 +447,7 @@ function addexpetionprice(){
                             '<input type="text" name="client_dev_price_e[]" class="form-control" placeholder="سعر التوصيل">'+
     						'<span class="form-text  text-danger" id="client_dev_price_o_err"></span>'+
     					'</div>'
-if(indecater > 18){
+if(indecater < 18){
 $("#exceptionCities").append(city);
  getCities($('[indecater="'+indecater+'"]'));
  indecater = indecater +1;

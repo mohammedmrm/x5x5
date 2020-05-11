@@ -613,8 +613,8 @@ $("#branch").change(function(){
     </div>
   </div>
 
-  <script src="assets/js/demo1/pages/custom/profile/overview-3.js" type="text/javascript"></script>
-  <script type="text/javascript">
+<script src="assets/js/demo1/pages/custom/profile/overview-3.js" type="text/javascript"></script>
+<script type="text/javascript">
   getBraches($("#client_branch"));
   function addClient(){
   $.ajax({
@@ -642,7 +642,7 @@ $("#branch").change(function(){
        Toast.error('تأكد من المدخلات','خطأ');
      }
   });
-}
+  }
 
 indecater = 1;
 function addexpetionprice(){

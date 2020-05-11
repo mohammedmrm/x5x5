@@ -125,6 +125,10 @@ input:focus, button:focus,  textarea:focus {
                 </select>
                 <span  id="company_err"class="form-text  text-danger"></span>
 			</div>
+            <div class="form-group col-lg-2">
+                <label> اضافه عميل وصفحه</label><br />
+                <input data-toggle="modal" data-target="#addClientModal" type="button" class="btn btn-primary" name="add_client" id="add_client" value="اضافة عميل"/>
+            </div>
           </div>
          <div id="order-section">
          <fieldset><legend>شحنه رقم <span>1</span></legend>
@@ -261,6 +265,89 @@ input:focus, button:focus,  textarea:focus {
 </div>
 <!-- end:: Content -->
 </div>
+  <div class="modal fade" id="addClientModal" role="dialog">
+    <div class="modal-dialog">
+
+      <!-- Modal content-->
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal">&times;</button>
+          <h4 class="modal-title">اضافة عميل</h4>
+        </div>
+        <div class="modal-body">
+		<!--begin::Portlet-->
+		<div class="kt-portlet">
+
+			<!--begin::Form-->
+			<form class="kt-form" id="addClientForm">
+                <div class="row">
+  				  <div class="col-md-12">
+  				    <div class="kt-portlet__body">
+  					<div class="form-group">
+  						<label>الفرع</label>
+  						<select data-show-subtext="true" data-live-search="true" type="text" class="selectpicker form-control dropdown-primary" name="client_branch" id="client_branch"  value="">
+                        </select>
+                          <span class="form-text text-danger" id="client_branch_err"></span>
+  					</div> <br /><br />
+  					<div class="form-group">
+  						<label>الاسم العميل:</label>
+  						<input type="name" name="client_name" class="form-control"  placeholder="ادخل الاسم الكامل">
+  						<span class="form-text  text-danger" id="client_name_err"></span>
+  					</div>
+  					<div class="form-group">
+  						<label>اسم الصفحه (البيج):</label>
+  						<input type="text" name="page" class="form-control" placeholder="">
+  						<span class="form-text text-danger" id="page_err"></span>
+  					</div>
+  					<div class="form-group">
+  						<label>رقم الهاتف:</label>
+  						<input type="text" name="client_phone" class="form-control" placeholder="ادخل رقم الهاتف">
+  						<span  id="client_phone_err"class="form-text  text-danger"></span>
+  					</div>
+  					<div class="form-group">
+  						<label>كلمة السر:</label>
+  						<input type="password" name="client_password" class="form-control" placeholder="ادخل كلمة السر">
+  						<span class="form-text  text-danger" id="client_password_err"></span>
+  					</div>
+  	            </div>
+  	            </div>
+                <!--<div class="col-md-6">
+                    <div class="kt-portlet__body">
+    					<div class="form-group">
+    						<label>سعر التوصيل بغداد:</label>
+    						<input type="text" name="client_dev_price_b" class="form-control" placeholder="">
+    						<span class="form-text  text-danger" id="client_dev_price_b_err"></span>
+    					</div>
+    					<div class="form-group">
+    						<label>سعر التوصيل باقي المحافضات:</label>
+    						<input type="text" name="client_dev_price_o" class="form-control" placeholder="">
+    						<span class="form-text  text-danger" id="client_dev_price_o_err"></span>
+    					</div>
+    					<div class="form-group">
+    						<label>استثنائات:</label>
+    						<button type="button" onclick="addexpetionprice()" name="" class="btn btn-success" placeholder="">
+                             <span class="flaticon-add"></span>&nbsp;&nbsp;اضافة سعر توصيل لمحافظة معينة
+                            </button>
+    					 </div>
+                         <div id="exceptionCities"></div>
+                    </div>
+                  </div>-->
+                </div>
+	            <div class="kt-portlet__foot kt-portlet__foot--solid">
+					<div class="kt-form__actions kt-form__actions--right">
+						<button type="button" onclick="addClientAndPage()" class="btn btn-brand">اضافة</button>
+						<button type="reset" data-dismiss="modal" class="btn btn-secondary">الغاء</button>
+					</div>
+				</div>
+			</form>
+			<!--end::Form-->
+		</div>
+		<!--end::Portlet-->
+        </div>
+      </div>
+
+    </div>
+  </div>
 
 
             <!--begin::Page Vendors(used by this page) -->
@@ -285,6 +372,7 @@ getCities($("#city1"));
 getTowns($("#town1"),$("#city1").val());
 getBraches($("#branch_to1"));
 getBraches($("#mainbranch"));
+getBraches($("#client_branch"));
 $(function () {
   $('[data-toggle="popover"]').popover()
 })
@@ -764,6 +852,46 @@ function check(id){
     $("#check"+id).val(0);
  }
 }
+function addClientAndPage(){
+$.ajax({
+     url:"script/_addClientAndPage.php",
+     type:"POST",
+     data:$("#addClientForm").serialize(),
+     beforeSend:function(){
+           $("#client_name_err").text('');
+           $("#client_phone_err").text('');
+           $("#client_email_err").text('');
+           $("#client_branch_err").text('');
+           $("#client_password_err").text('');
+           $("#page_err").text('');
+           $("#addClientForm").addClass('loading');
+     },
+     success:function(res){
+       $("#addClientForm").removeClass('loading');
+       if(res.success == 1){
+         $("#addClientForm input").val("");
+         Toast.success('تم الاضافة');
+         getStores($("#mainstore"));
+         getStores($(['store="store"']).last());
+         $('#addClientModal').modal('hide');
+       }else{
+           $("#client_name_err").text(res.error["client_name_err"]);
+           $("#client_phone_err").text(res.error["client_phone_err"]);
+           $("#client_email_err").text(res.error["client_email_err"]);
+           $("#client_branch_err").text(res.error["client_branch_err"]);
+           $("#client_password_err").text(res.error["client_password_err"]);
+           $("#page_err").text(res.error["page_err"]);
 
+       }
+       console.log(res);
+     },
+     error:function(e){
+       console.log(e);
+       $("#addClientForm").removeClass('loading');
+       Toast.error.displayDuration=5000;
+       Toast.error('تأكد من المدخلات','خطأ');
+     }
+  });
+  }
 
 </script>

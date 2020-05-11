@@ -15,6 +15,12 @@ $style='
   .re {
     background-color: #FFA07A;
   }
+  .ch {
+    background-color: #FFFACD;
+  }
+  .repated {
+    background-color:#E0FFFF;
+  }
 ';
 require("../config.php");
 
@@ -137,6 +143,13 @@ if($orders > 0){
                  $bg = "re";
                  $note = "راجع جزئي";
                 }
+               if($data[$i]['order_status_id'] == 5){
+                 $bg = "ch";
+                 $note = "استبدال";
+               }
+               if($data[$i]['repated'] > 1){
+                 $bg = "repated";
+               }
         $hcontent .=
          '<tr class="'.$bg.'">
            <td width="30"  align="center">'.($i+1).'</td>

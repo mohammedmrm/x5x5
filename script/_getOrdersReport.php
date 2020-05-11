@@ -107,7 +107,7 @@ if($_SESSION['role'] != 1){
    $filter .= " and b.rep >= 2";
    $sort = " order by orders.order_no,orders.date ";
   }else if($repated == 2){
-   $filter .= " and b.rep == null";
+   $filter .= " and b.rep < 2";
    $sort = " order by orders.order_no,orders.date ";
   }
   if($city >= 1){
