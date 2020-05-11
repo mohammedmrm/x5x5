@@ -103,12 +103,12 @@ if($_SESSION['role'] != 1){
   if($driver >= 1){
    $filter .= " and driver_id =".$driver;
   }
+  $sort = " order by orders.date,orders.order_no ";
   if($repated == 1){
    $filter .= " and b.rep >= 2";
-   $sort = " order by orders.order_no,orders.date ";
   }else if($repated == 2){
    $filter .= " and b.rep < 2";
-   $sort = " order by orders.order_no,orders.date ";
+
   }
   if($city >= 1){
     $filter .= " and to_city=".$city;

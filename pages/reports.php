@@ -1021,12 +1021,11 @@ function OrderTracking(id){
                                         '<i class="'+ icon +'"></i>'+
                                     '</div>'+
                                 '</div>'+
-                               '<span class="kt-timeline__item-datetime">'+this.date+'<br />'+this.hour+'</span><br />'+
-                               '<span class="text-info"> حدث من قبل : '+this.staff_name+'</span>'+
+                               '<span class="kt-timeline__item-datetime">'+this.date+'<br />'+this.hour+'</span>'+
                             '</div>'+
                             '<a href="" class="kt-timeline__item-text">'+
-
                             '</a>'+
+                            '<span class="kt-timeline__item-info h5 text-info"> حدث من قبل : '+this.staff_name+'</span>'+
                             '<div class="kt-timeline__item-info">'+
                                 this.status+
                             '</div>'+

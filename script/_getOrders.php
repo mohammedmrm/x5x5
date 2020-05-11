@@ -85,7 +85,7 @@ try{
   if($page != 0){
     $page = $page -1;
   }
-  $query .= " limit ".($page * $limit).",".$limit;
+  $query .= 'order by orders.date,orders.order_no limit '.($page * $limit).",".$limit;
   $data = getData($con,$query);
   $ps = getData($con,$count);
   $pages= ceil($ps[0]['count']/$limit);
