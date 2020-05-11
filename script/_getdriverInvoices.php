@@ -17,7 +17,7 @@ if(empty($end)) {
    $end =date('Y-m-d', strtotime($end. ' + 1 day'));
 }
 if(empty($start)) {
-  $start = date('Y-m-d', strtotime(' - 1 day')); 
+  $start = date('Y-m-d', strtotime(' - 1 day'));
 }
 
 $sql ="select  date_format(orders.date,'%Y-%m-%d') as dat from orders where store_id = ? and order_status_id = 4  and invoice_id = 0 GROUP by dat";
@@ -88,5 +88,5 @@ $sql2 = "select driver_invoice.*,date_format(driver_invoice.date,'%Y-%m-%d') as 
            inner join clients on stores.client_id = clients.id
            where driver_id=? and driver_invoice.date between ? AND ? ";
 $res2 = getData($con,$sql2,[$id,$start,$end]);
-echo json_encode(array($sql2,"success"=>$success,"data"=>$data,"invoice"=>$res2,'pay'=>$res4));
+echo json_encode(array($sql2,$start,"success"=>$success,"data"=>$data,"invoice"=>$res2,'pay'=>$res4));
 ?>
