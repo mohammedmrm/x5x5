@@ -86,5 +86,5 @@ $sql2 = "select driver_invoice.*,date_format(driver_invoice.date,'%Y-%m-%d') as 
            inner join clients on stores.client_id = clients.id
            where driver_id=? and driver_invoice.date between ? AND ? ";
 $res2 = getData($con,$sql2,[$id,$start,$end]);
-echo json_encode(array("success"=>$success,"data"=>$data,"invoice"=>$res2,'pay'=>$res4));
+echo json_encode(array($sql2,"success"=>$success,"data"=>$data,"invoice"=>$res2,'pay'=>$res4));
 ?>
