@@ -103,7 +103,7 @@ if($_SESSION['role'] != 1){
   if($driver >= 1){
    $filter .= " and driver_id =".$driver;
   }
-  $sort = " order by orders.date,orders.order_no ";
+  $sort = " order by orders.date,orders.order_no DESC ";
   if($repated == 1){
    $filter .= " and b.rep >= 2";
   }else if($repated == 2){
