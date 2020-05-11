@@ -872,7 +872,7 @@ $.ajax({
          $("#addClientForm input").val("");
          Toast.success('تم الاضافة');
          getStores($("#mainstore"));
-         getStores($(['store="store"']).last());
+         getStores($('[store="store"]').last());
          $('#addClientModal').modal('hide');
        }else{
            $("#client_name_err").text(res.error["client_name_err"]);
