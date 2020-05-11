@@ -215,7 +215,8 @@ background-color: #FFFF99;
 <script src="js/getAllDrivers.js" type="text/javascript"></script>
 <script src="js/getBraches.js" type="text/javascript"></script>
 <script type="text/javascript">
-
+$('#tb-orders').DataTable();
+$('#tb-invioces').DataTable();
 function  getdriverInvoices(){
   $.ajax({
     url:"script/_getDriverDetails.php",
@@ -307,6 +308,7 @@ function  getdriverInvoices(){
         '</tr>');
      });
 
+     $('#tb-orders').DataTable();
      var myTable= $('#tb-invioces').DataTable({
       "oLanguage": {
         "sLengthMenu": "عرض_MENU_سجل",

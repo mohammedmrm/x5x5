@@ -1,4 +1,5 @@
 <?php
+ini_set('max_execution_time', 600);
 ob_start();
 session_start();
 error_reporting(0);
@@ -68,7 +69,10 @@ try{
               HAVING COUNT(orders.id) > 1
             ) b on b.order_no = orders.order_no
             ";
-$where = "where invoice_id = 0 and ";
+$where = "where (
+                 (invoice_id = 0) or
+                 ((order_status_id=6 or order_status_id=5) and (orders.invoice_id2=0))
+                ) and ";
   $filter = "";
   if($branch >= 1){
    $filter .= " and from_branch =".$branch;
@@ -90,16 +94,16 @@ $where = "where invoice_id = 0 and ";
                       customer_phone like '%".$customer."%')";
   }
   if(!empty($order)){
-    $filter .= " and order_no like '%".$order."%'";
+    $filter .= " and orders.order_no like '%".$order."%'";
   }
 
 
   ///-----------------status
   if($status == 4){
-    $filter .= " and (order_status_id =".$status." or order_status_id = 6)";
+    $filter .= " and (order_status_id =4 or order_status_id = 6 or order_status_id = 5)";
   }else if($status == 9){
-    $filter .= " and (order_status_id =".$status." or order_status_id = 6 or order_status_id = 5)";
-  }else  if($status >= 1){
+    $filter .= " and (order_status_id =11 or order_status_id =9 or order_status_id = 6 or order_status_id = 5)";
+  }else if($status >= 1){
     $filter .= " and order_status_id =".$status;
   }
   //---------------------end of status
@@ -116,7 +120,7 @@ $where = "where invoice_id = 0 and ";
      $filter = preg_replace('/^ and/', '', $filter);
      $filter = $where." ".$filter;
      $count .= " ".$filter;
-     $query .= " ".$filter." order by orders.date";
+     $query .= " ".$filter." order by orders.order_no,to_city";
   }else{
     $query .=" order by order_no";
   }
@@ -135,6 +139,7 @@ $where = "where invoice_id = 0 and ";
    $success="0";
 }
 // set default header data
+
 if($status == 4){
   $status_name = "مستلمة";
   $style .= "
@@ -144,9 +149,10 @@ if($status == 4){
   }
 </style>
   ";
-}else if($status == 6 || $status == 9){
+}else if($status == 6 || $status == 9 || $status == 5 || $status == 10 || $status == 11){
+  $status = 9;
   $status_name = "راجعه";
- $style .= "
+  $style .= "
   .head-tr {
    background-color: #FF3300;
    color:#111;
@@ -187,7 +193,6 @@ if($orders > 0){
       $res = getdata($con,$sql,[$pdf_name,$store]);
       $invoice = $res[0]['id'];
       $date = $res[0]['date'];
-
         foreach($data as $k=>$v){
           $total['income'] += $data[$i]['new_price'];
                 $sql = "select * from client_dev_price where client_id=? and city_id=?";
@@ -216,6 +221,15 @@ if($orders > 0){
                if($data[$i]['repated'] > 1){
                  $bg = "repated";
                }
+          if($status == 9 && ($data[$i]['order_status_id'] == 6 || $data[$i]['order_status_id'] == 5)){
+             $sql = "update orders set invoice_id2 =? where id=?";
+             $res = setData($con,$sql,[$invoice,$v['id']]);
+             $data[$i]['client_price'] = 0;
+
+          }else{
+            $sql = "update orders set invoice_id =? where id=?";
+            $res = setData($con,$sql,[$invoice,$v['id']]);
+          }
         $hcontent .=
          '<tr class="'.$bg.'">
            <td width="30" align="center">'.($i+1).'</td>
@@ -229,14 +243,13 @@ if($orders > 0){
            <td align="center">'.number_format($data[$i]['client_price']).'</td>
            <td align="center">'.$note.'</td>
          </tr>';
+
+          //--- update invoice for each order
+
           $total['discount'] += $data[$i]['discount'];
           $total['dev_price'] += $data[$i]['dev_price'];
           $total['client_price'] += $data[$i]['client_price'];
-          //--- update invoice for each order
-           $sql = "update orders set invoice_id =? where id=?";
-           $res = setData($con,$sql,[$invoice,$v['id']]);
-           
-           $i++;
+          $i++;
        }
        $total['invoice'] = $invoice;
        $total['status'] = $status_name;
@@ -372,5 +385,5 @@ $pdf->Output(dirname(__FILE__).'/../invoice/'.$pdf_name, 'F');
 }else{
   $success = 2;
 }
-echo json_encode(['num'=>$count,'success'=>$success,'invoice'=>$name]);
+echo json_encode([$query,'success'=>$success,'invoice'=>$name]);
 ?>

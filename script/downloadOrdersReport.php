@@ -1,4 +1,5 @@
 <?php
+ini_set('max_execution_time', 600);
 ob_start();
 session_start();
 error_reporting(0);
@@ -7,7 +8,6 @@ access([1,2,3,5]);
 require_once("dbconnection.php");
 $style='
 <style>
-
   td,th{
     text-align:center;
     vertical-align: middle;
@@ -104,7 +104,7 @@ try{
                       customer_phone like '%".$customer."%')";
   }
   if(!empty($order)){
-    $filter .= " and order_no like '%".$order."%'";
+    $filter .= " and orders.order_no like '%".$order."%'";
   }
   if($status >= 1){
     $filter .= " and order_status_id =".$status;
@@ -137,7 +137,7 @@ try{
    $data=["error"=>$ex];
    $success="0";
 }
-print($query);
+
 try{
   $i = 0;
   $content = "";

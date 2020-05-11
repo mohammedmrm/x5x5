@@ -120,9 +120,9 @@ if($_SESSION['role'] != 1){
     $filter .= " and orders.store_id=".$store;
   }
   if($invoice == 1){
-    $filter .= " and (orders.invoice_id ='' or orders.invoice_id =0)";
+    $filter .= " and ((orders.invoice_id ='' or orders.invoice_id =0) or ((order_status_id=6 or order_status_id=5) and (orders.invoice_id2 ='' or orders.invoice_id2 =0)))";
   }else if($invoice == 2){
-    $filter .= " and (orders.invoice_id !='' and orders.invoice_id != 0)";
+    $filter .= " and ((orders.invoice_id !='' and orders.invoice_id != 0))";
   }
   if(!empty($customer)){
     $filter .= " and (customer_name like '%".$customer."%' or
@@ -133,7 +133,7 @@ if($_SESSION['role'] != 1){
   }
   ///-----------------status
   if($status == 4){
-    $filter .= " and (order_status_id =".$status." or order_status_id = 6)";
+    $filter .= " and (order_status_id =".$status." or order_status_id = 6 or order_status_id = 5)";
   }else if($status == 9){
     $filter .= " and (order_status_id =".$status." or order_status_id = 6 or order_status_id = 5)";
   }else  if($status >= 1){

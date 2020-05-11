@@ -1,4 +1,5 @@
 <?php
+ini_set('max_execution_time', 600); 
 ob_start();
 session_start();
 error_reporting(0);
@@ -44,12 +45,21 @@ try{
             left join towns on  towns.id = orders.to_town
             left join branches on  branches.id = orders.to_branch
             ";
-  $where = "where invoice_id = 0 and ";
+  $where = "where (
+                 (invoice_id = 0) or
+                 ((order_status_id=6 or order_status_id=5) and (orders.invoice_id2=0))
+                ) and ";
   $filter = "";
 
+  ///-----------------status
   if($status == 4){
-     $filter .= " and (order_status_id =".$status." or order_status_id = 6)";
+    $filter .= " and (order_status_id =4 or order_status_id = 6 or order_status_id = 5)";
+  }else if($status == 9){
+    $filter .= " and (order_status_id =9 or order_status_id = 6 or order_status_id = 5)";
+  }else if($status >= 1){
+    $filter .= " and order_status_id =".$status;
   }
+  //---------------------end of status
   if($store >= 1){
     $filter .= " and store_id=".$store;
   }
@@ -58,7 +68,7 @@ try{
      $filter = preg_replace('/^ and/', '', $filter);
      $filter = $where." ".$filter;
      $count .= " ".$filter;
-     $query .= " ".$filter." order by to_city,to_town,id";
+     $query .= " ".$filter." order by orders.order_no,to_city";
   }else{
     $query .=" order by orders.date";
   }
@@ -81,9 +91,10 @@ if($status == 4){
   }
 </style>
   ";
-}else if($status == 6 || $status == 9 ){
+}else if($status == 6 || $status == 9 || $status == 5 || $status == 10 || $status == 11){
+  $status = 9;
   $status_name = "راجعه";
- $style .= "
+  $style .= "
   .head-tr {
    background-color: #FF3300;
    color:#111;
@@ -139,6 +150,7 @@ if($orders > 0){
                 $data[$i]['dev_price'] = $dev_p;
                 $data[$i]['client_price'] = ($data[$i]['new_price'] -  $dev_p) + $data[$i]['discount'];
                 $note =  $data[$i]['note'];
+                $bg = "";
                 if($data[$i]['order_status_id'] == 6){
                  $bg = "re";
                  $note = "راجع جزئي";
@@ -150,6 +162,15 @@ if($orders > 0){
                if($data[$i]['repated'] > 1){
                  $bg = "repated";
                }
+              if($status == 9 && ($data[$i]['order_status_id'] == 6 || $data[$i]['order_status_id'] == 5)){
+                 $sql = "update orders set invoice_id2 =? where id=?";
+                 $res = setData($con,$sql,[$invoice,$v['id']]);
+                 $data[$i]['client_price'] = 0;
+
+              }else{
+                $sql = "update orders set invoice_id =? where id=?";
+                $res = setData($con,$sql,[$invoice,$v['id']]);
+              }
         $hcontent .=
          '<tr class="'.$bg.'">
            <td width="30"  align="center">'.($i+1).'</td>
@@ -166,9 +187,7 @@ if($orders > 0){
           $total['discount'] += $data[$i]['discount'];
           $total['dev_price'] += $data[$i]['dev_price'];
           $total['client_price'] += $data[$i]['client_price'];
-          //--- update invoice for each order
-           $sql = "update orders set invoice_id =? where id=?";
-           $res = setData($con,$sql,[$invoice,$v['id']]);
+
            $i++;
        }
        $total['invoice'] = $invoice;

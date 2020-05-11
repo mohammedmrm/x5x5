@@ -1021,7 +1021,8 @@ function OrderTracking(id){
                                         '<i class="'+ icon +'"></i>'+
                                     '</div>'+
                                 '</div>'+
-                               '<span class="kt-timeline__item-datetime">'+this.date+'</span>'+
+                               '<span class="kt-timeline__item-datetime">'+this.date+'<br />'+this.hour+'</span><br />'+
+                               '<span class="text-info"> حدث من قبل : '+this.staff_name+'</span>'+
                             '</div>'+
                             '<a href="" class="kt-timeline__item-text">'+
 

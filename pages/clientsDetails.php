@@ -200,6 +200,7 @@ hr {
 <script src="js/getClients.js" type="text/javascript"></script>
 <script src="js/getStores.js" type="text/javascript"></script>
 <script type="text/javascript">
+$('#tb-invioces').DataTable();
 function  getStoreDetails(){
   $.ajax({
     url:"script/_getStoreDetails.php",
@@ -314,20 +315,8 @@ function  getStoreDetails(){
         '</tr>');
      });
 
+     var table= $('#tb-orders').DataTable();
      var myTable= $('#tb-invioces').DataTable({
-     columns:[
-
-    //"dummy" configuration
-        { visible: true, css:'tdstyle' }, //col 1
-        { visible: true, css:'tdstyle' }, //col 2
-        { visible: true, css:'tdstyle' }, //col 3
-        { visible: true }, //col 4
-        { visible: true }, //col 5
-        { visible: true }, //col 6
-        { visible: true }, //col 7
-        { visible: true }, //col 8
-        { visible: true }, //col 9
-        ],
       "oLanguage": {
         "sLengthMenu": "عرض_MENU_سجل",
         "sSearch": "بحث:"
@@ -350,6 +339,7 @@ function  getStoreAllOrders(){
     beforeSend:function(){
        $("#store_data").addClass('loading');
        $("#tb-invioces").DataTable().destroy();
+       $("#tb-orders").DataTable().destroy();
        $("#invoicesTable").html("");
        $("#store_data").html("");
     },
@@ -396,7 +386,7 @@ function  getStoreAllOrders(){
       content = content + '</tbody></table><hr>';
       $("#store_data").append(content);
       $("#store_data table").DataTable({});
-
+      $("#tb-orders").DataTable();
     },
     error:function(e){
      $("#store_data").removeClass('loading');
@@ -413,6 +403,7 @@ function getStoreReturned(){
     beforeSend:function(){
        $("#store_data").addClass('loading');
        $("#tb-invioces").DataTable().destroy();
+       $("#tb-orders").DataTable().destroy();
        $("#invoicesTable").html("");
        $("#store_data").html("");
     },
@@ -495,21 +486,8 @@ function getStoreReturned(){
             '</td>'+
         '</tr>');
      });
-
+     $("#tb-orders").DataTable();
      var myTable= $('#tb-invioces').DataTable({
-     columns:[
-
-    //"dummy" configuration
-        { visible: true, css:'tdstyle' }, //col 1
-        { visible: true, css:'tdstyle' }, //col 2
-        { visible: true, css:'tdstyle' }, //col 3
-        { visible: true }, //col 4
-        { visible: true }, //col 5
-        { visible: true }, //col 6
-        { visible: true }, //col 7
-        { visible: true }, //col 8
-        { visible: true }, //col 9
-        ],
       "oLanguage": {
         "sLengthMenu": "عرض_MENU_سجل",
         "sSearch": "بحث:"

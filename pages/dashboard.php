@@ -30,17 +30,7 @@
           		<div class="kt-widget-19">
           			<div class="kt-widget-19__title">
           				<div class="kt-widget-19__label">
-                          <?php
-                            require_once("script/dbconnection.php");
-                            if($_SESSION['role'] != 1){
-                            $s = "select sum(new_price) as total from orders where from_branch=?";
-                            $r= getData($con,$s,[$_SESSION['user_details']['branch_id']]);
-                            }else{
-                            $s = "select sum(new_price) as total from orders";
-                            $r= getData($con,$s);
-                            }
-                            echo "<span class='la'><script>document.write(formatMoney(".round($r[0]['total'],2)."))</script></span>";
-                            ?>
+                            <span id="total-income"></span>
                            <small>الف</small>
                         </div>
           				<img class="kt-widget-19__bg"  src="./assets/media/misc/iconbox_bg.png" alt="bg"/>
@@ -79,17 +69,7 @@
 		<div class="kt-widget-20">
 			<div class="kt-widget-20__title">
 				<div class="kt-widget-20__label">
-        <?php
-                            require_once("script/dbconnection.php");
-                            if($_SESSION['role'] != 1){
-                            $s = "select count(*) as total from orders where from_branch=?";
-                            $r= getData($con,$s,[$_SESSION['user_details']['branch_id']]);
-                            }else{
-                            $s = "select count(*) as total from orders ";
-                            $r= getData($con,$s);
-                            }
-                            echo "<span class='la'>".$r[0]['total'].'</span>';
-          ?>
+                <span class='la' id="orders"></span>
                 </div>
 				<img class="kt-widget-20__bg" src="./assets/media/misc/iconbox_bg.png" alt="bg"/>
 			</div>
@@ -509,6 +489,28 @@ function ceranings(){
     }
   });
 }
+function totalIcome(){
+$.ajax({
+  url:"charts/_totalIncome.php",
+  type:"POST",
+  data:{start: $("#start").val(),end:$("#end").val()},
+  beforeSend:function(){
+    $("#total-income").addClass("loading");
+    $("#orders").addClass("loading");
+  },
+  success:function(res){
+    $("#total-income").removeClass("loading");
+     $("#orders").removeClass("loading");
+     $("#total-income").text(formatMoney(Number(res.data[0]['total'])));
+     $("#orders").text(formatMoney(Number(res.data[0]['orders'])));
+  },
+  error:function(e){
+    $("#total-income").removeClass("loading");
+    $("#orders").removeClass("loading");
+  }
+  });
+}
+totalIcome();
 ceranings();
 getEraningsLast10Clients();
 getOrdersCount();
@@ -519,5 +521,6 @@ function updateDash() {
  getOrdersCount();
  getEraningsLast10Clients();
  ceranings();
+ totalIcome();
 }
 </script>

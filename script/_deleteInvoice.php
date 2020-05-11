@@ -25,8 +25,18 @@ if($v->passes()){
              $result = setData($con,$sql,[$id]);
              if($result > 0){
                  $success = 1;
-                 $sql = "update orders set invoice_id = 0 where invoice_id=?";
-                 $result = setData($con,$sql,[$id]);
+                 if($re['0']['orders_status'] == 4){
+                   $sql = "update orders set invoice_id = 0  where invoice_id=?";
+                   $result = setData($con,$sql,[$id]);
+                 }else if($re['0']['orders_status'] == 9){
+                   $sql = "update orders set invoice_id2 = 0  where invoice_id2=?";
+                   $sql2 = "update orders set invoice_id = 0  where invoice_id=?";
+                   $result = setData($con,$sql,[$id]);
+                   $result = setData($con,$sql2,[$id]);
+                 }else{
+                   $sql = "update orders set invoice_id2 = 0,invoice_id2 = 0  where invoice_id=?";
+                   $result = setData($con,$sql,[$id]);
+                 }
                  unlink('../invoice/'.$re[0]['path']);
              }else{
                 $msg = "فشل  حذف كشف";

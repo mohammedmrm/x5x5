@@ -45,7 +45,7 @@ include("config.php");
 .sp {
   background-color:#FDF5E6;
 }
-input:focus, button:focus,  textarea:focus {
+#order-section input:focus, #order-section button:focus,  #order-section textarea:focus {
   border: 3px solid #8B0000 !important;
 }
 @page {
@@ -126,8 +126,12 @@ input:focus, button:focus,  textarea:focus {
                 <span  id="company_err"class="form-text  text-danger"></span>
 			</div>
             <div class="form-group col-lg-2">
-                <label> اضافه عميل وصفحه</label><br />
-                <input data-toggle="modal" data-target="#addClientModal" type="button" class="btn btn-primary" name="add_client" id="add_client" value="اضافة عميل"/>
+                <label> اضافه عميل و صفحه</label><br />
+                <input data-toggle="modal" data-target="#addClientModal" type="button" class="btn btn-primary" name="add_client" id="add_client" value="اضافة عميل و صفحه"/>
+             </div>
+            <div class="form-group col-lg-2">
+                <label> اضافه صفحه فقط</label><br />
+                <input data-toggle="modal" data-target="#addStoreModal" type="button" class="btn btn-success" name="add_client"  value="اضافه صفحه فقط"/>
             </div>
           </div>
          <div id="order-section">
@@ -266,7 +270,7 @@ input:focus, button:focus,  textarea:focus {
 <!-- end:: Content -->
 </div>
   <div class="modal fade" id="addClientModal" role="dialog">
-    <div class="modal-dialog">
+    <div class="modal-dialog modal-sm">
 
       <!-- Modal content-->
       <div class="modal-content">
@@ -349,7 +353,58 @@ input:focus, button:focus,  textarea:focus {
     </div>
   </div>
 
+  <div class="modal fade " id="addStoreModal" role="dialog">
+    <div class="modal-dialog modal-sm">
 
+      <!-- Modal content-->
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal">&times;</button>
+          <h4 class="modal-title">اضافة صفحة</h4>
+        </div>
+        <div class="modal-body">
+		<!--begin::Portlet-->
+		<div class="kt-portlet">
+
+			<!--begin::Form-->
+			<form class="kt-form" id="addStoreForm">
+                <div class="row">
+  				  <div class="col-md-12">
+  				    <div class="kt-portlet__body">
+  					<div class="form-group">
+  						<label>العميل</label>
+  						<select data-show-subtext="true" data-live-search="true" type="text" class="selectpicker form-control dropdown-primary" name="client" id="client"  value="">
+                          </select>
+                          <span class="form-text text-danger" id="client_err"></span>
+  					</div>
+  					<div class="form-group">
+  						<label>الاسم الصفحة:</label>
+  						<input type="name" name="name" class="form-control"  placeholder="ادخل الاسم الكامل">
+  						<span class="form-text  text-danger" id="Store_name_err"></span>
+  					</div>
+  					<div class="form-group">
+  						<label>ملاحظات:</label>
+  						<input type="name" name="note" class="form-control"  placeholder="ادخل الاسم الكامل">
+  						<span class="form-text  text-danger" id="Store_note_err"></span>
+  					</div>
+                 </div>
+  	            </div>
+                </div>
+	            <div class="kt-portlet__foot kt-portlet__foot--solid">
+					<div class="kt-form__actions kt-form__actions--right">
+						<button type="button" onclick="addStore()" class="btn btn-brand">اضافة</button>
+						<button type="reset" data-dismiss="modal" class="btn btn-secondary">الغاء</button>
+					</div>
+				</div>
+			</form>
+			<!--end::Form-->
+		</div>
+		<!--end::Portlet-->
+        </div>
+      </div>
+
+    </div>
+  </div>
             <!--begin::Page Vendors(used by this page) -->
                             <script src="assets/vendors/custom/datatables/datatables.bundle.js" type="text/javascript"></script>
                         <!--end::Page Vendors -->
@@ -373,6 +428,28 @@ getTowns($("#town1"),$("#city1").val());
 getBraches($("#branch_to1"));
 getBraches($("#mainbranch"));
 getBraches($("#client_branch"));
+function getAllClient(ele){
+   $.ajax({
+     url:"script/_getClientsAll.php",
+     type:"POST",
+     success:function(res){
+       ele.html("");
+       ele.append(
+           '<option value="">... اختر ...</option>'
+       );
+       $.each(res.data,function(){
+         ele.append("<option value='"+this.id+"'>"+this.name+"-"+this.phone+"</option>");
+       });
+       console.log(res);
+       ele.selectpicker('refresh');
+     },
+     error:function(e){
+        ele.append("<option value='' class='bg-danger'>خطأ اتصل بمصمم النظام</option>");
+        console.log(e);
+     }
+   });
+}
+getAllClient($("#client"));
 $(function () {
   $('[data-toggle="popover"]').popover()
 })
@@ -893,5 +970,40 @@ $.ajax({
      }
   });
   }
+  function addStore(){
+  $.ajax({
+     url:"script/_addStore.php",
+     type:"POST",
+     data:$("#addStoreForm").serialize(),
+     beforeSend:function(){
+     $("#addStoreForm").addClass('loading');
+     $("#Store_name_err").text('');
+     $("#client_err").text('');
+     $("#Store_note_err").text('');
+     },
+     success:function(res){
+       $("#addStoreForm").removeClass('loading');
+       console.log(res);
+       if(res.success == 1){
+         $("#addStoreForm input").val("");
+         Toast.success('تم الاضافة');
+         getStores($("#mainstore"));
+         getStores($('[store="store"]').last());
+         $('#addStoreModal').modal('hide');
+       }else{
+           $("#Store_name_err").text(res.error["name"]);
+           $("#client_err").text(res.error["client"]);
+           $("#Store_note_err").text(res.error["note"]);
+           }
+
+     },
+     error:function(e){
+       $("#addStoreForm").removeClass('loading');
+       console.log(e);
+       Toast.error.displayDuration=5000;
+       Toast.error('تأكد من المدخلات','خطأ');
+     }
+  });
+}
 
 </script>

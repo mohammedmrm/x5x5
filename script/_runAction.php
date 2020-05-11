@@ -18,12 +18,12 @@ if(isset($_REQUEST['ids'])){
          $query = "update orders set driver_id=? where id=?";
          $record = "call update_or_insert(?,?,?)";
          $order = "update orders set order_status_id = ? where id =?";
-         $query2 = "insert into tracking (order_id,order_status_id,date) values(?,?,?)";
+         $query2 = "insert into tracking (order_id,order_status_id,date,staff_id) values(?,?,?,?)";
          foreach($ids as $v){
            $data = setData($con,$query,[$driver,$v]);
            setData($con,$record,[$driver,$v,3]);
            setData($con,$order,[3,$v]);
-           setData($con,$query2,[$v,3,date('Y-m-d H:i:s')]);
+           setData($con,$query2,[$v,3,date('Y-m-d H:i:s'),$_SESSION['userid']]);
            $success="1";
          }
       } catch(PDOException $ex) {
