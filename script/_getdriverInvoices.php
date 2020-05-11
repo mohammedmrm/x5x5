@@ -8,14 +8,16 @@ require_once("dbconnection.php");
 require_once("../config.php");
 $id = $_REQUEST['store'];
 $data = [];
+$end = $_REQUEST['end'];
+$start = $_REQUEST['start'];
 $success =0;
 if(empty($end)) {
-  $end = date('Y-m-d', strtotime($end. ' + 1 day'));
+  $end = date('Y-m-d', strtotime(' + 1 day'));
 }else{
    $end =date('Y-m-d', strtotime($end. ' + 1 day'));
 }
 if(empty($start)) {
-  $start = date('Y-m-d');
+  $start = date('Y-m-d', strtotime(' - 1 day')); 
 }
 
 $sql ="select  date_format(orders.date,'%Y-%m-%d') as dat from orders where store_id = ? and order_status_id = 4  and invoice_id = 0 GROUP by dat";
