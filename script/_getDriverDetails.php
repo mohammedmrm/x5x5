@@ -8,6 +8,8 @@ require_once("dbconnection.php");
 require_once("../config.php");
 $id = $_REQUEST['driver'];
 $data = [];
+$end = $_REQUEST['end'];
+$start = $_REQUEST['start'];
 $success =0;
 if(empty($end)) {
   $end = date('Y-m-d', strtotime($end. ' + 1 day'));
