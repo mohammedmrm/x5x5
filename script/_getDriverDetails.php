@@ -90,5 +90,5 @@ if(count($res2) > 0){
     $success = 1;
 }
 
-echo json_encode(array($sql,"success"=>$success,"data"=>$res3,"invoice"=>$res2,'pay'=>$res4));
+echo json_encode(array($sql2,"success"=>$success,"data"=>$res3,"invoice"=>$res2,'pay'=>$res4));
 ?>
