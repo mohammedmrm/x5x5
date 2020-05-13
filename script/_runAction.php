@@ -52,12 +52,12 @@ if(isset($_REQUEST['ids'])){
     if($status >= 1){
       try{
          $query = "update orders set order_status_id=? where id=?";
-         $query2 = "insert into tracking (order_id,order_status_id,date) values(?,?,?)";
+         $query2 = "insert into tracking (order_id,order_status_id,date,staff_id) values(?,?,?,?)";
          $updateRecord = "update driver_records INNER join orders on orders.id = driver_records.order_id set driver_records.order_status_id = ? where driver_records.driver_id = orders.driver_id and driver_records.order_id = ?";
 
          foreach($ids as $v){
            $data = setData($con,$query,[$status,$v]);
-           setData($con,$query2,[$v,$status,date('Y-m-d H:i:s')]);
+           setData($con,$query2,[$v,$status,date('Y-m-d H:i:s'),$_SESSION['userid']]);
            setData($con,$updateRecord,[$status,$v]);
            $success="1";
          }
