@@ -656,10 +656,15 @@ $.ajax({
        nuseen_msg = "";
        notibg="";
      }
+     if(this.driver_id == 0){
+       icon = " - <span  data-toggle='kt-tooltip' data-placement='top' data-original-title='لم يتم احالة الطلب الى مندوب' class='fa-2x text-danger fa fa-car-crash'></span>"
+     }else{
+       icon = "";
+     }
      $("#ordersTable").append(
        '<tr>'+
             '<td>'+this.id+'</td>'+
-            '<td>'+this.order_no+'</td>'+
+            '<td>'+this.order_no+icon+'</td>'+
             '<td>'+this.client_name+'<br />'+(this.client_phone)+'</td>'+
             '<td>'+(this.customer_phone)+'</td>'+
             '<td>'+this.city+'/'+this.town+'</td>'+
