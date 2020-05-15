@@ -311,6 +311,7 @@ legend
 										<th>مبلغ التوصيل</th>
 										<th>المبلغ المستلم</th>
 										<th>المبلغ الصافي للعميل</th>
+										<th>المندوب</th>
 
 		  					</tr>
       	            </thead>
@@ -331,6 +332,7 @@ legend
 										<th>مبلغ التوصيل</th>
 										<th>المبلغ المستلم</th>
 										<th>المبلغ الصافي للعميل</th>
+										<th>المندوب</th>
 
 					</tr>
 	           </tfoot>
@@ -678,6 +680,7 @@ $.ajax({
             '<td>'+formatMoney(this.dev_price)+'</td>'+
             '<td>'+formatMoney(this.new_price)+'</td>'+
             '<td>'+formatMoney(this.client_price)+'</td>'+
+            '<td>'+this.driver_name+'</td>'+
         '</tr>');
      });
 

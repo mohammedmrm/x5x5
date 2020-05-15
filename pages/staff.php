@@ -51,6 +51,7 @@ access([1,2]);
 										<th>الفرع</th>
 										<th>رقم الهاتف</th>
 										<th>الوظيفة</th>
+										<th>المناطق</th>
 										<th>الهوية</th>
 										<th>تعديل</th>
 										
@@ -65,6 +66,7 @@ access([1,2]);
 										<th>الفرع</th>
 										<th>رقم الهاتف</th>
 										<th>الوظيفة</th>
+										<th>المناطق</th>
 										<th>الهوية</th>
 										<th>تعديل</th>
 
@@ -90,16 +92,21 @@ access([1,2]);
                             <script src="./assets/js/demo1/pages/custom/profile/profile.js" type="text/javascript"></script>
 <script src="js/getBraches.js" type="text/javascript"></script>
 <script src="js/getRoles.js" type="text/javascript"></script>
+<script src="js/getAllunAssignedTowns.js" type="text/javascript"></script>
 <script type="text/javascript">
 function getStaff(elem){
 $.ajax({
   url:"script/_getStaff.php",
   type:"POST",
   success:function(res){
-   $("#tb-staff").DataTable().destroy()
+   $("#tb-staff").DataTable().destroy();
    console.log(res);
    elem.html("");
    $.each(res.data,function(){
+      btn ='';
+     if(this.role_id == 4){
+       btn = "<button data-toggle='modal' data-target='#driverTownsModal' class='btn btn-warning text-white' onclick='getDriverTowns("+this.id+")'>مناطق</button>"
+     }
      elem.append(
        '<tr>'+
             '<td>'+this.id+'</td>'+
@@ -107,22 +114,13 @@ $.ajax({
             '<td>'+this.branch_name+'</td>'+
             '<td>'+this.phone+'</td>'+
             '<td>'+this.role_name+'</td>'+
+            '<td>'+btn+'</td>'+
             '<td><a href="img/staff/'+this.id_copy+'"><img class="userimg" src="img/staff/'+this.id_copy+'"></a></td>'+
             '<td><button class="btn btn-link " onclick="editStaff('+this.id+')" data-toggle="modal" data-target="#editstaffModal"><span class="flaticon-edit"></sapn></button>'+
             '<button class="btn btn-link text-danger" onclick="deleteStaff('+this.id+')" data-toggle="modal" data-target="#deletestaffModal"><span class="flaticon-delete"></sapn></button></td>'+
         '</tr>');
      });
      var myTable= $('#tb-staff').DataTable({
-     columns:[
-    //"dummy" configuration
-        { visible: true }, //col 1
-        { visible: true }, //col 2
-        { visible: true }, //col 3
-        { visible: true }, //col 4
-        { visible: true }, //col 5
-        { visible: true }, //col 6
-        { visible: true }, //col 7
-        ],
       "oLanguage": {
         "sLengthMenu": "عرض_MENU_سجل",
         "sSearch": "بحث:"
@@ -370,6 +368,64 @@ getStaff($("#staffTable"));
 
     </div>
   </div>
+
+<div class="modal fade" id="driverTownsModal" role="dialog">
+    <div class="modal-dialog modal-lg">
+      <!-- Modal content-->
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal">&times;</button>
+          <h4 class="modal-title">مناطق المندوب</h4>
+        </div>
+        <div class="modal-body">
+        <!--Begin:: App Content-->
+        <div class="kt-grid__item kt-grid__item--fluid kt-app__content">
+            <div class="kt-portlet">
+                <form class="kt-form kt-form--label-right" id="driverTownsForm">
+                  <fieldset><legend>اضافه منطقه للمندوب</legend>
+                  <div class="row kt-margin-b-20">
+                    <div class="col-lg-3 kt-margin-b-10-tablet-and-mobile">
+                    	<label>المنطقه:</label>
+                        <select data-live-search="true" class="form-control selectpicker" id="town" name="town"></select>
+                    </div>
+                    <div class="col-lg-3 kt-margin-b-10-tablet-and-mobile">
+                    	<label>اضافه:</label><br>
+                    	<button type="button" onclick="setTownToDriver()" class="btn btn-success" value="" placeholder="" data-col-index="0">اضافه
+
+                        </button>
+                    </div>
+                    <div class="col-lg-4 kt-margin-b-10-tablet-and-mobile">
+                    	<label>اسم المندوب:</label><br>
+                    	<label id="driver_name"></label><br>
+                    </div>
+                  </div>
+                  </fieldset>
+		<!--begin: Datatable -->
+		<table class="table table-striped- table-bordered table-hover table-checkable responsive no-wrap" id="tb-driverTown">
+			       <thead>
+	  						<tr>
+										<th>ID</th>
+										<th>المحافظه</th>
+										<th>المنطقه</th>
+										<th>حذف</th>
+
+		  					</tr>
+      	            </thead>
+                    <tbody id="driverTown">
+                    </tbody>
+		</table>
+		<!--end: Datatable -->
+        <input type="hidden" value="" id="driver_id" name="driver_id" />
+                </form>
+            </div>
+        </div>
+        <!--End:: App Content-->
+        </div>
+      </div>
+
+    </div>
+</div>
+
 <script>
 function addStaff(){
     var myform = document.getElementById('addStaffForm');
@@ -495,7 +551,89 @@ function deleteStaff(id){
       });
   }
 }
+$("#tb-driverTown").DataTable();
+function getDriverTowns(id){
+      $('#driver_id').val(id);
+      $.ajax({
+        url:"script/_getDriverTowns.php",
+        type:"POST",
+        data:{id:id},
+        beforeSend:function(){
+          $("#tb-driverTown").DataTable().destroy();
+        },
+        success:function(res){
+         if(res.success == 1){
+          $('#driverTown').html("");
+          $('#driver_name').text(res.driver_info.name);
+
+          $.each(res.data,function(){
+            $('#driverTown').append(
+            '<tr>'+
+              '<td>'+this.id+'</td>'+
+              '<td>'+this.city_name+'</td>'+
+              '<td>'+this.town_name+'</td>'+
+              '<td><button type="button" onclick="deleteDriverTown('+this.id+')" class="btn btn-icon btn-danger"><span class="flaticon-delete"></span></button></td>'+
+            '</tr>'
+            );
+          });
+          $("#tb-driverTown").DataTable();
+         }else{
+
+         }
+         console.log(res)
+        } ,
+        error:function(e){
+          console.log(e);
+        }
+      });
+}
+function setTownToDriver(){
+      $.ajax({
+        url:"script/_setTownToDriver.php",
+        type:"POST",
+        data:$("#driverTownsForm").serialize(),
+        beforeSend:function(){
+          $("#driverTownsForm").addClass("loading");
+        },
+        success:function(res){
+        $("#driverTownsForm").removeClass("loading");
+         if(res.success == 1){
+           Toast.success(res.msg);
+           getDriverTowns($('#driver_id').val());
+           getAllunAssignedTowns($("#town"));
+         }else{
+           Toast.warning(res.msg);
+         }
+         console.log(res)
+        } ,
+        error:function(e){
+          $("#driverTownsForm").removeClass("loading");
+          console.log(e);
+        }
+      });
+}
+function deleteDriverTown(id){
+  if(confirm("هل انت متاكد من الحذف")){
+      $.ajax({
+        url:"script/_deleteDriverTown.php",
+        type:"POST",
+        data:{id:id},
+        success:function(res){
+         if(res.success == 1){
+           Toast.success('تم الحذف');
+          getDriverTowns($('#driver_id').val());
+         }else{
+           Toast.warning(res.msg);
+         }
+         console.log(res)
+        } ,
+        error:function(e){
+          console.log(e);
+        }
+      });
+  }
+}
 getBraches($("#staff_branch"));
 getRoles($("#staff_role"));
-
+getAllunAssignedTowns($("#town"));
 </script>

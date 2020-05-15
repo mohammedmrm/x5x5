@@ -148,6 +148,13 @@ if($v->passes()) {
   $branch = $res[0]['branch_id'];
   $client = $res[0]['c_id'];
       foreach($onumber as $k=>$val){
+            $sql = "select * from driver_towns where town_id = ?";
+            $getdriver = getData($con,$sql,[$town_to[$k]]);
+            if(count($getdriver) > 0){
+                $driver = $getdriver[0]['driver_id'];
+            }else{
+             $driver = 0;
+            }
             if($city_to[$k] == 1){
                $dev_price = $config['dev_b'];
             }else{
@@ -161,14 +168,14 @@ if($v->passes()) {
               $order_address[$k] = "";
             }
        if($order_id[$k] > 0 && !empty($order_id[$k])){
-               $sql = 'update orders set manager_id =? ,order_no = ?,order_type =? ,weight =? ,qty =?,
+               $sql = 'update orders set driver_id=?, manager_id =? ,order_no = ?,order_type =? ,weight =? ,qty =?,
                                     price=?,dev_price=?,client_phone = ?,customer_name = ?  ,
                                     customer_phone=?,to_city=?,to_town = ?,to_branch = ?,with_dev = ?,note = ?,address = ? , confirm = ? , date = ?
                                     where id = ?
                                     ';
 
         $result = setData($con,$sql,
-                         [$manger,$prefix.$onumber[$k],$order_type,$weight,$qty,
+                         [$driver,$manger,$prefix.$onumber[$k],$order_type,$weight,$qty,
                           $order_price[$k],$dev_price,$client_phone[$k],$customer_name,
                           $customer_phone[$k],$city_to[$k],$town_to[$k],$branch_to,$with_dev,$order_note[$k],$order_address[$k],1,$order_id[$k],date('Y-m-d H:m:i')]);
          // get nofificaton tokens
@@ -183,14 +190,14 @@ if($v->passes()) {
 
       $a = "update";
       }else{
-        $sql = 'insert into orders (manager_id,order_no,order_type,weight,qty,
+        $sql = 'insert into orders (driver_id,manager_id,order_no,order_type,weight,qty,
                                     price,dev_price,from_branch,
                                     client_id,client_phone,store_id,customer_name,
                                     customer_phone,to_city,to_town,to_branch,with_dev,note,new_price,address,company_id,confirm)
                                     VALUES
-                                    (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)';
+                                    (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)';
         $result = setData($con,$sql,
-                         [$manger,$prefix.$onumber[$k],$order_type,$weight,$qty,
+                         [$driver,$manger,$prefix.$onumber[$k],$order_type,$weight,$qty,
                           $order_price[$k],$dev_price,$branch,
                           $client,$client_phone[$k],$mainstore,$customer_name,
                           $customer_phone[$k],$city_to[$k],$town_to[$k],$branch_to,$with_dev,$order_note[$k],0,$order_address[$k],$company,1]);
@@ -201,20 +208,36 @@ if($v->passes()) {
           }
           $a =  "insert ";
       }
+      //---Start-- this for add order tracking record
       if(count($result)>=1){
         $success =1;
         $sql = "select * from orders where order_no=? and from_branch = ?";
         $result2 = getData($con,$sql,[$prefix.$onumber[$k],$branch]);
 
         if(count($result2)>=1){
-        $sql = "insert into tracking (order_id,order_status_id,note) values(?,?,?)";
-        $result3 = setData($con,$sql,[$result2[0]["id"],1,"تم تسجيل الطلب "]);
+        if($driver == 0){
+          $sql = "insert into tracking (order_id,order_status_id,note,staff_id) values(?,?,?,?)";
+          $result3 = setData($con,$sql,[$result2[0]["id"],1,"تم تسجيل الطلب ",$_SESSION['userid']]);
+
+        }else{
+          $sql = "insert into tracking (order_id,order_status_id,note,staff_id) values(?,?,?,?)";
+          $result3 = setData($con,$sql,[$result2[0]["id"],3,"بالطريق مع المندوب",$_SESSION['userid']]);
+        }
         $orders[] = $result2[0]["id"];
         }
       }
+      //---END-- this for add order tracking record
    }
    }else{
    foreach($onumber as $k=>$val){
+            $sql = "select * from driver_towns where town_id = ?";
+            $getdriver = getData($con,$sql,[$town_to[$k]]);
+            if(count($getdriver) > 0){
+            $driver = $getdriver[0]['driver_id'];
+            }else{
+             $driver = 0;
+            }
+
             $sql = 'select *,clients.id as c_id from stores inner join clients on clients.id = stores.client_id where stores.id=?';
             $res = getData($con,$sql,[$store[$k]]);
             $client = $res[0]['c_id'];
@@ -232,13 +255,13 @@ if($v->passes()) {
               $order_address[$k] = "";
             }
       if($order_id[$k] > 0 && !empty($order_id[$k])){
-               $sql = 'update orders set manager_id =? ,order_no = ?,order_type =? ,weight =? ,qty =?,
+               $sql = 'update orders set driver_id=?,manager_id =? ,order_no = ?,order_type =? ,weight =? ,qty =?,
                                     price=?,dev_price=?,client_phone = ?,customer_name = ?  ,
                                     customer_phone=?,store_id=?,to_town = ?,to_branch = ?,with_dev = ?,note = ?,address = ? , confirm = ? , date = ?
                                     where id = ?
                                     ';
         $result = setData($con,$sql,
-                         [$manger,$prefix.$onumber[$k],$order_type,$weight,$qty,
+                         [$driver,$manger,$prefix.$onumber[$k],$order_type,$weight,$qty,
                           $order_price[$k],$dev_price,$client_phone[$k],$customer_name,
                           $customer_phone[$k],$store[$k],$town_to[$k],$branch_to,$with_dev,$order_note[$k],$order_address[$k],1,$order_id[$k],date('Y-m-d H:m:i')]);
           $sql = 'select token from clients where id = ? ';
@@ -249,14 +272,14 @@ if($v->passes()) {
           $orders[] =$order_id[$k];
       $a = "update";
       }else{
-        $sql = 'insert into orders (manager_id,order_no,order_type,weight,qty,
+        $sql = 'insert into orders (driver_id,manager_id,order_no,order_type,weight,qty,
                                     price,dev_price,from_branch,
                                     client_id,client_phone,store_id,customer_name,
                                     customer_phone,to_city,to_town,to_branch,with_dev,note,new_price,address,company_id,confirm)
                                     VALUES
-                                    (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)';
+                                    (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)';
         $result = setData($con,$sql,
-                         [$manger,$prefix.$onumber[$k],$order_type[$k],$weight[$k],$qty[$k],
+                         [$driver,$manger,$prefix.$onumber[$k],$order_type[$k],$weight[$k],$qty[$k],
                           $order_price[$k],$dev_price,$mainbranch,
                           $client,$client_phone[$k],$store[$k],$customer_name[$k],
                           $customer_phone[$k],$maincity,$town_to[$k],$branch_to[$k],$with_dev,$order_note[$k],0,$order_address[$k],$company,1]);
@@ -267,17 +290,25 @@ if($v->passes()) {
           }
        $a = "insert";
       }
+      //---Start-- this for add order tracking record
       if(count($result)>=1){
         $success =1;
         $sql = "select * from orders where order_no=? and from_branch = ?";
         $result2 = getData($con,$sql,[$prefix.$onumber[$k],$mainbranch]);
 
         if(count($result2)>=1){
-        $sql = "insert into tracking (order_id,order_status_id,note) values(?,?,?)";
-        $result3 = setData($con,$sql,[$result2[0]["id"],1,"تم تسجيل الطلب "]);
-        $orders[] = $result2[0]["id"];
+          if($driver == 0){
+            $sql = "insert into tracking (order_id,order_status_id,note,staff_id) values(?,?,?,?)";
+            $result3 = setData($con,$sql,[$result2[0]["id"],1,"تم تسجيل الطلب ",$_SESSION['userid']]);
+
+          }else{
+            $sql = "insert into tracking (order_id,order_status_id,note,staff_id) values(?,?,?,?)";
+            $result3 = setData($con,$sql,[$result2[0]["id"],3,"بالطريق مع المندوب",$_SESSION['userid']]);
+          }
+          $orders[] = $result2[0]["id"];
         }
       }
+      //--- END-- this for add order tracking record
    }
    }
 }else{

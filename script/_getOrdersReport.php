@@ -6,22 +6,7 @@ require("_access.php");
 access([1,2,5]);
 require("dbconnection.php");
 require("../config.php");
-/*if(isset($_REQUEST['discount'])){
-  $discount = $_REQUEST['discount'];
-}else{
-  $discount = 0;
-}
 
-if(isset($_REQUEST['dev_b'])){
-  $dev_b = $_REQUEST['dev_b'];
-}else{
-  $dev_b = $config['dev_b'];
-}
-if(isset($_REQUEST['dev_o'])){
-  $dev_o = $_REQUEST['dev_o'];
-}else{
-  $dev_o = $config['dev_o'];
-}*/
 $branch = $_REQUEST['branch'];
 $city = $_REQUEST['city'];
 $customer = $_REQUEST['customer'];
@@ -69,7 +54,7 @@ try{
             clients.name as client_name,clients.phone as client_phone,
             stores.name as store_name,a.nuseen_msg,
             cites.name as city,towns.name as town,branches.name as branch_name,
-            order_status.status as status_name,staff.name as staff_name,b.rep as repated
+            order_status.status as status_name,staff.name as staff_name,b.rep as repated , driver.name as driver_name
             from orders left join
             clients on clients.id = orders.client_id
             left join cites on  cites.id = orders.to_city
@@ -77,6 +62,7 @@ try{
             left join towns on  towns.id = orders.to_town
             left join branches on  branches.id = orders.from_branch
             left join staff on  staff.id = orders.manager_id
+            left join staff as driver on  driver.id = orders.driver_id
             left join order_status on  order_status.id = orders.order_status_id
             left JOIN client_dev_price on client_dev_price.client_id = orders.client_id AND client_dev_price.city_id = orders.to_city
             left join (
