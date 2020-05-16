@@ -187,6 +187,7 @@ access([1,2,3]);
 <script src="js/getBraches.js" type="text/javascript"></script>
 <script src="js/getAllDrivers.js" type="text/javascript"></script>
 <script type="text/javascript">
+getStores($("#store"));
 function getorderStatus(elem){
 $.ajax({
   url:"script/_getorderStatus.php",
