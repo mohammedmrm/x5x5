@@ -32,7 +32,7 @@ $se = $_SESSION['role'];
                       <li class="kt-menu__item " aria-haspopup="true">
                           <a href="?page=pages/addorders.php" class="kt-menu__link ">
                               <i class="kt-menu__link-bullet kt-menu__link-bullet--dot"><span></span></i>
-                              <span class="kt-menu__link-text">اضافة</span>
+                              <span class="kt-menu__link-text">اضافة شحنه</span>
                           </a>
                       </li>
                       <?php } ?>
@@ -77,6 +77,14 @@ $se = $_SESSION['role'];
                             <a href="?page=pages/reports.php" class="kt-menu__link ">
                                 <i class="kt-menu__link-bullet kt-menu__link-bullet--dot"><span></span></i>
                                 <span class="kt-menu__link-text">تقرير الطلبيات</span>
+                            </a>
+                        </li>
+                        <?php } ?>
+                        <?php  if($se==1 || $se==2 || $se==3 || $se==5){?>
+                        <li class="kt-menu__item " aria-haspopup="true" >
+                            <a href="?page=pages/ordersStatusUpdate.php" class="kt-menu__link ">
+                                <i class="kt-menu__link-bullet kt-menu__link-bullet--dot"><span></span></i>
+                                <span class="kt-menu__link-text">تحديث حالة الطلبيات</span>
                             </a>
                         </li>
                         <?php } ?>

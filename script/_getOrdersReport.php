@@ -18,7 +18,10 @@ $driver = $_REQUEST['driver'];
 $repated = $_REQUEST['repated'];
 $start = trim($_REQUEST['start']);
 $end = trim($_REQUEST['end']);
-$limit = 10;
+$limit = trim($_REQUEST['limit']);
+if(empty($limit)){
+  $limit = 10;
+}
 $sort ="";
 $page = trim($_REQUEST['p']);
 if(empty($page) || $page <=0){
