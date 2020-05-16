@@ -29,7 +29,7 @@ access([1,2,3]);
         <form id="ordertabledata" class="kt-form kt-form--fit kt-margin-b-20">
           <fieldset><legend>فلتر</legend>
           <div class="row kt-margin-b-20">
-            <div class="col-lg-1 kt-margin-b-10-tablet-and-mobile">
+            <div class="col-lg-2 kt-margin-b-10-tablet-and-mobile">
             	<label>الفرع:</label>
             	<select onchange="getclient();getAllDrivers($('#driver'),$('#branch').val())" class="form-control kt-input" id="branch" name="branch" data-col-index="6">
             	</select>
@@ -62,14 +62,7 @@ access([1,2,3]);
   				<input onchange="getorders()" type="text" class="form-control kt-input" name="end"  id="end" placeholder="الى" data-col-index="5">
           	</div>
             </div>
-            <div class="col-lg-2 kt-margin-b-10-tablet-and-mobile">
-            	<label>حالة التكرار:</label>
-                <select name="repated" onchange="getorders()" class="selectpicker form-control kt-input" data-col-index="2">
-            		<option value="">عرض الكل</option>
-            		<option value="1">عرض المكرر فقط</option>
-            		<option value="2">عرض غير المكرر</option>
-                </select>
-            </div>
+
           </div>
           <div class="row kt-margin-b-20">
             <div class="col-lg-1 kt-margin-b-10-tablet-and-mobile">
@@ -101,6 +94,14 @@ access([1,2,3]);
             		<option value="2">طلبات كشف</option>
                 </select>
             </div>
+            <div class="col-lg-2 kt-margin-b-10-tablet-and-mobile">
+            	<label>حالة التكرار:</label>
+                <select name="repated" onchange="getorders()" class="selectpicker form-control kt-input" data-col-index="2">
+            		<option value="">عرض الكل</option>
+            		<option value="1">عرض المكرر فقط</option>
+            		<option value="2">عرض غير المكرر</option>
+                </select>
+            </div>
           <div class="kt-separator kt-separator--border-dashed kt-separator--space-md"></div>
           </div>
           </fieldset>
@@ -120,7 +121,7 @@ access([1,2,3]);
               </div>
             <div class="col-lg-2 kt-margin-b-10-tablet-and-mobile">
             	<label>تحديث الحاله الى:</label>
-            	<select onchange="setOrdersStatus()" class="form-control kt-input" id="setOrderStatus" name="setOrderStatus" data-col-index="7">
+            	<select st='st' onchange="setOrdersStatus()" class="form-control kt-input" id="setOrderStatus" name="setOrderStatus" data-col-index="7">
             		<option value="">Select</option>
             	</select>
             </div>
@@ -167,6 +168,10 @@ access([1,2,3]);
 </div>
 <!-- end:: Content -->
 </div>
+<input type="hidden" id="user_id" value="<?php echo $_SESSION['userid'];?>"/>
+<input type="hidden" id="user_branch" value="<?php echo $_SESSION['user_details']['branch_id'];?>"/>
+<input type="hidden" id="user_role" value="<?php echo $_SESSION['role'];?>"/>
+
 <!--begin::Page Vendors(used by this page) -->
 <script src="assets/vendors/custom/datatables/datatables.bundle.js" type="text/javascript"></script>
 
@@ -208,7 +213,9 @@ $.ajax({
      elem.append(
        '<option style="background-color:'+bg+'" value="'+this.id+'">'+this.status +'</option>'
      );
-     getorders(); 
+     if(elem.attr('st') == 'st'){
+       getorders();
+     }
     });
     elem.selectpicker('refresh');
     },
@@ -237,7 +244,7 @@ $.ajax({
    $("#ordersTable").html("");
    $("#pagination").html("");
 
-   if($("#user_role").val() !=1){
+   if($("#user_role").val() != 1){
     $('#branch').selectpicker('val', $("#user_branch").val());
     $('#branch').attr('disabled',"disabled");
     $('#branch').selectpicker('refresh');
@@ -375,140 +382,14 @@ function updateOredrsStatus(){
         }
       });
 }
-function deleteOrder(id){
-  if(confirm("هل انت متاكد من الحذف")){
-      $.ajax({
-        url:"script/_deleteOrder.php",
-        type:"POST",
-        data:{id:id},
-        success:function(res){
-         if(res.success == 1){
-           Toast.success('تم الحذف');
-           getorders();
-         }else{
-           Toast.warning(res.msg);
-         }
-         console.log(res);
-        },
-        error:function(e){
-          console.log(e);
-        }
-      });
-  }
-}
-function OrderChat(id,last){
-  if(id != $("#chat_order_id").val()){
-    chat = 1;
-    $("#chatbody").html("");
-  }else{
-    chat = 0;
-  }
-  $("#chat_order_id").val(id);
-
-  $.ajax({
-    url:"script/_getMessages.php",
-    type:"POST",
-    data:{order_id:$("#chat_order_id").val(),last:last},
-    beforeSend:function(){
-
-    },
-    success:function(res){
-       if(res.success == 1){
-         if(res.last <= 0){
-             $("#chatbody").html("");
-         }
-         $.each(res.data,function(){
-            clas = 'other';
-           if(this.is_client == 1){
-                name = this.client_name
-                role = "عميل"
-           }else{
-               name = this.staff_name
-               if(this.from_id== $("#user_id").val()){
-                 clas = 'mine';
-               }
-             role =  this.role_name;
-           }
-           message =
-           "<div class='row'>"+
-             "<div class='msg "+clas+"' msq-id='"+this.id+"'>"+
-                "<span class='name'>"+name+ " ( "+role+" ) "+"</span><br />"+
-                "<span class='content'>"+this.message+"</span><br />"+
-                "<span class='time'>"+this.date+"</span><br />"+
-             "</div>"+
-           "</div>"
-           $("#chatbody").append(message);
-           $("#last_msg").val(this.id);
-         });
-          $('#chatbody').animate({scrollTop: $('#chatbody')[0].scrollHeight},100);
-            $("#spiner").remove();
-       }
-    },
-    error:function(e){
-      console.log(e);
-    }
-  });
-}
-function sendMessage(){
-  $.ajax({
-    url:"script/_sendMessage.php",
-    type:"POST",
-    data:{message:$("#message").val(), order_id:$("#chat_order_id").val()},
-    beforeSend:function(){
-      $("#chatbody").append('<div id="spiner" class="clearfix"><span class="spinner-border"></span></div>');
-      $('#chatbody').animate({scrollTop: $('#chatbody')[0].scrollHeight},100);
-      $("#message").val("");
-    },
-    success:function(res){
-       $('#chatbody').animate({scrollTop: $('#chatbody')[0].scrollHeight},100);
-       OrderChat($("#chat_order_id").val(),$("#last_msg").val());
-       console.log(res);
-    },
-    error:function(e){
-      console.log(e);
-    }
-  });
-}
-var mychatCaller;
-$("#chatOrderModal").on('show.bs.modal', function(){
-mychatCaller = setInterval(function(){
-  OrderChat($("#chat_order_id").val(),$("#last_msg").val());
-}, 1000);
-});
-$("#chatOrderModal").on('hide.bs.modal', function(){
-clearInterval(mychatCaller);
-});
-
 function getorderspage(page){
     $("#p").val(page);
     getorders();
 }
-function OrderReceipt(id){
- $('#receiptIframe').parent().addClass('loading');
- $('#receiptIframe').attr('src','script/makeReceipt.php?id='+id);
-}
-function frameLoaded(){
-  $('#receiptIframe').parent().removeClass('loading');
-}
-  getBraches($("#e_branch"));
-  getBraches($("#e_branch_to"));
-  getCities($("#e_city"));
-function updateClient(){
- getClients($('#e_client'),$('#e_branch').val());
-}
-
 function updateTown(){
    getTowns($('#e_town'),$('#e_city').val());
 }
 
-function getclient(){
- if($("#user_role").val() != 1){
-     getClients($("#client"),$("#user_branch").val());
- }else{
-     getClients($("#client"),$("#branch").val());
- }
- getorders();
-}
 $( document ).ready(function(){
 
 $("#allselector").change(function() {
@@ -535,6 +416,9 @@ $('#end').datepicker({
     pickerPosition: 'bottom-left',
     defaultDate:'now'
 });
+getBraches($("#e_branch"));
+getBraches($("#e_branch_to"));
+getCities($("#e_city"));
 getBraches($("#branch"));
 getorderStatus($("#orderStatus"));
 getorderStatus($("#status_action"));
