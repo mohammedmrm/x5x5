@@ -133,6 +133,10 @@ include("config.php");
                 <label> اضافه صفحه فقط</label><br />
                 <input data-toggle="modal" data-target="#addStoreModal" type="button" class="btn btn-success" name="add_client"  value="اضافه صفحه فقط"/>
             </div>
+            <div class="form-group col-lg-2">
+                <label> اضافه منطقه</label><br />
+                <input data-toggle="modal" data-target="#addtownsModal" type="button" class="btn btn-accent" name=""  value="اضافة منطقه"/>
+            </div>
           </div>
          <div id="order-section">
          <fieldset><legend>شحنه رقم <span>1</span></legend>
@@ -405,14 +409,60 @@ include("config.php");
 
     </div>
   </div>
+<div class="modal fade" id="addtownsModal" role="dialog">
+    <div class="modal-dialog">
+      <!-- Modal content-->
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal">&times;</button>
+          <h4 class="modal-title">اضافة قضاء او ناحية او حي</h4>
+        </div>
+        <div class="modal-body">
+		<!--begin::Portlet-->
+		<div class="kt-portlet">
+
+			<!--begin::Form-->
+			<form class="kt-form" id="addtownsForm">
+				<div class="kt-portlet__body">
+					<div class="form-group">
+						<label>المدينة</label>
+						<select data-show-subtext="true" data-live-search="true" type="text" class="selectpicker form-control dropdown-primary" name="town_city" id="town_city"  value="">
+                        </select>
+                        <span class="form-text text-danger" id="town_city_err"></span>
+					</div>
+                    <div class="form-group">
+						<label>اسم المنطقة:</label>
+						<input type="name" name="town_name" class="form-control"  placeholder="اسم الحالة">
+						<span class="form-text  text-danger" id="town_name_err"></span>
+					</div>
+					<div class="form-group">
+                     <input type="checkbox" name="center" id="center" /> مركز
+                    </div>
+	            </div>
+	            <div class="kt-portlet__foot kt-portlet__foot--solid">
+					<div class="kt-form__actions kt-form__actions--right">
+						<button type="button" onclick="addtowns()" class="btn btn-brand">اضافة</button>
+						<button type="reset" data-dismiss="modal" class="btn btn-secondary">الغاء</button>
+					</div>
+				</div>
+			</form>
+			<!--end::Form-->
+		</div>
+		<!--end::Portlet-->
+        </div>
+      </div>
+
+    </div>
+  </div>
+
             <!--begin::Page Vendors(used by this page) -->
-                            <script src="assets/vendors/custom/datatables/datatables.bundle.js" type="text/javascript"></script>
+<script src="assets/vendors/custom/datatables/datatables.bundle.js" type="text/javascript"></script>
                         <!--end::Page Vendors -->
 
 
 
             <!--begin::Page Scripts(used by this page) -->
-                            <script src="assets/js/demo1/pages/components/datatables/extensions/responsive.js" type="text/javascript"></script>
+<script src="assets/js/demo1/pages/components/datatables/extensions/responsive.js" type="text/javascript"></script>
 <script src="js/getBraches.js" type="text/javascript"></script>
 <script src="js/getClients.js" type="text/javascript"></script>
 <script src="js/getStores.js" type="text/javascript"></script>
@@ -424,6 +474,7 @@ include("config.php");
 <script type="text/javascript">
 getCities($("#maincity"));
 getCities($("#city1"));
+getCities($("#town_city"));
 getTowns($("#town1"),$("#city1").val());
 getBraches($("#branch_to1"));
 getBraches($("#mainbranch"));
@@ -1003,6 +1054,34 @@ $.ajax({
        Toast.error.displayDuration=5000;
        Toast.error('تأكد من المدخلات','خطأ');
      }
+  });
+}
+function addtowns(){
+  $.ajax({
+    url:"script/_addtowns.php",
+    type:"POST",
+    data:$("#addtownsForm").serialize(),
+    beforeSend:function(){
+
+    },
+    success:function(res){
+       console.log(res);
+       if(res.success == 1){
+         $("#kt_form input").val("");
+         Toast.success('تم الاضافة');
+         gettowns($("[town='town']").last());
+       }else{
+           $("#town_name_err").text(res.error["town_err"]);
+           $("#town_city_err").text(res.error["city_err"]);
+           $("#center_err").text(res.error["center_err"]);
+           Toast.warning("هناك بعض المدخلات غير صالحة",'خطأ');
+       }
+
+    },
+    error:function(e){
+     console.log(e);
+     Toast.error('خطأ');
+    }
   });
 }
 
