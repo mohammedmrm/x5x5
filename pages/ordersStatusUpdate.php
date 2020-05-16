@@ -208,6 +208,7 @@ $.ajax({
      elem.append(
        '<option style="background-color:'+bg+'" value="'+this.id+'">'+this.status +'</option>'
      );
+     getorders(); 
     });
     elem.selectpicker('refresh');
     },
@@ -217,7 +218,7 @@ $.ajax({
 });
 }
 
-getorderStatus($("#setOrderStatus"));
+
 
 function getorders(){
   options = $("#setOrderStatus").html();
@@ -537,8 +538,9 @@ $('#end').datepicker({
 getBraches($("#branch"));
 getorderStatus($("#orderStatus"));
 getorderStatus($("#status_action"));
+getorderStatus($("#setOrderStatus"));
 getCities($("#city"));
-getorders();
+
 });
 </script>
   <div class="modal fade" id="editorderStatusModal" role="dialog">
