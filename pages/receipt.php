@@ -16,7 +16,7 @@
 		<!--begin: Datatable -->
           <fieldset><legend>طبات الوصولات</legend>
           <div class="row kt-margin-b-20">
-            <div class="col-lg-2 kt-margin-b-10-tablet-and-mobile">
+            <div class="col-lg-4 kt-margin-b-10-tablet-and-mobile">
             	<label>السوق:</label>
             	<select onchange="getRequest()" data-show-subtext="true" data-live-search="true"  class="selectpicker form-control kt-input" id="store" name="store" data-col-index="7">
             		<option value="">Select</option>

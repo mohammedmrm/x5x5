@@ -10,7 +10,11 @@ require_once("../config.php");
 use Violin\Violin;
 require_once('../validator/autoload.php');
 $v = new Violin;
-
+function validateDate($date, $format = 'Y-m-d')
+{
+    $d = DateTime::createFromFormat($format, $date);
+    return $d && $d->format($format) == $date;
+}
 
 $v->addRuleMessage('isPhoneNumber', 'رقم هاتف غير صحيح ');
 
@@ -67,6 +71,12 @@ $city_to = $_REQUEST['e_city'];
 $town_to = $_REQUEST['e_town'];
 $branch_to = $_REQUEST['e_branch_to'];
 $order_note= $_REQUEST['e_order_note'];
+$date= $_REQUEST['e_date'];
+if(!validateDate($date)){
+  $date_err = "تاريخ غير صالح";
+}else{
+  $date_err = "";
+}
 if(empty($number)){
   $number = "1";
 }
@@ -79,25 +89,25 @@ $v->validate([
     'order_price'   => [$order_price,   "required|isPrice"],
     'order_iprice'  => [$order_iprice,   "isPrice"],
     'branch_from'   => [$branch,  'required|int'],
-    'store'        => [$store,  'required|int'],
+    'store'         => [$store,  'required|int'],
     'client_phone'  => [$client_phone,  'isPhoneNumber'],
-    'customer_phone'=> [$customer_phone,  'required|isPhoneNumber'],
+    'customer_phone'=> [$customer_phone,'required|isPhoneNumber'],
     'city'          => [$city_to,  'required|int'],
     'town'          => [$town_to,  'required|int'],
-    'branch_to'     => [$branch_to,  'int'],
-    'order_note'    => [$order_note,  'max(250)'],
+    'branch_to'     => [$branch_to,'int'],
+    'order_note'    => [$order_note,'max(250)'],
 ]);
 
-if($v->passes()) {
+if($v->passes() && $date_err =="") {
 
   $sql = 'update orders set
   order_no=?,order_type=?,weight=?,qty=?,price=?,new_price=?,
   from_branch=?,store_id=?,customer_name=?,customer_phone=?,
-  to_city=?,to_town=?,to_branch=?,note=? where id = ?';
+  to_city=?,to_town=?,to_branch=?,note=?,date = ? where id = ?';
  $result = setData($con,$sql,
                    [$number,$order_type,$weight,$qty,$order_price,$order_iprice,
                    $branch,$store,$customer_name,$customer_phone,
-                   $city_to,$town_to,$branch_to,$order_note,$id]);
+                   $city_to,$town_to,$branch_to,$order_note,$date,$id]);
 if($result > 0){
   $success = 1;
 }
@@ -119,7 +129,8 @@ $error = [
            'city'=>implode($v->errors()->get('city')),
            'town'=>implode($v->errors()->get('town')),
            'branch_to'=>implode($v->errors()->get('branch_to')),
-           'order_note'=>implode($v->errors()->get('order_note'))
+           'order_note'=>implode($v->errors()->get('order_note')),
+           'date'=>$date_err
            ];
 }
 echo json_encode(['success'=>$success, 'error'=>$error,$_POST]);

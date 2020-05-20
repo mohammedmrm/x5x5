@@ -31,7 +31,7 @@ access([1,2,3]);
           <div class="row kt-margin-b-20">
             <div class="col-lg-2 kt-margin-b-10-tablet-and-mobile">
             	<label>الفرع:</label>
-            	<select onchange="getclient();getAllDrivers($('#driver'),$('#branch').val())" class="form-control kt-input" id="branch" name="branch" data-col-index="6">
+            	<select onchange="getorders()" class="form-control kt-input" id="branch" name="branch" data-col-index="6">
             	</select>
             </div>
             <div class="col-lg-2 kt-margin-b-10-tablet-and-mobile">
@@ -75,7 +75,7 @@ access([1,2,3]);
             </div>
             <div class="col-lg-2 kt-margin-b-10-tablet-and-mobile">
             	<label>المندوب:</label>
-                <select id="driver" name="driver" onchange="getorders()" class="form-control kt-input" data-col-index="2">
+                <select id="driver" name="driver" data-show-subtext="true" data-live-search="true" onchange="getorders()" class="form-control kt-input" data-col-index="2">
             	</select>
             </div>
             <div class="col-lg-2 kt-margin-b-10-tablet-and-mobile">
@@ -121,7 +121,7 @@ access([1,2,3]);
               </div>
             <div class="col-lg-2 kt-margin-b-10-tablet-and-mobile">
             	<label>تحديث الحاله الى:</label>
-            	<select st='st' onchange="setOrdersStatus()" class="form-control kt-input" id="setOrderStatus" name="setOrderStatus" data-col-index="7">
+            	<select st='st' onchange="getorders()" class="form-control kt-input" id="setOrderStatus" name="setOrderStatus" data-col-index="7">
             		<option value="">Select</option>
             	</select>
             </div>
@@ -188,6 +188,7 @@ access([1,2,3]);
 <script src="js/getAllDrivers.js" type="text/javascript"></script>
 <script type="text/javascript">
 getStores($("#store"));
+getAllDrivers($("#driver"));
 function getorderStatus(elem){
 $.ajax({
   url:"script/_getorderStatus.php",

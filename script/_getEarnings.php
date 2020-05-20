@@ -48,7 +48,7 @@ if($_SESSION['user_details']['role_id'] == 1){
             left JOIN client_dev_price
             on client_dev_price.client_id = orders.client_id AND client_dev_price.city_id = orders.to_city
             where date between "'.$start.'" and "'.$end.'"
-            ';
+             and orders.confirm = 1 ';
 
 }else{
   $sql = 'select
@@ -84,7 +84,7 @@ if($_SESSION['user_details']['role_id'] == 1){
             left join branches on  branches.id = clients.branch_id
             left JOIN client_dev_price
             on client_dev_price.client_id = orders.client_id AND client_dev_price.city_id = orders.to_city
-            where branch_id ="'.$_SESSION['user_details']['branch_id'].'" and date between "'.$start.'" and "'.$end.'"
+            where branch_id ="'.$_SESSION['user_details']['branch_id'].'" and orders.confirm = 1 and date between "'.$start.'" and "'.$end.'"
             ';
 
 }
@@ -94,28 +94,5 @@ $total=getData($con,$sql);
 
 $total[0]['start'] = date('Y-m-d', strtotime($start));
 $total[0]['end'] = date('Y-m-d', strtotime($end." -1 day"));
-/*foreach($data as $k=>$v){
-  $total['income'] += $data[$i]['new_price'];
-  if($v['with_dev'] == 1){
-    $data[$i]['with_dev'] = '???';
-    if($v['to_city'] == 1){
-     $data[$i]['client_price'] = ($data[$i]['new_price'] -  $config['dev_b']) + $data[$i]['discount'];
-    }else{
-     $data[$i]['client_price'] = ($data[$i]['new_price'] -  $config['dev_o']) + $data[$i]['discount'];
-    }
-
-    $data[$i]['with_dev'] = '??';
-    if($v['to_city'] == 1){
-     $data[$i]['client_price'] = ($data[$i]['new_price'] -  $config['dev_b']) + $data[$i]['discount'];
-    }else{
-     $data[$i]['client_price'] = ($data[$i]['new_price'] -  $config['dev_o']) + $data[$i]['discount'];
-    }
-  }
-  $total['discount'] += $data[$i]['discount'];
-  $total['earnings'] += $data[$i]['earnings'];
-  $total['client_price'] += $data[$i]['client_price'];
-  $total['orders'] += 1;
-  $i++;
-}*/
-echo json_encode(['data'=>$data,"total"=>$total]);
+echo json_encode([$sql1,'data'=>$data,"total"=>$total]);
 ?>

@@ -102,7 +102,7 @@ require_once("config.php");
            overflow-x: hidden;
         }
 
-        body,body * :not([type="tel"]):not(.other):not(td):not(th) {
+        body,body * :not([type="tel"]):not(.other):not(td):not(th):not(.datepicker) {
             direction: rtl !important;
             text-align: right !important;
         }
@@ -124,9 +124,7 @@ require_once("config.php");
         .nowarp {
           white-space: nowrap !important;
         }
-        .dropdown-menu {
-          z-index: 100 !important;
-        }
+
 
         ::placeholder ,:-ms-input-placeholder,::-webkit-input-placeholder {
           color: #FFFFFF !important;

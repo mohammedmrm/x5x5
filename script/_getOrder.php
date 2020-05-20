@@ -6,7 +6,7 @@ access([1,2,3]);
 require("dbconnection.php");
 $id = $_REQUEST['id'];
 try{
-  $query = "select * from orders where id = ?";
+  $query = "select *, date_format(orders.date,'%Y-%m-%d') as date from orders where id = ?";
   $data = getData($con,$query,[$id]);
   $success="1";
 } catch(PDOException $ex) {

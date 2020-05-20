@@ -38,7 +38,7 @@ access([1,2,5]);
 
 
 
-                <div class="col-lg-3 kt-margin-b-10-tablet-and-mobile">
+                <div class="col-lg-3 offset-lg-3 kt-margin-b-10-tablet-and-mobile">
                 <label>الفترة الزمنية :</label>
                 <div class="input-daterange input-group" id="kt_datepicker">
       				<input value="<?php echo date('Y-m-d',strtotime(date('Y-m-d'). ' - 7 day'));?>" onchange="updateDash()" type="text" class="form-control kt-input" name="start" id="start" placeholder="من" data-col-index="5">
@@ -48,7 +48,7 @@ access([1,2,5]);
       				<input onchange="updateDash()" type="text" class="form-control kt-input" name="end"  id="end" placeholder="الى" data-col-index="5">
               	</div>
                 </div>
-                <div class="col-lg-6 kt-margin-b-10-tablet-and-mobile"></div>
+                <div class="col-lg-3 kt-margin-b-10-tablet-and-mobile"></div>
                 <div class="col-lg-3 kt-margin-b-10-tablet-and-mobile">
                     <label>الفترة الزمنية: <label class="" id="total_peroid"></label></label><br />
                     <label>مجموع الارباح: <label class="text-success" id="total_earnings"></label></label><br />

@@ -401,12 +401,17 @@ legend
   						<label>الوزن:</label>
   						<input type="number" value="1" id="e_weight" name="e_weight" class="form-control"  placeholder="">
   						<span class="form-text text-danger" id="e_weight_err"></span>
-  				</div>
+  				  </div>
                   <div class="form-group">
   						<label>العدد:</label>
   						<input type="number" value="1" id="e_qty" name="e_qty" class="form-control"  placeholder="">
   						<span class="form-text text-danger" id="e_qty_err"></span>
-  				</div>
+  				  </div>
+                  <div class="form-group">
+  						<label>التاريخ:</label>
+  						<input type="text" id="e_date" name="e_date" class="form-control" data-col-index="5">
+  						<span class="form-text text-danger" id="e_date_err"></span>
+  				  </div>
                   <div class="form-group">
   						<label>الفرع:</label>
   						<select onchange="updateClient()" data-show-subtext="true" data-live-search="true" type="text" class="selectpicker form-control dropdown-primary" name="e_branch" id="e_branch"  value="">
@@ -839,6 +844,7 @@ function editOrder(id){
           $('#e_iprice').val(this.new_price);
           $('#e_customer_phone').val(this.customer_phone);
           $('#e_customer_name').val(this.customer_name);
+          $('#e_date').val(this.date);
 
 
           $('#e_city').val(this.to_city);
@@ -909,6 +915,7 @@ function updateOrder(){
            $("#e_town_err").text(res.error["town"]);
            $("#e_with_dev_err").text(res.error["with_dev"]);
            $("#e_order_note_err").text(res.error["order_note"]);
+           $("#e_date_err").text(res.error["date"]);
            Toast.warning("هناك بعض المدخلات غير صالحة",'خطأ');
        }
     },
@@ -974,6 +981,14 @@ $('#end').datepicker({
     pickerPosition: 'bottom-left',
     defaultDate:'now'
 });
+$('#e_date').datepicker({
+    format: "yyyy-mm-dd",
+    showMeridian: true,
+    todayHighlight: true,
+    autoclose: true,
+    pickerPosition: 'bottom-left',
+});
+
 getBraches($("#branch"));
 getorderStatus($("#orderStatus"));
 getorderStatus($("#status_action"));

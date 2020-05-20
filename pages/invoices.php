@@ -105,7 +105,7 @@ background-color: #FFFF99;
     <form id="invoicesForm" class="kt-form kt-form--fit kt-margin-b-20">
           <fieldset><legend>بحث عن كشف</legend>
           <div class="row kt-margin-b-20">
-            <div class="col-lg-2 kt-margin-b-10-tablet-and-mobile">
+            <div class="col-lg-3 kt-margin-b-10-tablet-and-mobile">
             	<label>العميل:</label>
             	<select  onchange='getStoresByClient($("#store"));getInvoices();' data-live-search="true" class="form-control kt-input" id="client" name="client" data-col-index="6">
             	</select>
