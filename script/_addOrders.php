@@ -31,12 +31,12 @@ $v->addRule('isPrice', function($value, $input, $args) {
   return   $x;
 });
 
-$v->addRuleMessage('unique', 'هناك تكرار برقم الوصل وهاتف المستلم');
+$v->addRuleMessage('unique', 'رقم الوصل مكرر');
 
 $v->addRule('unique', function($value, $input, $args) {
     $value  = trim($value);
     if($args['0'] == 1){
-        $exists = getData($GLOBALS['con'],"SELECT * FROM orders WHERE customer_phone ='".$value."' and order_no=".$args['1']);
+        $exists = getData($GLOBALS['con'],"SELECT * FROM orders WHERE order_no=".$value);
       return ! (bool) count($exists);
     }else{
       return (bool) 1;
@@ -96,14 +96,14 @@ foreach($onumber as $k=>$val){
   if($by == 'store'){
       $v->validate([
           'manger'        => [$manger,    'required|int'],
-          'order_no'      => [$prefix.$onumber[$k],  'required|min(2)|max(100)'],
+          'order_no'      => [$prefix.$onumber[$k],  'required|min(2)|max(100)|unique('.$check.'")'],
           'prefix'        => [$prefix,  'min(1)|max(10)'],
           'order_type'    => [$order_type/*$order_type[$k]*/,    'required|min(3)|max(10)'],
           'weight'        => [$weight/*$weight[$k]*/,   'int'],
           'qty'           => [$qty/*$qty[$k]*/,'int'],
           'order_price'   => [$order_price[$k],   "required|isPrice"],
           'store'         => [$mainstore,  'required|int'],
-          'customer_phone'=> [$customer_phone[$k],  'required|isPhoneNumber|unique('.$check.',"'.$prefix.$onumber[$k].'")'],
+          'customer_phone'=> [$customer_phone[$k],  'required|isPhoneNumber'],
           'city'          => [$city_to[$k],  'required|int'],
           'town'          => [$town_to[$k],  'required|int'],
           'branch_to'     => [$branch_to/*$branch_to[$k]*/,  'required|int'],
@@ -117,14 +117,14 @@ foreach($onumber as $k=>$val){
       $v->validate([
           'mainbranch'    => [$mainbranch,    'required|int'],
           'manger'        => [$manger,    'required|int'],
-          'order_no'      => [$onumber[$k],    'required|min(2)|max(100)'],
+          'order_no'      => [$onumber[$k],    'required|min(2)|max(100)|unique('.$check.'")'],
           'prefix'        => [$prefix,  'min(1)|max(10)'],
           'order_type'    => [$order_type/*$order_type[$k]*/,    'required|min(3)|max(10)'],
           'weight'        => [$weight/*$weight[$k]*/,   'int'],
           'qty'           => [$qty/*$qty[$k]*/,'int'],
           'order_price'   => [$order_price[$k],   "required|isPrice"],
           'store'         => [$store[$k],  'required|int'],
-          'customer_phone'=> [$customer_phone[$k],  'required|isPhoneNumber|unique('.$check.',"'.$onumber[$k].'")'],
+          'customer_phone'=> [$customer_phone[$k],  'required|isPhoneNumber'],
           'city'          => [$maincity,  'required|int'],
           'town'          => [$town_to[$k],  'required|int'],
           'branch_to'     => [$branch_to/*$branch_to[$k]*/,  'required|int'],
