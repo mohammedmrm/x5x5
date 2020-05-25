@@ -43,22 +43,13 @@ if(file_exists("script/_access.php")){
 										<th>اسم الفرع</th>
 										<th>البريد الالكتروني</th>
 										<th>رقم الهاتف</th>
+										<th>المناطق</th>
 										<th>المدير</th>
 										<th>تعديل</th>
 							</tr>
       	            </thead>
-                            <tbody id="branchesTable">
-                            </tbody>
-                            <tfoot>
-	                <tr>
-								<th>ID</th>
-								<th>اسم الفرع</th>
-								<th>البريد الالكتروني</th>
-								<th>رقم الهاتف</th>
-								<th>المدير</th>
-								<th>تعديل</th>
-                    </tr>
-	           </tfoot>
+                    <tbody id="branchesTable">
+                    </tbody>
 		</table>
 		<!--end: Datatable -->
 	</div>
@@ -67,14 +58,15 @@ if(file_exists("script/_access.php")){
 
 
             <!--begin::Page Vendors(used by this page) -->
-                            <script src="assets/vendors/custom/datatables/datatables.bundle.js" type="text/javascript"></script>
+<script src="assets/vendors/custom/datatables/datatables.bundle.js" type="text/javascript"></script>
                         <!--end::Page Vendors -->
 
 
 
             <!--begin::Page Scripts(used by this page) -->
-                            <script src="assets/js/demo1/pages/components/datatables/extensions/responsive.js" type="text/javascript"></script>
-                       <script type="text/javascript">
+<script src="assets/js/demo1/pages/components/datatables/extensions/responsive.js" type="text/javascript"></script>
+<script src="js/getAllunAssignedTownsToBranch.js" type="text/javascript"></script>
+<script type="text/javascript">
 function getbraches(elem){
 $.ajax({
   url:"script/_getBranches.php",
@@ -89,10 +81,14 @@ $.ajax({
             '<td>'+this.name+'</td>'+
             '<td><a href="mailto:'+this.email+'">'+this.email+'</a></td>'+
             '<td>'+this.phone+'</td>'+
+            '<td>'+
+                '<button class="btn btn-info" onclick="getBranchTowns('+this.id+')" data-toggle="modal" data-target="#BranchTownsModal">المناطق</button>'+
+            '</td>'+
             '<td>'+this.manager+'</td>'+
-            '<td><button class="btn btn-link btn-clean" onclick="editBranch('+this.id+')" data-toggle="modal" data-target="#editBranchModal"><span class="flaticon-edit"></sapn></button>'+
-            '<button class="btn btn-link btn-clean text-danger" onclick="deleteBranch('+this.id+')" data-toggle="modal" data-target="#deleteBranchModal"><span class="flaticon-delete"></sapn></button></td>'+
-
+            '<td>'+
+                '<button class="btn btn-link btn-clean" onclick="editBranch('+this.id+')" data-toggle="modal" data-target="#editBranchModal"><span class="flaticon-edit"></sapn></button>'+
+                '<button class="btn btn-link btn-clean text-danger" onclick="deleteBranch('+this.id+')" data-toggle="modal" data-target="#deleteBranchModal"><span class="flaticon-delete"></sapn></button>'+
+            '</td>'+
        '</tr>');
      });
      $("#tb-branch").DataTable().destroy()
@@ -114,7 +110,6 @@ $.ajax({
 });
 }
 getbraches($("#branchesTable"));
-
 </script>
 <div class="modal fade" id="addBranchModal" role="dialog">
     <div class="modal-dialog">
@@ -234,7 +229,63 @@ getbraches($("#branchesTable"));
 
     </div>
   </div>
+<div class="modal fade" id="BranchTownsModal" role="dialog">
+    <div class="modal-dialog modal-lg">
+      <!-- Modal content-->
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal">&times;</button>
+          <h4 class="modal-title">مناطق الفرع</h4><br />
+          <span>تحديد مناطق يعني ان الشحنات المضافه ستسجل ضمن هذا الفرع في حال كونها ضمن المناطق المسجلة للفرع</span>
+        </div>
+        <div class="modal-body">
+        <!--Begin:: App Content-->
+        <div class="kt-grid__item kt-grid__item--fluid kt-app__content">
+            <div class="kt-portlet">
+                <form class="kt-form kt-form--label-right" id="BranchTownsForm">
+                  <fieldset><legend>اضافه منطقه للفرع</legend>
+                  <div class="row kt-margin-b-20">
+                    <div class="col-lg-3 kt-margin-b-10-tablet-and-mobile">
+                    	<label>المنطقه:</label>
+                        <select data-live-search="true" class="form-control selectpicker" id="town" name="town"></select>
+                    </div>
+                    <div class="col-lg-3 kt-margin-b-10-tablet-and-mobile">
+                    	<label>اضافه:</label><br>
+                    	<button type="button" onclick="setTownToBranch()" class="btn btn-success" value="" placeholder="" data-col-index="0">اضافه
 
+                        </button>
+                    </div>
+                    <div class="col-lg-4 kt-margin-b-10-tablet-and-mobile">
+                    	<label>اسم الفرع:</label><br>
+                    	<label id="Branch_name"></label><br>
+                    </div>
+                  </div>
+                  </fieldset>
+		<!--begin: Datatable -->
+		<table class="table table-striped- table-bordered table-hover table-checkable responsive no-wrap" id="tb-BranchTown">
+			       <thead>
+	  						<tr>
+										<th>ID</th>
+										<th>المحافظه</th>
+										<th>المنطقه</th>
+										<th>حذف</th>
+
+		  					</tr>
+      	            </thead>
+                    <tbody id="BranchTown">
+                    </tbody>
+		</table>
+		<!--end: Datatable -->
+        <input type="hidden" value="" id="Branch_id" name="Branch_id" />
+                </form>
+            </div>
+        </div>
+        <!--End:: App Content-->
+        </div>
+      </div>
+
+    </div>
+</div>
 <script type="text/javascript" src="js/getCities.js"></script>
 <script type="text/javascript" src="js/getManagers.js"></script>
 <script>
@@ -345,4 +396,88 @@ function deleteBranch(id){
       });
   }
 }
+
+$("#tb-BranchTown").DataTable();
+function getBranchTowns(id){
+      $('#Branch_id').val(id);
+      $.ajax({
+        url:"script/_getBranchTowns.php",
+        type:"POST",
+        data:{id:id},
+        beforeSend:function(){
+          $("#tb-BranchTown").DataTable().destroy();
+        },
+        success:function(res){
+         if(res.success == 1){
+          $('#BranchTown').html("");
+          $('#Branch_name').text(res.Branch_info.name);
+
+          $.each(res.data,function(){
+            $('#BranchTown').append(
+            '<tr>'+
+              '<td>'+this.id+'</td>'+
+              '<td>'+this.city_name+'</td>'+
+              '<td>'+this.town_name+'</td>'+
+              '<td><button type="button" onclick="deleteBranchTown('+this.id+')" class="btn btn-icon btn-danger"><span class="flaticon-delete"></span></button></td>'+
+            '</tr>'
+            );
+          });
+          $("#tb-driverTown").DataTable();
+         }else{
+
+         }
+         console.log(res)
+        } ,
+        error:function(e){
+          console.log(e);
+        }
+      });
+}
+function setTownToBranch(){
+      $.ajax({
+        url:"script/_setTownToBranch.php",
+        type:"POST",
+        data:$("#BranchTownsForm").serialize(),
+        beforeSend:function(){
+          $("#driverTownsForm").addClass("loading");
+        },
+        success:function(res){
+        $("#BranchTownsForm").removeClass("loading");
+         if(res.success == 1){
+           Toast.success(res.msg);
+           getBranchTowns($('#Branch_id').val());
+           getAllunAssignedTownsToBranch($("#town"));
+         }else{
+           Toast.warning(res.msg);
+         }
+         console.log(res)
+        } ,
+        error:function(e){
+          $("#BranchTownsForm").removeClass("loading");
+          console.log(e);
+        }
+      });
+}
+function deleteBranchTown(id){
+  if(confirm("هل انت متاكد من الحذف")){
+      $.ajax({
+        url:"script/_deleteBranchTown.php",
+        type:"POST",
+        data:{id:id},
+        success:function(res){
+         if(res.success == 1){
+           Toast.success('تم الحذف');
+           getBranchTowns($('#Branch_id').val());
+         }else{
+           Toast.warning(res.msg);
+         }
+         console.log(res)
+        } ,
+        error:function(e){
+          console.log(e);
+        }
+      });
+  }
+}
+getAllunAssignedTownsToBranch($("#town"))
 </script>

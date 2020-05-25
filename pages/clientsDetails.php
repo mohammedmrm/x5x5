@@ -131,7 +131,7 @@ hr {
     <form id="storedataform" class="kt-form kt-form--fit kt-margin-b-20">
           <fieldset><legend>فلتر</legend>
           <div class="row kt-margin-b-20">
-            <div class="col-lg-2 kt-margin-b-10-tablet-and-mobile">
+            <div class="col-lg-4 kt-margin-b-10-tablet-and-mobile">
             	<label>السوق او الصفحه:</label>
             	<select onchange="getStoreDetails();storeInfo()" data-show-subtext="true" data-live-search="true"  class="selectpicker form-control kt-input" id="store" name="store" data-col-index="7">
             		<option value="">Select</option>

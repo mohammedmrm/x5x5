@@ -8,6 +8,7 @@ require("dbconnection.php");
 require("../config.php");
 
 $branch = $_REQUEST['branch'];
+$to_branch = $_REQUEST['to_branch'];
 $city = $_REQUEST['city'];
 $customer = $_REQUEST['customer'];
 $order = $_REQUEST['order_no'];
@@ -56,7 +57,7 @@ try{
              ) as client_price,
             clients.name as client_name,clients.phone as client_phone,
             stores.name as store_name,a.nuseen_msg,
-            cites.name as city,towns.name as town,branches.name as branch_name,
+            cites.name as city,towns.name as town,branches.name as branch_name,to_branch.name as to_branch_name,
             order_status.status as status_name,staff.name as staff_name,b.rep as repated , driver.name as driver_name
             from orders left join
             clients on clients.id = orders.client_id
@@ -64,6 +65,7 @@ try{
             left join stores on  orders.store_id = stores.id
             left join towns on  towns.id = orders.to_town
             left join branches on  branches.id = orders.from_branch
+            left join branches as to_branch on  to_branch.id = orders.to_branch
             left join staff on  staff.id = orders.manager_id
             left join staff as driver on  driver.id = orders.driver_id
             left join order_status on  order_status.id = orders.order_status_id
@@ -88,6 +90,9 @@ if($_SESSION['role'] != 1){
   $filter = " and orders.confirm = 1 ";
   if($branch >= 1){
    $filter .= " and from_branch =".$branch;
+  }
+  if($to_branch >= 1){
+   $filter .= " and to_branch =".$to_branch;
   }
   if($driver >= 1){
    $filter .= " and driver_id =".$driver;
@@ -243,5 +248,5 @@ if($store >=1){
    $total=["error"=>$ex];
    $success="0";
 }
-echo json_encode(array("success"=>$success,"data"=>$data,'total'=>$total,"pages"=>$pages,"page"=>$page));
+echo json_encode(array($query,"success"=>$success,"data"=>$data,'total'=>$total,"pages"=>$pages,"page"=>$page));
 ?>

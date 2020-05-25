@@ -189,9 +189,14 @@ legend
     <form id="ordertabledata" class="kt-form kt-form--fit kt-margin-b-20">
           <fieldset><legend>فلتر</legend>
           <div class="row kt-margin-b-20">
-            <div class="col-lg-1 kt-margin-b-10-tablet-and-mobile">
-            	<label>الفرع:</label>
+            <div class="col-lg-2 kt-margin-b-10-tablet-and-mobile">
+            	<label>فرع الاستلام:</label>
             	<select onchange="getclient();getAllDrivers($('#driver'),$('#branch').val())" class="form-control kt-input" id="branch" name="branch" data-col-index="6">
+            	</select>
+            </div>
+            <div class="col-lg-2 kt-margin-b-10-tablet-and-mobile">
+            	<label>فرع الارسال:</label>
+            	<select onchange="getorders()" class="form-control kt-input" id="to_branch" name="to_branch" data-col-index="6">
             	</select>
             </div>
             <div class="col-lg-2 kt-margin-b-10-tablet-and-mobile">
@@ -212,16 +217,6 @@ legend
             		<option value="">Select</option>
                 </select>
             </div>
-            <div class="col-lg-3 kt-margin-b-10-tablet-and-mobile">
-            <label>الفترة الزمنية :</label>
-            <div class="input-daterange input-group" id="kt_datepicker">
-  				<input value="" onchange="getorders()" type="text" class="form-control kt-input" name="start" id="start" placeholder="من" data-col-index="5">
-  				<div class="input-group-append">
-  					<span class="input-group-text"><i class="la la-ellipsis-h"></i></span>
-  				</div>
-  				<input onchange="getorders()" type="text" class="form-control kt-input" name="end"  id="end" placeholder="الى" data-col-index="5">
-          	</div>
-            </div>
             <div class="col-lg-2 kt-margin-b-10-tablet-and-mobile">
             	<label>حالة التكرار:</label>
                 <select name="repated" onchange="getorders()" class="selectpicker form-control kt-input" data-col-index="2">
@@ -239,6 +234,16 @@ legend
             <div class="col-lg-2 kt-margin-b-10-tablet-and-mobile">
             	<label>اسم او هاتف المستلم:</label>
             	<input name="customer" onkeyup="getorders()" type="text" class="form-control kt-input" placeholder="" data-col-index="1">
+            </div>
+            <div class="col-lg-3 kt-margin-b-10-tablet-and-mobile">
+            <label>الفترة الزمنية :</label>
+            <div class="input-daterange input-group" id="kt_datepicker">
+  				<input value="" onchange="getorders()" type="text" class="form-control kt-input" name="start" id="start" placeholder="من" data-col-index="5">
+  				<div class="input-group-append">
+  					<span class="input-group-text"><i class="la la-ellipsis-h"></i></span>
+  				</div>
+  				<input onchange="getorders()" type="text" class="form-control kt-input" name="end"  id="end" placeholder="الى" data-col-index="5">
+          	</div>
             </div>
             <div class="col-lg-2 kt-margin-b-10-tablet-and-mobile">
             	<label>المندوب:</label>
@@ -261,15 +266,18 @@ legend
             		<option value="2">طلبات كشف</option>
                 </select>
             </div>
+
+          <div class="kt-separator kt-separator--border-dashed kt-separator--space-md"></div>
+          </div>
+          <div class="row kt-margin-b-20">
             <div class="col-lg-1 kt-margin-b-10-tablet-and-mobile">
                 	<label class="">توليد كشف:</label><br />
                     <input  id="invoicebtn" name="invoicebtn" type="button" value="كشف" onclick="makeInvoice()" class="btn btn-danger" placeholder="" data-col-index="1">
             </div>
             <div class="col-lg-1 kt-margin-b-10-tablet-and-mobile">
                 	<label class="">تحميل التقرير:</label><br />
-                    <input id="download" name="download" type="button" value="تحميل التقرير" onclick="downloadReport()" class="btn btn-success" placeholder="" data-col-index="1">
+                    <input id="download" name="download" type="button" value="تحميل التقرير" data-toggle="modal" data-target="#reportOptionsModal" class="btn btn-success" placeholder="" data-col-index="1">
             </div>
-          <div class="kt-separator kt-separator--border-dashed kt-separator--space-md"></div>
           </div>
           </fieldset>
 
@@ -312,6 +320,7 @@ legend
 										<th>المبلغ المستلم</th>
 										<th>المبلغ الصافي للعميل</th>
 										<th>المندوب</th>
+                                        <th>من فرع الى فرع</th>
 
 		  					</tr>
       	            </thead>
@@ -333,6 +342,7 @@ legend
 										<th>المبلغ المستلم</th>
 										<th>المبلغ الصافي للعميل</th>
 										<th>المندوب</th>
+										<th>من فرع الى فرع</th>
 
 					</tr>
 	           </tfoot>
@@ -554,6 +564,80 @@ legend
 
     </div>
   </div>
+<div class="modal fade" id="reportOptionsModal" role="dialog">
+    <div class="modal-dialog">
+      <!-- Modal content-->
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal">&times;</button>
+          <h4 class="modal-title">تحميل تقرير</h4>
+        </div>
+        <div class="modal-body">
+    <!--Begin:: App Content-->
+    <div class="kt-grid__item kt-grid__item--fluid kt-app__content">
+        <div class="kt-portlet">
+            <form class="kt-form kt-form--label-right" id="addStaffForm">
+                <div class="kt-portlet__body">
+                    <div class="kt-section kt-section--first">
+                        <div class="kt-section__body">
+                            <div class="form-group row">
+                                <div class="col-lg-6 kt-margin-b-10-tablet-and-mobile">
+                                	<label>نوع التقرير:</label>
+                                    <select data-live-search="true" class="selectpicker form-control" id="reportType" name="reportType">
+                                       <option value="1">تقرير تسليمات للمندوب</option>
+                                       <option value="2">تقرير المحافظه المرسل لها</option>
+                                       <option value="3">تقرير الفرع المرسل له</option>
+                                    </select>
+                                </div>
+                                <div class="col-lg-6 kt-margin-b-10-tablet-and-mobile">
+                                	<label>حجم الخط</label>
+                                    <input type="number" step="1" min="5" max="100" id="fontSize" name="fontSize" value="12" class="form-control"/>
+
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                <div class="col-lg-6 kt-margin-b-10-tablet-and-mobile">
+                                	<label>اتجاه الورقه:</label>
+                                    <select data-live-search="true" class="selectpicker form-control" id="pageDir" name="pageDir">
+                                       <option value="L">افقي </option>
+                                       <option value="P">عامودي</option>
+                                    </select>
+                                    <span class="form-text text-danger" id="staff_id_err"></span>
+                                </div>
+                                <div class="col-lg-6 kt-margin-b-10-tablet-and-mobile">
+                                	<label>المسافه بين النص وحدود الخلية</label>
+                                    <input type="number" step="1" min="0" max="30" id="space" name="space" value="10" class="form-control"/>
+                                    <span class="form-text text-danger" id="staff_id_err"></span>
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                            </div>
+                            <span class="form-text text-danger" id="staff_password_err"></span>
+                        </div>
+                    </div>
+
+                </div>
+                <div class="kt-portlet__foot">
+                    <div class="kt-form__actions">
+                        <div class="row">
+                            <div class="col-lg-3 col-xl-3">
+                            </div>
+                            <div class="col-lg-9 col-xl-9">
+                                <button type="button" onclick="downloadReport()" class="btn btn-success">تحميل التقرير</button>&nbsp;
+                                <button type="reset" data-dismiss="modal" class="btn btn-secondary">الغأ</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+    <!--End:: App Content-->
+        </div>
+      </div>
+
+    </div>
+  </div>
 <input type="hidden" id="user_id" value="<?php echo $_SESSION['userid'];?>"/>
 <input type="hidden" id="user_branch" value="<?php echo $_SESSION['user_details']['branch_id'];?>"/>
 <input type="hidden" id="user_role" value="<?php echo $_SESSION['role'];?>"/>
@@ -572,7 +656,6 @@ legend
 <script src="js/getCities.js" type="text/javascript"></script>
 <script src="js/getTowns.js" type="text/javascript"></script>
 <script src="js/getManagers.js" type="text/javascript"></script>
-<script src="js/getBraches.js" type="text/javascript"></script>
 <script src="js/getAllDrivers.js" type="text/javascript"></script>
 <script type="text/javascript">
 getStores($("#store"));
@@ -691,11 +774,11 @@ $.ajax({
             '<td>'+formatMoney(this.new_price)+'</td>'+
             '<td>'+formatMoney(this.client_price)+'</td>'+
             '<td>'+this.driver_name+'</td>'+
+            '<td> من :'+this.branch_name+' الى :'+this.to_branch_name+'</td>'+
         '</tr>');
      });
 
      var myTable= $('#tb-orders').DataTable({
-
       "oLanguage": {
         "sLengthMenu": "عرض_MENU_سجل",
         "sSearch": "بحث:"
@@ -990,6 +1073,7 @@ $('#e_date').datepicker({
 });
 
 getBraches($("#branch"));
+getBraches($("#to_branch"));
 getorderStatus($("#orderStatus"));
 getorderStatus($("#status_action"));
 getCities($("#city"));
@@ -1066,7 +1150,7 @@ function OrderTracking(id){
 }
 function downloadReport(){
 var domain = "script/downloadOrdersReport.php?";
-var data = $("#ordertabledata").serialize();
+var data = $("#ordertabledata").serialize()+'&pageDir='+$("#pageDir").val()+'&reportType='+$("#reportType").val()+'&space='+$("#space").val()+'&fontSize='+$("#fontSize").val();
 window.open(domain + data, '_blank');
 }
 function makeInvoice() {

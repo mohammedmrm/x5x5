@@ -176,7 +176,7 @@ legend
         <hr />
           <fieldset><legend>التحديثات</legend>
           <div class="row kt-margin-b-20">
-            <div class="col-lg-2 kt-margin-b-10-tablet-and-mobile">
+            <div class="col-lg-3 kt-margin-b-10-tablet-and-mobile">
             	<label>افعل مع المحدد:</label>
             	<select id="action" onchange="disable()" name="action" class="selectpicker form-control kt-input" data-col-index="2">
             		<option value="">... اختر ...</option>
