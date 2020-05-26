@@ -1,5 +1,5 @@
 <?php
-ini_set('max_execution_time', 600);
+ini_set('max_execution_time', 1000);
 ob_start();
 session_start();
 error_reporting(0);
@@ -170,7 +170,7 @@ try{
         return $d && $d->format($format) == $date;
     }
   if(validateDate($start) && validateDate($end)){
-      $filter .= " and date between '".$start."' AND '".$end."'";
+      $filter .= " and orders.date between '".$start."' AND '".$end."'";
      }
   if($filter != ""){
     $filter = preg_replace('/^ and/', '', $filter);
