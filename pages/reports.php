@@ -938,7 +938,7 @@ function editOrder(id){
           $('#e_customer_name').val(this.customer_name);
           $('#e_date').val(this.date);
 
-
+          $('#e_city').selectpicker('val',this.to_city);
           $('#e_city').val(this.to_city);
           $('#e_branch').val(this.from_branch);
 

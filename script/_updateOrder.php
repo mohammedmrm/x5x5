@@ -96,18 +96,55 @@ $v->validate([
     'town'          => [$town_to,  'required|int'],
     'branch_to'     => [$branch_to,'int'],
     'order_note'    => [$order_note,'max(250)'],
+    'customer_name' => [$customer_name,'max(200)'],
 ]);
 
 if($v->passes() && $date_err =="") {
 
-  $sql = 'update orders set
-  order_no=?,order_type=?,weight=?,qty=?,price=?,new_price=?,
-  from_branch=?,store_id=?,customer_name=?,customer_phone=?,
-  to_city=?,to_town=?,to_branch=?,note=?,date = ? where id = ?';
- $result = setData($con,$sql,
-                   [$number,$order_type,$weight,$qty,$order_price,$order_iprice,
-                   $branch,$store,$customer_name,$customer_phone,
-                   $city_to,$town_to,$branch_to,$order_note,$date,$id]);
+  $sql = 'update orders set order_no="'.$number.'"';
+  $up = "";
+  if(!empty($weight) && $weight > 0){
+    $up .= ' , weight='.$weight;
+  }
+  if(!empty($qty) && $qty > 0){
+    $up .= ' , qty='.$qty;
+  }
+  if(!empty($branch_to)  && $branch_to > 0){
+    $up .= ' , to_branch='.$branch_to;
+  }
+  if(!empty($branch)  && $branch > 0){
+    $up .= ' , from_branch='.$branch;
+  }
+  if(!empty($city_to) && $city_to > 0){
+    $up .= ' , to_city='.$city_to;
+  }
+  if(!empty($town_to) && $town_to > 0){
+    $up .= ' , to_town='.$town_to;
+  }
+  if(!empty($order_price) && $order_price > 0){
+    $up .= ' , price="'.$order_price.'"';
+  }
+  if(!empty($order_iprice) && $order_iprice > 0){
+    $up .= ' , new_price="'.$order_iprice.'"';
+  }
+  if(!empty($store) && $store > 0){
+    $up .= ' , store_id="'.$store.'"';
+  }
+  if(!empty($customer_phone)){
+    $up .= ' , customer_phone="'.$customer_phone.'"';
+  }
+  if(!empty($customer_name)){
+    $up .= ' , customer_name="'.$customer_name.'"';
+  }
+  if(!empty($order_note)){
+    $up .= ' , note="'.$order_note.'"';
+  }
+  if(!empty($date)){
+    $up .= ' , date="'.$date.'"';
+  }
+  $where = " where id =".$id;
+  $sql .= $up.$where;
+ $result = setData($con,$sql);
 if($result > 0){
   $success = 1;
 }
