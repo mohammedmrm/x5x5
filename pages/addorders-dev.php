@@ -96,7 +96,7 @@ include("config.php");
                 </select>
                 <span id="mainbranch_err" class="form-text text-danger"></span>
 			</div>
-            <div class="form-group col-lg-2">
+            <div class="form-group col-lg-3">
 				<label>الصفحه (البيج)</label>
                 <select data-show-subtext="true" data-live-search="true" type="text" class="  form-control dropdown-primary" name="mainstore" id="mainstore"  value="">
 
@@ -1070,7 +1070,7 @@ function addtowns(){
        if(res.success == 1){
          $("#kt_form input").val("");
          Toast.success('تم الاضافة');
-         gettowns($("[town='town']").last());
+         getTowns($("[town='town']").last(),$("[city='city']").last().val());
        }else{
            $("#town_name_err").text(res.error["town_err"]);
            $("#town_city_err").text(res.error["city_err"]);

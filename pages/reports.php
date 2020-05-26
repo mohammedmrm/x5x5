@@ -661,6 +661,15 @@ legend
 getStores($("#store"));
 getStores($("#e_store_id"));
 getAllDrivers($("#driver"),$("#branch").val());
+$('#tb-orders').DataTable({
+      "oLanguage": {
+        "sLengthMenu": "عرض_MENU_سجل",
+        "sSearch": "بحث:"
+      },
+       "bPaginate": false,
+       "bLengthChange": false,
+       "bFilter": false,
+      });
 function getorders(){
 $.ajax({
   url:"script/_getOrdersReport.php",

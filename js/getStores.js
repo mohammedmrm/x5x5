@@ -9,7 +9,7 @@ function getStores(elem,branch){
            '<option value="">... اختر ...</option>'
        );
        $.each(res.data,function(){
-         elem.append("<option value='"+this.id+"'>"+this.name+"-"+this.client_name+"-"+this.client_phone+"</option>");
+         elem.append("<option value='"+this.id+"'><b>"+this.name+"</b>-"+this.client_name+"-"+this.client_phone+"</option>");
        });
        console.log(res);
        elem.selectpicker('refresh');

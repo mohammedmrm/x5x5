@@ -133,7 +133,18 @@ require_once("config.php");
         .close {
           margin-right: 0px !important;
         }
+        .bootstrap-select {
+          position: relative !important;
+        }
 
+        .bootstrap-select .dropdown-menu {
+          right: 0 !important;
+          transform: translate3d(0, 37px, 0px) !important;
+        }
+
+        .bootstrap-select .dropdown-menu li a span.text {
+          white-space: initial !important;
+        }
         </style>
     </head>
     <!-- end::Head -->
