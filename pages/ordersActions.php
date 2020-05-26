@@ -59,9 +59,15 @@ legend
             	<select onchange="getclient()" class="form-control kt-input" id="branch" name="branch" data-col-index="6">
             	</select>
             </div>
-            <div class="col-lg-2 kt-margin-b-10-tablet-and-mobile">
+           <div class="col-lg-2 kt-margin-b-10-tablet-and-mobile">
             	<label>العميل:</label>
-            	<select onchange="getorders()" data-show-subtext="true" data-live-search="true"  class="selectpicker form-control kt-input" id="client" name="client" data-col-index="7">
+            	<select onchange="getorders();getStores($('#store'),$(this).val());" data-show-subtext="true" data-live-search="true"  class="selectpicker form-control kt-input" id="client" name="client" data-col-index="7">
+            		<option value="">Select</option>
+            	</select>
+            </div>
+            <div class="col-lg-2 kt-margin-b-10-tablet-and-mobile">
+            	<label>الصفحة (البيج):</label>
+            	<select onchange="getorders()" data-show-subtext="true" data-live-search="true"  class="selectpicker form-control kt-input" id="store" name="store" data-col-index="7">
             		<option value="">Select</option>
             	</select>
             </div>
@@ -221,6 +227,7 @@ legend
 <script src="assets/js/demo1/pages/components/datatables/extensions/responsive.js" type="text/javascript"></script>
 <script src="js/getBraches.js" type="text/javascript"></script>
 <script src="js/getClients.js" type="text/javascript"></script>
+<script src="js/getStores.js" type="text/javascript"></script>
 <script src="js/getorderStatus.js" type="text/javascript"></script>
 <script src="js/getAllDrivers.js" type="text/javascript"></script>
 <script src="js/getCities.js" type="text/javascript"></script>
@@ -321,6 +328,7 @@ function getorderspage(page){
     $("#p").val(page);
     getorders();
 }
+getClients($("#client"));
 function getclient(){
  getClients($("#client"),$("#branch").val());
  getorders();
@@ -329,6 +337,7 @@ function getclient(){
 
 $( document ).ready(function(){
 getAllDrivers($("#driver_action"),$("#branch").val());
+getStores($('#store'));
 getorders();
 $("#allselector").change(function() {
     var ischecked= $(this).is(':checked');

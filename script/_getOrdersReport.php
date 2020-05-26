@@ -95,7 +95,7 @@ if($_SESSION['role'] != 1){
    $filter .= " and to_branch =".$to_branch;
   }
   if($driver >= 1){
-   $filter .= " and driver_id =".$driver;
+   $filter .= " and orders.driver_id =".$driver;
   }
   $sort = " order by orders.date DESC ";
   if($repated == 1){

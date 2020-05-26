@@ -1,8 +1,8 @@
-function getStores(elem,branch){
+function getStores(elem,client){
    $.ajax({
      url:"script/_getStores.php",
      type:"POST",
-     data:{branch: branch},
+     data:{client: client},
      success:function(res){
        elem.html("");
        elem.append(

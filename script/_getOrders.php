@@ -11,6 +11,7 @@ $city = $_REQUEST['city'];
 $customer = $_REQUEST['customer'];
 $order = $_REQUEST['order_no'];
 $client= $_REQUEST['client'];
+$store= $_REQUEST['store'];
 $status = $_REQUEST['orderStatus'];
 $start = trim($_REQUEST['start']);
 $end = trim($_REQUEST['end']);
@@ -55,7 +56,10 @@ try{
     $filter .= " and money_status='".$money_status."'";
   }
   if($client >= 1){
-    $filter .= " and client_id=".$client;
+    $filter .= " and orders.client_id=".$client;
+  }
+  if($store >= 1){
+    $filter .= " and orders.store_id=".$store;
   }
   if(!empty($customer)){
     $filter .= " and (customer_name like '%".$customer."%' or
