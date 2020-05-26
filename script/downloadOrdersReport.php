@@ -217,7 +217,7 @@ try{
        <td align="center">'.$data[$i]['date'].'</td>
        <td align="center">'.$data[$i]['store_name'].'</td>
        <td align="center" style="white-space: nowrap;">'.phone_number_format($data[$i]['customer_phone']).'</td>
-       <td align="center">'.$data[$i]['town'].' - '.$data[$i]['address'].'</td>
+       <td align="center">'.$data[$i]['city'].'-'.$data[$i]['town'].' - '.$data[$i]['address'].'</td>
        <td align="center" style="white-space: nowrap;">'.number_format($data[$i]['price']).'</td>
        <td align="center">'.$data[$i]['note'].'</td>
      </tr>';
@@ -296,13 +296,13 @@ try{
        <td align="center">'.$data[$i]['order_no'].'</td>
        <td width="110" align="center">'.$data[$i]['date'].'</td>
        <td align="center" width="110">'.$data[$i]['store_name'].'</td>
-       <td align="center" width="130">'.phone_number_format($data[$i]['client_phone']).'</td>
+
        <td width="130" align="center">'.phone_number_format($data[$i]['customer_phone']).'</td>
        <td align="center">'.$data[$i]['city'].' - '.$data[$i]['town'].' - '.$data[$i]['address'].'</td>
        <td width="80" align="center">'.number_format($data[$i]['price']).'</td>
        <td width="130" align="center">'.$data[$i]['note'].'</td>
      </tr>';
-
+      //<td align="center" width="130">'.phone_number_format($data[$i]['client_phone']).'</td>
       $total['discount'] += $data[$i]['discount'];
       $total['dev_price'] += $data[$i]['dev_price'];
       $total['client_price'] += $data[$i]['client_price'];
@@ -484,7 +484,6 @@ $htmlpersian = '<table border="1" class="table" cellpadding="'.$space.'">
                                         <th>رقم الوصل</th>
 										<th width="110">تاريخ الادخال</th>
 										<th width="110">اسم البيح</th>
-										<th width="130">هاتف العميل</th>
 										<th width="130">هاتف   المستلم</th>
 										<th>عنوان المستلم</th>
                                         <th width="80">مبلغ الوصل</th>
@@ -495,6 +494,8 @@ $htmlpersian = '<table border="1" class="table" cellpadding="'.$space.'">
                             .$hcontent.
                     '</tbody>
              </table>';
+             //<th width="130">هاتف العميل</th>
+										
 }
 $pdf->WriteHTML($style.$htmlpersian, true, false, true, false, 'J');
 
