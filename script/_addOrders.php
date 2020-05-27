@@ -71,6 +71,7 @@ $client_phone = $_REQUEST['client_phone'];
 $company = $_REQUEST['company'];
 $customer_name = "";//$_REQUEST['customer_name'];
 $customer_phone =  str_replace('-','',$_REQUEST['customer_phone']);
+$customer_phone =  str_replace('_','',$customer_phone);
 $city_to = $_REQUEST['city'];
 $town_to = $_REQUEST['town'];
 $branch_to = 1;//$_REQUEST['branch_to'];
