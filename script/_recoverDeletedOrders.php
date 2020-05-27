@@ -11,14 +11,10 @@ $msg="";
 
 if(count($ids)){
       try{
-         $query = "delete from orders where id=?";
+         $query = "update orders set confirm=1 where id=?";
          foreach($ids as $v){
            $data = setData($con,$query,[$v]);
-           if($data > 0){
-            $success="1";
-            $sql = "delete from tracking where order_id = ?";
-            setData($con,$sql,[$v]);
-           }
+           $success="1";
          }
       } catch(PDOException $ex) {
          $data=["error"=>$ex];

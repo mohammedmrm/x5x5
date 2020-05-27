@@ -185,8 +185,10 @@ legend
           <fieldset><legend>التحديثات</legend>
           <div class="row kt-margin-b-20">
             <div class="col-lg-2 kt-margin-b-10-tablet-and-mobile">
-            	<label>حذف المحدد:</label>
-            	<input type="button" onclick="runAction()" class="btn btn-danger" value="خذف" />
+            	<input type="button" onclick="deleteOrdersTotally()" class="btn btn-danger" value="حذف كل المحدد" />
+            </div>
+            <div class="col-lg-2 kt-margin-b-10-tablet-and-mobile">
+            	<input type="button" onclick="recoverDeletedOrders()" class="btn btn-success" value="استعادة كل المحددة" />
             </div>
           </div>
           </fieldset>
@@ -265,10 +267,13 @@ $.ajax({
    $.each(res.data,function(){
       $('#ordersTable').append(
        '<tr>'+
-            '<td class="">'+
+            '<td>'+
                 '<input class="" type="checkbox" name="id[]" rowid="'+this.id+'">'+
             '</td>'+
-            '<td class=""><button type="button" class="btn btn-link" onclick="deleteOrderTotally('+this.id+')"><span class="flaticon-delete"></span></button></td>'+
+            '<td width="100px;">'+
+                '<button type="button" class="btn btn-link btn-icon" onclick="deleteOrderTotally('+this.id+')"><span class="flaticon-delete"></span></button>'+
+                '<button type="button" class="btn btn-link btn-icon text-success" onclick="recoverDeletedOrder('+this.id+')"><span class="flaticon2-refresh"></span></button>'+
+            '</td>'+
             '<td>'+this.id+'</td>'+
             '<td>'+this.order_no+'</td>'+
             '<td>'+this.client_name+'<br />'+phone_format(this.client_phone)+'</td>'+
@@ -383,7 +388,7 @@ function disable(){
   $('.selectpicker').selectpicker('refresh');
    console.log($("#action").val());
 }
-function runAction(){
+function deleteOrdersTotally(){
      $('input[name="ids\[\]"]', form).remove();
       var form = $('#ordertabledata');
       $.each($('input[name="id\[\]"]:checked'), function(){
@@ -418,9 +423,64 @@ function runAction(){
       // Remove added elements
       //$('input[name="id\[\]"]', form).remove();
 }
+
+function recoverDeletedOrders(){
+     $('input[name="ids\[\]"]', form).remove();
+      var form = $('#ordertabledata');
+      $.each($('input[name="id\[\]"]:checked'), function(){
+               rowId = $(this).attr('rowid');
+         form.append(
+             $('<input>')
+                .attr('type', 'hidden')
+                .attr('name', 'ids[]')
+                .val(rowId)
+         );
+      });
+
+      $.ajax({
+        url:"script/_recoverDeletedOrders.php",
+        type:"POST",
+        data:$("#ordertabledata").serialize(),
+        success:function(res){
+          getorders();
+          console.log(res);
+          if(res.success == 1){
+            Toast.success("تم الاعادة بنجاح");
+          }else{
+            Toast.warning("حدث خطاء! حاول مرة اخرى. تاكدد من تحديد عنصر واحد على اقل تقدير");
+          }
+        },
+        error:function(e){
+           Toast.error("خطأ!");
+          console.log(e);
+        }
+      });
+
+      // Remove added elements
+      //$('input[name="id\[\]"]', form).remove();
+}
 function deleteOrderTotally(id){
         $.ajax({
         url:"script/_deleteOrderTotally.php",
+        type:"POST",
+        data:{id:id},
+        success:function(res){
+         if(res.success == 1){
+           Toast.success('تم الحذف');
+           getorders();
+         }else{
+           Toast.warning(res.msg);
+         }
+         console.log(res);
+        },
+        error:function(e){
+          console.log(e);
+        }
+      });
+}
+function recoverDeletedOrder(id){
+        $.ajax({
+        url:"script/_recoverDeletedOrder.php",
         type:"POST",
         data:{id:id},
         success:function(res){
