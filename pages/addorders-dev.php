@@ -836,7 +836,7 @@ $(document).keydown(function(e) {
 if (event.which === 13 || event.keyCode === 13 ) {
     event.stopPropagation();
     event.preventDefault();
-    $(":focus").closest('fieldset').next().find('[no="no"]').focus();
+    $("input:focus").closest('fieldset').next().find('[no="no"]').focus();
 }
 
 
