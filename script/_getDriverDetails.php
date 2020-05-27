@@ -1,9 +1,9 @@
 <?php
 session_start();
 header('Content-Type: application/json');
-error_reporting(0);
+//error_reporting(0);
 require_once("_access.php");
-access([1,2,3]);
+access([1,2,5]);
 require_once("dbconnection.php");
 require_once("../config.php");
 $id = $_REQUEST['driver'];

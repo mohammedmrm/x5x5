@@ -28,10 +28,20 @@ $v->addRuleMessages([
     'min'      => 'قصير جداً',
     'max'      => 'مسموح ب {value} رمز كحد اعلى '
 ]);
+$v->addRuleMessage('uniqueTownName', ' القيمة المدخلة مستخدمة بالفعل ');
 
+$v->addRule('uniqueTownName', function($value, $input, $args) {
+    $value  = trim($value);
+    if(!empty($value)){
+    $exists = getData($GLOBALS['con'],"SELECT * FROM towns WHERE name ='".$value."'");
+    }else{
+      $exists = 0;
+    }
+    return ! (bool) count($exists);
+});
 $v->validate([
     'city'   => [$city, 'required|max(3)|int'],
-    'town'   => [$town, 'required|max(50)|min(3)'],
+    'town'   => [$town, 'required|max(50)|min(3)|uniqueTownName'],
     'center' => [$center, 'min(1)|max(1)']
 ]);
 

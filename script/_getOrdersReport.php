@@ -84,7 +84,7 @@ try{
 
             ";
 $where = "where";
-if($_SESSION['role'] != 1){
+if($_SESSION['role'] != 1 && $_SESSION['role'] != 5){
  $where = "where from_branch = '".$_SESSION['user_details']['branch_id']."' and ";
 }
   $filter = " and orders.confirm = 1 ";

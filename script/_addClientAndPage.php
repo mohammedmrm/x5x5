@@ -14,7 +14,7 @@ $v = new Violin;
 
 
 $success = 0;
-$name    = $_REQUEST['client_name'];
+$name    = trim($_REQUEST['client_name']);
 $email   = $_REQUEST['client_email'];
 $password= $_REQUEST['client_password'];
 $phone   = $_REQUEST['client_phone'];
@@ -44,6 +44,28 @@ $v->addRule('unique', function($value, $input, $args) {
     }
     return ! (bool) count($exists);
 });
+$v->addRuleMessage('uniqueName', ' القيمة المدخلة مستخدمة بالفعل ');
+
+$v->addRule('uniqueName', function($value, $input, $args) {
+    $value  = trim($value);
+    if(!empty($value)){
+    $exists = getData($GLOBALS['con'],"SELECT * FROM clients WHERE name ='".$value."'");
+    }else{
+      $exists = 0;
+    }
+    return ! (bool) count($exists);
+});
+$v->addRuleMessage('uniqueStoreName', ' القيمة المدخلة مستخدمة بالفعل ');
+
+$v->addRule('uniqueStoreName', function($value, $input, $args) {
+    $value  = trim($value);
+    if(!empty($value)){
+    $exists = getData($GLOBALS['con'],"SELECT * FROM stores WHERE name ='".$value."'");
+    }else{
+      $exists = 0;
+    }
+    return ! (bool) count($exists);
+});
 $v->addRuleMessages([
     'required' => ' الحقل مطلوب',
     'int'      => ' فقط الارقام مسموح بها',
@@ -54,12 +76,12 @@ $v->addRuleMessages([
 ]);
 
 $v->validate([
-    'client_name'    => [$name,    'required|min(3)|max(100)'],
+    'client_name'    => [$name,    'required|min(3)|max(100)|uniqueName'],
     'client_email'   => [$email,   'email'],
     'client_password'=> [$password,'required|min(6)|max(16)'],
     'client_phone'   => [$phone,   "required|isPhoneNumber|unique(clients,phone)"],
     'client_branch'  => [$branch,  'required|int|max(2)'],
-    'page'  => [$page,  'required|min(3)|max(100)'],
+    'page'  => [$page,  'required|min(3)|max(100)|uniqueStoreName'],
     'client_dev_price_b'=> [$dev_b,  'int|max(5)'],
     'client_dev_price_o'=> [$dev_o ,  'int|max(5)'],
 ]);

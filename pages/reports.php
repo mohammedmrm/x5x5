@@ -1,7 +1,7 @@
 <?php
 if(file_exists("script/_access.php")){
 require_once("script/_access.php");
-access([1,2]);
+access([1,2,5]);
 }
 ?>
 <?
@@ -688,7 +688,7 @@ $.ajax({
    $("#ordersTable").html("");
    $("#pagination").html("");
 
-   if($("#user_role").val() !=1){
+   if($("#user_role").val() !=1 && $("#user_role").val() !=5){
     $('#branch').selectpicker('val', $("#user_branch").val());
     $('#branch').attr('disabled',"disabled");
     $('#branch').selectpicker('refresh');
@@ -889,7 +889,7 @@ function sendMessage(){
     },
     success:function(res){
        $('#chatbody').animate({scrollTop: $('#chatbody')[0].scrollHeight},100);
-       OrderChat($("#chat_order_id").val(),$("#last_msg").val());
+       //OrderChat($("#chat_order_id").val(),$("#last_msg").val());
        console.log(res);
     },
     error:function(e){

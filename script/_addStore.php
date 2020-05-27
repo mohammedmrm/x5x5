@@ -34,6 +34,17 @@ $v->addRule('unique', function($value, $input, $args) {
     }
     return ! (bool) count($exists);
 });
+$v->addRuleMessage('uniqueStoreName', ' القيمة المدخلة مستخدمة بالفعل ');
+
+$v->addRule('uniqueStoreName', function($value, $input, $args) {
+    $value  = trim($value);
+    if(!empty($value)){
+    $exists = getData($GLOBALS['con'],"SELECT * FROM stores WHERE name ='".$value."'");
+    }else{
+      $exists = 0;
+    }
+    return ! (bool) count($exists);
+});
 $v->addRuleMessages([
     'required' => ' الحقل مطلوب',
     'int'      => ' فقط الارقام مسموح بها',
@@ -44,7 +55,7 @@ $v->addRuleMessages([
 ]);
 
 $v->validate([
-    'name'  => [$name,  'required|min(3)|max(100)'],
+    'name'  => [$name,  'required|min(3)|max(100)|uniqueStoreName'],
     'client'=> [$client,'required|int'],
     'note'  => [$note,  'max(250)'],
 ]);
