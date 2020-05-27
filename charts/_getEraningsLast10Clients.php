@@ -38,7 +38,7 @@ if($_SESSION['user_details']['role_id'] == 1){
           left JOIN client_dev_price
             on client_dev_price.client_id = orders.client_id AND client_dev_price.city_id = orders.to_city
           where date between "'.$start.'" and "'.$end.'"
-          GROUP by  orders.client_id';
+          GROUP by  orders.client_id limit 10';
 
 }else{
   $sql = 'select sum(new_price) as income, count(*) as orders_no ,
@@ -59,7 +59,7 @@ if($_SESSION['user_details']['role_id'] == 1){
           left JOIN client_dev_price
             on client_dev_price.client_id = orders.client_id AND client_dev_price.city_id = orders.to_city
           where date between "'.$start.'" and "'.$end.'" and from_branch = "'.$_SESSION['user_details']['branch_id'].'"
-          GROUP by  orders.client_id';
+          GROUP by  orders.client_id limit 10';
 
 }
 $data =  getData($con,$sql);
