@@ -96,7 +96,7 @@ include("config.php");
                 </select>
                 <span id="mainbranch_err" class="form-text text-danger"></span>
 			</div>
-            <div class="form-group col-lg-3">
+            <div class="form-group col-lg-2">
 				<label>الصفحه (البيج)</label>
                 <select data-show-subtext="true" data-live-search="true" type="text" class="  form-control dropdown-primary" name="mainstore" id="mainstore"  value="">
 

@@ -96,7 +96,7 @@ include("config.php");
                 </select>
                 <span id="mainbranch_err" class="form-text text-danger"></span>
 			</div>
-            <div class="form-group col-lg-3">
+            <div class="form-group col-lg-2">
 				<label>الصفحه (البيج)</label>
                 <select data-show-subtext="true" data-live-search="true" type="text" class="  form-control dropdown-primary" name="mainstore" id="mainstore"  value="">
 
@@ -750,11 +750,14 @@ function addOrders(){
     success:function(res){
         console.log(res);
        if(res.success == 1){
-         $("#kt_form input[name='order_no[]']").val("");
-         $("#kt_form input[name='order_price[]']").val("");
-         $("#kt_form input[name='customer_name[]']").val("");
-         $("#kt_form input[name='customer_phone[]']").val("");
-         $("#kt_form input[name='order_note[]']").val("");
+         $("#orderstabledata input[name='order_no[]']").val("");
+         $("#orderstabledata input[name='order_price[]']").val("");
+         $("#orderstabledata input[name='customer_name[]']").val("");
+         $("#orderstabledata input[name='customer_phone[]']").val("");
+         $("#orderstabledata input[name='order_note[]']").val("");
+         $("#orderstabledata input[name='order_address[]']").val("");
+         $('[city="city"]').val("");
+         $(".selectpicker").selectpicker('refresh');
          Toast.success('تم الاضافة');
          $("#kt_form .text-danger").text("");
        }else{
