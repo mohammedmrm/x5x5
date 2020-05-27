@@ -146,7 +146,7 @@ getAllStores($("#getAllStoresTable"));
 				<div class="kt-portlet__body">
 					<div class="form-group">
 						<label>الاسم البيج:</label>
-						<input type="name" id="e_Store_name" name="e_Store_name" class="form-control"  placeholder="ادخل الاسم الكامل">
+						<input type="name" id="e_Store_name" name="e_Store_name" class="form-control"  placeholder="">
 						<span class="form-text  text-danger" id="e_Store_name_err"></span>
 					</div>
 	            </div>
@@ -174,8 +174,6 @@ getAllStores($("#getAllStoresTable"));
 function editStore(id){
   $(".text-danger").text("");
   $("#editStoreid").val(id);
-  getCities($("#e_Store_city"));
-  getManagers($("#e_Store_manager"));
   $.ajax({
     url:"script/_getStoreByID.php",
     data:{id: id},
@@ -187,9 +185,6 @@ function editStore(id){
       if(res.success == 1){
         $.each(res.data,function(){
           $('#e_Store_name').val(this.name);
-          $('#e_Store_email').val(this.email);
-          $('#e_Store_phone').val(this.phone);
-          $('#e_Store_branch').selectpicker('val', this.branch_id);
         });
       }
       console.log(res);
@@ -217,11 +212,7 @@ function updateStore(){
           Toast.success('تم التحديث');
           getAllStores($("#getAllStoresTable"));
        }else{
-           $("#e_Store_branch_err").text(res.error["Store_branch_err"]);
-           $("#e_Store_name_err").text(res.error["Store_name_err"]);
-           $("#e_Store_email_err").text(res.error["Store_email_err"]);
-           $("#e_Store_phone_err").text(res.error["Store_phone_err"]);
-           $("#e_Store_password_err").text(res.error["Store_password_err"]);
+           $("#e_Store_name_err").text(res.error["name"]);
            Toast.warning("هناك بعض المدخلات غير صالحة",'خطأ');
        }
        },

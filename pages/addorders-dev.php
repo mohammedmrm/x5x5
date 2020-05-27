@@ -751,13 +751,15 @@ function addOrders(){
     success:function(res){
         console.log(res);
        if(res.success == 1){
-         $("#kt_form input[name='order_no[]']").val("");
-         $("#kt_form input[name='order_price[]']").val("");
-         $("#kt_form input[name='customer_name[]']").val("");
-         $("#kt_form input[name='customer_phone[]']").val("");
-         $("#kt_form input[name='order_note[]']").val("");
+         $("#orderstabledata input[name='order_no[]']").val("");
+         $("#orderstabledata input[name='order_price[]']").val("");
+         $("#orderstabledata input[name='customer_name[]']").val("");
+         $("#orderstabledata input[name='customer_phone[]']").val("");
+         $("#orderstabledata input[name='order_note[]']").val("");
+         $("#orderstabledata input[name='order_address[]']").val("");
+         $('[city="city"]').val("");
+         $(".selectpicker").selectpicker('refresh');
          Toast.success('تم الاضافة');
-         $("#kt_form .text-danger").text("");
        }else{
             no = res.error["no"]  ;
            $("#order_no_err"+no).text(res.error["order_no"]);

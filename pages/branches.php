@@ -44,6 +44,7 @@ if(file_exists("script/_access.php")){
 										<th>البريد الالكتروني</th>
 										<th>رقم الهاتف</th>
 										<th>المناطق</th>
+										<th>المحافظات</th>
 										<th>المدير</th>
 										<th>تعديل</th>
 							</tr>
@@ -66,6 +67,7 @@ if(file_exists("script/_access.php")){
             <!--begin::Page Scripts(used by this page) -->
 <script src="assets/js/demo1/pages/components/datatables/extensions/responsive.js" type="text/javascript"></script>
 <script src="js/getAllunAssignedTownsToBranch.js" type="text/javascript"></script>
+<script src="js/getAllunAssignedCitiesToBranch.js" type="text/javascript"></script>
 <script type="text/javascript">
 function getbraches(elem){
 $.ajax({
@@ -83,6 +85,9 @@ $.ajax({
             '<td>'+this.phone+'</td>'+
             '<td>'+
                 '<button class="btn btn-info" onclick="getBranchTowns('+this.id+')" data-toggle="modal" data-target="#BranchTownsModal">المناطق</button>'+
+            '</td>'+
+            '<td>'+
+                '<button class="btn btn-accent" onclick="getBranchCities('+this.id+')" data-toggle="modal" data-target="#BranchCitiesModal">المحافظات</button>'+
             '</td>'+
             '<td>'+this.manager+'</td>'+
             '<td>'+
@@ -286,6 +291,63 @@ getbraches($("#branchesTable"));
 
     </div>
 </div>
+<div class="modal fade" id="BranchCitiesModal" role="dialog">
+    <div class="modal-dialog modal-lg">
+      <!-- Modal content-->
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal">&times;</button>
+          <h4 class="modal-title">محافظة الفرع</h4>
+          <span><b>(الاولوية للمناطق)</b></span>
+        </div>
+        <div class="modal-body">
+        <!--Begin:: App Content-->
+        <div class="kt-grid__item kt-grid__item--fluid kt-app__content">
+            <div class="kt-portlet">
+                <form class="kt-form kt-form--label-right" id="BranchCitiesForm">
+                  <fieldset><legend>اضافه محافظه للفرع</legend>
+                  <div class="row kt-margin-b-20">
+                    <div class="col-lg-3 kt-margin-b-10-tablet-and-mobile">
+                    	<label>المنطقه:</label>
+                        <select data-live-search="true" class="form-control selectpicker" id="city" name="city"></select>
+                    </div>
+                    <div class="col-lg-3 kt-margin-b-10-tablet-and-mobile">
+                    	<label>اضافه:</label><br>
+                    	<button type="button" onclick="setCityToBranch()" class="btn btn-success" value="" placeholder="" data-col-index="0">اضافه
+
+                        </button>
+                    </div>
+                    <div class="col-lg-4 kt-margin-b-10-tablet-and-mobile">
+                    	<label>اسم الفرع:</label><br>
+                    	<label id="c_Branch_name"></label><br>
+                    </div>
+                  </div>
+                  </fieldset>
+		<!--begin: Datatable -->
+		<table class="table table-striped table-bordered table-hover table-checkable responsive no-wrap" id="tb-BranchCity">
+			       <thead>
+	  						<tr>
+										<th>ID</th>
+										<th>المحافظه</th>
+										<th>حذف</th>
+
+		  					</tr>
+      	            </thead>
+                    <tbody id="BranchCity">
+                    </tbody>
+		</table>
+		<!--end: Datatable -->
+        <input type="hidden" value="" id="c_Branch_id" name="c_Branch_id" />
+                </form>
+            </div>
+        </div>
+        <!--End:: App Content-->
+        </div>
+      </div>
+
+    </div>
+</div>
+
 <script type="text/javascript" src="js/getCities.js"></script>
 <script type="text/javascript" src="js/getManagers.js"></script>
 <script>
@@ -479,5 +541,88 @@ function deleteBranchTown(id){
       });
   }
 }
-getAllunAssignedTownsToBranch($("#town"))
+getAllunAssignedTownsToBranch($("#town"));
+
+$("#tb-BranchCity").DataTable();
+function getBranchCities(id){
+      $('#c_Branch_id').val(id);
+      $.ajax({
+        url:"script/_getBranchCities.php",
+        type:"POST",
+        data:{id:id},
+        beforeSend:function(){
+          $("#tb-BranchCity").DataTable().destroy();
+        },
+        success:function(res){
+         if(res.success == 1){
+          $('#BranchCity').html("");
+          $('#c_Branch_name').text(res.Branch_info.name);
+
+          $.each(res.data,function(){
+            $('#BranchCity').append(
+            '<tr>'+
+              '<td>'+this.id+'</td>'+
+              '<td>'+this.city_name+'</td>'+
+              '<td><button type="button" onclick="deleteBranchCity('+this.id+')" class="btn btn-icon btn-danger"><span class="flaticon-delete"></span></button></td>'+
+            '</tr>'
+            );
+          });
+          $("#tb-driverCity").DataTable();
+         }else{
+
+         }
+         console.log(res)
+        } ,
+        error:function(e){
+          console.log(e);
+        }
+      });
+}
+function setCityToBranch(){
+      $.ajax({
+        url:"script/_setCityToBranch.php",
+        type:"POST",
+        data:$("#BranchCitiesForm").serialize(),
+        beforeSend:function(){
+          $("#driverCitiesForm").addClass("loading");
+        },
+        success:function(res){
+        $("#BranchCitiesForm").removeClass("loading");
+         if(res.success == 1){
+           Toast.success(res.msg);
+           getBranchCities($('#c_Branch_id').val());
+           getAllunAssignedCitiesToBranch($("#city"));
+         }else{
+           Toast.warning(res.msg);
+         }
+         console.log(res)
+        } ,
+        error:function(e){
+          $("#BranchCitiesForm").removeClass("loading");
+          console.log(e);
+        }
+      });
+}
+function deleteBranchCity(id){
+  if(confirm("هل انت متاكد من الحذف")){
+      $.ajax({
+        url:"script/_deleteBranchCity.php",
+        type:"POST",
+        data:{id:id},
+        success:function(res){
+         if(res.success == 1){
+           Toast.success('تم الحذف');
+           getBranchCities($('#c_Branch_id').val());
+         }else{
+           Toast.warning(res.msg);
+         }
+         console.log(res)
+        } ,
+        error:function(e){
+          console.log(e);
+        }
+      });
+  }
+}
+getAllunAssignedCitiesToBranch($("#city"));
 </script>

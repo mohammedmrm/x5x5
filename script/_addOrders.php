@@ -1,6 +1,6 @@
 <?php
 session_start();
-error_reporting(0);
+//error_reporting(0);
 header('Content-Type: application/json');
 require_once("_access.php");
 access([1,2,3,5,6]);
@@ -137,7 +137,6 @@ foreach($onumber as $k=>$val){
       }
       if(!$v->passes()) {
         break;
-
        }
 }
 
@@ -148,7 +147,7 @@ if($v->passes()) {
   $branch = $res[0]['branch_id'];
   $client = $res[0]['c_id'];
       foreach($onumber as $k=>$val){
-            $sql = "select * from branch_towns where town_id = ?";
+            $sql = "select * from driver_towns where town_id = ?";
             $getdriver = getData($con,$sql,[$town_to[$k]]);
             if(count($getdriver) > 0){
                 $driver = $getdriver[0]['driver_id'];
@@ -161,7 +160,13 @@ if($v->passes()) {
             if(count($getbranch) > 0){
              $to_branch = $getbranch[0]['branch_id'];
             }else{
-             $to_branch = 1;
+                  $sql = "select * from branch_cities where city_id = ?";
+                  $getbranch = getData($con,$sql,[$city_to[$k]]);
+                  if(count($getbranch) > 0){
+                   $to_branch = $getbranch[0]['branch_id'];
+                  }else{
+                   $to_branch = 1;
+                  }
             }
 
             if($city_to[$k] == 1){
@@ -254,7 +259,13 @@ if($v->passes()) {
             if(count($getbranch) > 0){
              $to_branch = $getbranch[0]['branch_id'];
             }else{
-             $to_branch = 1;
+                  $sql = "select * from branch_cities where city_id = ?";
+                  $getbranch = getData($con,$sql,[$city_to[$k]]);
+                  if(count($getbranch) > 0){
+                   $to_branch = $getbranch[0]['branch_id'];
+                  }else{
+                   $to_branch = 1;
+                  }
             }
 
             $sql = 'select *,clients.id as c_id from stores inner join clients on clients.id = stores.client_id where stores.id=?';
