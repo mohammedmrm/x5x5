@@ -18,9 +18,9 @@ $v->validate([
 
 if($v->passes()){
          if($_SESSION['role'] == 1 || $_SESSION['role'] == 5){
-            $sql = "delete from orders where id = ?";
+            $sql = "update orders set confirm=3 where id = ?";
          }else{
-            $sql = "delete from orders where id = ? and from_branch = '".$_SESSION['user_details']['branch_id']."'";
+            $sql = "update orders set confirm=3 where id = ? and from_branch = '".$_SESSION['user_details']['branch_id']."'";
          }
          $result = setData($con,$sql,[$id]);
          if($result > 0){

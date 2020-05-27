@@ -120,11 +120,11 @@ $se = $_SESSION['role'];
                             </a>
                         </li>
                         <?php } ?>
-                        <?php  if($se==99){?>
+                        <?php  if($se==1 || $se==99){?>
                         <li class="kt-menu__item " aria-haspopup="true" >
-                            <a href="?page=pages/returned.php" class="kt-menu__link ">
+                            <a href="?page=pages/deleted.php" class="kt-menu__link ">
                                 <i class="kt-menu__link-bullet kt-menu__link-bullet--dot"><span></span></i>
-                                <span class="kt-menu__link-text">تقرير رواجع</span>
+                                <span class="kt-menu__link-text">سلة المحذوفات</span>
                             </a>
                         </li>
                         <?php } ?>

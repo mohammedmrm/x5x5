@@ -36,7 +36,7 @@ if(isset($_REQUEST['ids'])){
   if($action == 'delete'){
 
       try{
-         $query = "delete from orders where id=?";
+         $query = "update orders set confirm=3 where id=?";
          foreach($ids as $v){
            $data = setData($con,$query,[$v]);
            $success="1";
