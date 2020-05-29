@@ -307,25 +307,25 @@ function formatMoney(amount, decimalCount = 0, decimal = ".", thousands = ",") {
           messaging.useServiceWorker(registration);
           messaging.requestPermission()
           .then(function() {
-            console.log(messaging.getToken());
+            //console.log(messaging.getToken());
             return messaging.getToken();
           })
           .then(function(token) {
-            console.log(token);
+            //console.log(token);
             updateUserToken(token);
           })
           .catch(function(err) {
-            console.log("error")
+            //console.log("error")
           });
           messaging.onMessage(function(payload) {
-            console.log('On message', payload);
+            //console.log('On message', payload);
             Toast.success(payload.notification.body,payload.notification.title);
             getNotification();
           });
         });
     }else{
       Notification.requestPermission().then(function(result) {
-        console.log(Notification.getToken());
+        //console.log(Notification.getToken());
       });
     }
     function updateUserToken(token){
@@ -334,7 +334,7 @@ function formatMoney(amount, decimalCount = 0, decimal = ".", thousands = ",") {
                data:{token : token},
                type:"POST",
                success:function(res){
-                console.log(res);
+                //console.log(res);
                },
                error:function(e){
                  console.log(e);
@@ -371,16 +371,16 @@ function createIndexedDB() {
   };
 
   dbRequest.onerror = function(event) {
-    console.log('Error!');
+    //console.log('Error!');
     console.log(event.target.errorCode);
   };
 
   dbRequest.onsuccess = function(event) {
-    console.log('Success');
+   // console.log('Success');
   };
 
   dbRequest.onblocked = function(event) {
-    console.log('Blocked');
+    //console.log('Blocked');
   };
   return  dbRequest;
 };

@@ -771,7 +771,6 @@ $.ajax({
      if(diffDays >= 30 && this.invoice_id <= 0){
         date = '<div class="fc-draggable-handle kt-badge kt-badge--lg kt-badge--danger kt-badge--inline kt-margin-b-15" data-color="fc-event-danger">'+date+'</div>';
      }
-     console.log('days',diffDays,d1,d2);
      $("#ordersTable").append(
        '<tr>'+
             '<td>'+this.id+'</td>'+
