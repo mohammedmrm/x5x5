@@ -87,7 +87,7 @@ $.ajax({
    elem.html("");
    $("#Store_table").removeClass('loading');
    $.each(res.data,function(){
-     if(this.old_date !== "" && this.old_date !== null){
+     if(this.old_date !== "" && this.old_date !== null && this.old_date !== '9999-12-31'){
          date = this.old_date;
          d1 = new Date(date);
          d2 = new Date();
@@ -122,13 +122,14 @@ $.ajax({
      var myTable= $('#tb-getAllStores').DataTable({
         className: 'select-checkbox',
         targets: 0,
+        "aaSorting": [],
         "oLanguage": {
         "sLengthMenu": "عرض_MENU_سجل",
         "sSearch": "بحث:" ,
         select: {
         style: 'os',
         selector: 'td:first-child'
-    }
+        }
       }
 });
     },
