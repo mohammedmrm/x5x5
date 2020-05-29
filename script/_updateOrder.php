@@ -100,7 +100,10 @@ $v->validate([
 ]);
 $sql ="select * from orders where id = ?";
 $res = setData($con,$sql,[$id]);
-if($_SESSION['user_details']['role_id'] == 1 || $_SESSION['user_details']['role_id'] == 5 || $_SESSION['userid'] == $res[0]['manager_id']){
+if($_SESSION['user_details']['role_id'] == 1 ||
+   $_SESSION['user_details']['role_id'] == 5 ||
+  ($_SESSION['user_details']['role_id'] == 2 && $res[0]['from_branch'] == $_SESSION['user_details']['branch_id']) ||
+   $_SESSION['userid'] == $res[0]['manager_id'] ||){
   $premission = 1;
 }else{
  $premission = 0;
