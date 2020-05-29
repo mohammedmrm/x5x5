@@ -89,7 +89,10 @@ if(!empty($end)) {
 }
 
 try{
-  $count = "select count(*) as count from orders
+  $count = "select count(*) as count,
+               SUM(IF (to_city = 1,1,0)) as  b_orders,
+               SUM(IF (to_city > 1,1,0)) as  o_orders
+            from orders
             left join (
              select order_no,count(*) as rep from orders
               GROUP BY order_no
@@ -182,6 +185,8 @@ try{
   }
   $count = getData($con,$count);
   $orders = $count[0]['count'];
+  $total['b_orders'] = $count[0]['b_orders'];
+  $total['o_orders'] = $count[0]['o_orders'];
   $data = getData($con,$query);
   $success="1";
 
@@ -296,7 +301,7 @@ try{
        <td align="center">'.$data[$i]['order_no'].'</td>
        <td width="110" align="center">'.$data[$i]['date'].'</td>
        <td align="center" width="110">'.$data[$i]['store_name'].'</td>
-
+       <td align="center" width="130">'.phone_number_format($data[$i]['client_phone']).'</td>
        <td width="130" align="center">'.phone_number_format($data[$i]['customer_phone']).'</td>
        <td align="center">'.$data[$i]['city'].' - '.$data[$i]['town'].' - '.$data[$i]['address'].'</td>
        <td width="80" align="center">'.number_format($data[$i]['price']).'</td>
@@ -342,7 +347,11 @@ class MYPDF extends TCPDF {
              </tr>
              <tr>
               <td style="text-align:right;" width="200">'.$t['to'].'</td>
-              <td  width="150">عدد الطلبيات : '.$t['orders'].'</td>
+              <td  width="180">'.
+                'عدد الطلبيات  الكلي: '.$t['orders'].'<br />'.
+                'عدد طلبيات بغداد : '.$t['b_orders'].'<br />'.
+                'عدد طلبيات المحافظات : '.$t['o_orders'].'<br />'.
+              '</td>
               <td  width="150">التاريخ:'.date('Y-m-d').'</td>
              </tr>
             </table>
@@ -362,7 +371,11 @@ class MYPDF extends TCPDF {
              </tr>
              <tr>
               <td style="text-align:right;" width="200">'.$t['to'].'</td>
-              <td  width="150">عدد الطلبيات : '.$t['orders'].'</td>
+              <td  width="180">'.
+                'عدد الطلبيات  الكلي: '.$t['orders'].'<br />'.
+                'عدد طلبيات بغداد : '.$t['b_orders'].'<br />'.
+                'عدد طلبيات المحافظات : '.$t['o_orders'].'<br />'.
+              '</td>
               <td  width="150">التاريخ:'.date('Y-m-d').'</td>
              </tr>
             </table>
@@ -380,8 +393,10 @@ class MYPDF extends TCPDF {
               <td ></td>
              </tr>
              <tr>
-              <td style="text-align:right;" width="200">'.$t['to'].'</td>
-              <td  width="150">عدد الطلبيات : '.$t['orders'].'</td>
+              <td style="text-align:right;" width="180">'.$t['to'].'</td>
+              <td  width="150">'.
+                'عدد الطلبيات  الكلي: '.$t['orders'].'<br />'.
+              '</td>
               <td  width="150">التاريخ:'.date('Y-m-d').'</td>
               <td  width="180">
                 <span style="display:inline-block;width:80px;">الواصل :     &nbsp;&nbsp;&nbsp;</span><span style="color:#A9A9A9">........................</span><br />
@@ -484,6 +499,7 @@ $htmlpersian = '<table border="1" class="table" cellpadding="'.$space.'">
                                         <th>رقم الوصل</th>
 										<th width="110">تاريخ الادخال</th>
 										<th width="110">اسم البيح</th>
+                                        <th width="130">هاتف العميل</th>
 										<th width="130">هاتف   المستلم</th>
 										<th>عنوان المستلم</th>
                                         <th width="80">مبلغ الوصل</th>

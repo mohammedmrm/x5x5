@@ -33,8 +33,11 @@ $store = $_REQUEST['store'];
 $total = [];
 
 try{
-  $count = "select count(*) as count from orders ";
-  $query = "select orders.*, date_format(orders.date,'%Y-%m-%m') as dat,
+  $count = "select count(*) as count,
+               SUM(IF (to_city = 1,1,0)) as  b_orders,
+               SUM(IF (to_city > 1,1,0)) as  o_orders
+            from orders ";
+  $query = "select orders.*, date_format(orders.date,'%Y-%m-%d') as dat,
             clients.name as client_name,clients.phone as client_phone,
             cites.name as city,towns.name as town,branches.name as branch_name,
             stores.name as store_name
@@ -75,6 +78,8 @@ try{
 
   $count1 = getData($con,$count);
   $orders = $count1[0]['count'];
+  $total['b_orders'] = $count1[0]['b_orders'];
+  $total['o_orders'] = $count1[0]['o_orders'];
   $data = getData($con,$query);
   $success="1";
 } catch(PDOException $ex) {
@@ -173,7 +178,7 @@ if($orders > 0){
               }
         $hcontent .=
          '<tr class="'.$bg.'">
-           <td width="30"  align="center">'.($i+1).'</td>
+           <td width="60"  align="center">'.($i+1).'</td>
            <td width="100" align="center">'.$data[$i]['dat'].'</td>
            <td width="80"  align="center">'.$data[$i]['order_no'].'</td>
            <td width="120" align="center">'.phone_number_format($data[$i]['customer_phone']).'</td>
@@ -235,7 +240,11 @@ class MYPDF extends TCPDF {
          </tr>
          <tr>
           <td width="350px">الصافي للعميل:'.number_format($t['client_price']).'</td>
-          <td width="300px" style="text-align:center;display:block;">عدد الطلبيات:'.$t['orders'].'</td>
+          <td width="300px" style="text-align:center;display:block;">'.
+                'عدد الطلبيات  الكلي: '.$t['orders'].'<br />'.
+                'عدد طلبيات بغداد : '.$t['b_orders'].'<br />'.
+                'عدد طلبيات المحافظات : '.$t['o_orders'].'<br />'.
+          '</td>
           <td >رقم الكشف:'.$t['orders'].'</td>
          </tr>
         </table>
@@ -270,7 +279,7 @@ $pdf->setFooterFont(Array(PDF_FONT_NAME_DATA, '', PDF_FONT_SIZE_DATA));
 
 
 // set margins
-$pdf->SetMargins(PDF_MARGIN_LEFT, 30, PDF_MARGIN_RIGHT);
+$pdf->SetMargins(PDF_MARGIN_LEFT, 32, PDF_MARGIN_RIGHT);
 $pdf->SetHeaderMargin(5);
 $pdf->SetFooterMargin(PDF_MARGIN_FOOTER);
 // set auto page breaks
@@ -292,7 +301,7 @@ $pdf->AddPage('L', 'A4');
 $htmlpersian = '		<table border="1" class="table" cellpadding="5">
 			       <thead>
 	  						<tr  class="head-tr">
-                                        <th width="30">#</th>
+                                        <th width="60">#</th>
                                         <th width="100">تاريخ الادخال</th>
 										<th width="80">رقم الوصل</th>
 										<th width="120">هاتف المستلم</th>
