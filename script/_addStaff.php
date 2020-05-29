@@ -87,7 +87,8 @@ if($v->passes() && $img_err == "") {
     foreach($res as $k => $val){
     $tokens[] = $val['token'];
     }
-    $fcm = sendNotification($tokens,'موظف','اضافه موظف جديد','../?page=pages/staff.php');
+    $o =[];
+    $fcm = sendNotification($tokens,$o,'موظف','اضافه موظف جديد','../?page=pages/staff.php');
   }
 }else{
   $error = [
@@ -100,5 +101,5 @@ if($v->passes() && $img_err == "") {
            'staff_id_err'=>$img_err
            ];
 }
-echo json_encode(['success'=>$success, 'error'=>$error]);
+echo json_encode([$fcm,'success'=>$success, 'error'=>$error]);
 ?>

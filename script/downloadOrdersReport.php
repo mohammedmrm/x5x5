@@ -301,7 +301,7 @@ try{
        <td align="center">'.$data[$i]['order_no'].'</td>
        <td width="110" align="center">'.$data[$i]['date'].'</td>
        <td align="center" width="110">'.$data[$i]['store_name'].'</td>
-       <td align="center" width="130">'.phone_number_format($data[$i]['client_phone']).'</td>
+
        <td width="130" align="center">'.phone_number_format($data[$i]['customer_phone']).'</td>
        <td align="center">'.$data[$i]['city'].' - '.$data[$i]['town'].' - '.$data[$i]['address'].'</td>
        <td width="80" align="center">'.number_format($data[$i]['price']).'</td>
@@ -463,6 +463,7 @@ $htmlpersian = '<table border="1" class="table" cellpadding="'.$space.'">
                                         <th>رقم الوصل</th>
 										<th style="white-space: nowrap;">تاريخ الادخال</th>
 										<th >اسم البيح</th>
+                                        
 										<th style="white-space: nowrap;">هاتف   المستلم</th>
 										<th>عنوان المستلم</th>
                                         <th >مبلغ الوصل</th>
@@ -499,8 +500,7 @@ $htmlpersian = '<table border="1" class="table" cellpadding="'.$space.'">
                                         <th>رقم الوصل</th>
 										<th width="110">تاريخ الادخال</th>
 										<th width="110">اسم البيح</th>
-                                        <th width="130">هاتف العميل</th>
-										<th width="130">هاتف   المستلم</th>
+                                        <th width="130">هاتف   المستلم</th>
 										<th>عنوان المستلم</th>
                                         <th width="80">مبلغ الوصل</th>
 										<th width="130">ملاحظه</th>
