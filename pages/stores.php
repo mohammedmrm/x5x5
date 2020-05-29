@@ -104,6 +104,8 @@ $.ajax({
      }
      if(this.orders !== "" && this.orders !== null){
        info = ' <br />(طلبيات بدون كشف: <b>'+this.orders+'</b> | تاريخ اقدم طلب بدون كشف: <b>'+this.old_date+'</b>)';
+     }else {
+      info = "";
      }
      elem.append(
        '<tr>'+
