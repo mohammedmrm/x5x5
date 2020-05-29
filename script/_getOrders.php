@@ -41,7 +41,10 @@ try{
             left JOIN client_dev_price on client_dev_price.client_id = orders.client_id AND client_dev_price.city_id = orders.to_city
 
             ";
-  $where = "where";
+  $where = "where ";
+  if($_SESSION['role'] != 1 && $_SESSION['role'] != 5){
+   $where = "where (from_branch = '".$_SESSION['user_details']['branch_id']."' or to_branch = '".$_SESSION['user_details']['branch_id']."') and ";
+  }
   $filter = " and orders.confirm = 1";
   if($branch >= 1){
    $filter .= " and from_branch =".$branch;

@@ -98,8 +98,14 @@ $v->validate([
     'order_note'    => [$order_note,'max(250)'],
     'customer_name' => [$customer_name,'max(200)'],
 ]);
-
-if($v->passes() && $date_err =="") {
+$sql ="select * from orders where id = ?";
+$res = setData($con,$sql,[$id]);
+if($_SESSION['user_details']['role_id'] == 1 || $_SESSION['user_details']['role_id'] == 5 || $_SESSION['userid'] == $res[0]['manager_id']){
+  $premission = 1;
+}else{
+ $premission = 0;
+}
+if($v->passes() && $date_err =="" && $premission) {
 
   $sql = 'update orders set order_no="'.$number.'"';
   $up = "";
@@ -167,7 +173,8 @@ $error = [
            'town'=>implode($v->errors()->get('town')),
            'branch_to'=>implode($v->errors()->get('branch_to')),
            'order_note'=>implode($v->errors()->get('order_note')),
-           'date'=>$date_err
+           'date'=>$date_err,
+           'premission'=>$premission
            ];
 }
 echo json_encode(['success'=>$success, 'error'=>$error,$_POST]);

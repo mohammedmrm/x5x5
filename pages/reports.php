@@ -1003,6 +1003,7 @@ function updateOrder(){
          Toast.success('تم الاضافة');
          $("#kt_form .text-danger").text("");
        }else{
+          if(res.error["premission"] == 1){
            $("#e_order_no_err").text(res.error["order_no"]);
            $("#e_order_type_err").text(res.error["order_type"]);
            $("#e_price_err").text(res.error["order_price"]);
@@ -1021,7 +1022,10 @@ function updateOrder(){
            $("#e_with_dev_err").text(res.error["with_dev"]);
            $("#e_order_note_err").text(res.error["order_note"]);
            $("#e_date_err").text(res.error["date"]);
-           Toast.warning("هناك بعض المدخلات غير صالحة",'خطأ');
+            Toast.warning("هناك بعض المدخلات غير صالحة",'خطأ');
+           }else{
+            Toast.warning("لاتملك صلاحيات تعديل هذا الطلب",'خطأ');
+           }
        }
     },
     error:function(e){
