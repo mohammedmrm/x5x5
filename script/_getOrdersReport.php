@@ -58,7 +58,8 @@ try{
             clients.name as client_name,clients.phone as client_phone,
             stores.name as store_name,a.nuseen_msg,
             cites.name as city,towns.name as town,branches.name as branch_name,to_branch.name as to_branch_name,
-            order_status.status as status_name,staff.name as staff_name,b.rep as repated , driver.name as driver_name
+            order_status.status as status_name,staff.name as staff_name,b.rep as repated , driver.name as driver_name,
+            orders.invoice_id as invoice_id,invoice.path as invoice_path
             from orders left join
             clients on clients.id = orders.client_id
             left join cites on  cites.id = orders.to_city
@@ -69,6 +70,7 @@ try{
             left join staff on  staff.id = orders.manager_id
             left join staff as driver on  driver.id = orders.driver_id
             left join order_status on  order_status.id = orders.order_status_id
+            left join invoice on invoice.id = orders.invoice_id
             left JOIN client_dev_price on client_dev_price.client_id = orders.client_id AND client_dev_price.city_id = orders.to_city
             left join (
              select count(*) as nuseen_msg, max(order_id) as order_id from message
@@ -83,10 +85,10 @@ try{
             ) b on b.order_no = orders.order_no
 
             ";
-$where = "where";
-if($_SESSION['role'] != 1 && $_SESSION['role'] != 5){
- $where = "where from_branch = '".$_SESSION['user_details']['branch_id']."' and ";
-}
+  $where = "where";
+  if($_SESSION['role'] != 1 && $_SESSION['role'] != 5){
+   $where = "where from_branch = '".$_SESSION['user_details']['branch_id']."' and ";
+  }
   $filter = " and orders.confirm = 1 ";
   if($branch >= 1){
    $filter .= " and from_branch =".$branch;

@@ -742,10 +742,15 @@ $.ajax({
      }
    }
    $.each(res.data,function(){
-     if(this.money_status == 1){
-       money = '<span class="success">تم التحاسب</span>';
+     if(this.invoice_id > 0 ){
+         inv = '<a href="invoice/'+this.invoice_path+'" target="_blank" style="color:#FFFFFF;"> | رقم الكشف: '+'<b>'+this.invoice_id+'</b></a>';
      }else{
-       money = '<span class="danger">لم يتم التحاسب</span>';
+        inv = ""
+     }
+     if(this.money_status == 1){
+       money = '<span class="success">تم التحاسب'+inv+'</span>';
+     }else{
+       money = '<span class="danger">لم يتم التحاسب'+inv+'</span>';
      }
      nuseen_msg =this.nuseen_msg;
      notibg = "kt-badge--danger";
@@ -758,6 +763,15 @@ $.ajax({
      }else{
        icon = "";
      }
+     date = this.date;
+     d1 = new Date(date);
+     d2 = new Date();
+     const diffTime = Math.abs(d2 - d1);
+     const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
+     if(diffDays >= 30 && this.invoice_id <= 0){
+        date = '<div class="fc-draggable-handle kt-badge kt-badge--lg kt-badge--danger kt-badge--inline kt-margin-b-15" data-color="fc-event-danger">'+date+'</div>';
+     }
+     console.log('days',diffDays,d1,d2);
      $("#ordersTable").append(
        '<tr>'+
             '<td>'+this.id+'</td>'+
@@ -765,7 +779,7 @@ $.ajax({
             '<td>'+this.client_name+'<br />'+(this.client_phone)+'</td>'+
             '<td>'+(this.customer_phone)+'</td>'+
             '<td>'+this.city+'/'+this.town+'</td>'+
-            '<td>'+this.date+'</td>'+
+            '<td>'+date+'</td>'+
             '<td>'+
                 '<button type="button" class="btn btn-clean" onclick="editOrder('+this.id+')" data-toggle="modal" data-target="#editOrderModal"><span class="flaticon-edit"></sapn></button>'+
                 '<button type="button" class="btn btn-clean" onclick="deleteOrder('+this.id+')" data-toggle="modal" data-target="#deleteOrderModal"><span class="flaticon-delete"></sapn></button>'+

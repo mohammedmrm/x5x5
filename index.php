@@ -137,7 +137,7 @@ require_once("config.php");
           position: relative !important;
         }
 
-     
+
 
         .bootstrap-select .dropdown-menu li a span.text {
           white-space: initial !important;
@@ -257,7 +257,7 @@ function formatMoney(amount, decimalCount = 0, decimal = ".", thousands = ",") {
                   $( document ).ready(function(){
                     fontwight('td',100);
                     Color('.dataTables_wrapper .dataTable td',"#abc");
-                    increaseFontSize('td',20);
+                    //increaseFontSize('td',20);
                    });
 /*                  increaseFontSize('div',3)
                   increaseFontSize('span',1)
