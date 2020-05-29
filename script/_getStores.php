@@ -10,12 +10,12 @@ require("dbconnection.php");
 try{
   if(empty($client)){
    $query = "select stores.*, clients.name as client_name , clients.phone as client_phone
-   from stores inner join clients on clients.id = stores.client_id";
+   from stores left join clients on clients.id = stores.client_id";
     $data = getData($con,$query);
 
   }else {
    $query = "select stores.*, clients.name as client_name , clients.phone as client_phone
-   from stores inner join clients on clients.id = stores.client_id";
+   from stores left join clients on clients.id = stores.client_id";
    $query .= " where client_id=?";
    $data = getData($con,$query,[$client]);
   }
