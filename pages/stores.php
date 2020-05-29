@@ -87,10 +87,28 @@ $.ajax({
    elem.html("");
    $("#Store_table").removeClass('loading');
    $.each(res.data,function(){
+     if(this.old_date !== "" && this.old_date !== null){
+         date = this.old_date;
+         d1 = new Date(date);
+         d2 = new Date();
+         const diffTime = Math.abs(d2 - d1);
+         const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
+         if(diffDays >= 30){
+            name = '<div class="fc-draggable-handle kt-badge kt-badge--lg kt-badge--danger kt-badge--inline kt-margin-b-15" data-color="fc-event-danger">'+this.name+'</div>';
+         }else{
+            name = '<div class="fc-draggable-handle kt-badge kt-badge--lg kt-badge--success kt-badge--inline kt-margin-b-15" data-color="fc-event-success">'+this.name+'</div>';
+         }
+
+     }else{
+         name = '<div class="fc-draggable-handle kt-badge kt-badge--lg kt-badge--success kt-badge--inline kt-margin-b-15" data-color="fc-event-success">'+this.name+'</div>';
+     }
+     if(this.orders !== "" && this.orders !== null){
+       info = ' <br />(طلبيات بدون كشف: <b>'+this.orders+'</b> | تاريخ اقدم طلب بدون كشف: <b>'+this.old_date+'</b>)';
+     }
      elem.append(
        '<tr>'+
             '<td>'+this.id+'</td>'+
-            '<td>'+this.name+'</td>'+
+            '<td >'+name+' &nbsp;'+info+'</td>'+
             '<td>'+this.client_name+'</td>'+
             '<td>'+this.client_phone+'</td>'+
             '<td width="150px">'+
@@ -100,14 +118,6 @@ $.ajax({
      '</tr>');
      });
      var myTable= $('#tb-getAllStores').DataTable({
-     columns:[
-    //"dummy" configuration
-        { visible: true }, //col 1
-        { visible: true }, //col 2
-        { visible: true }, //col 3
-        { visible: true }, //col 4
-        { visible: true }, //col 5
-        ],
         className: 'select-checkbox',
         targets: 0,
         "oLanguage": {

@@ -9,13 +9,32 @@ $client = $_REQUEST['client'];
 require("dbconnection.php");
 try{
   if(empty($client)){
-   $query = "select stores.*, clients.name as client_name , clients.phone as client_phone
-   from stores left join clients on clients.id = stores.client_id";
+   $query = "select stores.*, clients.name as client_name , clients.phone as client_phone,
+             date_format(a.old_date,'%Y-%m-%d') as old_date,a.orders as orders
+             from stores
+             left join clients on clients.id = stores.client_id
+             left join (
+                 select SUM(IF (invoice_id = 0,1,0)) as orders,
+                        min(date) as old_date,
+                        max(store_id) as store_id
+                 from orders
+                 group by orders.store_id
+             ) a on a.store_id = stores.id
+             ";
     $data = getData($con,$query);
 
   }else {
-   $query = "select stores.*, clients.name as client_name , clients.phone as client_phone
-   from stores left join clients on clients.id = stores.client_id";
+   $query = "select stores.*, clients.name as client_name , clients.phone as client_phone,
+   a.old_date as old_date,a.orders as orders
+   from stores left join clients on clients.id = stores.client_id
+             left join (
+                 select SUM(IF (invoice_id = 0,1,0)) as orders,
+                        min(date) as old_date,
+                        max(store_id) as store_id
+                 from orders
+                 group by orders.store_id
+             ) a on a.store_id = stores.id
+   ";
    $query .= " where client_id=?";
    $data = getData($con,$query,[$client]);
   }
