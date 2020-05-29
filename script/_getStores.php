@@ -17,7 +17,7 @@ try{
                  select SUM(IF (invoice_id = 0,1,0)) as orders,
                         min(date) as old_date,
                         max(store_id) as store_id
-                 from orders
+                 from orders where orders.confirm=1
                  group by orders.store_id
              ) a on a.store_id = stores.id
              ";
@@ -31,7 +31,7 @@ try{
                  select SUM(IF (invoice_id = 0,1,0)) as orders,
                         min(date) as old_date,
                         max(store_id) as store_id
-                 from orders
+                 from orders orders.confirm=1
                  group by orders.store_id
              ) a on a.store_id = stores.id
    ";
