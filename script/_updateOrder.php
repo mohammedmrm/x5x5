@@ -86,7 +86,7 @@ $v->validate([
     'order_no'      => [$number,    'required|min(1)|max(100)'],
     'weight'        => [$weight,   'int'],
     'qty'           => [$qty,'int'],
-    'order_price'   => [$order_price,   "required|isPrice"],
+    'order_price'   => [$order_price,   "isPrice"],
     'order_iprice'  => [$order_iprice,   "isPrice"],
     'branch_from'   => [$branch,  'required|int'],
     'store'         => [$store,  'required|int'],
