@@ -25,17 +25,18 @@ try{
 
   }else {
    $query = "select stores.*, clients.name as client_name , clients.phone as client_phone,
-   if(date_format(a.old_date,'%Y-%m-%d') is not null,date_format(a.old_date,'%Y-%m-%d'),'9999-12-31')  as old_date,a.orders as orders
-   from stores left join clients on clients.id = stores.client_id
+             if(date_format(a.old_date,'%Y-%m-%d') is not null,date_format(a.old_date,'%Y-%m-%d'),'9999-12-31') as old_date,a.orders as orders
+             from stores
+             left join clients on clients.id = stores.client_id
              left join (
                  select SUM(IF (invoice_id = 0,1,0)) as orders,
                         min(date) as old_date,
                         max(store_id) as store_id
-                 from orders orders.confirm=1
+                 from orders where orders.confirm=1
                  group by orders.store_id
-             ) a on a.store_id = stores.id
-   ";
-   $query .= " where client_id=? order by  old_date ASC,orders DESC";
+             ) a on a.store_id = stores.id  order by  old_date ASC,orders DESC
+             ";
+   $query .= " where stores.client_id=?";
    $data = getData($con,$query,[$client]);
   }
   $success="1";
