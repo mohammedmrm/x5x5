@@ -308,11 +308,11 @@ legend
 	  						<tr>
 										<th>رقم الشحنه</th>
 										<th>رقم الوصل</th>
-										<th width="150px">اسم وهاتف العميل</th>
+										<th>اسم وهاتف العميل</th>
 										<th>هاتف المستلم</th>
-										<th width="120px">عنوان المستلم</th>
-                                        <th width="100px">تاريخ الادخال</th>
-										<th width="280px">تعديل</th>
+										<th>عنوان المستلم</th>
+                                        <th>تاريخ الادخال</th>
+										<th>تعديل</th>
 										<th>الحاله</th>
                                         <th>المدخل</th>
 										<th>مبلغ الوصل</th>
@@ -334,9 +334,9 @@ legend
 										<th>المستلم هاتف</th>
 										<th>عنوان الارسال</th>
                                         <th>تاريخ الادخال</th>
-										<th >تعديل</th>
-										<th >الحاله</th>
-										<th >المدخل</th>
+										<th>تعديل</th>
+										<th>الحاله</th>
+										<th>المدخل</th>
 										<th>مبلغ الوصل</th>
 										<th>مبلغ التوصيل</th>
 										<th>المبلغ المستلم</th>
@@ -759,9 +759,9 @@ $.ajax({
        notibg="";
      }
      if(this.driver_id == 0){
-       icon = " - <span  data-toggle='kt-tooltip' data-placement='top' data-original-title='لم يتم احالة الطلب الى مندوب' class='fa-2x text-danger fa fa-car-crash'></span>"
+       icon = "<br /><span  data-toggle='kt-tooltip' data-placement='top' data-original-title='لم يتم احالة الطلب الى مندوب' class='fa-2x text-danger flaticon-truck'></span>";
      }else{
-       icon = "";
+       icon = "<br /><span  data-toggle='kt-tooltip' data-placement='top' data-original-title='تم الاحالة الى مندوب' class='fa-2x text-success flaticon2-delivery-truck'></span>";
      }
      date = this.date;
      d1 = new Date(date);
