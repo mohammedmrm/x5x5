@@ -115,7 +115,7 @@ access([1,2,5]);
               		<option value="20">20</option>
               		<option value="25">25</option>
               		<option value="30">30</option>
-                    <option value="50">50</option> 
+                    <option value="50">50</option>
                     <option value="100">100</option>
               	</select>
               </div>
@@ -138,10 +138,10 @@ access([1,2,5]);
                                         <th>رقم الوصل</th>
 										<th width="150px">اسم و هاتف العميل</th>
 										<th width="150px">رقم هاتف المستلم</th>
-										<th>عنوان المستلم</th>
+										<th width="250px">تــــــــــــــــــــحديث الحالـــــــــــــة</th>
 										<th>الحاله</th>
 										<th>المدخل</th>
-										<th width="250px">تحديث الحالة</th>
+										<th>عنوان المستلم</th>
 										<th>مبلغ الوصل</th>
                                         <th>مبلغ التوصيل</th>
                                         <th>المبلغ المستلم</th>
@@ -318,14 +318,14 @@ $.ajax({
             '<td class="fa-2x">'+this.order_no+'</td>'+
             '<td>'+this.client_name+'<br />'+(this.client_phone)+'</td>'+
             '<td>'+(this.customer_phone)+'</td>'+
-            '<td>'+this.city+' - '+this.town+'</td>'+
-            '<td>'+this.status_name+'</td>'+
-            '<td>'+this.staff_name+'</td>'+
             '<td>'+
               '<select status="status" class="form-control" style="height:40px;" name="status[]"  value="">'+
                 options+
               '</select>'+
             '</td>'+
+            '<td>'+this.status_name+'</td>'+
+            '<td>'+this.staff_name+'</td>'+
+            '<td>'+this.city+' - '+this.town+'</td>'+
             '<td>'+formatMoney(this.price)+'</td>'+
             '<td>'+formatMoney(this.dev_price)+'</td>'+
             '<td>'+formatMoney(this.new_price)+'</td>'+
