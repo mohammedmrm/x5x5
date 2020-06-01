@@ -110,18 +110,18 @@ access([1,2,5]);
             <div class="col-lg-3 kt-margin-b-10-tablet-and-mobile">
               	<label>عدد السجلات في الصفحة الواحدة</label>
               	<select onchange="getorders()" class="form-control selectpicker" name="limit" data-col-index="7">
-              		<option value="50">50</option>
                     <option value="10">10</option>
               		<option value="15">15</option>
               		<option value="20">20</option>
               		<option value="25">25</option>
               		<option value="30">30</option>
+                    <option value="50">50</option> 
                     <option value="100">100</option>
               	</select>
               </div>
             <div class="col-lg-2 kt-margin-b-10-tablet-and-mobile">
             	<label>تحديث الحاله الى:</label>
-            	<select st='st' onchange="getorders()" class="form-control kt-input" id="setOrderStatus" name="setOrderStatus" data-col-index="7">
+            	<select st='st'  class="form-control kt-input" onchange="setOrdersStatus()" id="setOrderStatus" name="setOrderStatus" data-col-index="7">
             		<option value="">Select</option>
             	</select>
             </div>
@@ -131,7 +131,7 @@ access([1,2,5]);
             </div>
             </div>
 
-        <table class="table table-striped table-bordered table-hover table-checkable responsive no-wrap" id="tb-orders">
+        <table class="table table-striped table-bordered table-hover table-checkable responsive no-wrap" style="white-space: nowrap;" id="tb-orders">
 			       <thead>
 	  						<tr>
 										<th>رقم الشحنه</th>
@@ -236,13 +236,13 @@ $.ajax({
   type:"POST",
   data:$("#ordertabledata").serialize(),
   beforeSend:function(){
-    $("#section-to-print").addClass('loading');
+    $("#tb-orders").addClass('loading');
   },
   success:function(res){
    console.log(res);
   // saveEventDataLocally(res.data);
-   $("#section-to-print").removeClass('loading');
    $("#tb-orders").DataTable().destroy();
+   $("#tb-orders").removeClass('loading');
    $("#ordersTable").html("");
    $("#pagination").html("");
 
@@ -252,11 +252,11 @@ $.ajax({
     $('#branch').selectpicker('refresh');
    }
 
-   $("#total-client").html(res.total[0].store);
+  /* $("#total-client").html(res.total[0].store);
    $("#total-price").text(formatMoney(res.total[0].client_price));
    $("#total-discount").text(formatMoney(res.total[0].discount));
    $("#total-orders").text(res.total[0].orders);
-
+*/
    if(res.pages >= 1){
      if(res.page > 1){
          $("#pagination").append(
@@ -311,16 +311,11 @@ $.ajax({
        nuseen_msg = "";
        notibg="";
      }
-     if(this.driver_id == 0){
-       icon = " - <span  data-toggle='kt-tooltip' data-placement='top' data-original-title='لم يتم احالة الطلب الى مندوب' class='fa-2x text-danger fa fa-car-crash'></span>"
-     }else{
-       icon = "";
-     }
      $("#ordersTable").append(
        '<tr>'+
             '<td>'+this.id+'<input type="hidden" value="'+this.id+'" name="ids[]">'+
             '</td>'+
-            '<td>'+this.order_no+icon+'</td>'+
+            '<td class="fa-2x">'+this.order_no+'</td>'+
             '<td>'+this.client_name+'<br />'+(this.client_phone)+'</td>'+
             '<td>'+(this.customer_phone)+'</td>'+
             '<td>'+this.city+' - '+this.town+'</td>'+
@@ -338,8 +333,8 @@ $.ajax({
             '<td>'+this.driver_name+'</td>'+
         '</tr>');
      });
-     $('.selectpicker').selectpicker('refresh');
-/*     var myTable= $('#tb-orders').DataTable({
+     //$('.selectpicker').selectpicker('refresh');
+    var myTable= $('#tb-orders').DataTable({
 
       "oLanguage": {
         "sLengthMenu": "عرض_MENU_سجل",
@@ -348,10 +343,10 @@ $.ajax({
        "bPaginate": false,
        "bLengthChange": false,
        "bFilter": false,
-      });*/
+      });
     },
    error:function(e){
-    $("#section-to-print").removeClass('loading');
+    $("#tb-orders").removeClass('loading');
     console.log(e);
   }
 });

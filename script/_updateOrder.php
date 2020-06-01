@@ -98,6 +98,8 @@ $v->validate([
     'order_note'    => [$order_note,'max(250)'],
     'customer_name' => [$customer_name,'max(200)'],
 ]);
+
+
 $sql ="select * from orders where id = ?";
 $res = setData($con,$sql,[$id]);
 if($_SESSION['user_details']['role_id'] == 1 ||
@@ -108,6 +110,8 @@ if($_SESSION['user_details']['role_id'] == 1 ||
 }else{
  $premission = 0;
 }
+
+
 if($v->passes() && $date_err =="" && $premission) {
 
   $sql = 'update orders set order_no="'.$number.'"';
