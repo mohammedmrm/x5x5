@@ -339,7 +339,7 @@ $.ajax({
         '</tr>');
      });
      $('.selectpicker').selectpicker('refresh');
-     var myTable= $('#tb-orders').DataTable({
+/*     var myTable= $('#tb-orders').DataTable({
 
       "oLanguage": {
         "sLengthMenu": "عرض_MENU_سجل",
@@ -348,7 +348,7 @@ $.ajax({
        "bPaginate": false,
        "bLengthChange": false,
        "bFilter": false,
-      });
+      });*/
     },
    error:function(e){
     $("#section-to-print").removeClass('loading');
