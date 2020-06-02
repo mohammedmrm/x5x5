@@ -736,6 +736,8 @@ function checkPhone(){
    console.log(out);
    if(out.length == 0){
       addOrders();
+    }else{
+      Toast.warning("<b>يوجد هاتف مستلم</b> مكرر يرجى التاكد او الضغط على 'اضافة على كل حال'");
     }
 }
 
@@ -746,9 +748,11 @@ function addOrders(){
     data:$("#orderstabledata").serialize(),
     beforeSend:function(){
       $('.text-danger').text('');
+      $('#order-section').addClass('loading');
     },
     success:function(res){
-        console.log(res);
+        $('#order-section').removeClass('loading');
+        //console.log(res);
        if(res.success == 1){
          $("#orderstabledata input[name='order_no[]']").val("");
          $("#orderstabledata input[name='order_price[]']").val("");
@@ -810,7 +814,8 @@ function addOrders(){
        }
     },
     error:function(e){
-      console.log(e);
+       $('#order-section').removeClass('loading');
+       console.log(e);
        Toast.error('خطأ');
     }
   });

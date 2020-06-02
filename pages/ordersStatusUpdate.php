@@ -65,7 +65,7 @@ access([1,2,5]);
 
           </div>
           <div class="row kt-margin-b-20">
-            <div class="col-lg-1 kt-margin-b-10-tablet-and-mobile">
+            <div class="col-lg-2 kt-margin-b-10-tablet-and-mobile">
             	<label>رقم الوصل:</label>
             	<input id="order_no" name="order_no" value="<?php if(!empty($_GET['order_no'])){ echo $_GET['order_no'];} ?>" onkeyup="getorders()" type="text" class="form-control kt-input" placeholder="" data-col-index="0">
             </div>
