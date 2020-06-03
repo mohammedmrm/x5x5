@@ -36,7 +36,7 @@ $sql2 = "select invoice.*,date_format(invoice.date,'%Y-%m-%d') as in_date,client
            from invoice
            inner join stores on stores.id = invoice.store_id
            inner join clients on stores.client_id = clients.id
-           where store_id=? and invoice.orders_status=6";
+           where store_id=? and invoice.orders_status=9";
 $res2 = getData($con,$sql2,[$id]);
 echo json_encode(array("success"=>$success,"data"=>$data,"invoice"=>$res2));
 ?>
