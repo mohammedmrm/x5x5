@@ -1,5 +1,5 @@
 <?php
-ini_set('max_execution_time', 1000);
+ini_set('max_execution_time', 2000);
 ob_start();
 session_start();
 error_reporting(0);
