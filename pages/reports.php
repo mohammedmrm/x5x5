@@ -642,7 +642,7 @@ legend
 <input type="hidden" id="user_branch" value="<?php echo $_SESSION['user_details']['branch_id'];?>"/>
 <input type="hidden" id="user_role" value="<?php echo $_SESSION['role'];?>"/>
             <!--begin::Page Vendors(used by this page) -->
-                            <script src="assets/vendors/custom/datatables/datatables.bundle.js" type="text/javascript"></script>
+<script src="assets/vendors/custom/datatables/datatables.bundle.js" type="text/javascript"></script>
                         <!--end::Page Vendors -->
 
 
