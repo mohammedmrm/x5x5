@@ -99,7 +99,7 @@ try{
               HAVING COUNT(orders.id) > 1
             ) b on b.order_no = orders.order_no
            ";
-  $query = "select orders.*,date_format(orders.date,'%Y-%m-%d') as date,
+  $query = "select orders.*,date_format(orders.date,'%Y-%m-%d') as dat,
             clients.name as client_name,clients.phone as client_phone,stores.name as store_name,
             cites.name as city,towns.name as town,to_branch.name as to_branch_name, branches.name as branch_name,staff.name as driver_name
             from orders left join
@@ -219,7 +219,7 @@ try{
      '<tr>
        <td align="center" width="'.(48+$fontSize).'">'.($i+1).'</td>
        <td align="center">'.$data[$i]['order_no'].'</td>
-       <td align="center">'.$data[$i]['date'].'</td>
+       <td align="center">'.$data[$i]['dat'].'</td>
        <td align="center">'.$data[$i]['store_name'].'</td>
        <td align="center" style="white-space: nowrap;">'.phone_number_format($data[$i]['customer_phone']).'</td>
        <td align="center">'.$data[$i]['city'].'-'.$data[$i]['town'].' - '.$data[$i]['address'].'</td>
@@ -259,7 +259,7 @@ try{
      '<tr>
        <td align="center" width="'.(48+$fontSize).'">'.($i+1).'</td>
        <td align="center">'.$data[$i]['order_no'].'</td>
-       <td align="center">'.$data[$i]['date'].'</td>
+       <td align="center">'.$data[$i]['dat'].'</td>
        <td align="center">'.$data[$i]['store_name'].'</td>
        <td align="center">'.phone_number_format($data[$i]['customer_phone']).'</td>
        <td align="center">'.$data[$i]['city'].' - '.$data[$i]['town'].' - '.$data[$i]['address'].'</td>
@@ -299,7 +299,7 @@ try{
      '<tr>
        <td width="60"  align="center">'.($i+1).'</td>
        <td align="center">'.$data[$i]['order_no'].'</td>
-       <td width="110" align="center">'.$data[$i]['date'].'</td>
+       <td width="110" align="center">'.$data[$i]['dat'].'</td>
        <td align="center" width="110">'.$data[$i]['store_name'].'</td>
 
        <td width="130" align="center">'.phone_number_format($data[$i]['customer_phone']).'</td>
@@ -463,7 +463,7 @@ $htmlpersian = '<table border="1" class="table" cellpadding="'.$space.'">
                                         <th>رقم الوصل</th>
 										<th style="white-space: nowrap;">تاريخ الادخال</th>
 										<th >اسم البيح</th>
-                                        
+
 										<th style="white-space: nowrap;">هاتف   المستلم</th>
 										<th>عنوان المستلم</th>
                                         <th >مبلغ الوصل</th>
