@@ -34,9 +34,9 @@ try{
                         max(store_id) as store_id
                  from orders where orders.confirm=1
                  group by orders.store_id
-             ) a on a.store_id = stores.id  order by  old_date ASC,orders DESC
+             ) a on a.store_id = stores.id
              ";
-   $query .= " where stores.client_id=?";
+   $query .= " where stores.client_id=?  order by  old_date ASC,orders DESC";
    $data = getData($con,$query,[$client]);
   }
   $success="1";

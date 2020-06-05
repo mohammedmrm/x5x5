@@ -429,11 +429,17 @@ legend
                           <span class="form-text text-danger" id="e_branch_err"></span>
   				</div>
                   <div class="form-group">
+  						<label>العميل:</label>
+  						<select onchange="getStores($('#e_store_id'),$(this).val())" data-show-subtext="true" data-live-search="true" type="text" class="selectpicker form-control dropdown-primary" name="e_client" id="e_client_id"  value="">
+                        </select>
+                        <span class="form-text text-danger" id="e_client_err"></span>
+  			     </div>
+                 <div class="form-group">
   						<label>اسم السوق او الصفحه:</label>
   						<select data-show-subtext="true" data-live-search="true" type="text" class="selectpicker form-control dropdown-primary" name="e_store" id="e_store_id"  value="">
                           </select>
                           <span class="form-text text-danger" id="e_store_err"></span>
-  				</div>
+  				  </div>
                   <div class="form-group">
   						<label>اسم المستلم:</label>
   						<input type="text" id="e_customer_name" name="e_customer_name" class="form-control"  placeholder="">
@@ -660,6 +666,7 @@ legend
 <script type="text/javascript">
 getStores($("#store"));
 getStores($("#e_store_id"));
+getClients($("#e_client_id"),0);
 getAllDrivers($("#driver"),$("#branch").val());
 $('#tb-orders').DataTable({
       "oLanguage": {
@@ -970,6 +977,9 @@ function editOrder(id){
           $('#e_branch_to').selectpicker('val',this.to_branch);
           $('#e_branch_to').val(this.to_branch);
 
+          $('#e_client_id').selectpicker('val',this.client_id);
+          $('#e_client_id').val(this.client_id);
+
           $('#e_store_id').selectpicker('val',this.store_id);
           $('#e_store_id').val(this.store_id);
 
@@ -1010,6 +1020,7 @@ function updateOrder(){
            $("#e_iprice_err").text(res.error["order_iprice"]);
            $("#e_weight_err").text(res.error["weight"]);
            $("#e_qty_err").text(res.error["qty"]);
+           $("#e_client_err").text(res.error["client"]);
            $("#e_store_err").text(res.error["store"]);
            $("#e_client_phone_err").text(res.error["client_phone"]);
            $("#e_customer_name_err").text(res.error["customer_name"]);

@@ -62,6 +62,7 @@ $order_price = $_REQUEST['e_price'];
 $order_iprice= $_REQUEST['e_iprice'];
 
 $branch = $_REQUEST['e_branch'];
+$client = $_REQUEST['e_client'];
 $store = $_REQUEST['e_store'];
 $client_phone = $_REQUEST['e_client_phone'];
 
@@ -89,6 +90,7 @@ $v->validate([
     'order_price'   => [$order_price,   "isPrice"],
     'order_iprice'  => [$order_iprice,   "isPrice"],
     'branch_from'   => [$branch,  'required|int'],
+    'client'        => [$client,  'required|int'],
     'store'         => [$store,  'required|int'],
     'client_phone'  => [$client_phone,  'isPhoneNumber'],
     'customer_phone'=> [$customer_phone,'required|isPhoneNumber'],
@@ -143,6 +145,9 @@ if($v->passes() && $date_err =="" && $premission) {
   if(!empty($store) && $store > 0){
     $up .= ' , store_id="'.$store.'"';
   }
+  if(!empty($client) && $client > 0){
+    $up .= ' , client_id="'.$client.'"';
+  }
   if(!empty($customer_phone)){
     $up .= ' , customer_phone="'.$customer_phone.'"';
   }
@@ -173,6 +178,7 @@ $error = [
            'order_iprice'=>implode($v->errors()->get('order_iprice')),
            'branch_from'=>implode($v->errors()->get('branch_from')),
            'store'=>implode($v->errors()->get('store')),
+           'client'=>implode($v->errors()->get('client')),
            'client_phone'=>implode($v->errors()->get('client_phone')),
            'customer_name'=>implode($v->errors()->get('customer_name')),
            'customer_phone'=>implode($v->errors()->get('customer_phone')),
