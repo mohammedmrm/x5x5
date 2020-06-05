@@ -85,9 +85,11 @@ try{
             ) b on b.order_no = orders.order_no
 
             ";
-  $where = "where";
-  if($_SESSION['role'] != 1 && $_SESSION['role'] != 5){
-   $where = "where (from_branch = '".$_SESSION['user_details']['branch_id']."' or to_branch = '".$_SESSION['user_details']['branch_id']."') and ";
+
+  if($_SESSION['role'] == 1 || $_SESSION['role'] == 5){
+     $where = "where";
+  }else{
+     $where = "where (from_branch = '".$_SESSION['user_details']['branch_id']."' or to_branch = '".$_SESSION['user_details']['branch_id']."') and ";
   }
   $filter = " and orders.confirm = 1 ";
   if($branch >= 1){
@@ -250,5 +252,5 @@ if($store >=1){
    $total=["error"=>$ex];
    $success="0";
 }
-echo json_encode(array("success"=>$success,"data"=>$data,'total'=>$total,"pages"=>$pages,"page"=>$page));
+echo json_encode(array($query,"success"=>$success,"data"=>$data,'total'=>$total,"pages"=>$pages,"page"=>$page));
 ?>
