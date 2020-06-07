@@ -40,6 +40,7 @@ require_once("config.php");
         <!--begin::Global Theme Styles(used by all pages) -->
         <link href="./assets/vendors/global/vendors.bundle.rtl.css" rel="stylesheet" type="text/css" />
         <link href="./assets/css/demo1/style.bundle.rtl.css" rel="stylesheet" type="text/css" />
+        <link href="assets/vendors/custom/datatables/datatables.bundle.rtl.css" rel="stylesheet" type="text/css" />
         <!--end::Global Theme Styles -->
         <!--begin::Layout Skins(used by all pages) -->
         <link href="./assets/css/demo1/skins/header/base/light.rtl.css" rel="stylesheet" type="text/css" />
