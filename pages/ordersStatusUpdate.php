@@ -130,7 +130,7 @@ access([1,2,5,3]);
             	<input type="button" class="btn btn-success" value="تحديث" id="updateStatues"  onclick="updateOredrsStatus()"/>
             </div>
             </div>
-
+        <div id="ordersTableDiv">
         <table class="table table-striped table-bordered table-hover table-checkable responsive no-wrap" style="white-space: nowrap;" id="tb-orders">
 			       <thead>
 	  						<tr>
@@ -160,7 +160,7 @@ access([1,2,5,3]);
         <input type="hidden" id="p" name="p" value="<?php if(!empty($_GET['p'])){ echo $_GET['p'];}else{ echo 1;}?>"/>
 		</nav>
      	</div>
-
+        </div>
         </form>
 		<!--end: Datatable -->
 	</div>
@@ -236,13 +236,12 @@ $.ajax({
   type:"POST",
   data:$("#ordertabledata").serialize(),
   beforeSend:function(){
-    $("#tb-orders").addClass('loading');
+    $("#ordersTableDiv").addClass('loading');
   },
   success:function(res){
    console.log(res);
   // saveEventDataLocally(res.data);
    $("#tb-orders").DataTable().destroy();
-   $("#tb-orders").removeClass('loading');
    $("#ordersTable").html("");
    $("#pagination").html("");
 
@@ -344,9 +343,10 @@ $.ajax({
        "bLengthChange": false,
        "bFilter": false,
       });
+      $("#ordersTableDiv").removeClass('loading');
     },
    error:function(e){
-    $("#tb-orders").removeClass('loading');
+    $("#ordersTableDiv").removeClass('loading');
     console.log(e);
   }
 });
