@@ -243,25 +243,20 @@ $.ajax({
   data:$("#ordertabledata").serialize(),
   beforeSend:function(){
     $("#ordersTableDiv").addClass('loading');
-    $("#tb-orders").DataTable().destroy();
+
   },
   success:function(res){
-   console.log(res);
+   $("#tb-orders").DataTable().destroy();
+   //console.log(res);
   // saveEventDataLocally(res.data);
    $("#ordersTable").html("");
    $("#pagination").html("");
 
-   if($("#user_role").val() != 1){
+/*   if($("#user_role").val() != 1){
     $('#branch').selectpicker('val', $("#user_branch").val());
     $('#branch').attr('disabled',"disabled");
     $('#branch').selectpicker('refresh');
-   }
-
-  /* $("#total-client").html(res.total[0].store);
-   $("#total-price").text(formatMoney(res.total[0].client_price));
-   $("#total-discount").text(formatMoney(res.total[0].discount));
-   $("#total-orders").text(res.total[0].orders);
-*/
+   }*/
    if(res.pages >= 1){
      if(res.page > 1){
          $("#pagination").append(
