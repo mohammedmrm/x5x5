@@ -4,6 +4,13 @@ require_once("script/_access.php");
 access([1,2,5,3]);
 }
 ?>
+<style>
+#ordersTableDiv {
+
+min-height: 100px;
+}
+
+</style>
 <div class="kt-content  kt-grid__item kt-grid__item--fluid kt-grid kt-grid--hor" id="kt_content">
 
 <!-- begin:: Subheader -->
@@ -130,7 +137,7 @@ access([1,2,5,3]);
             	<input type="button" class="btn btn-success" value="تحديث" id="updateStatues"  onclick="updateOredrsStatus()"/>
             </div>
             </div>
-        <div id="ordersTableDiv">
+        <div id="ordersTableDiv" >
         <table class="table table-striped table-bordered table-hover table-checkable responsive no-wrap" style="white-space: nowrap;" id="tb-orders">
 			       <thead>
 	  						<tr>
