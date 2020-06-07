@@ -6,7 +6,6 @@ access([1,2,5,3]);
 ?>
 <style>
 #ordersTableDiv {
-
 min-height: 100px;
 }
 
@@ -244,11 +243,11 @@ $.ajax({
   data:$("#ordertabledata").serialize(),
   beforeSend:function(){
     $("#ordersTableDiv").addClass('loading');
+    $("#tb-orders").DataTable().destroy();
   },
   success:function(res){
    console.log(res);
   // saveEventDataLocally(res.data);
-   $("#tb-orders").DataTable().destroy();
    $("#ordersTable").html("");
    $("#pagination").html("");
 
@@ -341,7 +340,6 @@ $.ajax({
      });
      //$('.selectpicker').selectpicker('refresh');
     var myTable= $('#tb-orders').DataTable({
-
       "oLanguage": {
         "sLengthMenu": "عرض_MENU_سجل",
         "sSearch": "بحث:"
