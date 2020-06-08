@@ -142,13 +142,13 @@ min-height: 100px;
 	  						<tr>
 										<th>رقم الشحنه</th>
                                         <th>رقم الوصل</th>
+                                        <th>مبلغ الوصل</th>
                                         <th>اسم و هاتف العميل</th>
-										<th>رقم هاتف المستلم</th>
 										<th width="200px;">تـــــــــــحديث الحالــــــــــــــة</th>
 										<th>الحاله</th>
+										<th>رقم هاتف المستلم</th>
 										<th>عنوان المستلم</th>
-										<th>مبلغ الوصل</th>
-                                        <th>مبلغ التوصيل</th>
+										<th>مبلغ التوصيل</th>
                                         <th>المبلغ المستلم</th>
                                         <th width="120px">التاريخ</th>
                                         <th>المدخل</th>
@@ -206,8 +206,20 @@ $.ajax({
        '<option value="">... اختر ...</option>'
    );
    $.each(res.data,function(){
+     bg ="";
+     if(this.id == 4){
+       bg ="#66CC33";
+     }else if(this.id == 5){
+       bg ="#FFFF66";
+     }else if(this.id == 9){
+       bg ="#EB7261";
+     }else if(this.id == 4){
+       bg ="";
+     }else if(this.id == 4){
+       bg ="";
+     }
      elem.append(
-       '<option value="'+this.id+'">'+this.status +'</option>'
+       '<option style="background-color:'+bg+'" value="'+this.id+'">'+this.status +'</option>'
      );
      if(elem.attr('st') == 'st'){
        getorders();
@@ -305,16 +317,16 @@ $.ajax({
             '<td>'+this.id+'<input type="hidden" value="'+this.id+'" name="ids[]">'+
             '</td>'+
             '<td>'+this.order_no+'</td>'+
+            '<td>'+formatMoney(this.price)+'</td>'+
             '<td>'+this.client_name+'<br />'+(this.client_phone)+'</td>'+
-            '<td>'+(this.customer_phone)+'</td>'+
             '<td>'+
               '<select status="status" class="form-control" style="height:40px;" name="status[]"  value="">'+
                 options+
               '</select>'+
             '</td>'+
             '<td>'+this.status_name+'</td>'+
+            '<td>'+(this.customer_phone)+'</td>'+
             '<td>'+this.city+' - '+this.town+'</td>'+
-            '<td>'+formatMoney(this.price)+'</td>'+
             '<td>'+formatMoney(this.dev_price)+'</td>'+
             '<td>'+formatMoney(this.new_price)+'</td>'+
             '<td>'+this.date+'</td>'+
