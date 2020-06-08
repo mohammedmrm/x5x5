@@ -142,15 +142,15 @@ min-height: 100px;
 	  						<tr>
 										<th>رقم الشحنه</th>
                                         <th>رقم الوصل</th>
-                                        <th>المبلغ المستلم</th>
+                                        <th>مبلغ الوصل</th>
                                         <th>اسم و هاتف العميل</th>
 										<th>رقم هاتف المستلم</th>
 										<th >تــــــــــــــــــــحديث الحالـــــــــــــة</th>
 										<th>الحاله</th>
 										<th>المدخل</th>
 										<th>عنوان المستلم</th>
-										<th>مبلغ الوصل</th>
-                                        <th>مبلغ التوصيل</th>
+										<th>مبلغ التوصيل</th>
+                                        <th>المبلغ المستلم</th>
                                         <th width="100px">التاريخ</th>
                                         <th>المندوب</th>
 						   </tr>
@@ -335,7 +335,11 @@ $.ajax({
      });
      //$('.selectpicker').selectpicker('refresh');
     var myTable= $('#tb-orders').DataTable({
-      "bPaginate": false,
+      "oLanguage": {
+        "sLengthMenu": "عرض_MENU_سجل",
+        "sSearch": "بحث:"
+      },
+       "bPaginate": false,
        "bLengthChange": false,
        "bFilter": false,
       });
