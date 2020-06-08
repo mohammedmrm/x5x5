@@ -315,7 +315,7 @@ $.ajax({
        '<tr>'+
             '<td>'+this.id+'<input type="hidden" value="'+this.id+'" name="ids[]">'+
             '</td>'+
-            '<td class="fa-2x">'+this.order_no+'</td>'+
+            '<td>'+this.order_no+'</td>'+
             '<td>'+formatMoney(this.price)+'</td>'+
             '<td>'+this.client_name+'<br />'+(this.client_phone)+'</td>'+
             '<td>'+(this.customer_phone)+'</td>'+
