@@ -36,7 +36,7 @@ $v->addRuleMessage('unique', 'رقم الوصل مكرر');
 $v->addRule('unique', function($value, $input, $args) {
     $value  = trim($value);
     if($args['0'] == 1){
-        $exists = getData($GLOBALS['con'],"SELECT * FROM orders WHERE order_no='".$value."'");
+        $exists = getData($GLOBALS['con'],"SELECT * FROM orders WHERE order_no='".$value."' and orders.confirm <> 99");
       return ! (bool) count($exists);
     }else{
       return (bool) 1;
