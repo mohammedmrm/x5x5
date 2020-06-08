@@ -142,15 +142,15 @@ min-height: 100px;
 	  						<tr>
 										<th>رقم الشحنه</th>
                                         <th>رقم الوصل</th>
-										<th width="150px">اسم و هاتف العميل</th>
-										<th width="150px">رقم هاتف المستلم</th>
-										<th width="250px">تــــــــــــــــــــحديث الحالـــــــــــــة</th>
+                                        <th>المبلغ المستلم</th>
+                                        <th>اسم و هاتف العميل</th>
+										<th>رقم هاتف المستلم</th>
+										<th >تــــــــــــــــــــحديث الحالـــــــــــــة</th>
 										<th>الحاله</th>
 										<th>المدخل</th>
 										<th>عنوان المستلم</th>
 										<th>مبلغ الوصل</th>
                                         <th>مبلغ التوصيل</th>
-                                        <th>المبلغ المستلم</th>
                                         <th width="100px">التاريخ</th>
                                         <th>المندوب</th>
 						   </tr>
@@ -316,6 +316,7 @@ $.ajax({
             '<td>'+this.id+'<input type="hidden" value="'+this.id+'" name="ids[]">'+
             '</td>'+
             '<td class="fa-2x">'+this.order_no+'</td>'+
+            '<td>'+formatMoney(this.price)+'</td>'+
             '<td>'+this.client_name+'<br />'+(this.client_phone)+'</td>'+
             '<td>'+(this.customer_phone)+'</td>'+
             '<td>'+
@@ -326,7 +327,6 @@ $.ajax({
             '<td>'+this.status_name+'</td>'+
             '<td>'+this.staff_name+'</td>'+
             '<td>'+this.city+' - '+this.town+'</td>'+
-            '<td>'+formatMoney(this.price)+'</td>'+
             '<td>'+formatMoney(this.dev_price)+'</td>'+
             '<td>'+formatMoney(this.new_price)+'</td>'+
             '<td>'+this.date+'</td>'+
@@ -335,11 +335,7 @@ $.ajax({
      });
      //$('.selectpicker').selectpicker('refresh');
     var myTable= $('#tb-orders').DataTable({
-      "oLanguage": {
-        "sLengthMenu": "عرض_MENU_سجل",
-        "sSearch": "بحث:"
-      },
-       "bPaginate": false,
+      "bPaginate": false,
        "bLengthChange": false,
        "bFilter": false,
       });
