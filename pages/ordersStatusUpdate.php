@@ -73,7 +73,7 @@ min-height: 100px;
           <div class="row kt-margin-b-20">
             <div class="col-lg-2 kt-margin-b-10-tablet-and-mobile">
             	<label>رقم الوصل:</label>
-            	<input id="order_no" name="order_no" value="<?php if(!empty($_GET['order_no'])){ echo $_GET['order_no'];} ?>" onkeyup="getorders()" type="text" class="form-control kt-input" placeholder="" data-col-index="0">
+            	<input id="order_no" name="order_no" value="<?php if(!empty($_GET['order_no'])){ echo $_GET['order_no'];} ?>" onkeyup="getorders()" onkeydown="if(event.keyCode==13) getorders();" type="text" class="form-control kt-input" placeholder="" data-col-index="0">
             </div>
             <div class="col-lg-2 kt-margin-b-10-tablet-and-mobile">
             	<label>اسم او هاتف المستلم:</label>
