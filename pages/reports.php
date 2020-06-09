@@ -976,13 +976,15 @@ function editOrder(id){
 
           $('#e_branch_to').selectpicker('val',this.to_branch);
           $('#e_branch_to').val(this.to_branch);
+          if(this.client_name != null){
+            $('#e_client_id').selectpicker('val',this.client_id);
+            $('#e_client_id').val(this.client_id);
+          }
 
-          $('#e_client_id').selectpicker('val',this.client_id);
-          $('#e_client_id').val(this.client_id);
-
+          if(this. store_name != null){
           $('#e_store_id').selectpicker('val',this.store_id);
           $('#e_store_id').val(this.store_id);
-
+          }
           $('.selectpicker').selectpicker('refresh');
         });
       }
