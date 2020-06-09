@@ -58,16 +58,23 @@ min-height: 100px;
             		<option value="">Select</option>
                 </select>
             </div>
-            <div class="col-lg-3 kt-margin-b-10-tablet-and-mobile">
-            <label>الفترة الزمنية :</label>
-            <div class="input-daterange input-group" id="kt_datepicker">
-  				<input value="" onchange="getorders()" type="text" class="form-control kt-input" name="start" id="start" placeholder="من" data-col-index="5">
-  				<div class="input-group-append">
-  					<span class="input-group-text"><i class="la la-ellipsis-h"></i></span>
-  				</div>
-  				<input onchange="getorders()" type="text" class="form-control kt-input" name="end"  id="end" placeholder="الى" data-col-index="5">
-          	</div>
+            <div class="col-lg-2 kt-margin-b-10-tablet-and-mobile">
+            	<label>حالة الطلبات من الكشف</label>
+                <select id="invoice" name="invoice" onchange="getorders()" class="selectpicker form-control kt-input" data-col-index="2">
+            		<option value="">... اختر...</option>
+            		<option value="1">طلبات بدون كشف</option>
+            		<option value="2">طلبات كشف</option>
+                </select>
             </div>
+            <div class="col-lg-2 kt-margin-b-10-tablet-and-mobile">
+            	<label>حالة التكرار:</label>
+                <select name="repated" onchange="getorders()" class="selectpicker form-control kt-input" data-col-index="2">
+            		<option value="">عرض الكل</option>
+            		<option value="1">عرض المكرر فقط</option>
+            		<option value="2">عرض غير المكرر</option>
+                </select>
+            </div>
+
 
           </div>
           <div class="row kt-margin-b-20">
@@ -92,21 +99,15 @@ min-height: 100px;
             		<option value="0">لم يتم تسليم المبلغ</option>
                 </select>
             </div>
-            <div class="col-lg-2 kt-margin-b-10-tablet-and-mobile">
-            	<label>حالة الطلبات من الكشف</label>
-                <select id="invoice" name="invoice" onchange="getorders()" class="selectpicker form-control kt-input" data-col-index="2">
-            		<option value="">... اختر...</option>
-            		<option value="1">طلبات بدون كشف</option>
-            		<option value="2">طلبات كشف</option>
-                </select>
-            </div>
-            <div class="col-lg-2 kt-margin-b-10-tablet-and-mobile">
-            	<label>حالة التكرار:</label>
-                <select name="repated" onchange="getorders()" class="selectpicker form-control kt-input" data-col-index="2">
-            		<option value="">عرض الكل</option>
-            		<option value="1">عرض المكرر فقط</option>
-            		<option value="2">عرض غير المكرر</option>
-                </select>
+            <div class="col-lg-3 kt-margin-b-10-tablet-and-mobile">
+            <label>الفترة الزمنية :</label>
+            <div class="input-daterange input-group" id="kt_datepicker">
+  				<input value="" onchange="getorders()" type="text" class="form-control kt-input" name="start" id="start" placeholder="من" data-col-index="5">
+  				<div class="input-group-append">
+  					<span class="input-group-text"><i class="la la-ellipsis-h"></i></span>
+  				</div>
+  				<input onchange="getorders()" type="text" class="form-control kt-input" name="end"  id="end" placeholder="الى" data-col-index="5">
+          	</div>
             </div>
           <div class="kt-separator kt-separator--border-dashed kt-separator--space-md"></div>
           </div>
