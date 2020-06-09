@@ -111,7 +111,6 @@ min-height: 100px;
           <div class="kt-separator kt-separator--border-dashed kt-separator--space-md"></div>
           </div>
           </fieldset>
-
           <div class="row kt-margin-b-20">
             <div class="col-lg-3 kt-margin-b-10-tablet-and-mobile">
               	<label>عدد السجلات في الصفحة الواحدة</label>
@@ -135,7 +134,10 @@ min-height: 100px;
             	<label>تحديث:</label> <br />
             	<input type="button" class="btn btn-success" value="تحديث" id="updateStatues"  onclick="updateOredrsStatus()"/>
             </div>
+            <div class="col-lg-3 kt-margin-b-10-tablet-and-mobile">
+                <br /><label class="fa-2x">عدد الطلبيات:&nbsp;</label><label class="fa-2x" id="total-orders"> 0 </label>
             </div>
+          </div>
         <div id="ordersTableDiv" >
         <table class="table table-striped table-bordered table-hover table-checkable responsive nowarp" id="tb-orders">
 			       <thead>
@@ -300,6 +302,7 @@ $.ajax({
          );
      }
    }
+   $("#total-orders").text(res.total[0].orders);
    $.each(res.data,function(){
      if(this.money_status == 1){
        money = '<span class="success">تم التحاسب</span>';
