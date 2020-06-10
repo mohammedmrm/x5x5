@@ -237,14 +237,14 @@ function earnings(){
                   backgroundColor: 'rgb(115, 222, 10,0.4)',
                   type: 'line',
                   borderColor:  'rgb(105, 202, 10,0.9)',
-                  borderWidth:2,hitRadius:0,hoverRadius:0,
+                  borderWidth:2,hitRadius:3,hoverRadius:4,
                   borderWidth:2,
               },{
                   label: 'الدخل الكلي',
                   data: income,
                   backgroundColor: 'rgb(255, 109, 142,0.4)',
                   borderColor: 'rgb(255, 109, 142,0.9)',
-                  borderWidth:2,hitRadius:0,hoverRadius:0,
+                  borderWidth:2,hitRadius:3,hoverRadius:4,
                   type: 'line',
               }],
               labels: days,
@@ -269,7 +269,7 @@ function earnings(){
               },
               elements: {
                     point:{
-                        radius: 1.2
+                        radius: 1.8
                     }
              }
           }

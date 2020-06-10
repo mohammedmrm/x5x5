@@ -78,7 +78,7 @@ require_once("config.php");
       		padding: 10px;
       		position: relative;
       		border-radius:4px;
-              border-bottom:2px solid #FF6600;
+            border-bottom:2px solid #FF6600;
       		background-color:#f5f5f5;
       		padding-left:10px !important;
       		width:100%;
