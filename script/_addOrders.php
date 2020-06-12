@@ -319,7 +319,7 @@ if($v->passes()) {
                          [$driver,$manger,$prefix.$onumber[$k],$order_type[$k],$weight[$k],$qty[$k],
                           $order_price[$k],$dev_price,$mainbranch,
                           $client,$client_phone[$k],$store[$k],$customer_name[$k],
-                          $customer_phone[$k],$maincity,$town_to[$k],$to_branch[$k],$with_dev,$order_note[$k],$new_price,$order_address[$k],$company,$confirm]);
+                          $customer_phone[$k],$maincity,$town_to[$k],$to_branch,$with_dev,$order_note[$k],$new_price,$order_address[$k],$company,$confirm]);
           $sql = 'select token from clients where id = ? ';
           $res = getData($con,$sql,[$client]);
           foreach($res as $k => $val){
