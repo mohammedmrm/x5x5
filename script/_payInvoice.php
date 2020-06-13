@@ -25,7 +25,7 @@ if($v->passes()){
              $result = setData($con,$sql,[$id]);
              if($result > 0){
                  $success = 1;
-                 $sql = "update orders set money_status = 1,order_status_id = 12 where invoice_id=?";
+                 $sql = "update orders set money_status = 1 where invoice_id=?";
                  $result = setData($con,$sql,[$id]);
              }else{
                 $msg = "مدفوعه مسبقاً";
