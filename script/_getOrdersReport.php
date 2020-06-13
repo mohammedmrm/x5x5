@@ -17,6 +17,7 @@ $invoice= $_REQUEST['invoice'];
 $status = $_REQUEST['orderStatus'];
 $driver = $_REQUEST['driver'];
 $repated = $_REQUEST['repated'];
+$confirm = $_REQUEST['confirm'];
 $start = trim($_REQUEST['start']);
 $end = trim($_REQUEST['end']);
 $limit = trim($_REQUEST['limit']);
@@ -91,7 +92,11 @@ try{
   }else{
      $where = "where (from_branch = '".$_SESSION['user_details']['branch_id']."' or to_branch = '".$_SESSION['user_details']['branch_id']."') and ";
   }
-  $filter = " and orders.confirm = 1 ";
+   if($confirm == 1 || $confirm == 4){
+    $filter .= " and orders.confirm ='".$confirm."'";
+   }else{
+    $filter .= " and (orders.confirm =1 or orders.confirm =4)";
+   }
   if($branch >= 1){
    $filter .= " and from_branch =".$branch;
   }

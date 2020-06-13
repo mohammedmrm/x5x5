@@ -159,7 +159,7 @@ legend
                             <tfoot>
 	                <tr>
 										<th></th>
-                                        <th>حذف</th>
+                                        <th>تاكيد</th>
 										<th>رقم الشحنه</th>
 										<th>رقم الوصل</th>
 										<th width="150px">اسم و هاتف العميل</th>

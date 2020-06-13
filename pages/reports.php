@@ -36,6 +36,7 @@ legend
   font-weight: bold;
 }
 
+
 @media print {
   body * {
     visibility: hidden;
@@ -270,12 +271,20 @@ legend
           <div class="kt-separator kt-separator--border-dashed kt-separator--space-md"></div>
           </div>
           <div class="row kt-margin-b-20">
+            <div class="col-lg-2 kt-margin-b-10-tablet-and-mobile">
+            	<label>حالة التاكيد من الفروع</label>
+                <select id="confirm" name="confirm" onchange="getorders()" class="selectpicker form-control kt-input" data-col-index="2">
+            		<option value="all">الكل</option>
+            		<option value="1">الطلبيات المؤكدة</option>
+            		<option value="4">الطلبيات الغير المؤكدة</option>
+                </select>
+            </div>
             <div class="col-lg-1 kt-margin-b-10-tablet-and-mobile">
-                	<label class="">توليد كشف:</label><br />
+                	<label class="">.</label><br />
                     <input  id="invoicebtn" name="invoicebtn" type="button" value="كشف" onclick="makeInvoice()" class="btn btn-danger" placeholder="" data-col-index="1">
             </div>
             <div class="col-lg-1 kt-margin-b-10-tablet-and-mobile">
-                	<label class="">تحميل التقرير:</label><br />
+                	<label class="">.</label><br />
                     <input id="download" name="download" type="button" value="تحميل التقرير" data-toggle="modal" data-target="#reportOptionsModal" class="btn btn-success" placeholder="" data-col-index="1">
             </div>
           </div>
@@ -770,6 +779,11 @@ $.ajax({
      }else{
        icon = "<br /><span  data-toggle='kt-tooltip' data-placement='top' data-original-title='تم الاحالة الى مندوب' class='fa-2x text-success flaticon2-delivery-truck'></span>";
      }
+     if(this.confirm == 4){
+       bg ="bg-warning";
+     }else{
+       bg ="";
+     }
      date = this.date;
      d1 = new Date(date);
      d2 = new Date();
@@ -779,7 +793,7 @@ $.ajax({
         date = '<div class="fc-draggable-handle kt-badge kt-badge--lg kt-badge--danger kt-badge--inline kt-margin-b-15" data-color="fc-event-danger">'+date+'</div>';
      }
      $("#ordersTable").append(
-       '<tr>'+
+       '<tr class="'+bg+'">'+
             '<td>'+this.id+'</td>'+
             '<td>'+this.order_no+icon+'</td>'+
             '<td>'+this.client_name+'<br />'+(this.client_phone)+'</td>'+

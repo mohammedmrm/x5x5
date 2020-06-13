@@ -21,6 +21,7 @@ $driver = $_REQUEST['driver'];
 $invoice= $_REQUEST['invoice'];
 $status = $_REQUEST['orderStatus'];
 $repated = $_REQUEST['repated'];
+$confirm = $_REQUEST['confirm'];
 $start = trim($_REQUEST['start']);
 $end = trim($_REQUEST['end']);
 
@@ -52,6 +53,9 @@ if($reportType == 2){
      background-color: #FFCCFF;
      color:#111;
     }
+  .unc{
+    background-color: #FFCC33;
+  }
   </style>';
 }else if($reportType == 3){
   $style='
@@ -65,6 +69,9 @@ if($reportType == 2){
      background-color: #FFFFCC;
      color:#111;
     }
+  .unc{
+    background-color: #FFCC33;
+  }
   </style>';
 }else{
   $style='
@@ -77,6 +84,9 @@ if($reportType == 2){
     .head-tr {
      background-color: #ddd;
      color:#111;
+    }
+    .unc{
+      background-color: #FFCC33;
     }
   </style>';
 }
@@ -117,8 +127,11 @@ try{
             ) b on b.order_no = orders.order_no
             ";
    $where = "where";
-   $filter = " and orders.confirm = 1";
-
+   if($confirm == 1 || $confirm == 4){
+    $filter .= " and orders.confirm ='".$confirm."'";
+   }else{
+    $filter .= " and (orders.confirm =1 or orders.confirm =4)";
+   }
   if($branch >= 1){
    $filter .= " and from_branch =".$branch;
   }
@@ -214,9 +227,12 @@ try{
             }
             $data[$i]['dev_price'] = $dev_p;
             $data[$i]['client_price'] = ($data[$i]['new_price'] -  $dev_p) + $data[$i]['discount'];
-
+            $bg = "";
+            if($data[$i]['confirm'] > 1){
+                 $bg = "unc";
+            }
     $hcontent .=
-     '<tr>
+     '<tr class="'.$bg.'">
        <td align="center" width="'.(48+$fontSize).'">'.($i+1).'</td>
        <td align="center">'.$data[$i]['order_no'].'</td>
        <td align="center">'.$data[$i]['dat'].'</td>
@@ -254,9 +270,12 @@ try{
             }
             $data[$i]['dev_price'] = $dev_p;
             $data[$i]['client_price'] = ($data[$i]['new_price'] -  $dev_p) + $data[$i]['discount'];
-
+            $bg = "";
+            if($data[$i]['confirm'] > 1){
+                 $bg = "unc";
+            }
     $hcontent .=
-     '<tr>
+     '<tr class="'.$bg.'">
        <td align="center" width="'.(48+$fontSize).'">'.($i+1).'</td>
        <td align="center">'.$data[$i]['order_no'].'</td>
        <td align="center">'.$data[$i]['dat'].'</td>
@@ -294,9 +313,12 @@ try{
             }
             $data[$i]['dev_price'] = $dev_p;
             $data[$i]['client_price'] = ($data[$i]['new_price'] -  $dev_p) + $data[$i]['discount'];
-
+            $bg = "";
+            if($data[$i]['confirm'] > 1){
+                $bg = "unc";
+            }
     $hcontent .=
-     '<tr>
+     '<tr class="'.$bg.'">
        <td width="60"  align="center">'.($i+1).'</td>
        <td align="center">'.$data[$i]['order_no'].'</td>
        <td width="110" align="center">'.$data[$i]['dat'].'</td>

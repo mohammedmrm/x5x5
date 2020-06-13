@@ -111,6 +111,14 @@ min-height: 100px;
             </div>
           <div class="kt-separator kt-separator--border-dashed kt-separator--space-md"></div>
           </div>
+            <div class="col-lg-2 kt-margin-b-10-tablet-and-mobile">
+            	<label>حالة التاكيد من الفروع</label>
+                <select id="confirm" name="confirm" onchange="getorders()" class="selectpicker form-control kt-input" data-col-index="2">
+            		<option value="all">الكل</option>
+            		<option value="1">الطلبيات المؤكدة</option>
+            		<option value="4">الطلبيات الغير المؤكدة</option>
+                </select>
+            </div>
           </fieldset>
           <div class="row kt-margin-b-20">
             <div class="col-lg-3 kt-margin-b-10-tablet-and-mobile">
@@ -316,8 +324,13 @@ $.ajax({
        nuseen_msg = "";
        notibg="";
      }
+     if(this.confirm == 4){
+       bg ="bg-warning";
+     }else{
+       bg ="";
+     }
      $("#ordersTable").append(
-       '<tr>'+
+       '<tr class="'+bg+'">'+
             '<td>'+this.id+'<input type="hidden" value="'+this.id+'" name="ids[]">'+
             '</td>'+
             '<td>'+this.order_no+'</td>'+

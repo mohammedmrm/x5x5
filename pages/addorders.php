@@ -748,11 +748,11 @@ function addOrders(){
     data:$("#orderstabledata").serialize(),
     beforeSend:function(){
       $('.text-danger').text('');
-      $('#order-section').addClass('loading');
+      $('#orderstabledata').addClass('loading');
     },
     success:function(res){
-        $('#order-section').removeClass('loading');
-        //console.log(res);
+        $('#orderstabledata').removeClass('loading');
+        console.log(res);
        if(res.success == 1){
          $("#orderstabledata input[name='order_no[]']").val("");
          $("#orderstabledata input[name='order_price[]']").val("");
@@ -814,7 +814,7 @@ function addOrders(){
        }
     },
     error:function(e){
-       $('#order-section').removeClass('loading');
+       $('#orderstabledata').removeClass('loading');
        console.log(e);
        Toast.error('خطأ');
     }

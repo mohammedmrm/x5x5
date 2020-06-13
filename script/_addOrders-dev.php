@@ -85,10 +85,7 @@ $by= $_REQUEST['by'];
 if(empty($number)){
   $number = "1";
 }
-$confirm = 4;
-if($_SESSION['user_details']['branch_id'] == 1){
-  $confirm = 1;
-}
+
 $no = 0;
 foreach($onumber as $k=>$val){
   $no=$_REQUEST['num'][$k];
@@ -175,7 +172,7 @@ if($v->passes()) {
                  $to_branch = 1;
                 }
             }
-            $confirm = 4;
+              $confirm = 4;
             if($_SESSION['user_details']['branch_id'] == $to_branch){
               $confirm = 1;
             }
@@ -283,7 +280,7 @@ if($v->passes()) {
                  $to_branch = 1;
                 }
             }
-            $confirm = 4;
+              $confirm = 4;
             if($_SESSION['user_details']['branch_id'] == $to_branch){
               $confirm = 1;
             }
