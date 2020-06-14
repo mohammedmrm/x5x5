@@ -431,7 +431,7 @@ include("config.php");
 					</div>
                     <div class="form-group">
 						<label>اسم المنطقة:</label>
-						<input type="name" name="town_name" class="form-control"  placeholder="اسم الحالة">
+						<input type="name" id="town_name" name="town_name" class="form-control"  placeholder="اسم الحالة">
 						<span class="form-text  text-danger" id="town_name_err"></span>
 					</div>
 					<div class="form-group">
@@ -1079,7 +1079,9 @@ function addtowns(){
     success:function(res){
        console.log(res);
        if(res.success == 1){
-         $("#kt_form input").val("");
+         $("input").val("");
+         $("#town_name").val("");
+
          Toast.success('تم الاضافة');
             if($("#by").val() == 'city'){
                getTowns($("[town='town']").last(),$("#maincity").last().val());
