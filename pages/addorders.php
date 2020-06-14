@@ -146,6 +146,13 @@ include("config.php");
 				<input type="text" class="form-control" id="customer_name1" name="customer_name[]" value="">
 				<span id="customer_name_err1" class="form-text text-danger"></span>
 			</div>-->
+			<div class="form-group col-lg-2" style="display:none;" >
+				<label>الصفحه (البيج)</label>
+				<select store='store'   data-show-subtext="true" data-live-search="true" type="text" class="selectpicker  form-control dropdown-primary" name="store[]" id="store1"  value="">
+
+                </select>
+                <span id="store_err1" storeerr="storeerr" class="form-text text-danger"></span>
+			</div>
             <div class="form-group col-lg-2">
 				<label>المبلغ الكلي</label>
 				<input   price="price" onkeyup="CurrencyFormatted($(this),$(this).val())" type="text" class="form-control sp" id="order" name="order_price[]" placeholder="المبلغ" value="">
@@ -156,13 +163,6 @@ include("config.php");
             	<input  no="no" id="order_no1" name="order_no[]" barcode="barcode"  type="text" class="form-control kt-input sp" placeholder="">
                <span id="order_no_err1" class="form-text text-danger"></span>
            </div>
-			<div class="form-group col-lg-2" style="display:none;" >
-				<label>الصفحه (البيج)</label>
-				<select store='store'   data-show-subtext="true" data-live-search="true" type="text" class="selectpicker  form-control dropdown-primary" name="store[]" id="store1"  value="">
-
-                </select>
-                <span id="store_err1" storeerr="storeerr" class="form-text text-danger"></span>
-			</div>
 			<div class="form-group col-lg-2">
 				<label>المحافظة المرسل لها</label>
 				<select  city="city"  onchange='getTowns($("#town1"),$("#city1").val())' city="city" data-show-subtext="true" data-live-search="true" type="text" class="selectpicker  form-control dropdown-primary" name="city[]" id="city1"  value="">
@@ -183,14 +183,14 @@ include("config.php");
 				<span id="order_address_err1" class="form-text text-danger"></span>
 			</div>
             <div class="form-group  col-lg-2">
-				<label>ملاحظات</label>
-				<textarea type="text" note="note" class="form-control" id="order_note1" name="order_note[]" value="" style="margin-top: 0px; margin-bottom: 0px; height: 38px;"></textarea>
-				<span id="order_note_err1" class="form-text text-danger"></span>
-			</div>
-            <div class="form-group  col-lg-2">
 				<label>رقم الهاتف المستلم</label>
 				<input  type="tel" phone="phone" style="direction: ltr !important;"  data-inputmask="'mask': '9999-999-9999'" value="" class="form-control sp" noseq="1" id="customer_phone1" name="customer_phone[]"/>
 				<span id="customer_phone_err1"  class="form-text text-danger"></span>
+			</div>
+            <div class="form-group  col-lg-2">
+				<label>ملاحظات</label>
+				<textarea type="text" note="note" class="form-control" id="order_note1" name="order_note[]" value="" style="margin-top: 0px; margin-bottom: 0px; height: 38px;"></textarea>
+				<span id="order_note_err1" class="form-text text-danger"></span>
 			</div>
             <div class="form-group  col-lg-2">
             <br />
@@ -596,6 +596,13 @@ function addMore(){
     number =  $("#counter").val();
     content =content + `<fieldset id="f`+number+`"><legend>شحنه رقم `+number+`</legend>
           <div class="row">
+			<div class="form-group col-lg-2" style="display:none;">
+				<label>الصفحه</label>
+				<select  store="store"  data-show-subtext="true" data-live-search="true" type="text" class="selectpicker  form-control dropdown-primary" name="store[]" id="store`+number+`"  value="">
+                  `+stores+`
+                </select>
+                <span id="store_err`+number+`" storeerr="storeerr" class="form-text text-danger"></span>
+			</div>          
            <div  class="form-group col-lg-2">
 				<label>المبلغ الكلي</label>
 				<input foucs="foucs" price="price" onkeyup="CurrencyFormatted($(this))" type="text" class="form-control sp" id="order_price`+number+`" name="order_price[]" placeholder="المبلغ" value="">
@@ -606,13 +613,6 @@ function addMore(){
             	<input  no="no" id="order_no`+number+`" value="" name="order_no[]"  type="text" class="form-control sp" placeholder="">
                 <span id="order_no_err`+number+`" class="form-text text-danger"></span>
             </div>
-			<div class="form-group col-lg-2" style="display:none;">
-				<label>الصفحه</label>
-				<select  store="store"  data-show-subtext="true" data-live-search="true" type="text" class="selectpicker  form-control dropdown-primary" name="store[]" id="store`+number+`"  value="">
-                  `+stores+`
-                </select>
-                <span id="store_err`+number+`" storeerr="storeerr" class="form-text text-danger"></span>
-			</div>
 			<div class="form-group col-lg-2">
 				<label>المحافظة</label>
 				<select  city="city" onchange='`+`getTowns($("#town`+number+`"),$("#city`+number+`").val())`+`' city="city" data-show-subtext="true" data-live-search="true" type="text" class="selectpicker  form-control dropdown-primary" name="city[]" id="city`+number+`"  value="">
@@ -633,14 +633,14 @@ function addMore(){
 				<span id="order_address_err`+number+`" class="form-text text-danger"></span>
 			</div>
             <div class="form-group  col-lg-2">
-				<label>ملاحظات</label>
-				<textarea  note="note" type="text" class="form-control" name="order_note[]" style="height: 38px;">`+order_note+`</textarea>
-				<span id="order_note_err`+number+`" class="form-text text-danger"></span>
-			</div>
-            <div class="form-group  col-lg-2">
 				<label>رقم الهاتف</label>
 				<input  phone="phone" noseq="`+number+`" type="tel" style="direction: ltr !important;" data-inputmask="'mask': '9999-999-9999'" class="form-control sp" id="customer_phone`+number+`" name="customer_phone[]" value="" />
 				<span id="customer_phone_err`+number+`" class="form-text text-danger"></span>
+			</div>
+            <div class="form-group  col-lg-2">
+				<label>ملاحظات</label>
+				<textarea  note="note" type="text" class="form-control" name="order_note[]" style="height: 38px;">`+order_note+`</textarea>
+				<span id="order_note_err`+number+`" class="form-text text-danger"></span>
 			</div>
             <div class="form-group  col-lg-2">
 				<br />
