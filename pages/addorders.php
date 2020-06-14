@@ -602,7 +602,7 @@ function addMore(){
                   `+stores+`
                 </select>
                 <span id="store_err`+number+`" storeerr="storeerr" class="form-text text-danger"></span>
-			</div>          
+			</div>
            <div  class="form-group col-lg-2">
 				<label>المبلغ الكلي</label>
 				<input foucs="foucs" price="price" onkeyup="CurrencyFormatted($(this))" type="text" class="form-control sp" id="order_price`+number+`" name="order_price[]" placeholder="المبلغ" value="">
@@ -841,7 +841,7 @@ $(document).keydown(function(e) {
 if (event.which === 13 || event.keyCode === 13 ) {
     event.stopPropagation();
     event.preventDefault();
-    $("input:focus").closest('fieldset').next().find('[price="price"]').focus();
+    $("input:focus").closest('fieldset').next().find('[store="store"]').focus();
 }
 
 
