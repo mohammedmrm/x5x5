@@ -165,8 +165,7 @@ include("config.php");
            </div>
 			<div class="form-group col-lg-2">
 				<label>المحافظة المرسل لها</label>
-				<select  city="city"  onchange='getTowns($("#town1"),$("#city1").val())' city="city" data-show-subtext="true" data-live-search="true" type="text" class="selectpicker  form-control dropdown-primary" name="city[]" id="city1"  value="">
-
+				<select  city="city"  onchange='getTowns($("#town1"),$("#city1").val())'  data-show-subtext="true" data-live-search="true" type="text" class="selectpicker  form-control dropdown-primary" name="city[]" id="city1"  value="">
                 </select>
                 <span id="city_err1"class="form-text text-danger"></span>
 			</div>
@@ -693,14 +692,15 @@ function byupdate(){
     $('#add_store').parent().css('display','none');
     $('#maincity').parent().parent().css('display','inline-block');
     $('#mainbranch').parent().css('display','inline-block');
+
     $("[store='store']").parent().parent().css('display','inline-block');
-    $("[city='city']").parent().parent().css('display','none');
   }else{
     $('#mainstore').parent().parent().css('display','inline-block');
     $('#add_store').parent().css('display','inline-block');
     $('#maincity').parent().parent().css('display','none');
     $('#mainbranch').parent().css('display','none');
     $("[store='store']").parent().parent().css('display','none');
+
     $("[city='city']").parent().parent().css('display','inline-block');
   }
 }
@@ -1081,7 +1081,12 @@ function addtowns(){
        if(res.success == 1){
          $("#kt_form input").val("");
          Toast.success('تم الاضافة');
-         getTowns($("[town='town']").last(),$("[city='city']").last().val());
+            if($("#by").val() == 'city'){
+               getTowns($("[town='town']").last(),$("#maincity").last().val());
+            }else{
+                getTowns($("[town='town']").last(),$("[city='city']").last().val());
+            }
+
        }else{
            $("#town_name_err").text(res.error["town_err"]);
            $("#town_city_err").text(res.error["city_err"]);
