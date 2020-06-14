@@ -222,7 +222,7 @@ if($v->passes()) {
                                     customer_phone,to_city,to_town,to_branch,with_dev,note,new_price,address,company_id,confirm)
                                     VALUES
                                     (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)';
-        $result = setData($con,$sql,
+        $result = setDataWithLastID($con,$sql,
                          [$driver,$manger,$prefix.$onumber[$k],$order_type,$weight,$qty,
                           $order_price[$k],$dev_price,$branch,
                           $client,$client_phone[$k],$mainstore,$customer_name,
@@ -238,20 +238,16 @@ if($v->passes()) {
       $c++;
       if(count($result)>=1){
         $success =1;
-        $sql = "select * from orders where order_no=? and from_branch = ?";
-        $result2 = getData($con,$sql,[$prefix.$onumber[$k],$branch]);
-
-        if(count($result2)>=1){
         if($driver == 0){
           $sql = "insert into tracking (order_id,order_status_id,note,staff_id) values(?,?,?,?)";
-          $result3 = setData($con,$sql,[$result2[0]["id"],1,"تم تسجيل الطلب ",$_SESSION['userid']]);
+          $result3 = setData($con,$sql,[$result,1,"تم تسجيل الطلب ",$_SESSION['userid']]);
 
         }else{
           $sql = "insert into tracking (order_id,order_status_id,note,staff_id) values(?,?,?,?)";
-          $result3 = setData($con,$sql,[$result2[0]["id"],3,"بالطريق مع المندوب",$_SESSION['userid']]);
+          $result3 = setData($con,$sql,[$result,3,"بالطريق مع المندوب",$_SESSION['userid']]);
         }
         $orders[] = $result2[0]["id"];
-        }
+
       }else{
         $success =3;
         break;
@@ -328,7 +324,7 @@ if($v->passes()) {
                                     customer_phone,to_city,to_town,to_branch,with_dev,note,new_price,address,company_id,confirm)
                                     VALUES
                                     (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)';
-        $result = setData($con,$sql,
+        $result = setDataWithLastID($con,$sql,
                          [$driver,$manger,$prefix.$onumber[$k],$order_type[$k],$weight[$k],$qty[$k],
                           $order_price[$k],$dev_price,$mainbranch,
                           $client,$client_phone[$k],$store[$k],$customer_name[$k],
@@ -344,20 +340,16 @@ if($v->passes()) {
       $c++;
       if(count($result)>=1){
         $success =1;
-        $sql = "select * from orders where order_no=? and from_branch = ?";
-        $result2 = getData($con,$sql,[$prefix.$onumber[$k],$mainbranch]);
-
-        if(count($result2)>=1){
           if($driver == 0){
             $sql = "insert into tracking (order_id,order_status_id,note,staff_id) values(?,?,?,?)";
-            $result3 = setData($con,$sql,[$result2[0]["id"],1,"تم تسجيل الطلب ",$_SESSION['userid']]);
+            $result3 = setData($con,$sql,[$result,1,"تم تسجيل الطلب ",$_SESSION['userid']]);
 
           }else{
             $sql = "insert into tracking (order_id,order_status_id,note,staff_id) values(?,?,?,?)";
-            $result3 = setData($con,$sql,[$result2[0]["id"],3,"بالطريق مع المندوب",$_SESSION['userid']]);
+            $result3 = setData($con,$sql,[$result,3,"بالطريق مع المندوب",$_SESSION['userid']]);
           }
           $orders[] = $result2[0]["id"];
-        }
+
       }else{
         $success =3;
         break;
