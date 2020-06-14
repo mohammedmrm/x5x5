@@ -1079,7 +1079,6 @@ function addtowns(){
     success:function(res){
        console.log(res);
        if(res.success == 1){
-         $("input").val("");
          $("#town_name").val("");
 
          Toast.success('تم الاضافة');
