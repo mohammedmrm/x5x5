@@ -841,7 +841,11 @@ $(document).keydown(function(e) {
 if (event.which === 13 || event.keyCode === 13 ) {
     event.stopPropagation();
     event.preventDefault();
-    $("input:focus").closest('fieldset').next().find('[store="store"]').focus();
+    if($("#by").val() == 'city'){
+       $("input:focus").closest('fieldset').next().find('[store="store"]').next().focus();
+    }else{
+        $("input:focus").closest('fieldset').next().find('[price="price"]').focus();
+    }
 }
 
 
