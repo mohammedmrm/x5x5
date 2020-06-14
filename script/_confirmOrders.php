@@ -1,6 +1,6 @@
 <?php
 session_start();
-error_reporting(0);
+//error_reporting(0);
 header('Content-Type: application/json');
 require("_access.php");
 require_once("dbconnection.php");
@@ -14,10 +14,10 @@ if(count($ids)){
          if($_SESSION['role'] != 1 || $_SESSION['role'] != 5){
            $sql = "update orders set confirm=1 where id = ? and to_branch=?";
          }else{
-           $sql = "update orders set confirm=1 where id = ? and (to_branch=? or to_branch=null or to_branch='')";
+           $sql = "update orders set confirm=1 where id = ? and ( to_branch=? or to_branch=null or to_branch='')";
          }
          foreach($ids as $v){
-           $data = setData($con,$query,[$v,$_SESSION['user_details']['branch_id']]);
+           $data = setData($con,$sql,[$v,$_SESSION['user_details']['branch_id']]);
            $success="1";
          }
       } catch(PDOException $ex) {

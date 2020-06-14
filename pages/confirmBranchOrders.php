@@ -407,7 +407,7 @@ function confirmOrders(){
           getorders();
           console.log(res);
           if(res.success == 1){
-            Toast.success("تم الاعادة بنجاح");
+            Toast.success("تم تأكيد الطلبيات بنجاح");
           }else{
             Toast.warning("حدث خطاء! حاول مرة اخرى. تاكدد من تحديد عنصر واحد على اقل تقدير");
           }
@@ -429,7 +429,7 @@ function confirmOrder(id){
         data:{id:id},
         success:function(res){
          if(res.success == 1){
-           Toast.success('تم الحذف');
+           Toast.success('تم تأكيد الطلب');
            getorders();
          }else{
            Toast.warning(res.msg);
