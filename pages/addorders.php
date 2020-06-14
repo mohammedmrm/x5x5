@@ -694,6 +694,7 @@ function byupdate(){
     $('#mainbranch').parent().css('display','inline-block');
 
     $("[store='store']").parent().parent().css('display','inline-block');
+    $("[city='city']").parent().parent().css('display','none');
   }else{
     $('#mainstore').parent().parent().css('display','inline-block');
     $('#add_store').parent().css('display','inline-block');
