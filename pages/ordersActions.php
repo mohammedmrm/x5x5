@@ -105,9 +105,9 @@ legend
             </div>
             <div class="col-lg-2 kt-margin-b-10-tablet-and-mobile">
             	<label>المنطقه:</label>
-                <select id="town" name="town" onchange="getorders()" class="form-control kt-input" data-col-index="2">
+                <select id="town" name="town" data-live-search="true" onchange="getorders()" class="form-control kt-input" data-col-index="2">
             	</select>
-            </div>            
+            </div>
             <div class="col-lg-2 kt-margin-b-10-tablet-and-mobile">
             	<label>الفرع المرسل له:</label>
             	<select id="to_branch" name="to_branch" onchange="getclient()" class="form-control kt-input" data-col-index="2">
