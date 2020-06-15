@@ -464,7 +464,6 @@ include("config.php");
 <script src="assets/js/demo1/pages/components/datatables/extensions/responsive.js" type="text/javascript"></script>
 <script src="js/getBraches.js" type="text/javascript"></script>
 <script src="js/getClients.js" type="text/javascript"></script>
-<script src="js/getStores.js" type="text/javascript"></script>
 <script src="js/getorderStatus.js" type="text/javascript"></script>
 <script src="js/getCities.js" type="text/javascript"></script>
 <script src="js/getTowns.js" type="text/javascript"></script>
@@ -478,6 +477,28 @@ getTowns($("#town1"),$("#city1").val());
 getBraches($("#branch_to1"));
 getBraches($("#mainbranch"));
 getBraches($("#client_branch"));
+function getStores(elem,client){
+   $.ajax({
+     url:"script/_getStores.php",
+     type:"POST",
+     data:{client: client},
+     success:function(res){
+       elem.html("");
+       elem.append(
+           '<option value="">... اختر ...</option>'
+       );
+       $.each(res.data,function(){
+         elem.append("<option value='"+this.id+"'>"+this.name+"</option>");
+       });
+       console.log(res);
+       elem.selectpicker('refresh');
+     },
+     error:function(e){
+        elem.append("<option value='' class='bg-danger'>Error</option>");
+        console.log(e);
+     }
+   });
+}
 function getAllClient(ele){
    $.ajax({
      url:"script/_getClientsAll.php",
