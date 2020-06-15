@@ -214,7 +214,7 @@ legend
             </div>
             <div class="col-lg-2 kt-margin-b-10-tablet-and-mobile">
             	<label>المحافظة المرسل لها:</label>
-            	<select id="city" name="city" onchange="getorders()" class="form-control kt-input" data-col-index="2">
+            	<select id="city" name="city"  onchange="getorders();getTowns2($('#town'),$(this).val());" class="form-control kt-input" data-col-index="2">
             		<option value="">Select</option>
                 </select>
             </div>
@@ -271,6 +271,11 @@ legend
           <div class="kt-separator kt-separator--border-dashed kt-separator--space-md"></div>
           </div>
           <div class="row kt-margin-b-20">
+            <div class="col-lg-2 kt-margin-b-10-tablet-and-mobile">
+            	<label>المنطقه:</label>
+                <select id="town" name="town" onchange="getorders()" class="form-control kt-input" data-col-index="2">
+            	</select>
+            </div>
             <div class="col-lg-2 kt-margin-b-10-tablet-and-mobile">
             	<label>حالة التاكيد من الفروع</label>
                 <select id="confirm" name="confirm" onchange="getorders()" class="selectpicker form-control kt-input" data-col-index="2">
@@ -686,6 +691,30 @@ $('#tb-orders').DataTable({
        "bLengthChange": false,
        "bFilter": false,
       });
+function getTowns2(elem,city){
+   $.ajax({
+     url:"script/_getTowns.php",
+     type:"POST",
+     data:{city: city},
+     beforeSent:function(){
+
+     },
+     success:function(res){
+       elem.html("");
+       elem.append("<option value=''>-- اختر --</option>");
+       $.each(res.data,function(){
+         elem.append("<option value='"+this.id+"'>"+this.name+"</option>");
+       });
+       elem.selectpicker('refresh');
+       console.log(res);
+     },
+     error:function(e){
+        elem.append("<option value='' class='bg-danger'>خطأ اتصل بمصمم النظام</option>");
+        console.log(e);
+     }
+   });
+}
+getTowns2($("#town"),1);
 function getorders(){
 $.ajax({
   url:"script/_getOrdersReport.php",
