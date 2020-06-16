@@ -175,7 +175,7 @@ if($v->passes()) {
                  $to_branch = 1;
                 }
             }
-            $confirm = 4;
+            $confirm = 1;
             if($_SESSION['user_details']['branch_id'] == $to_branch){
               $confirm = 1;
             }
@@ -279,7 +279,7 @@ if($v->passes()) {
                  $to_branch = 1;
                 }
             }
-            $confirm = 4;
+            $confirm = 1;
             if($_SESSION['user_details']['branch_id'] == $to_branch){
               $confirm = 1;
             }
