@@ -733,11 +733,11 @@ $.ajax({
    $("#ordersTable").html("");
    $("#pagination").html("");
 
-   if($("#user_role").val() !=1 && $("#user_role").val() !=5){
+/*   if($("#user_role").val() !=1 && $("#user_role").val() !=5){
     $('#branch').selectpicker('val', $("#user_branch").val());
     $('#branch').attr('disabled',"disabled");
     $('#branch').selectpicker('refresh');
-   }
+   }*/
 
    $("#total-client").html(res.total[0].store);
    $("#total-price").text(formatMoney(res.total[0].client_price));
