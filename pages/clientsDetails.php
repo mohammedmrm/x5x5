@@ -1,11 +1,7 @@
 <?php
-if(file_exists("script/_access.php")){
-  require_once("script/_access.php");
-  access([1,2,5]);
-}
-?>
-<?
-include("config.php");
+require_once("php/_access.php");
+access();
+require_once("config.php");
 ?>
 <style>
 fieldset {

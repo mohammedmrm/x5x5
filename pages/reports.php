@@ -248,7 +248,7 @@ legend
             </div>
             <div class="col-lg-2 kt-margin-b-10-tablet-and-mobile">
             	<label>المندوب:</label>
-                <select id="driver" name="driver" onchange="getorders()" class="form-control kt-input" data-col-index="2">
+                <select id="driver" name="driver" onchange="getorders()"  data-live-search="true" class="form-control kt-input" data-col-index="2">
             	</select>
             </div>
             <div class="col-lg-2 kt-margin-b-10-tablet-and-mobile">
