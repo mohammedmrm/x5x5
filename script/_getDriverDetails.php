@@ -1,7 +1,7 @@
 <?php
 session_start();
 header('Content-Type: application/json');
-//error_reporting(0);
+error_reporting(0);
 require_once("_access.php");
 access([1,2,5]);
 require_once("dbconnection.php");
@@ -24,7 +24,13 @@ if($_REQUEST['price'] > 0){
 }else {
   $driver_price = $config['driver_price'];
 }
-
+use Violin\Violin;
+require_once('../validator/autoload.php');
+$v = new Violin;
+$v->validate([
+    'id' => [$id,'required|int'],
+]);
+if($v->passes()) {
   $sql = "select orders.*,date_format(orders.date,'%Y-%m-%d') as dat,  order_status.status as status_name,
           cites.name as city_name,
           towns.name as town_name,
@@ -91,6 +97,11 @@ $res2 = getData($con,$sql2);
 if(count($res2) > 0){
     $success = 1;
 }
-
+}else{
+ $success = 0;
+ $error = [
+           'id'=>  implode($v->errors()->get('id')),
+];
+}
 echo json_encode(array($sql2,"success"=>$success,"data"=>$res3,"invoice"=>$res2,'pay'=>$res4));
 ?>
