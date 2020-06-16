@@ -214,7 +214,7 @@ legend
             </div>
             <div class="col-lg-2 kt-margin-b-10-tablet-and-mobile">
             	<label>المحافظة المرسل لها:</label>
-            	<select id="city" name="city"  onchange="getorders();getTowns2($('#town'),$(this).val());" class="form-control kt-input" data-col-index="2">
+            	<select id="city" name="city"  onchange="getorders();getTowns2($('#town'),$(this).val());" data-live-search="true" class="form-control kt-input" data-col-index="2">
             		<option value="">Select</option>
                 </select>
             </div>
