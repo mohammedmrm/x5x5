@@ -29,9 +29,9 @@ foreach($res as $k=>$val){
                  )
              ) as client_price
           from orders
-          inner join order_status on orders.order_status_id = order_status.id
-          inner join cites on orders.to_city = cites.id
-          inner join towns on orders.to_town = towns.id
+          left join order_status on orders.order_status_id = order_status.id
+          left join cites on orders.to_city = cites.id
+          left join towns on orders.to_town = towns.id
           left JOIN client_dev_price on client_dev_price.client_id = orders.client_id AND client_dev_price.city_id = orders.to_city
           where store_id = ? and date(date) = ? and invoice_id = 0  and order_status_id = 4
           ";
@@ -74,7 +74,7 @@ $sql2 = "select invoice.*,date_format(invoice.date,'%Y-%m-%d') as in_date,client
            ,stores.name as store_name
            from invoice
            inner join stores on stores.id = invoice.store_id
-           inner join clients on stores.client_id = clients.id
+           left join clients on stores.client_id = clients.id
            where store_id=? and orders_status= 4";
 $res2 = getData($con,$sql2,[$id]);
 echo json_encode(array("success"=>$success,"data"=>$data,"invoice"=>$res2,'pay'=>$res4));
