@@ -13,6 +13,7 @@ require("../config.php");
 $branch = $_REQUEST['branch'];
 $to_branch = $_REQUEST['to_branch'];
 $city = $_REQUEST['city'];
+$town = $_REQUEST['town'];
 $customer = $_REQUEST['customer'];
 $order = $_REQUEST['order_no'];
 $client= $_REQUEST['client'];
@@ -157,6 +158,9 @@ try{
   }
   if($city >= 1){
     $filter .= " and to_city=".$city;
+  }
+  if($town >= 1){
+    $filter .= " and to_town=".$town;
   }
   if(($money_status == 1 || $money_status == 0) && $money_status !=""){
     $filter .= " and money_status='".$money_status."'";
