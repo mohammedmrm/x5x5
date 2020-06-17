@@ -1,4 +1,5 @@
 ﻿<?php
+error_reporting(0);
 try{
 
 $con = new PDO('mysql:host=localhost;dbname=nahar', "root",
