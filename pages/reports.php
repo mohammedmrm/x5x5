@@ -990,7 +990,11 @@ function editOrder(id){
   $.ajax({
     url:"script/_getOrder.php",
     data:{id: id},
+    beforeSend:function(){
+     $("#editOrderForm").addClass("loading");
+    },
     success:function(res){
+      $("#editOrderForm").removeClass("loading");
       console.log(res);
       if(res.success == 1){
         $.each(res.data,function(){
@@ -1033,6 +1037,7 @@ function editOrder(id){
       }
     },
     error:function(e){
+      $("#editOrderForm").removeClass("loading");
       console.log(e);
     }
   });
@@ -1050,8 +1055,10 @@ function updateOrder(){
     type:"POST",
     data:$("#editOrderForm").serialize(),
     beforeSend:function(){
+      $("#editOrderForm").addClass("loading");
     },
     success:function(res){
+      $("#editOrderForm").removeClass("loading");
         console.log(res);
        if(res.success == 1){
          getorders();
@@ -1086,6 +1093,7 @@ function updateOrder(){
     },
     error:function(e){
       console.log(e);
+      $("#editOrderForm").removeClass("loading");
        Toast.error('خطأ');
     }
   });
