@@ -154,6 +154,7 @@ if($v->passes()) {
   $client = $res[0]['c_id'];
       $c =0;
       foreach($onumber as $k=>$val){
+            $no=$_REQUEST['num'][$k];
             $sql = "select * from driver_towns where town_id = ?";
             $getdriver = getData($con,$sql,[$town_to[$k]]);
             if(count($getdriver) > 0){
@@ -258,6 +259,7 @@ if($v->passes()) {
    }else{
      $c =0;
    foreach($onumber as $k=>$val){
+            $no=$_REQUEST['num'][$k];
             $sql = "select * from driver_towns where town_id = ?";
             $getdriver = getData($con,$sql,[$town_to[$k]]);
             if(count($getdriver) > 0){
@@ -381,5 +383,5 @@ $error = [
            ];
 }
 $fcm = sendNotification($tokens,$orders,'طلبات','اضافه مجموعه طلبيات','orderDetails.php');
-echo json_encode([$_REQUEST,'no'=>$c,'success'=>$success, 'error'=>$error]);
+echo json_encode([$_REQUEST,'no'=>$no,'c'=>$c-1,'success'=>$success, 'error'=>$error]);
 ?>
