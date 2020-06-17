@@ -7,9 +7,12 @@ access([1,2,3,5,6]);
 require("dbconnection.php");
 $branch = $_REQUEST['branch'];
 try{
-  if($branch > 0){
+  if($branch > 0 && ($_SESSION['role']== 1 || $_SESSION['role']== 5)){
   $query = "select * from staff where role_id=4 and branch_id=?";
   $data = getData($con,$query,[$branch]);
+  }else if($_SESSION['role']!= 1 && $_SESSION['role']!= 5){
+  $query = "select * from staff where role_id=4 and branch_id=?";
+  $data = getData($con,$query,[$_SESSION['user_details']['branch_id']]);
   }else{
   $query = "select * from staff where role_id=4";
   $data = getData($con,$query);
@@ -19,5 +22,5 @@ try{
    $data=["error"=>$ex];
    $success="0";
 }
-print_r(json_encode(array("success"=>$success,"data"=>$data)));
+echo (json_encode(array("success"=>$success,"data"=>$data)));
 ?>
