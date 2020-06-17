@@ -239,7 +239,7 @@ legend
             <div class="col-lg-3 kt-margin-b-10-tablet-and-mobile">
             <label>الفترة الزمنية :</label>
             <div class="input-daterange input-group" id="kt_datepicker">
-  				<input value="" onchange="getorders()" type="text" class="form-control kt-input" name="start" id="start" placeholder="من" data-col-index="5">
+  				<input value="<?php echo date('Y-m-d', strtotime(' - 7 day'));?>" onchange="getorders()" type="text" class="form-control kt-input" name="start" id="start" placeholder="من" data-col-index="5">
   				<div class="input-group-append">
   					<span class="input-group-text"><i class="la la-ellipsis-h"></i></span>
   				</div>

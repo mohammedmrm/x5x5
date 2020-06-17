@@ -19,12 +19,18 @@ $end = trim($_REQUEST['end']);
 $limit = trim($_REQUEST['limit']);
 $page = trim($_REQUEST['p']);
 $money_status = trim($_REQUEST['money_status']);
-if(empty($end)) {
-  $end = date('Y-m-d h:i:s', strtotime($end. ' + 1 day'));
+if(!empty($end)) {
+   $end .=" 23:59:59";
 }else{
+   $end =date('Y-m-d', strtotime(' + 1 day'));
    $end .=" 23:59:59";
 }
-$start .=" 00:00:00";
+if(!empty($start)) {
+   $start .=" 00:00:00";
+}else{
+   $start =date('Y-m-d', strtotime(' - 7 day'));
+   $start .=" 00:00:00";
+}
 try{
   $count = "select count(*) as count from orders ";
   $query = "select orders.*,DATE_FORMAT(orders.date,'%Y-%m-%d') as date,
@@ -125,5 +131,5 @@ if($success == '1'){
     }
   }
 }
-print_r(json_encode(array("success"=>$success,"data"=>$data,'pages'=>$pages,'page'=>$page+1)));
+echo (json_encode(array("success"=>$success,"data"=>$data,'pages'=>$pages,'page'=>$page+1)));
 ?>

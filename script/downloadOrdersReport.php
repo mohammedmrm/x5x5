@@ -94,9 +94,16 @@ if($reportType == 2){
 $total = [];
 $money_status = trim($_REQUEST['money_status']);
 if(!empty($end)) {
-   $end =date('Y-m-d', strtotime($end. ' + 1 day'));
+   $end .=" 23:59:59";
 }else{
-  $end =date('Y-m-d', strtotime(' + 1 day'));
+   $end =date('Y-m-d', strtotime(' + 1 day'));
+   $end .=" 23:59:59";
+}
+if(!empty($start)) {
+   $start .=" 00:00:00";
+}else{
+   $start =date('Y-m-d', strtotime(' - 7 day'));
+   $start .=" 00:00:00";
 }
 
 try{
@@ -184,7 +191,7 @@ try{
   if($status == 4 || $status == 9){
     $filter .= " or order_status_id = 6";
   }
-  function validateDate($date, $format = 'Y-m-d')
+  function validateDate($date, $format = 'Y-m-d H:i:s')
     {
         $d = DateTime::createFromFormat($format, $date);
         return $d && $d->format($format) == $date;
