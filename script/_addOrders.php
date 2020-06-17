@@ -162,6 +162,15 @@ if($v->passes()) {
             }else{
              $driver = 0;
             }
+
+            $sql = "select * from stores inner join clients on clients.id = stores.client_id where stores.id = ?";
+            $getbranch = getData($con,$sql,[$mainstore]);
+            if(count($getbranch) > 0){
+             $mainbranch = $getbranch[0]['branch_id'];
+            }else{
+             $mainbranch = 1;
+            }
+
             //-- get possible to_branch  of the order
             $sql = "select * from branch_towns where town_id = ?";
             $getbranch = getData($con,$sql,[$town_to[$k]]);
@@ -225,7 +234,7 @@ if($v->passes()) {
                                     (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)';
         $result = setDataWithLastID($con,$sql,
                          [$driver,$manger,$prefix.$onumber[$k],$order_type,$weight,$qty,
-                          $order_price[$k],$dev_price,$branch,
+                          $order_price[$k],$dev_price,$mainbranch,
                           $client,$client_phone[$k],$mainstore,$customer_name,
                           $customer_phone[$k],$city_to[$k],$town_to[$k],$to_branch,$with_dev,$order_note[$k],$new_price,$order_address[$k],$company,$confirm]);
           $sqlNote = 'select token from clients where id ='.$client;
@@ -266,6 +275,13 @@ if($v->passes()) {
             $driver = $getdriver[0]['driver_id'];
             }else{
              $driver = 0;
+            }
+            $sql = "select * from stores inner join clients on clients.id = stores.client_id where stores.id = ?";
+            $getbranch = getData($con,$sql,[$store[$k]]);
+            if(count($getbranch) > 0){
+             $mainbranch = $getbranch[0]['branch_id'];
+            }else{
+             $mainbranch = 1;
             }
             //-- get possible to_branch  of the order
             $sql = "select * from branch_towns where town_id = ?";
