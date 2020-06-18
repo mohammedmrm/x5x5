@@ -117,6 +117,11 @@ background-color: #FFFF99;
             	</select>
             </div>
             <div class="col-lg-3 kt-margin-b-10-tablet-and-mobile">
+            	<label>حالة الطلبيات:</label>
+            	<select onchange="getdriverInvoices()" title="اختر الحالة" data-live-search="true" data-show-subtext="true"  class="selectpicker form-control kt-input" id="status" name="status[]" multiple data-actions-box="true">
+            	</select>
+            </div>
+            <div class="col-lg-3 kt-margin-b-10-tablet-and-mobile">
             <label>الفترة الزمنية :</label>
             <div class="input-daterange input-group" id="kt_datepicker">
   				<input value="<?php echo date('Y-m-d', strtotime('-7 days'));?>" onchange="getdriverInvoices()" type="text" class="form-control kt-input" name="start" id="start" placeholder="من" data-col-index="5">
@@ -214,9 +219,11 @@ background-color: #FFFF99;
                             <script src="assets/js/demo1/pages/components/datatables/extensions/responsive.js" type="text/javascript"></script>
 <script src="js/getAllDrivers.js" type="text/javascript"></script>
 <script src="js/getBraches.js" type="text/javascript"></script>
+<script src="js/getorderStatus.js" type="text/javascript"></script>
 <script type="text/javascript">
 $('#tb-orders').DataTable();
 $('#tb-invioces').DataTable();
+getorderStatus($("#status"));
 function  getdriverInvoices(){
   $.ajax({
     url:"script/_getDriverDetails.php",
@@ -229,8 +236,10 @@ function  getdriverInvoices(){
        $("#driver_orders").html("");
        $("#driver_data").html("");
        $("#invoicesTable").html("");
+       $("#driver_orders").html("");
     },
     success:function(res){
+
       $("#section-to-print").removeClass('loading');
       console.log(res);
       content ="";
@@ -334,6 +343,7 @@ function makeDriverInvoice() {
             },
             success:function(res){
             $("#driver_data").removeClass('loading');
+            console.log(res);
                   if(res.success == 1){
                     getdriverInvoices();
                   }else{

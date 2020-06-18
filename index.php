@@ -94,7 +94,7 @@ require_once("config.php");
       	padding: 5px 5px 5px 10px;
       	background-color: #ffffff;
       }
-        body * :not(.fa):not(.la):not(.kt-widget-20__label):not(.kt-widget-19__label):not(.close) {
+        body * :not(.fa):not(.la):not(.kt-widget-20__label):not(.kt-widget-19__label):not(.close):not(.check-mark) {
           font-family: 'Cairo', sans-serif !important;
         }
 

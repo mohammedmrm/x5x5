@@ -25,7 +25,7 @@ require("../config.php");
 
 $driver= $_REQUEST['driver'];
 $price = $_REQUEST['price'];
-
+$statues = $_REQUEST['status'];
 $start = trim($_REQUEST['start']);
 $end = trim($_REQUEST['end']);
 
@@ -33,16 +33,14 @@ $end = trim($_REQUEST['end']);
 $total = [];
 $money_status = trim($_REQUEST['money_status']);
 if(empty($end)) {
-  $end = "";
+  $end = date('Y-m-d', strtotime(' + 1 day'));
 }else{
    $end =date('Y-m-d', strtotime($end. ' + 1 day'));
-   $end .=" 00:00:00";
 }
 if(empty($start)) {
-  $start = "";
-}else{
-   $start .=" 00:00:00";
+  $start = date('Y-m-d');
 }
+
 if($_REQUEST['price'] > 0){
   $driver_price =    $_REQUEST['price'];
 }else {
@@ -78,12 +76,27 @@ try{
           ";
   $where = "where driver_invoice_id = 0 and driver_id=".$driver;
   $filter = "";
-  function validateDate($date, $format = 'Y-m-d H:i:s')
+  function validateDate($date, $format = 'Y-m-d')
   {
         $d = DateTime::createFromFormat($format, $date);
         return $d && $d->format($format) == $date;
   }
- $filter = preg_replace('/^ and/', '', $filter);
+   if(validateDate($start) && validateDate($end)){
+      $sql .= " and date between '".$start."' AND '".$end."' ";
+    }
+  if(count($statues) > 0){
+    foreach($statues as $status){
+      if($status > 0){
+        $filter .= " or order_status_id=".$status;
+      }
+    }
+    $filter = preg_replace('/^ or/', '', $filter);
+  }
+  if($filter != ""){
+    $filter = " and (".$filter." )";
+    $sql .= $filter;
+  }
+
  $filter = $where." ".$filter;
  $count .= " ".$filter;
  $query .= " ".$filter." order by orders.date";
@@ -273,5 +286,5 @@ $pdf->Output(dirname(__FILE__).'/../driver_invoice/'.$pdf_name, 'F');
 }else{
   $success = 2;
 }
-echo json_encode(['success'=>$success,'invoice'=>$pdf_name]);
+echo json_encode([$count,'success'=>$success,'invoice'=>$pdf_name]);
 ?>

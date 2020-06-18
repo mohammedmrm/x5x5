@@ -10,9 +10,10 @@ $id = $_REQUEST['driver'];
 $data = [];
 $end = $_REQUEST['end'];
 $start = $_REQUEST['start'];
+$statues = $_REQUEST['status'];
 $success =0;
 if(empty($end)) {
-  $end = date('Y-m-d', strtotime($end. ' + 1 day'));
+  $end = date('Y-m-d', strtotime(' + 1 day'));
 }else{
    $end =date('Y-m-d', strtotime($end. ' + 1 day'));
 }
@@ -30,6 +31,10 @@ $v = new Violin;
 $v->validate([
     'id' => [$id,'required|int'],
 ]);
+function validateDate($date, $format = 'Y-m-d'){
+    $d = DateTime::createFromFormat($format, $date);
+    return $d && $d->format($format) == $date;
+}
 if($v->passes()) {
   $sql = "select orders.*,date_format(orders.date,'%Y-%m-%d') as dat,  order_status.status as status_name,
           cites.name as city_name,
@@ -52,6 +57,22 @@ if($v->passes()) {
           left JOIN client_dev_price on client_dev_price.client_id = orders.client_id AND client_dev_price.city_id = orders.to_city
           where driver_id = ? and driver_invoice_id = 0
           ";
+  $filter = "";
+    if(validateDate($start) && validateDate($end)){
+      $sql .= " and date between '".$start."' AND '".$end."' ";
+    }
+  if(count($statues) > 0){
+    foreach($statues as $status){
+      if($status > 0){
+        $filter .= " or order_status_id=".$status;
+      }
+    }
+  }
+  $filter = preg_replace('/^ or/', '', $filter);
+  if($filter != ""){
+    $filter = " and (".$filter." )";
+    $sql .= $filter;
+  }
   $res3= getData($con,$sql,[$id]);
   if(count($res3) > 0){
     $success = 1;
@@ -86,6 +107,12 @@ if($v->passes()) {
           left JOIN client_dev_price on client_dev_price.client_id = orders.client_id AND client_dev_price.city_id = orders.to_city
           where driver_id = ?  and driver_invoice_id = 0
           ";
+        if(validateDate($start) && validateDate($end)){
+          $sql .= " and date between '".$start."' AND '".$end."' ";
+         }
+        if($filter != ""){
+          $sql .= $filter;
+        }
           $res4= getData($con,$sql,[$id]);
           $res4= $res4[0];
 $sql2 = "select driver_invoice.*,date_format(driver_invoice.date,'%Y-%m-%d') as in_date,
@@ -93,7 +120,10 @@ $sql2 = "select driver_invoice.*,date_format(driver_invoice.date,'%Y-%m-%d') as 
            from driver_invoice
            left join  staff on staff.id = driver_invoice.driver_id
            where driver_id='".$id."' and driver_invoice.date between '".$start."' AND '".$end."'";
-$res2 = getData($con,$sql2);
+        if(validateDate($start) && validateDate($end)){
+          $sql2 .= " and date between '".$start."' AND '".$end."' ";
+         }
+         $res2 = getData($con,$sql2);
 if(count($res2) > 0){
     $success = 1;
 }
@@ -103,5 +133,5 @@ if(count($res2) > 0){
            'id'=>  implode($v->errors()->get('id')),
 ];
 }
-echo json_encode(array($sql2,"success"=>$success,"data"=>$res3,"invoice"=>$res2,'pay'=>$res4));
+echo json_encode(array($sql,"success"=>$success,"data"=>$res3,"invoice"=>$res2,'pay'=>$res4));
 ?>
