@@ -2,8 +2,7 @@
 $config = [
    "Company_name"=>"شركة البرق",
    "Company_address"=>"بغداد-حي الجامعة",
-   "Company_name"=>"Al-Nahr",
-   "Company_phone"=>"1234567890",
+   "Company_phone"=>"0784567890",
    "Company_email"=>"nahar@nahar.com",
    "Company_logo"=>"img/logos/logo.png",
    "dev_b"=>5000,               //??? ??????? ?????
