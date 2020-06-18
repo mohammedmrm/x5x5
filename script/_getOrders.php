@@ -27,9 +27,6 @@ if(!empty($end)) {
 }
 if(!empty($start)) {
    $start .=" 00:00:00";
-}else{
-   $start =date('Y-m-d', strtotime(' - 7 day'));
-   $start .=" 00:00:00";
 }
 try{
   $count = "select count(*) as count from orders ";

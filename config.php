@@ -3,11 +3,12 @@ $config = [
    "Company_name"=>"شركة البرق",
    "Company_address"=>"بغداد-حي الجامعة",
    "Company_phone"=>"0784567890",
+   "Company_reg"=>"الشركة مسجلة قانونياً",
    "Company_email"=>"nahar@nahar.com",
    "Company_logo"=>"img/logos/logo.png",
-   "dev_b"=>5000,               //??? ??????? ?????
-   "dev_o"=>10000,                //??? ??????? ????? ?????????
-   "driver_price"=>3000                //??? ??????? ????? ?????????
+   "dev_b"=>5000,               //سعر توصيل بغدلد
+   "dev_o"=>10000,                //سعر توصيل باقي المحافظات
+   "driver_price"=>3000                //اجرة المندوب
 
 ];
 function phone_number_format($number) {
