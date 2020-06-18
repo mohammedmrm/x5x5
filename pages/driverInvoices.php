@@ -219,10 +219,43 @@ background-color: #FFFF99;
                             <script src="assets/js/demo1/pages/components/datatables/extensions/responsive.js" type="text/javascript"></script>
 <script src="js/getAllDrivers.js" type="text/javascript"></script>
 <script src="js/getBraches.js" type="text/javascript"></script>
-<script src="js/getorderStatus.js" type="text/javascript"></script>
 <script type="text/javascript">
 $('#tb-orders').DataTable();
 $('#tb-invioces').DataTable();
+function getorderStatus(elem){
+$.ajax({
+  url:"script/_getorderStatus.php",
+  type:"POST",
+  success:function(res){
+   console.log(res);
+   elem.html("");
+   $.each(res.data,function(){
+     bg ="";
+     if(this.id == 4){
+       bg ="#9CDE7C";
+     }else if(this.id == 5){
+       bg ="#FFFFAC";
+     }else if(this.id == 9){
+       bg ="#F2A69B";
+     }else if(this.id == 4){
+       bg ="";
+     }else if(this.id == 4){
+       bg ="";
+     }
+     elem.append(
+       '<option style="background-color:'+bg+'" value="'+this.id+'">'+this.status +'</option>'
+     );
+     if(elem.attr('st') == 'st'){
+       getorders();
+     }
+    });
+    elem.selectpicker('refresh');
+    },
+   error:function(e){
+    console.log(e);
+  }
+});
+}
 getorderStatus($("#status"));
 function  getdriverInvoices(){
   $.ajax({
