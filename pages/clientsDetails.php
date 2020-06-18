@@ -1,6 +1,4 @@
 <?php
-require_once("php/_access.php");
-access();
 require_once("config.php");
 ?>
 <style>
