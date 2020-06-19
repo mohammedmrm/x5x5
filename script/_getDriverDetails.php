@@ -20,6 +20,7 @@ if(empty($end)) {
 if(empty($start)) {
   $start = date('Y-m-d');
 }
+$start .=" 00:00:00"
 if($_REQUEST['price'] > 0){
   $driver_price =    $_REQUEST['price'];
 }else {
