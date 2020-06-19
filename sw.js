@@ -1201,10 +1201,10 @@ self.__precacheManifest = [
     url: "pages/clients.php",
     revision: "44fcfcc1ce76761a98de46a17f8f865c",
   },
-  {
+/*  {
     url: "pages/clientsDetails.php",
     revision: "ec8d873d5acbd9bcbad078dc63bfdbdb",
-  },
+  },*/
   {
     url: "pages/companies.php",
     revision: "7e9e595ebb5f2e08b986a0b98e8beb55",
