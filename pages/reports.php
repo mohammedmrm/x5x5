@@ -208,7 +208,7 @@ legend
             </div>
             <div class="col-lg-2 kt-margin-b-10-tablet-and-mobile">
             	<label>الحالة:</label>
-            	<select onchange="getorders()" class="form-control kt-input" id="orderStatus" name="orderStatus" data-col-index="7">
+            	<select onchange="getorders()"  title="اختر الحالة" class="form-control kt-input" id="orderStatus" name="orderStatus[]" data-live-search="true" data-show-subtext="true" data-actions-box="true" multiple data-col-index="7">
             		<option value="">Select</option>
             	</select>
             </div>
@@ -267,7 +267,6 @@ legend
             		<option value="2">طلبات كشف</option>
                 </select>
             </div>
-
           <div class="kt-separator kt-separator--border-dashed kt-separator--space-md"></div>
           </div>
           <div class="row kt-margin-b-20">
@@ -284,10 +283,10 @@ legend
             		<option value="4">الطلبيات الغير المؤكدة</option>
                 </select>
             </div>
-            <div class="col-lg-1 kt-margin-b-10-tablet-and-mobile">
+<!--            <div class="col-lg-1 kt-margin-b-10-tablet-and-mobile">
                 	<label class="">.</label><br />
                     <input  id="invoicebtn" name="invoicebtn" type="button" value="كشف" onclick="makeInvoice()" class="btn btn-danger" placeholder="" data-col-index="1">
-            </div>
+            </div>-->
             <div class="col-lg-2 kt-margin-b-10-tablet-and-mobile">
                 	<label class="">.</label><br />
                     <input id="download" name="download" type="button" value="تحميل التقرير" data-toggle="modal" data-target="#reportOptionsModal" class="btn btn-success" placeholder="" data-col-index="1">
@@ -679,12 +678,13 @@ legend
 <script src="js/getBraches.js" type="text/javascript"></script>
 <script src="js/getClients.js" type="text/javascript"></script>
 <script src="js/getStores.js" type="text/javascript"></script>
-<script src="js/getorderStatus.js" type="text/javascript"></script>
+<script src="js/getorderStatusMulti.js" type="text/javascript"></script>
 <script src="js/getCities.js" type="text/javascript"></script>
 <script src="js/getTowns.js" type="text/javascript"></script>
 <script src="js/getManagers.js" type="text/javascript"></script>
 <script src="js/getAllDrivers.js" type="text/javascript"></script>
 <script type="text/javascript">
+
 getStores($("#store"));
 getStores($("#e_store_id"));
 getClients($("#e_client_id"),0);

@@ -48,7 +48,7 @@ min-height: 100px;
             </div>
             <div class="col-lg-2 kt-margin-b-10-tablet-and-mobile">
             	<label>الحالة:</label>
-            	<select onchange="getorders()" class="form-control kt-input" id="orderStatus" name="orderStatus" data-col-index="7">
+            	<select onchange="getorders()" class="form-control kt-input" id="orderStatus" name="orderStatus[]" data-col-index="7">
             		<option value="">Select</option>
             	</select>
             </div>
@@ -197,7 +197,7 @@ min-height: 100px;
 <script src="js/getBraches.js" type="text/javascript"></script>
 <script src="js/getClients.js" type="text/javascript"></script>
 <script src="js/getStores.js" type="text/javascript"></script>
-<script src="js/getorderStatus.js" type="text/javascript"></script>
+<script src="js/getorderStatusMulti.js" type="text/javascript"></script>
 <script src="js/getCities.js" type="text/javascript"></script>
 <script src="js/getTowns.js" type="text/javascript"></script>
 <script src="js/getManagers.js" type="text/javascript"></script>
@@ -206,43 +206,6 @@ min-height: 100px;
 <script type="text/javascript">
 getStores($("#store"));
 getAllDrivers($("#driver"));
-function getorderStatus(elem){
-$.ajax({
-  url:"script/_getorderStatus.php",
-  type:"POST",
-  success:function(res){
-   console.log(res);
-   elem.html("");
-   elem.append(
-       '<option value="">... اختر ...</option>'
-   );
-   $.each(res.data,function(){
-     bg ="";
-     if(this.id == 4){
-       bg ="#66CC33";
-     }else if(this.id == 5){
-       bg ="#FFFF66";
-     }else if(this.id == 9){
-       bg ="#EB7261";
-     }else if(this.id == 4){
-       bg ="";
-     }else if(this.id == 4){
-       bg ="";
-     }
-     elem.append(
-       '<option style="background-color:'+bg+'" value="'+this.id+'">'+this.status +'</option>'
-     );
-     if(elem.attr('st') == 'st'){
-       getorders();
-     }
-    });
-    elem.selectpicker('refresh');
-    },
-   error:function(e){
-    console.log(e);
-  }
-});
-}
 
 
 
@@ -430,9 +393,9 @@ getBraches($("#e_branch"));
 getBraches($("#e_branch_to"));
 getCities($("#e_city"));
 getBraches($("#branch"));
-getorderStatus($("#orderStatus"));
-getorderStatus($("#status_action"));
-getorderStatus($("#setOrderStatus"));
+getorderStatus($("#orderStatus"),1);
+getorderStatus($("#status_action"),1);
+getorderStatus($("#setOrderStatus"),1);
 getCities($("#city"));
 
 });

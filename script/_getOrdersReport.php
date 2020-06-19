@@ -144,12 +144,18 @@ try{
     $filter .= " and orders.order_no like '%".$order."%'";
   }
   ///-----------------status
-  if($status == 4){
-    $filter .= " and (order_status_id =".$status." or order_status_id = 6 or order_status_id = 5)";
-  }else if($status == 9){
-    $filter .= " and (order_status_id =".$status." or order_status_id =11 or order_status_id = 6 or order_status_id = 5)";
-  }else  if($status >= 1){
-    $filter .= " and order_status_id =".$status;
+  $s = "";
+  if(count($status) > 0){
+    foreach($status as $stat){
+      if($stat > 0){
+        $s .= " or order_status_id=".$stat;
+      }
+    }
+  }
+  $s = preg_replace('/^ or/', '', $s);
+   if($s != ""){
+    $s = " and (".$s." )";
+    $filter .= $s;
   }
   //---------------------end of status
   function validateDate($date, $format = 'Y-m-d H:i:s')
