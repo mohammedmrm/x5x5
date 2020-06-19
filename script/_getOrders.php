@@ -34,9 +34,9 @@ try{
             clients.name as client_name,clients.phone as client_phone,
             cites.name as city,towns.name as town,branches.name as branch_name,
             if(to_city = 1,
-                 if(client_dev_price.price is null,(".$config['dev_b']." - discount),(client_dev_price.price - discount)),
-                 if(client_dev_price.price is null,(".$config['dev_o']." - discount),(client_dev_price.price - discount))
-            )as dev_price
+                 if(order_status_id=9,0,if(client_dev_price.price is null,(".$config['dev_b']." - discount),(client_dev_price.price - discount))),
+                 if(order_status_id=9,0,if(client_dev_price.price is null,(".$config['dev_o']." - discount),(client_dev_price.price - discount)))
+            )as dev_price,if(order_status_id=9,0,discount) as discount
             from orders left join
             clients on clients.id = orders.client_id
             left join cites on  cites.id = orders.to_city

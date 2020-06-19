@@ -52,15 +52,15 @@ try{
 
   $query = "select orders.*, date_format(orders.date,'%Y-%m-%d') as date,
             if(to_city = 1,
-                 if(client_dev_price.price is null,(".$config['dev_b']." - discount),(client_dev_price.price - discount)),
-                 if(client_dev_price.price is null,(".$config['dev_o']." - discount),(client_dev_price.price - discount))
+                 if(order_status_id=9,0,if(client_dev_price.price is null,(".$config['dev_b']." - discount),(client_dev_price.price - discount))),
+                 if(order_status_id=9,0,if(client_dev_price.price is null,(".$config['dev_o']." - discount),(client_dev_price.price - discount)))
             )as dev_price,
             new_price -
               (if(to_city = 1,
-                  if(client_dev_price.price is null,(".$config['dev_b']." - discount),(client_dev_price.price - discount)),
-                  if(client_dev_price.price is null,(".$config['dev_o']." - discount),(client_dev_price.price - discount))
+                  if(order_status_id=9,0,if(client_dev_price.price is null,(".$config['dev_b']." - discount),(client_dev_price.price - discount))),
+                  if(order_status_id=9,0,if(client_dev_price.price is null,(".$config['dev_o']." - discount),(client_dev_price.price - discount)))
                  )
-             ) as client_price,
+             ) as client_price,if(order_status_id=9,0,discount) as discount,
             clients.name as client_name,clients.phone as client_phone,
             stores.name as store_name,a.nuseen_msg,
             cites.name as city,towns.name as town,branches.name as branch_name,to_branch.name as to_branch_name,
@@ -188,8 +188,8 @@ try{
                  if(order_status_id = 9,
                      0,
                      if(to_city = 1,
-                           if(client_dev_price.price is null,(".$config['dev_b']." - discount),(client_dev_price.price - discount)),
-                           if(client_dev_price.price is null,(".$config['dev_o']." - discount),(client_dev_price.price - discount))
+                           if(order_status_id=9,0,if(client_dev_price.price is null,(".$config['dev_b']." - discount),(client_dev_price.price - discount))),
+                           if(order_status_id=9,0,if(client_dev_price.price is null,(".$config['dev_o']." - discount),(client_dev_price.price - discount)))
                       )
                   )
           ) as dev,
@@ -199,8 +199,8 @@ try{
                  if(order_status_id = 9,
                      0,
                      if(to_city = 1,
-                           if(client_dev_price.price is null,(".$config['dev_b']." - discount),(client_dev_price.price - discount)),
-                           if(client_dev_price.price is null,(".$config['dev_o']." - discount),(client_dev_price.price - discount))
+                           if(order_status_id=9,0,if(client_dev_price.price is null,(".$config['dev_b']." - discount),(client_dev_price.price - discount))),
+                           if(order_status_id=9,0,if(client_dev_price.price is null,(".$config['dev_o']." - discount),(client_dev_price.price - discount)))
                       )
                   )
               )
@@ -211,7 +211,7 @@ try{
 
           left JOIN client_dev_price on client_dev_price.client_id = orders.client_id AND client_dev_price.city_id = orders.to_city
           left join (
-             select order_no,count(*) as rep from orders
+             select order_no,count(*) as rep from orders where confirm = 1 or  confirm = 4
               GROUP BY order_no
               HAVING COUNT(orders.id) > 1
             ) b on b.order_no = orders.order_no

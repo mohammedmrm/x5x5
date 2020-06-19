@@ -23,21 +23,21 @@ if($_SESSION['user_details']['role_id'] == 1){
   $sql = 'select
             sum(
                 if(to_city = 1,
-                 if(client_dev_price.price is null,('.$config['dev_b'].' - discount),(client_dev_price.price - discount)),
-                 if(client_dev_price.price is null,('.$config['dev_o'].' - discount),(client_dev_price.price - discount))
+                 if(order_status_id=9,0,if(client_dev_price.price is null,('.$config['dev_b'].' - discount),(client_dev_price.price - discount))),
+                 if(order_status_id=9,0,if(client_dev_price.price is null,('.$config['dev_o'].' - discount),(client_dev_price.price - discount)))
                 )
              ) as earnings,
              sum(
                  new_price -
                  (
                      if(to_city = 1,
-                       if(client_dev_price.price is null,('.$config['dev_b'].' - discount),(client_dev_price.price - discount)),
-                       if(client_dev_price.price is null,('.$config['dev_o'].' - discount),(client_dev_price.price - discount))
+                       if(order_status_id=9,0,if(client_dev_price.price is null,('.$config['dev_b'].' - discount),(client_dev_price.price - discount))),
+                       if(order_status_id=9,0,if(client_dev_price.price is null,('.$config['dev_o'].' - discount),(client_dev_price.price - discount)))
                  )
                 )
              ) as client_price,
              sum(new_price) as income,
-             sum(discount) as discount,
+             sum(if(order_status_id=9,0,discount)) as discount,
              count(orders.id) as orders,
             max(clients.name) as name,
             max(clients.phone) as phone,
@@ -56,8 +56,8 @@ if($_SESSION['user_details']['role_id'] == 1){
                  if(order_status_id = 9,
                      0,
                      if(to_city = 1,
-                           if(client_dev_price.price is null,('.$config['dev_b'].' - discount),(client_dev_price.price - discount)),
-                           if(client_dev_price.price is null,('.$config['dev_o'].' - discount),(client_dev_price.price - discount))
+                           if(order_status_id=9,0,if(client_dev_price.price is null,('.$config['dev_b'].' - discount),(client_dev_price.price - discount))),
+                           if(order_status_id=9,0,if(client_dev_price.price is null,('.$config['dev_o'].' - discount),(client_dev_price.price - discount)))
                       )
                   )
              ) as earnings,
@@ -67,8 +67,8 @@ if($_SESSION['user_details']['role_id'] == 1){
                  if(order_status_id = 9,
                      0,
                      if(to_city = 1,
-                           if(client_dev_price.price is null,('.$config['dev_b'].' - discount),(client_dev_price.price - discount)),
-                           if(client_dev_price.price is null,('.$config['dev_o'].' - discount),(client_dev_price.price - discount))
+                           if(order_status_id=9,0,if(client_dev_price.price is null,('.$config['dev_b'].' - discount),(client_dev_price.price - discount))),
+                           if(order_status_id=9,0,if(client_dev_price.price is null,('.$config['dev_o'].' - discount),(client_dev_price.price - discount)))
                       )
                   )
                 )

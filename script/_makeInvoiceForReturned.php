@@ -181,6 +181,11 @@ if($orders > 0){
                   }
                 }
                 $data[$i]['dev_price'] = $dev_p;
+                if($data[$i]['order_status_id'] == 9){
+                  $data[$i]['dev_price'] = 0;
+                  $dev_p = 0;
+                  $data[$i]['dicount']=0;
+                }
                 $data[$i]['client_price'] = ($data[$i]['new_price'] -  $dev_p) + $data[$i]['discount'];
                $note =  $data[$i]['note'];
                $bg = "";
