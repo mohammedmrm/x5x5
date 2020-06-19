@@ -18,6 +18,9 @@ $style='
     color:#F5F5F5;
     padding:5px;
   }
+  .red{
+    background-color:#FF6347; 
+  }
 </style>' ;
 require("../config.php");
 
@@ -68,10 +71,10 @@ try{
              if(orders.order_status_id=4 or order_status_id = 6,'".$driver_price."',0) as driver_price,
              staff.name as driver
           from orders
-          inner join order_status on orders.order_status_id = order_status.id
-          inner join cites on orders.to_city = cites.id
-          inner join towns on orders.to_town = towns.id
-          inner join staff on orders.driver_id = staff.id
+          left join order_status on orders.order_status_id = order_status.id
+          left join cites on orders.to_city = cites.id
+          left join towns on orders.to_town = towns.id
+          left join staff on orders.driver_id = staff.id
           left JOIN client_dev_price on client_dev_price.client_id = orders.client_id AND client_dev_price.city_id = orders.to_city
           ";
   $where = "where driver_invoice_id = 0 and driver_id=".$driver;
@@ -128,8 +131,13 @@ if($orders > 0){
 
             foreach($data as $k=>$v){
               $total['income'] += $data[$i]['new_price'];
+              $bg ="";
+              if($data[$i]['order_status_id'] == 6){
+                $bg = "red";
+              }
+
               $hcontent .=
-               '<tr>
+               '<tr class="'.$bg.'">
                  <td width="30" align="center">'.($i+1).'</td>
                  <td width="100" align="center">'.$data[$i]['dat'].'</td>
                  <td align="center">'.$data[$i]['order_no'].'</td>
