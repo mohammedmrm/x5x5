@@ -114,6 +114,7 @@ try{
   $sort = " order by orders.date DESC ";
   if($repated == 1){
    $filter .= " and b.rep >= 2";
+   $sort = " order by orders.order_no DESC ";
   }else if($repated == 2){
    $filter .= " and b.rep < 2";
 

@@ -288,33 +288,40 @@ legend
                 	<label class="">.</label><br />
                     <input  id="invoicebtn" name="invoicebtn" type="button" value="كشف" onclick="makeInvoice()" class="btn btn-danger" placeholder="" data-col-index="1">
             </div>
-            <div class="col-lg-1 kt-margin-b-10-tablet-and-mobile">
+            <div class="col-lg-2 kt-margin-b-10-tablet-and-mobile">
                 	<label class="">.</label><br />
                     <input id="download" name="download" type="button" value="تحميل التقرير" data-toggle="modal" data-target="#reportOptionsModal" class="btn btn-success" placeholder="" data-col-index="1">
             </div>
+            <div class="col-lg-3 kt-margin-b-10-tablet-and-mobile">
+              	<label>عدد السجلات في الصفحة الواحدة</label>
+              	<select onchange="getorders()" class="form-control selectpicker" name="limit" data-col-index="7">
+                    <option value="10">10</option>
+              		<option value="15">15</option>
+              		<option value="20">20</option>
+              		<option value="25">25</option>
+              		<option value="30">30</option>
+                    <option value="50">50</option>
+                    <option value="100">100</option>
+              	</select>
+            </div>
           </div>
           </fieldset>
-
 		<!--begin: Datatable -->
         <div class="" id="section-to-print">
           <div class="col-md-12" id="">
           <div class="row kt-margin-b-20 text-white" id="total-section">
-               <div class="col-sm-6 kt-margin-b-10-tablet-and-mobile">
-                 <div class="row kt-margin-b-20">
-                    <label>الصفحه او (Page Or Store):&nbsp;</label><label id="total-client"> لم يتم تحديد عميل </label>
+               <div class="col-sm-4">
+                    <label>الصفحه:&nbsp;</label><label id="total-client"> لم يتم تحديد عميل </label>
                  </div>
-                 <div class="row">
+                 <div class="col-sm-3">
                     <label>المبلغ الصافي:&nbsp;</label><label id="total-price"> 0.0 </label>
                  </div>
-               </div>
-               <div class="col-sm-6 kt-margin-b-10-tablet-and-mobile">
-                   <div class="row kt-margin-b-20">
+                 <div class="col-sm-2">
                     <label>مجوع الخصم:&nbsp;</label><label id="total-discount"> 0.0 </label>
-                   </div>
-                   <div class="row kt-margin-b-20">
+                 </div>
+                 <div class="col-sm-3">
                     <label>عدد الطلبات:&nbsp;</label><label id="total-orders"> 0 </label>
-                   </div>
-               </div>
+                 </div>
           </div>
           </div>
 		<table class="table table-striped  table-bordered responsive nowrap" style="white-space: nowrap;" id="tb-orders">
