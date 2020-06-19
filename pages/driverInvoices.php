@@ -315,10 +315,10 @@ function  getdriverInvoices(){
           '</tr>'+
           '</tr>'+
             '<td>'+res.pay.orders+'</td>'+
-            '<td>'+Number(res.pay.income).toFixed(2)+'</td>'+
-            '<td>'+Number(res.pay.dev).toFixed(2)+'</td>'+
-            '<td>'+Number(res.pay.client_price).toFixed(2)+'</td>'+
-            '<td class="text-danger">'+Number(res.pay.driver_price).toFixed(2)+'</td>'+
+            '<td>'+formatMoney(res.pay.income)+'</td>'+
+            '<td>'+formatMoney(res.pay.dev)+'</td>'+
+            '<td>'+formatMoney(res.pay.client_price)+'</td>'+
+            '<td class="text-danger">'+formatMoney(res.pay.driver_price)+'</td>'+
             '<td><button onclick="makeDriverInvoice()" type="button" class="btn btn-success">انشاء كشف</button></td>'+
           '</tr>'+
         '</table>'
