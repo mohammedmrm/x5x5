@@ -694,6 +694,7 @@ $('#tb-orders').DataTable({
         "sLengthMenu": "عرض_MENU_سجل",
         "sSearch": "بحث:"
       },
+       "aaSorting": [],
        "bPaginate": false,
        "bLengthChange": false,
        "bFilter": false,
@@ -862,6 +863,7 @@ $.ajax({
         "sLengthMenu": "عرض_MENU_سجل",
         "sSearch": "بحث:"
       },
+      "aaSorting": [],
        "bPaginate": false,
        "bLengthChange": false,
        "bFilter": false,

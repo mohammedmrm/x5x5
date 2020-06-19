@@ -85,7 +85,7 @@ try{
             ) a on a.order_id = orders.id
 
             left join (
-             select order_no,count(*) as rep from orders
+             select order_no,count(*) as rep from orders  where confirm = 1 or  confirm = 4
               GROUP BY order_no
               HAVING COUNT(orders.id) > 1
             ) b on b.order_no = orders.order_no
