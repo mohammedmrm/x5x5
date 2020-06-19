@@ -155,7 +155,7 @@ include("config.php");
 			</div>
             <div class="form-group col-lg-2">
 				<label>المبلغ الكلي</label>
-				<input   price="price" onkeyup="CurrencyFormatted($(this),$(this).val())" type="text" class="form-control sp" id="order" name="order_price[]" placeholder="المبلغ" value="">
+				<input   price="price" onkeyup="CurrencyFormatted($(this),$(this).val())" style="direction: ltr;" type="text" class="form-control sp" id="order" name="order_price[]" placeholder="المبلغ" value="">
 				<span id="order_price_err1" class="form-text text-danger"></span>
 			</div>
             <div class="form-group col-lg-2">
@@ -1072,7 +1072,7 @@ function CurrencyFormatted(input, blur) {
 }
 function formatNumber(n) {
   // format number 1000000 to 1,234,567
-  return n.replace(/\D/g, "").replace(/\B(?=(\d{3})+(?!\d))/g, ",")
+  return n.replace(/[^0-9\-]+/g, "").replace(/\B(?=(\d{3})+(?!\d))/g, ",")
 }
 getCompanies($("#company"));
 

@@ -28,7 +28,7 @@ $v->addRule('isPhoneNumber', function($value, $input, $args) {
 $v->addRuleMessage('isPrice', 'المبلغ غير صحيح');
 
 $v->addRule('isPrice', function($value, $input, $args) {
-  if(preg_match("/^(0|[1-9]\d*)(\.\d{2})?$/",$value) || empty($value)){
+  if(preg_match("/^(\-\d*)(\.\d{2})?$/",$value)){
     $x=(bool) 1;
   }
   return   $x;
