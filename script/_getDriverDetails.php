@@ -31,7 +31,7 @@ $v = new Violin;
 $v->validate([
     'id' => [$id,'required|int'],
 ]);
-function validateDate($date, $format = 'Y-m-d'){
+function validateDate($date, $format = 'Y-m-d H:i:s'){
     $d = DateTime::createFromFormat($format, $date);
     return $d && $d->format($format) == $date;
 }
