@@ -50,7 +50,7 @@ if($v->passes()) {
                   if(client_dev_price.price is null,(".$config['dev_o']." - discount),(client_dev_price.price - discount))
                  )
              ) as client_price,
-             if(orders.order_status_id=4 or order_status_id = 6,'".$driver_price."',0) as driver_price
+             if(orders.order_status_id=4 or order_status_id = 6 or order_status_id = 5,'".$driver_price."',0) as driver_price
           from orders
           left join order_status on orders.order_status_id = order_status.id
           left join cites on orders.to_city = cites.id
@@ -90,7 +90,7 @@ if($v->passes()) {
                       )
                   )
           ) as dev,
-          sum(if(order_status_id = 4 or order_status_id = 6,".$driver_price.",0)) as driver_price,
+          sum(if(order_status_id = 4 or order_status_id = 6 or order_status_id = 5,".$driver_price.",0)) as driver_price,
           sum(new_price -
               (
                  if(order_status_id = 9,
