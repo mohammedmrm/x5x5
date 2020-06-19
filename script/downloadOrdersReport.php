@@ -114,7 +114,7 @@ try{
               HAVING COUNT(orders.id) > 1
             ) b on b.order_no = orders.order_no
            ";
-  $query = "select orders.*,date_format(orders.date,'%Y-%m-%d') as dat,
+  $query = "select orders.*,date_format(orders.date,'%Y-%m-%d') as dat, order_status.status as status_name,
             clients.name as client_name,clients.phone as client_phone,stores.name as store_name,
             cites.name as city,towns.name as town,to_branch.name as to_branch_name, branches.name as branch_name,staff.name as driver_name
             from orders left join
@@ -122,6 +122,7 @@ try{
             left join cites on  cites.id = orders.to_city
             left join towns on  towns.id = orders.to_town
             left join stores on  stores.id = orders.store_id
+            left join order_status on  orders.order_status_id = order_status.id
             left join branches on  branches.id = orders.from_branch
             left join branches as to_branch on  to_branch.id = orders.to_branch
             left join staff on  staff.id = orders.driver_id
@@ -301,6 +302,7 @@ try{
        <td align="center">'.phone_number_format($data[$i]['customer_phone']).'</td>
        <td align="center">'.$data[$i]['city'].' - '.$data[$i]['town'].' - '.$data[$i]['address'].'</td>
        <td align="center">'.number_format($data[$i]['price']).'</td>
+       <td align="center">'.$data[$i]['status_name'].'</td>
        <td align="center">'.$data[$i]['note'].'</td>
      </tr>';
 
@@ -526,6 +528,7 @@ $htmlpersian = '<table border="1" class="table" cellpadding="'.$space.'">
 										<th>عنوان المستلم</th>
                                         <th >مبلغ الوصل</th>
 										<th >حالة الطلب</th>
+										<th >ملاحظة</th>
 						   </tr>
       	            </thead>
                     <tbody id="ordersTable">'
