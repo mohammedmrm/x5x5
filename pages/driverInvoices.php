@@ -112,23 +112,23 @@ background-color: #FFFF99;
             </div>
             <div class="col-lg-2 kt-margin-b-10-tablet-and-mobile">
             	<label>السائق:</label>
-            	<select onchange="getdriverInvoices()" data-show-subtext="true" data-live-search="true"  class="selectpicker form-control kt-input" id="driver" name="driver" data-col-index="7">
+            	<select onchange="" data-show-subtext="true" data-live-search="true"  class="selectpicker form-control kt-input" id="driver" name="driver" data-col-index="7">
             		<option value="">Select</option>
             	</select>
             </div>
             <div class="col-lg-3 kt-margin-b-10-tablet-and-mobile">
             	<label>حالة الطلبيات:</label>
-            	<select onchange="getdriverInvoices()" title="اختر الحالة" data-live-search="true" data-show-subtext="true"  class="selectpicker form-control kt-input" id="status" name="status[]" multiple data-actions-box="true">
+            	<select onchange="" title="اختر الحالة" data-live-search="true" data-show-subtext="true"  class="selectpicker form-control kt-input" id="status" name="status[]" multiple data-actions-box="true">
             	</select>
             </div>
             <div class="col-lg-3 kt-margin-b-10-tablet-and-mobile">
             <label>الفترة الزمنية :</label>
             <div class="input-daterange input-group" id="kt_datepicker">
-  				<input value="<?php echo date('Y-m-d', strtotime('-7 days'));?>" onchange="getdriverInvoices()" type="text" class="form-control kt-input" name="start" id="start" placeholder="من" data-col-index="5">
+  				<input value="<?php echo date('Y-m-d', strtotime('-7 days'));?>" onchange="" type="text" class="form-control kt-input" name="start" id="start" placeholder="من" data-col-index="5">
   				<div class="input-group-append">
   					<span class="input-group-text"><i class="la la-ellipsis-h"></i></span>
   				</div>
-  				<input onchange="getdriverInvoices()" type="text" class="form-control kt-input" name="end"  id="end" placeholder="الى" data-col-index="5">
+  				<input onchange="" type="text" class="form-control kt-input" name="end"  id="end" placeholder="الى" data-col-index="5">
           	</div>
             </div>
             <div class="col-lg-2 kt-margin-b-10-tablet-and-mobile">
@@ -137,7 +137,7 @@ background-color: #FFFF99;
             </div>
             <div class="col-lg-2 kt-margin-b-10-tablet-and-mobile">
             	<label>بحث:</label><br />
-            	<button type="button" onclick="getdriverdriverInvoices();" type="text" class="btn btn-success" value="" placeholder="" data-col-index="0">بحث
+            	<button type="button" onclick="getdriverInvoices();" type="text" class="btn btn-success" value="" placeholder="" data-col-index="0">بحث
                     <span id="search"  role="status"></span>
                 </button>
             </div>
