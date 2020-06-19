@@ -136,10 +136,10 @@ if($v->passes() && $date_err =="" && $premission) {
   if(!empty($town_to) && $town_to > 0){
     $up .= ' , to_town='.$town_to;
   }
-  if(!empty($order_price) && $order_price > 0){
+  if(!empty($order_price)){
     $up .= ' , price="'.$order_price.'"';
   }
-  if(!empty($order_iprice) && $order_iprice > 0){
+  if(!empty($order_iprice)){
     $up .= ' , new_price="'.$order_iprice.'"';
   }
   if(!empty($store) && $store > 0){
