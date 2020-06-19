@@ -15,7 +15,7 @@ $success =0;
 if(empty($end)) {
   $end = date('Y-m-d', strtotime(' + 1 day'));
 }else{
-   $end =date('Y-m-d', strtotime($end. ' + 1 day'));
+   $end .=' 23:59:59';
 }
 if(empty($start)) {
   $start = date('Y-m-d');
