@@ -48,7 +48,7 @@ try{
             left join towns on  towns.id = orders.to_town
             left join branches on  branches.id = orders.to_branch
             ";
-  $where = "where (
+  $where = "where orders.confirm=1 and (
                  (invoice_id = 0) or
                  ((order_status_id=6 or order_status_id=5) and (orders.invoice_id2=0))
                 ) and ";

@@ -19,7 +19,7 @@ $style='
     padding:5px;
   }
   .red{
-    background-color:#FF6347; 
+    background-color:#FF6347;
   }
 </style>' ;
 require("../config.php");
@@ -77,7 +77,7 @@ try{
           left join staff on orders.driver_id = staff.id
           left JOIN client_dev_price on client_dev_price.client_id = orders.client_id AND client_dev_price.city_id = orders.to_city
           ";
-  $where = "where driver_invoice_id = 0 and driver_id=".$driver;
+  $where = "where driver_invoice_id = 0 and orders.confirm=1 and driver_id=".$driver;
   $filter = "";
   function validateDate($date, $format = 'Y-m-d')
   {

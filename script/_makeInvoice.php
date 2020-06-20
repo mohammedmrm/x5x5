@@ -72,7 +72,7 @@ try{
               HAVING COUNT(orders.id) > 1
             ) b on b.order_no = orders.order_no
             ";
-$where = "where (
+$where = "where orders.confirm=1 and (
                  (invoice_id = 0) or
                  ((order_status_id=6 or order_status_id=5) and (orders.invoice_id2=0))
                 ) and ";
