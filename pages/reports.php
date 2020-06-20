@@ -36,7 +36,6 @@ legend
   font-weight: bold;
 }
 
-
 @media print {
   body * {
     visibility: hidden;
@@ -283,6 +282,23 @@ legend
             		<option value="4">الطلبيات الغير المؤكدة</option>
                 </select>
             </div>
+            <div class="col-lg-2 kt-margin-b-10-tablet-and-mobile">
+            	<label>حالة المخزن</label>
+                <select id="storageStatus" name="storageStatus" onchange="getorders()" class="selectpicker form-control kt-input" data-col-index="2">
+            		<option value="all">الكل</option>
+            		<option value="1">بدون كشف </option>
+            		<option value="2">لديها كشف  ولم يتم التحاسب</option>
+            		<option value="3">لديها كشف وتم التحاسب</option>
+                </select>
+            </div>
+            <div class="col-lg-2 kt-margin-b-10-tablet-and-mobile">
+            	<label>حالة الاستعلامات</label>
+                <select id="callcenter" name="callcenter" onchange="getorders()" class="selectpicker form-control kt-input" data-col-index="2">
+            		<option value="all">الكل</option>
+            		<option value="1">تم الاستعلام</option>
+            		<option value="2">لم يتم الاستعلام</option>
+                </select>
+            </div>
 <!--            <div class="col-lg-1 kt-margin-b-10-tablet-and-mobile">
                 	<label class="">.</label><br />
                     <input  id="invoicebtn" name="invoicebtn" type="button" value="كشف" onclick="makeInvoice()" class="btn btn-danger" placeholder="" data-col-index="1">
@@ -291,8 +307,8 @@ legend
                 	<label class="">.</label><br />
                     <input id="download" name="download" type="button" value="تحميل التقرير" data-toggle="modal" data-target="#reportOptionsModal" class="btn btn-success" placeholder="" data-col-index="1">
             </div>
-            <div class="col-lg-3 kt-margin-b-10-tablet-and-mobile">
-              	<label>عدد السجلات في الصفحة الواحدة</label>
+            <div class="col-lg-2 kt-margin-b-10-tablet-and-mobile">
+              	<label>عدد السجلات</label>
               	<select onchange="getorders()" class="form-control selectpicker" name="limit" data-col-index="7">
                     <option value="10">10</option>
               		<option value="15">15</option>
@@ -323,50 +339,32 @@ legend
                  </div>
           </div>
           </div>
-		<table class="table table-striped  table-bordered responsive nowrap" style="white-space: nowrap;" id="tb-orders">
+        <div calss="col-sm-12 table-responsive">
+		<table class="table table-striped  table-bordered  nowrap" style="white-space: nowrap; width: 100%;"  id="tb-orders">
 			       <thead>
 	  						<tr>
-										<th>رقم الشحنه</th>
 										<th>رقم الوصل</th>
 										<th>اسم وهاتف العميل</th>
-										<th>هاتف المستلم</th>
-										<th>عنوان المستلم</th>
-                                        <th>تاريخ الادخال</th>
-										<th>تعديل</th>
+										<th>عنوان وهاتف المستلم</th>
 										<th>الحاله</th>
-                                        <th>المدخل</th>
+										<th>تاريخ الادخال</th>
 										<th>مبلغ الوصل</th>
-										<th>مبلغ التوصيل</th>
 										<th>المبلغ المستلم</th>
+										<th>تعديل</th>
+										<th>المدخل</th>
+										<th>مبلغ التوصيل</th>
 										<th>المبلغ الصافي للعميل</th>
 										<th>المندوب</th>
-                                        <th>من فرع الى فرع</th>
+										<th>اسم موضف التبليغات</th>
+										<th>من فرع الى فرع</th>
 
 		  					</tr>
       	            </thead>
                             <tbody id="ordersTable">
                             </tbody>
-                            <tfoot>
-	                <tr>
-										<th>رقم الشحنه</th>
-                                        <th>رقم الوصل</th>
-										<th>اسم وهاتف العميل</th>
-										<th>المستلم هاتف</th>
-										<th>عنوان الارسال</th>
-                                        <th>تاريخ الادخال</th>
-										<th>تعديل</th>
-										<th>الحاله</th>
-										<th>المدخل</th>
-										<th>مبلغ الوصل</th>
-										<th>مبلغ التوصيل</th>
-										<th>المبلغ المستلم</th>
-										<th>المبلغ الصافي للعميل</th>
-										<th>المندوب</th>
-										<th>من فرع الى فرع</th>
 
-					</tr>
-	           </tfoot>
 		</table>
+        </div>
         <div class="kt-section__content kt-section__content--border">
 		<nav aria-label="...">
 			<ul class="pagination" id="pagination">
@@ -674,7 +672,8 @@ legend
 
 
             <!--begin::Page Scripts(used by this page) -->
-                            <script src="assets/js/demo1/pages/components/datatables/extensions/responsive.js" type="text/javascript"></script>
+<script src="assets/js/demo1/pages/components/datatables/extensions/responsive.js" type="text/javascript"></script>
+<script src="assets/js/demo1/pages/components/datatables/extensions/fixedcolumns.js" type="text/javascript"></script>
 <script src="js/getBraches.js" type="text/javascript"></script>
 <script src="js/getClients.js" type="text/javascript"></script>
 <script src="js/getStores.js" type="text/javascript"></script>
@@ -684,7 +683,7 @@ legend
 <script src="js/getManagers.js" type="text/javascript"></script>
 <script src="js/getAllDrivers.js" type="text/javascript"></script>
 <script type="text/javascript">
-
+var myTable;
 getStores($("#store"));
 getStores($("#e_store_id"));
 getClients($("#e_client_id"),0);
@@ -694,6 +693,7 @@ $('#tb-orders').DataTable({
         "sLengthMenu": "عرض_MENU_سجل",
         "sSearch": "بحث:"
       },
+       "scrollX": true,
        "aaSorting": [],
        "bPaginate": false,
        "bLengthChange": false,
@@ -829,14 +829,20 @@ $.ajax({
      if(diffDays >= 30 && this.invoice_id <= 0){
         date = '<div class="fc-draggable-handle kt-badge kt-badge--lg kt-badge--danger kt-badge--inline kt-margin-b-15" data-color="fc-event-danger">'+date+'</div>';
      }
+     callcenter ="";
+     if(this.callcenter_id == 0){
+       callcenter = '<button type="button" class="btn btn-clean text-success" onclick="callCenter('+this.id+')"><span class="fa fa-check"></span></button>';
+     }
      $("#ordersTable").append(
        '<tr class="'+bg+'">'+
-            '<td>'+this.id+'</td>'+
             '<td>'+this.order_no+icon+'</td>'+
-            '<td>'+this.client_name+'<br />'+(this.client_phone)+'</td>'+
-            '<td>'+(this.customer_phone)+'</td>'+
-            '<td>'+this.city+'/'+this.town+'</td>'+
+            '<td>'+this.store_name+'<br />'+(this.client_phone)+'</td>'+
+            '<td>'+this.city+'/'+this.town+''+
+            '<br />'+(this.customer_phone)+'</td>'+
+            '<td>'+this.status_name+'</td>'+
             '<td>'+date+'</td>'+
+            '<td>'+formatMoney(this.price)+'</td>'+
+            '<td>'+formatMoney(this.new_price)+'</td>'+
             '<td>'+
                 '<button type="button" class="btn btn-clean" onclick="editOrder('+this.id+')" data-toggle="modal" data-target="#editOrderModal"><span class="flaticon-edit"></sapn></button>'+
                 '<button type="button" class="btn btn-clean" onclick="deleteOrder('+this.id+')" data-toggle="modal" data-target="#deleteOrderModal"><span class="flaticon-delete"></sapn></button>'+
@@ -844,30 +850,34 @@ $.ajax({
                 '<button type="button" class="btn btn-clean" onclick="OrderReceipt('+this.id+')" data-toggle="modal" data-target="#receiptOrderModal"><span class="fa fa-barcode"></span></button>'+
                 '<button type="button" class="btn btn-clean" onclick="OrderChat('+this.id+');setMsgSeen('+this.id+')" data-toggle="modal" data-target="#chatOrderModal">'+
                    '<span class="kt-header__topbar-icon"> <i class="flaticon-chat"></i> <span class="kt-badge  kt-badge--notify kt-badge--sm '+notibg+'">'+nuseen_msg+'</span> </span>'+
-                '</button>'+
+                '</button>'+ callcenter+
                 '<br />'+money+
             '</td>'+
-            '<td>'+this.status_name+'</td>'+
             '<td>'+this.staff_name+'</td>'+
-            '<td>'+formatMoney(this.price)+'</td>'+
             '<td>'+formatMoney(this.dev_price)+'</td>'+
-            '<td>'+formatMoney(this.new_price)+'</td>'+
             '<td>'+formatMoney(this.client_price)+'</td>'+
             '<td>'+this.driver_name+'</td>'+
+            '<td>'+this.callcenter_name+'</td>'+
             '<td> من :'+this.branch_name+' الى :'+this.to_branch_name+'</td>'+
         '</tr>');
      });
 
-     var myTable= $('#tb-orders').DataTable({
+     myTable= $('#tb-orders').DataTable({
       "oLanguage": {
         "sLengthMenu": "عرض_MENU_سجل",
         "sSearch": "بحث:"
       },
+      "scrollX": true,
       "aaSorting": [],
        "bPaginate": false,
        "bLengthChange": false,
        "bFilter": false,
       });
+new $.fn.dataTable.Buttons( table, {
+    buttons: [
+        'copy', 'excel', 'pdf'
+    ]
+} );
     },
    error:function(e){
     $("#section-to-print").removeClass('loading');
@@ -875,6 +885,15 @@ $.ajax({
   }
 });
 }
+$('a.toggle-vis').on( 'click', function (e) {
+    e.preventDefault();
+
+    // Get the column API object
+    var column = myTable.column( $(this).attr('data-column') );
+
+    // Toggle the visibility
+    column.visible( ! column.visible() );
+} );
 function deleteOrder(id){
   if(confirm("هل انت متاكد من الحذف")){
       $.ajax({
@@ -1298,5 +1317,26 @@ function setMsgSeen(id){
       getorders();
     }
   });
+}
+function callCenter(id){
+  if(confirm("هل انت متاكد من تأكيد التبلغ على هذا الطلب")){
+      $.ajax({
+        url:"script/_setCallCenterCheck.php",
+        type:"POST",
+        data:{id:id},
+        success:function(res){
+         if(res.success == 1){
+           Toast.success('تم  تاكيد التبليغ');
+           getorderStatus($("#orderStatusesTable"));
+         }else{
+           Toast.warning(res.msg);
+         }
+         console.log(res)
+        } ,
+        error:function(e){
+          console.log(e);
+        }
+      });
+  }
 }
 </script>

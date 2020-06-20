@@ -106,7 +106,7 @@ if($v->passes()) {
           count(*) as orders
           from orders
           left JOIN client_dev_price on client_dev_price.client_id = orders.client_id AND client_dev_price.city_id = orders.to_city
-          where driver_id = ?  and driver_invoice_id = 0
+          where driver_id = ?  and driver_invoice_id = 0 and orders.confirm =1
           ";
         if(validateDate($start) && validateDate($end)){
           $sql .= " and date between '".$start."' AND '".$end."' ";
@@ -122,7 +122,7 @@ $sql2 = "select driver_invoice.*,date_format(driver_invoice.date,'%Y-%m-%d') as 
            left join  staff on staff.id = driver_invoice.driver_id
            where driver_id='".$id."' and driver_invoice.date between '".$start."' AND '".$end."'";
         if(validateDate($start) && validateDate($end)){
-          $sql2 .= " and date between '".$start."' AND '".$end."' ";
+          $sql2 .= " order by driver_invoice.date DESC limit 25";
          }
          $res2 = getData($con,$sql2);
 if(count($res2) > 0){

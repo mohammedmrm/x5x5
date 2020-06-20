@@ -16,6 +16,8 @@ $order = $_REQUEST['order_no'];
 $store= $_REQUEST['store'];
 $invoice= $_REQUEST['invoice'];
 $status = $_REQUEST['orderStatus'];
+$storageStatus = $_REQUEST['storageStatus'];
+$callcenter = $_REQUEST['callcenter'];
 $driver = $_REQUEST['driver'];
 $repated = $_REQUEST['repated'];
 $confirm = $_REQUEST['confirm'];
@@ -44,6 +46,7 @@ if(!empty($start)) {
 
 try{
   $count = "select count(*) as count from orders
+            left join invoice on invoice.id = orders.invoice_id
             left join (
              select order_no,count(*) as rep from orders
               GROUP BY order_no
@@ -62,10 +65,10 @@ try{
                  )
              ) as client_price,if(order_status_id=9,0,discount) as discount,
             clients.name as client_name,clients.phone as client_phone,
-            stores.name as store_name,a.nuseen_msg,
+            stores.name as store_name,a.nuseen_msg,callcenter.name as callcenter_name,
             cites.name as city,towns.name as town,branches.name as branch_name,to_branch.name as to_branch_name,
             order_status.status as status_name,staff.name as staff_name,b.rep as repated , driver.name as driver_name,
-            orders.invoice_id as invoice_id,invoice.path as invoice_path
+            orders.invoice_id as invoice_id,invoice.path as invoice_path,invoice.invoice_status as invoice_status
             from orders left join
             clients on clients.id = orders.client_id
             left join cites on  cites.id = orders.to_city
@@ -75,6 +78,7 @@ try{
             left join branches as to_branch on  to_branch.id = orders.to_branch
             left join staff on  staff.id = orders.manager_id
             left join staff as driver on  driver.id = orders.driver_id
+            left join staff as callcenter on  callcenter.id = orders.callcenter_id
             left join order_status on  order_status.id = orders.order_status_id
             left join invoice on invoice.id = orders.invoice_id
             left JOIN client_dev_price on client_dev_price.client_id = orders.client_id AND client_dev_price.city_id = orders.to_city
@@ -110,6 +114,20 @@ try{
   }
   if($driver >= 1){
    $filter .= " and orders.driver_id =".$driver;
+  }
+
+  if($storageStatus == 1){
+   $filter .= " and orders.invoice_id = 0";
+  }else if($storageStatus == 2){
+   $filter .= " and orders.invoice_id <> 0 and invoice.invoice_status = 0";
+  }else if($storageStatus == 3){
+   $filter .= " and orders.invoice_id <> 0 and invoice.invoice_status = 1";
+  }
+
+  if($callcenter == 1){
+   $filter .= " and orders.callcenter_id <> 0";
+  }else if($callcenter == 2){
+    $filter .= " and orders.callcenter_id = 0";
   }
   $sort = " order by orders.date DESC ";
   if($repated == 1){
@@ -216,6 +234,7 @@ try{
           from orders
 
           left JOIN client_dev_price on client_dev_price.client_id = orders.client_id AND client_dev_price.city_id = orders.to_city
+          left join invoice on invoice.id = orders.invoice_id
           left join (
              select order_no,count(*) as rep from orders where confirm = 1 or  confirm = 4
               GROUP BY order_no
@@ -228,40 +247,7 @@ if($filter != ""){
     $sqlt .= " ".$filter;
 }
 $total = getData($con,$sqlt);
-
-/*  $i = 0;
-foreach($data as $k=>$v){
-        $total['income'] += $data[$i]['new_price'];
-        $sql = "select * from client_dev_price where client_id=? and city_id=?";
-        $dev_price  = getData($con,$sql,[$v['client_id'],$v['to_city']]);
-        if(count($dev_price) > 0){
-           $dev_p = $dev_price[0]['price'];
-        }else{
-          if($v['to_city'] == 1){
-           $dev_p = $config['dev_b'];
-          }else{
-           $dev_p = $config['dev_o'];
-          }
-        }
-        $data[$i]['dev_price'] = $dev_p;
-        $data[$i]['client_price'] = ($data[$i]['new_price'] -  $dev_p) + $data[$i]['discount'];
-
-        if($v['with_dev'] == 1){
-          $data[$i]['with_dev'] = 'نعم';
-        }else{
-        $data[$i]['with_dev'] = 'لا';
-        }
-        if($v['money_status'] == 1){
-          $data[$i]['money_status1'] = 'تم تسليم المبلغ للعميل';
-        }else{
-        $data[$i]['money_status1'] = 'لم يتم تسليم المبلغ';
-        }
-  $total['discount'] += $data[$i]['discount'];
-  $total['dev_price'] += $dev_p - $data[$i]['discount'];
-  $total['client_price'] += $data[$i]['client_price'];
-  $i++;
-}*/
- $total[0]['orders'] = $orders;
+$total[0]['orders'] = $orders;
 if($store >=1){
  $total[0]['store'] = $data[0]['store_name'];
 }else{
@@ -272,5 +258,5 @@ if($store >=1){
    $total=["error"=>$ex];
    $success="0";
 }
-echo json_encode(array($query,"success"=>$success,"data"=>$data,'total'=>$total,"pages"=>$pages,"page"=>$page));
+echo json_encode(array($sqlt,"success"=>$success,"data"=>$data,'total'=>$total,"pages"=>$pages,"page"=>$page));
 ?>
