@@ -36,18 +36,18 @@ $end = trim($_REQUEST['end']);
 $total = [];
 $money_status = trim($_REQUEST['money_status']);
 if(empty($end)) {
-  $end = date('Y-m-d');
-  $end .= " 23:59:59";
+  $end = date('Y-m-d', strtotime(' + 1 day'));
 }else{
-  $end .= " 23:59:59";
+   $end .=' 23:59:59';
 }
 if(empty($start)) {
   $start = date('Y-m-d');
-  $start .= " 00:00:00";
-}else{
-  $start .= " 00:00:00";
 }
-
+$start .=" 00:00:00";
+function validateDate($date, $format = 'Y-m-d H:i:s'){
+    $d = DateTime::createFromFormat($format, $date);
+    return $d && $d->format($format) == $date;
+}
 if($_REQUEST['price'] > 0){
   $driver_price =    $_REQUEST['price'];
 }else {
@@ -83,11 +83,6 @@ try{
           ";
   $where = "where driver_invoice_id = 0 and orders.confirm=1 and driver_id=".$driver;
   $filter = "";
-  function validateDate($date, $format = 'Y-m-d H:i:s')
-  {
-        $d = DateTime::createFromFormat($format, $date);
-        return $d && $d->format($format) == $date;
-  }
    if(validateDate($start) && validateDate($end)){
       $filter .= " and orders.date between '".$start."' AND '".$end."' ";
     }

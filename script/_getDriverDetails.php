@@ -13,16 +13,15 @@ $start = $_REQUEST['start'];
 $statues = $_REQUEST['status'];
 $success =0;
 if(empty($end)) {
-  $end = date('Y-m-d', strtotime(' + 1 day'));
-}else{
-   $end .=' 23:59:59';
+  $end = date('Y-m-d');
 }
+$end .=' 23:59:59';
 if(empty($start)) {
   $start = date('Y-m-d');
 }
 $start .=" 00:00:00";
 if($_REQUEST['price'] > 0){
-  $driver_price =    $_REQUEST['price'];
+  $driver_price = $_REQUEST['price'];
 }else {
   $driver_price = $config['driver_price'];
 }
