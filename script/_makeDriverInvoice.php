@@ -64,15 +64,13 @@ try{
                   if(client_dev_price.price is null,(".$config['dev_o']." - discount),(client_dev_price.price - discount))
                  )
              ) as client_price,
-             if(orders.order_status_id=4 or order_status_id = 6 or order_status_id = 5,'".$driver_price."',0) as driver_price,
-             staff.name as driver
+             if(orders.order_status_id=4 or order_status_id = 6 or order_status_id = 5,'".$driver_price."',0) as driver_price
           from orders
           left join order_status on orders.order_status_id = order_status.id
           left join cites on orders.to_city = cites.id
           left join towns on orders.to_town = towns.id
-          left join staff on orders.driver_id = staff.id
           left JOIN client_dev_price on client_dev_price.client_id = orders.client_id AND client_dev_price.city_id = orders.to_city
-          where driver_invoice_id = 0 and orders.confirm=1 and driver_id=".$driver;
+          where driver_id = '".$driver."' and driver_invoice_id = 0  and orders.confirm =1";
   $filter = "";
   if(validateDate($start) && validateDate($end)){
       $filter .= " and orders.date between '".$start."' AND '".$end."' ";
