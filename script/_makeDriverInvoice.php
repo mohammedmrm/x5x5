@@ -35,15 +35,12 @@ $end = trim($_REQUEST['end']);
 
 $total = [];
 $money_status = trim($_REQUEST['money_status']);
-if(empty($end)) {
-  $end = date('Y-m-d', strtotime(' + 1 day'));
-}else{
+if(!empty($end)) {
    $end .=' 23:59:59';
 }
-if(empty($start)) {
-  $start = date('Y-m-d');
+if(!empty($start)) {
+  $start .=" 00:00:00";
 }
-$start .=" 00:00:00";
 function validateDate($date, $format = 'Y-m-d H:i:s'){
     $d = DateTime::createFromFormat($format, $date);
     return $d && $d->format($format) == $date;
@@ -83,9 +80,10 @@ try{
           ";
   $where = "where driver_invoice_id = 0 and orders.confirm=1 and driver_id=".$driver;
   $filter = "";
-   if(validateDate($start) && validateDate($end)){
+  if(validateDate($start) && validateDate($end)){
       $filter .= " and orders.date between '".$start."' AND '".$end."' ";
-    }
+  }
+  $f="";
   if(count($statues) > 0){
     foreach($statues as $status){
       if($status > 0){
@@ -94,6 +92,7 @@ try{
     }
     $f = preg_replace('/^ or/', '', $f);
   }
+  
   if($f != ""){
     $filter = " and (".$f." )";
   }

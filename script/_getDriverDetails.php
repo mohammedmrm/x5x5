@@ -12,14 +12,13 @@ $end = $_REQUEST['end'];
 $start = $_REQUEST['start'];
 $statues = $_REQUEST['status'];
 $success =0;
-if(empty($end)) {
-  $end = date('Y-m-d');
+if(!empty($end)) {
+   $end .=' 23:59:59';
 }
-$end .=' 23:59:59';
-if(empty($start)) {
-  $start = date('Y-m-d');
+if(!empty($start)) {
+  $start .=" 00:00:00";
 }
-$start .=" 00:00:00";
+
 if($_REQUEST['price'] > 0){
   $driver_price = $_REQUEST['price'];
 }else {
@@ -59,7 +58,7 @@ if($v->passes()) {
           ";
   $filter = "";
     if(validateDate($start) && validateDate($end)){
-      $sql .= " and date between '".$start."' AND '".$end."' ";
+      $sql .= " and orders.date between '".$start."' AND '".$end."' ";
     }
   if(count($statues) > 0){
     foreach($statues as $status){
