@@ -54,7 +54,7 @@ if($v->passes()) {
           left join cites on orders.to_city = cites.id
           left join towns on orders.to_town = towns.id
           left JOIN client_dev_price on client_dev_price.client_id = orders.client_id AND client_dev_price.city_id = orders.to_city
-          where driver_id = ? and driver_invoice_id = 0  and orders.confirm =1
+          where driver_id = '".$id."' and driver_invoice_id = 0  and orders.confirm =1
           ";
   $filter = "";
     if(validateDate($start) && validateDate($end)){
@@ -72,7 +72,7 @@ if($v->passes()) {
     $filter = " and (".$filter." )";
     $sql .= $filter;
   }
-  $res3= getData($con,$sql,[$id]);
+  $res3= getData($con,$sql,[]);
   if(count($res3) > 0){
     $success = 1;
   }

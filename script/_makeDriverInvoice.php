@@ -23,16 +23,11 @@ $style='
   }
 </style>' ;
 require("../config.php");
-
-
-
-$driver= $_REQUEST['driver'];
-$price = $_REQUEST['price'];
+$id = $_REQUEST['driver'];
+$data = [];
+$end = $_REQUEST['end'];
+$start = $_REQUEST['start'];
 $statues = $_REQUEST['status'];
-$start = trim($_REQUEST['start']);
-$end = trim($_REQUEST['end']);
-
-
 $total = [];
 $money_status = trim($_REQUEST['money_status']);
 if(!empty($end)) {
@@ -77,8 +72,7 @@ try{
           left join towns on orders.to_town = towns.id
           left join staff on orders.driver_id = staff.id
           left JOIN client_dev_price on client_dev_price.client_id = orders.client_id AND client_dev_price.city_id = orders.to_city
-          ";
-  $where = "where driver_invoice_id = 0 and orders.confirm=1 and driver_id=".$driver;
+          where driver_invoice_id = 0 and orders.confirm=1 and driver_id=".$driver;
   $filter = "";
   if(validateDate($start) && validateDate($end)){
       $filter .= " and orders.date between '".$start."' AND '".$end."' ";
@@ -92,11 +86,11 @@ try{
     }
     $f = preg_replace('/^ or/', '', $f);
   }
-  
+
   if($f != ""){
     $filter = " and (".$f." )";
   }
- $filter = $where." ".$filter;
+ $filter = $filter;
  $count .= " ".$filter;
  $query .= " ".$filter." order by orders.date";
 
