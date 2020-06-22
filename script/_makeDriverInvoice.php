@@ -89,21 +89,19 @@ try{
         return $d && $d->format($format) == $date;
   }
    if(validateDate($start) && validateDate($end)){
-      $sql .= " and orders.date between '".$start."' AND '".$end."' ";
+      $filter .= " and orders.date between '".$start."' AND '".$end."' ";
     }
   if(count($statues) > 0){
     foreach($statues as $status){
       if($status > 0){
-        $filter .= " or order_status_id=".$status;
+        $f .= " or order_status_id=".$status;
       }
     }
-    $filter = preg_replace('/^ or/', '', $filter);
+    $f = preg_replace('/^ or/', '', $f);
   }
-  if($filter != ""){
-    $filter = " and (".$filter." )";
-    $sql .= $filter;
+  if($f != ""){
+    $filter = " and (".$f." )";
   }
-
  $filter = $where." ".$filter;
  $count .= " ".$filter;
  $query .= " ".$filter." order by orders.date";

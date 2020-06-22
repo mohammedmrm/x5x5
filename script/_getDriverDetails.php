@@ -120,7 +120,7 @@ $sql2 = "select driver_invoice.*,date_format(driver_invoice.date,'%Y-%m-%d') as 
            staff.name as driver_name, staff.phone as driver_phone
            from driver_invoice
            left join  staff on staff.id = driver_invoice.driver_id
-           where driver_id='".$id."' and driver_invoice.date between '".$start."' AND '".$end."'";
+           where driver_id='".$id."'";
         if(validateDate($start) && validateDate($end)){
           $sql2 .= " order by driver_invoice.date DESC limit 25";
          }
