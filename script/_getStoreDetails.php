@@ -33,7 +33,10 @@ foreach($res as $k=>$val){
           left join cites on orders.to_city = cites.id
           left join towns on orders.to_town = towns.id
           left JOIN client_dev_price on client_dev_price.client_id = orders.client_id AND client_dev_price.city_id = orders.to_city
-          where store_id = ? and date(date) = ? and invoice_id = 0  and order_status_id = 4
+          where store_id = ? and date(date) = ? and orders.confirm=1 and (
+                 (invoice_id = 0) or
+                 ((order_status_id=6 or order_status_id=5) and (orders.invoice_id2=0))
+                ) and (order_status_id =4 or order_status_id = 6 or order_status_id = 5)
           ";
   $res3= getData($con,$sql,[$id,$val['dat']]);
   $data[$val['dat']] = $res3;
@@ -65,7 +68,10 @@ foreach($res as $k=>$val){
           count(order_no) as orders
           from orders
           left JOIN client_dev_price on client_dev_price.client_id = orders.client_id AND client_dev_price.city_id = orders.to_city
-          where store_id = ?  and invoice_id = 0 and (order_status_id = 4 or order_status_id = 6)
+          where store_id = ? and orders.confirm=1 and (
+                 (invoice_id = 0) or
+                 ((order_status_id=6 or order_status_id=5) and (orders.invoice_id2=0))
+                ) and (order_status_id =4 or order_status_id = 6 or order_status_id = 5)
           ";
           $res4= getData($con,$sql,[$id]);
           $res4= $res4[0];
