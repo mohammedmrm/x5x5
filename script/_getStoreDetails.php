@@ -68,7 +68,7 @@ if(count($res) > 0){
           count(order_no) as orders
           from orders
           left JOIN client_dev_price on client_dev_price.client_id = orders.client_id AND client_dev_price.city_id = orders.to_city
-          where store_id = ?  and and (
+          where store_id = ? orders.confirm = 1 and (
                  (invoice_id = 0) or
                  ((order_status_id=6 or order_status_id=5) and (orders.invoice_id2=0))
                 )
