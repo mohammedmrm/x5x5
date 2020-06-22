@@ -23,7 +23,7 @@ $style='
   }
 </style>' ;
 require("../config.php");
-$id = $_REQUEST['driver'];
+$driver = $_REQUEST['driver'];
 $data = [];
 $end = $_REQUEST['end'];
 $start = $_REQUEST['start'];
@@ -50,7 +50,7 @@ if($_REQUEST['price'] > 0){
 
 
 try{
- $count = "select count(*) as count from orders";
+ $count = "select count(*) as count from orders where driver_invoice_id = 0 and orders.confirm=1 and driver_id=".$driver;
  $query = "select orders.*,date_format(orders.date,'%Y-%m-%d') as dat,  order_status.status as status_name,
           cites.name as city_name,
           towns.name as town_name,
@@ -91,7 +91,7 @@ try{
     $filter = " and (".$f." )";
   }
  $filter = preg_replace('/^ and/', '', $filter);
- 
+
  $count .= " ".$filter;
  $query .= " ".$filter." order by orders.date";
 
