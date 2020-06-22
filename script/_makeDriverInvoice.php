@@ -281,5 +281,5 @@ $pdf->Output(dirname(__FILE__).'/../driver_invoice/'.$pdf_name, 'F');
 }else{
   $success = 2;
 }
-echo json_encode([$count,$start,$end,$_REQUEST,'success'=>$success,'invoice'=>$pdf_name]);
+echo json_encode([$count,$filter,$query,$start,$end,$_REQUEST,'success'=>$success,'invoice'=>$pdf_name]);
 ?>
