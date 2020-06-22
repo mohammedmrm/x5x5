@@ -9,8 +9,13 @@ require_once("../config.php");
 $id = $_REQUEST['store'];
 $data = [];
 $success =0;
+$sql ="select  date_format(orders.date,'%Y-%m-%d') as dat from orders where store_id = ? and order_status_id = 4  and invoice_id = 0 GROUP by dat";
+$res = getData($con,$sql,[$id]);
+if(count($res) > 0){
+  $success =1;
+}
 
-$sql = "select orders.*,date_format(orders.date,'%Y-%m-%d') as dat,  order_status.status as status_name,
+  $sql = "select orders.*,date_format(orders.date,'%Y-%m-%d') as dat,  order_status.status as status_name,
           cites.name as city_name,
           towns.name as town_name,
             if(to_city = 1,
@@ -28,14 +33,13 @@ $sql = "select orders.*,date_format(orders.date,'%Y-%m-%d') as dat,  order_statu
           left join cites on orders.to_city = cites.id
           left join towns on orders.to_town = towns.id
           left JOIN client_dev_price on client_dev_price.client_id = orders.client_id AND client_dev_price.city_id = orders.to_city
-          where store_id = ? and orders.confirm=1 and (
+          where store_id = ?  and orders.confirm=1 and (
                  (invoice_id = 0) or
                  ((order_status_id=6 or order_status_id=5) and (orders.invoice_id2=0))
                 )
           ";
-  $res3= getData($con,$sql,[$id]);
-
-  $data["All_RECIVED_ORDERS"] = $res3;
+  $res3= getData($con,$sql,[$id,$val['dat']]);
+  $data[date("Y-m-d")] = $res3;
   $sql = "select
           sum(new_price) as income,
 
@@ -64,14 +68,15 @@ $sql = "select orders.*,date_format(orders.date,'%Y-%m-%d') as dat,  order_statu
           count(order_no) as orders
           from orders
           left JOIN client_dev_price on client_dev_price.client_id = orders.client_id AND client_dev_price.city_id = orders.to_city
-          where store_id = ?  and orders.confirm=1 and (
+          where store_id = ?  and and (
                  (invoice_id = 0) or
                  ((order_status_id=6 or order_status_id=5) and (orders.invoice_id2=0))
                 )
           ";
           $res4= getData($con,$sql,[$id]);
           $res4= $res4[0];
-$sql2 =   "select invoice.*,date_format(invoice.date,'%Y-%m-%d') as in_date,clients.name as client_name,clients.phone as client_phone
+
+$sql2 = "select invoice.*,date_format(invoice.date,'%Y-%m-%d') as in_date,clients.name as client_name,clients.phone as client_phone
            ,stores.name as store_name
            from invoice
            inner join stores on stores.id = invoice.store_id
