@@ -14,7 +14,7 @@ $res = getData($con,$sql,[$id]);
 if(count($res) > 0){
   $success =1;
 }
-
+foreach($res as $k=>$val){
   $sql = "select orders.*,date_format(orders.date,'%Y-%m-%d') as dat,  order_status.status as status_name,
           cites.name as city_name,
           towns.name as town_name,
@@ -33,13 +33,10 @@ if(count($res) > 0){
           left join cites on orders.to_city = cites.id
           left join towns on orders.to_town = towns.id
           left JOIN client_dev_price on client_dev_price.client_id = orders.client_id AND client_dev_price.city_id = orders.to_city
-          where store_id = ?  and orders.confirm=1 and (
-                 (invoice_id = 0) or
-                 ((order_status_id=6 or order_status_id=5) and (orders.invoice_id2=0))
-                )
+          where store_id = ? and date(date) = ? and invoice_id = 0  and order_status_id = 4
           ";
   $res3= getData($con,$sql,[$id,$val['dat']]);
-  $data[date("Y-m-d")] = $res3;
+  $data[$val['dat']] = $res3;
   $sql = "select
           sum(new_price) as income,
 
@@ -68,14 +65,11 @@ if(count($res) > 0){
           count(order_no) as orders
           from orders
           left JOIN client_dev_price on client_dev_price.client_id = orders.client_id AND client_dev_price.city_id = orders.to_city
-          where store_id = ? orders.confirm = 1 and (
-                 (invoice_id = 0) or
-                 ((order_status_id=6 or order_status_id=5) and (orders.invoice_id2=0))
-                )
+          where store_id = ?  and invoice_id = 0 and (order_status_id = 4 or order_status_id = 6)
           ";
           $res4= getData($con,$sql,[$id]);
           $res4= $res4[0];
-
+}
 $sql2 = "select invoice.*,date_format(invoice.date,'%Y-%m-%d') as in_date,clients.name as client_name,clients.phone as client_phone
            ,stores.name as store_name
            from invoice
