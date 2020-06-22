@@ -72,7 +72,7 @@ try{
           left JOIN client_dev_price on client_dev_price.client_id = orders.client_id AND client_dev_price.city_id = orders.to_city
           where driver_id = '".$driver."' and driver_invoice_id = 0  and orders.confirm =1";
   $filter = "";
-  if(validateDate($start) && validateDate($end)){
+  if(!empty($start) && !empty($end)){
       $filter .= " and orders.date between '".$start."' AND '".$end."' ";
   }
   $f="";
