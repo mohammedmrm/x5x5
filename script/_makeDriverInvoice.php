@@ -90,7 +90,7 @@ try{
   if($f != ""){
     $filter = " and (".$f." )";
   }
- $filter = $filter;
+ $filter = preg_replace('/^ and/', '', $filter);
  $count .= " ".$filter;
  $query .= " ".$filter." order by orders.date";
 
