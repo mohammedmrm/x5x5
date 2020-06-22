@@ -91,6 +91,7 @@ try{
     $filter = " and (".$f." )";
   }
  $filter = preg_replace('/^ and/', '', $filter);
+ 
  $count .= " ".$filter;
  $query .= " ".$filter." order by orders.date";
 
