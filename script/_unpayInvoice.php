@@ -25,8 +25,9 @@ if($v->passes()){
              $result = setData($con,$sql,[$id]);
              if($result > 0){
                  $success = 1;
-                 $sql = "update orders set money_status = 0  where invoice_id=?";
-
+                 $sql = "update orders set money_status = 0, storage_id=1  where invoice_id=? and order_status_id <> 6 and order_status_id <> 5";
+                 $result = setData($con,$sql,[$id]);
+                 $sql = "update orders set money_status = 0, storage_id=1  where invoice_id2=? and order_status_id = 6 or order_status_id = 5";
                  $result = setData($con,$sql,[$id]);
              }else{
                 $msg = "غير مدفوعه بالفعل";

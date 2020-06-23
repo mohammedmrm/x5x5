@@ -31,7 +31,7 @@ $city = $_REQUEST['city'];
 $customer = $_REQUEST['customer'];
 $order = $_REQUEST['order_no'];
 $client= $_REQUEST['client'];
-$status = $_REQUEST['orderStatus'];
+$status = $_REQUEST['status'];
 $store = $_REQUEST['store'];
 $start = trim($_REQUEST['start']);
 $end = trim($_REQUEST['end']);
@@ -67,10 +67,11 @@ try{
             left join towns on  towns.id = orders.to_town
             left join branches on  branches.id = orders.to_branch
             ";
-$where = "where orders.confirm=1 and (
-                 (invoice_id = 0) or
-                 ((order_status_id=6 or order_status_id=5) and (orders.invoice_id2=0))
-                ) and ";
+$where = "where orders.confirm=1 and
+                     (
+                       ((order_status_id<>6 and order_status_id<>5) and orders.invoice_id = 0) or
+                       ((order_status_id=6 or order_status_id=5) and (orders.invoice_id2=0))
+                      )  and storage_id=1 and ";
   $filter = "";
   if($client >= 1){
     $filter .= " and client_id=".$client;
@@ -78,7 +79,7 @@ $where = "where orders.confirm=1 and (
   if($store >= 1){
     $filter .= " and store_id=".$store;
    }
-   $filter .= " and (order_status_id = 6 or order_status_id = 9 or order_status_id = 10 or order_status_id = 11 or order_status_id = 5)";
+   $filter .= " and (order_status_id = 6 or order_status_id = 9 or order_status_id = 5)";
 
 
   function validateDate($date, $format = 'Y-m-d H:i:s')
@@ -89,6 +90,24 @@ $where = "where orders.confirm=1 and (
   if(validateDate($start) && validateDate($end)){
       $filter .= " and orders.date between '".$start."' AND '".$end."'";
      }
+     ///-----------------status
+      $s = "";
+      if(count($status) > 0){
+        foreach($status as $stat){
+          if($stat == 9 || $stat == 6 || $stat == 5){
+            $s .= " or order_status_id=".$stat;
+          }
+        }
+      }else{
+        $filter .= " and (order_status_id = 6 or order_status_id = 9 or order_status_id = 5)";
+      }
+      $s = preg_replace('/^ or/', '', $s);
+       if($s != ""){
+        $s = " and (".$s." )";
+        $filter .= $s;
+      }
+
+  //---------------------end of status
   if($filter != ""){
      $filter = preg_replace('/^ and/', '', $filter);
      $filter = $where." ".$filter;
@@ -104,28 +123,14 @@ $where = "where orders.confirm=1 and (
   $total['o_orders'] = $count1[0]['o_orders'];
   $data = getData($con,$query);
   $success="1";
-/*  if($status == 6 || $status == 9 || $status == 10 ){
-    $sql = "update orders set order_status_id = 11 ".$filter;
-    $update = setData($con,$sql);
-    $status = 6;
-  }*/
 } catch(PDOException $ex) {
    $data=["error"=>$ex];
    $success="0";
 }
 // set default header data
-if($status == 4){
-  $status_name = "مستلمة";
-  $style .= "
-  .head-tr {
-   background-color: #33CC00;
-   color:#111;
-  }
-</style>
-  ";
-}else if($status == 6 || $status == 9 || $status == 5 || $status == 10 || $status == 11){
-  $status = 9;
-  $status_name = "راجعه";
+$status = 9;
+$status = 9;
+  $status_name = "كشف رواجع";
   $style .= "
   .head-tr {
    background-color: #FF3300;
@@ -133,25 +138,7 @@ if($status == 4){
   }
 </style>
   ";
-}else if($status == 7){
-  $status_name = "مؤجل";
-   $style .= "
-  .head-tr {
-   background-color: #FFFF99;
-   color:#111;
-  }
-</style>
-  ";
-}else{
-  $status_name = "غير معروفه";
-   $style .= "
-  .head-tr {
-   background-color: #CCCCCC;
-   color:#111;
-  }
-</style>
-  ";
-}
+
 if($orders > 0){
     try{
         $i = 0;
@@ -200,11 +187,10 @@ if($orders > 0){
                if($data[$i]['repated'] > 1){
                  $bg = "repated";
                }
-              if($status == 9 && ($data[$i]['order_status_id'] == 6 || $data[$i]['order_status_id'] == 5)){
+              if(($data[$i]['order_status_id'] == 6 || $data[$i]['order_status_id'] == 5)){
                  $sql = "update orders set invoice_id2 =? where id=?";
                  $res = setData($con,$sql,[$invoice,$v['id']]);
                  $data[$i]['client_price'] = 0;
-
               }else{
                 $sql = "update orders set invoice_id =? where id=?";
                 $res = setData($con,$sql,[$invoice,$v['id']]);
@@ -366,5 +352,5 @@ $pdf->Output(dirname(__FILE__).'/../invoice/'.$pdf_name, 'F');
 }else{
   $success = 2;
 }
-echo json_encode(['num'=>$count,'success'=>$success,'invoice'=>$pdf_name]);
+echo json_encode(['num'=>$count,$data,'success'=>$success,'invoice'=>$pdf_name]);
 ?>

@@ -873,11 +873,6 @@ $.ajax({
        "bLengthChange": false,
        "bFilter": false,
       });
-new $.fn.dataTable.Buttons( table, {
-    buttons: [
-        'copy', 'excel', 'pdf'
-    ]
-} );
     },
    error:function(e){
     $("#section-to-print").removeClass('loading');

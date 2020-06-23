@@ -5,7 +5,7 @@ session_start();
 error_reporting(0);
 header('Content-Type: application/json');
 require("_access.php");
-access([1]);
+access([1,5,7]);
 require_once("dbconnection.php");
 $style='
 <style>
@@ -27,27 +27,25 @@ $style='
 require("../config.php");
 
 $branch = $_REQUEST['branch'];
+$to_branch = $_REQUEST['to_branch'];
 $city = $_REQUEST['city'];
 $customer = $_REQUEST['customer'];
 $order = $_REQUEST['order_no'];
 $client= $_REQUEST['client'];
 $statues = $_REQUEST['orderStatus'];
 $store = $_REQUEST['store'];
+$storage = $_REQUEST['storage'];
+$driver = $_REQUEST['driver'];
 $start = trim($_REQUEST['start']);
 $end = trim($_REQUEST['end']);
-
-
 $total = [];
-$money_status = trim($_REQUEST['money_status']);
-if(empty($end)) {
-  $end = "";
+if(!empty($end)) {
+   $end .=" 23:59:59";
 }else{
-   $end =date('Y-m-d', strtotime($end. ' + 1 day'));
-   $end .=" 00:00:00";
+   $end =date('Y-m-d', strtotime(' + 1 day'));
+   $end .=" 23:59:59";
 }
-if(empty($start)) {
-  $start = "";
-}else{
+if(!empty($start)) {
    $start .=" 00:00:00";
 }
 
@@ -56,60 +54,48 @@ try{
                SUM(IF (to_city = 1,1,0)) as  b_orders,
                SUM(IF (to_city > 1,1,0)) as  o_orders
             from orders ";
-  $query = "select orders.*, date_format(orders.date,'%Y-%m-%d') as date,
+  $query = "select orders.*, date_format(orders.date,'%Y-%m-%d') as dat,
             clients.name as client_name,clients.phone as client_phone,
             cites.name as city,towns.name as town,branches.name as branch_name,
-            stores.name as store_name,b.rep as repated
+            stores.name as store_name
             from orders
             left join clients on clients.id = orders.client_id
             left join cites on  cites.id = orders.to_city
             left join stores on  stores.id = orders.store_id
             left join towns on  towns.id = orders.to_town
             left join branches on  branches.id = orders.to_branch
-            left join (
-             select order_no,count(*) as rep from orders
-              GROUP BY order_no
-              HAVING COUNT(orders.id) > 1
-            ) b on b.order_no = orders.order_no
             ";
-$where = "where orders.confirm=1 and (
-                 (invoice_id = 0) or
+  $where = "where orders.confirm=1 and (
+                 ((order_status_id<>6 and order_status_id<>5) and orders.invoice_id = 0) or
                  ((order_status_id=6 or order_status_id=5) and (orders.invoice_id2=0))
-                ) and ";
+                ) and storage_id='".$storage."'";
   $filter = "";
-  if($branch >= 1){
-   $filter .= " and from_branch =".$branch;
-  }
-  if($city >= 1){
-    $filter .= " and to_city=".$city;
-  }
-  if(($money_status == 1 || $money_status == 0) && $money_status !=""){
-    $filter .= " and money_status='".$money_status."'";
-  }
   if($client >= 1){
     $filter .= " and client_id=".$client;
   }
   if($store >= 1){
     $filter .= " and store_id=".$store;
+   }
+     ///-----------------status
+  $s = "";
+  if(count($status) > 0){
+    foreach($status as $stat){
+      if($stat == 9 || $stat == 6 || $stat == 5){
+        $s .= " or order_status_id=".$stat;
+      }
+    }
+  }else{
+    $filter .= " and (order_status_id = 6 or order_status_id = 9 or order_status_id = 5)";
   }
-  if(!empty($customer)){
-    $filter .= " and (customer_name like '%".$customer."%' or
-                      customer_phone like '%".$customer."%')";
-  }
-  if(!empty($order)){
-    $filter .= " and orders.order_no like '%".$order."%'";
+  $s = preg_replace('/^ or/', '', $s);
+   if($s != ""){
+    $s = " and (".$s." )";
+    $filter .= $s;
   }
 
-
-  ///-----------------status
-  if($status == 4){
-    $filter .= " and (order_status_id =4 or order_status_id = 6 or order_status_id = 5)";
-  }else if($status == 9){
-    $filter .= " and (order_status_id =11 or order_status_id =9 or order_status_id = 6 or order_status_id = 5)";
-  }else if($status >= 1){
-    $filter .= " and order_status_id =".$status;
-  }
   //---------------------end of status
+
+
 
   function validateDate($date, $format = 'Y-m-d H:i:s')
     {
@@ -120,12 +106,11 @@ $where = "where orders.confirm=1 and (
       $filter .= " and orders.date between '".$start."' AND '".$end."'";
      }
   if($filter != ""){
-     $filter = preg_replace('/^ and/', '', $filter);
      $filter = $where." ".$filter;
      $count .= " ".$filter;
      $query .= " ".$filter." order by orders.order_no,to_city";
   }else{
-    $query .=" order by order_no";
+    $query .=" order by orders.date";
   }
 
   $count1 = getData($con,$count);
@@ -134,29 +119,13 @@ $where = "where orders.confirm=1 and (
   $total['o_orders'] = $count1[0]['o_orders'];
   $data = getData($con,$query);
   $success="1";
-/*  if($status == 6 || $status == 9 || $status == 10 ){
-    $sql = "update orders set order_status_id = 11 ".$filter;
-    $update = setData($con,$sql);
-    $status = 6;
-  }*/
 } catch(PDOException $ex) {
    $data=["error"=>$ex];
    $success="0";
 }
 // set default header data
-
-if($status == 4){
-  $status_name = "مستلمة";
-  $style .= "
-  .head-tr {
-   background-color: #33CC00;
-   color:#111;
-  }
-</style>
-  ";
-}else if($status == 6 || $status == 9 || $status == 5 || $status == 10 || $status == 11){
-  $status = 9;
-  $status_name = "راجعه";
+$status = 9;
+  $status_name = "كشف راجع";
   $style .= "
   .head-tr {
    background-color: #FF3300;
@@ -164,32 +133,14 @@ if($status == 4){
   }
 </style>
   ";
-}else if($status == 7){
-  $status_name = "مؤجل";
-   $style .= "
-  .head-tr {
-   background-color: #FFFF99;
-   color:#111;
-  }
-</style>
-  ";
-}else{
-  $status_name = "-";
-   $style .= "
-  .head-tr {
-   background-color: #CCCCCC;
-   color:#111;
-  }
-</style>
-  ";
-}
+
+
 if($orders > 0){
     try{
         $i = 0;
         $content = "";
         $success = 0;
-        $pdf_name = uniqid().".pdf";
-        $name = $pdf_name;
+        $pdf_name = date('Y-m-d')."_".uniqid().".pdf";
         $sql = "insert into invoice (path,store_id,orders_status) values(?,?,?)";
         $res = setData($con,$sql,[$pdf_name,$store,$status]);
     if($res > 0){
@@ -198,6 +149,7 @@ if($orders > 0){
       $res = getdata($con,$sql,[$pdf_name,$store]);
       $invoice = $res[0]['id'];
       $date = $res[0]['date'];
+
         foreach($data as $k=>$v){
           $total['income'] += $data[$i]['new_price'];
                 $sql = "select * from client_dev_price where client_id=? and city_id=?";
@@ -218,8 +170,8 @@ if($orders > 0){
                   $data[$i]['dicount']=0;
                 }
                 $data[$i]['client_price'] = ($data[$i]['new_price'] -  $dev_p) + $data[$i]['discount'];
-               $bg = "";
                $note =  $data[$i]['note'];
+               $bg = "";
                if($data[$i]['order_status_id'] == 6){
                  $bg = "re";
                  $note = "راجع جزئي";
@@ -231,35 +183,32 @@ if($orders > 0){
                if($data[$i]['repated'] > 1){
                  $bg = "repated";
                }
-          if($status == 9 && ($data[$i]['order_status_id'] == 6 || $data[$i]['order_status_id'] == 5)){
-             $sql = "update orders set invoice_id2 =? where id=?";
-             $res = setData($con,$sql,[$invoice,$v['id']]);
-             $data[$i]['client_price'] = 0;
-
-          }else{
-            $sql = "update orders set invoice_id =? where id=?";
-            $res = setData($con,$sql,[$invoice,$v['id']]);
-          }
+              if(($data[$i]['order_status_id'] == 6 || $data[$i]['order_status_id'] == 5)){
+                 $sql = "update orders set invoice_id2 =? where id=?";
+                 $res = setData($con,$sql,[$invoice,$v['id']]);
+                 $data[$i]['client_price'] = 0;
+              }else{
+                $sql = "update orders set invoice_id =? where id=?";
+                $res = setData($con,$sql,[$invoice,$v['id']]);
+              }
         $hcontent .=
          '<tr class="'.$bg.'">
-           <td width="60" align="center">'.($i+1).'</td>
-           <td width="100" align="center">'.$data[$i]['date'].'</td>
-           <td width="80" align="center">'.$data[$i]['order_no'].'</td>
+           <td width="60"  align="center">'.($i+1).'</td>
+           <td width="100" align="center">'.$data[$i]['dat'].'</td>
+           <td width="80"  align="center">'.$data[$i]['order_no'].'</td>
            <td width="120" align="center">'.phone_number_format($data[$i]['customer_phone']).'</td>
-           <td width="160" align="center">'.$data[$i]['city'].' - '.$data[$i]['town'].' - '.$data[$i]['adress'].'</td>
+           <td width="160" align="center" >'.$data[$i]['city'].' - '.$data[$i]['town'].' - '.$data[$i]['address'].'</td>
            <td width="80" align="center">'.number_format($data[$i]['price']).'</td>
            <td width="80" align="center">'.number_format($data[$i]['new_price']).'</td>
            <td width="80" align="center">'.number_format($data[$i]['dev_price']).'</td>
            <td align="center">'.number_format($data[$i]['client_price']).'</td>
            <td align="center">'.$note.'</td>
          </tr>';
-
-          //--- update invoice for each order
-
           $total['discount'] += $data[$i]['discount'];
           $total['dev_price'] += $data[$i]['dev_price'];
           $total['client_price'] += $data[$i]['client_price'];
           $i++;
+
        }
        $total['invoice'] = $invoice;
        $total['status'] = $status_name;
@@ -273,8 +222,8 @@ if($orders > 0){
            $total['client'] = $data[0]['client_name'];
            $total['store'] = $data[0]['store_name'];
           }else{
-           $total['client'] = '/';
-           $total['store'] = '/';
+           $total['client'] = 'غير معروف';
+           $total['store'] = 'غير معروف';
           }
 
     } catch(PDOException $ex) {
@@ -285,12 +234,9 @@ if($orders > 0){
 require_once("../tcpdf/tcpdf.php");
 class MYPDF extends TCPDF {
     public function Header() {
-        // Set font
         $t = $GLOBALS['total'];
-        $this->SetFont('aealarabiya', 'B', 12);
-        // Title
         $this->writeHTML('
-         <table>
+         <table >
          <tr>
           <td rowspan="4"><img src="../img/logos/logo.png" height="90px"/></td>
           <td></td>
@@ -299,12 +245,12 @@ class MYPDF extends TCPDF {
           <td></td>
          </tr>
          <tr>
-          <td width="350px">اسم العميل او الصفحه : ( '.$t['client'].' ) '.$t['store'].'</td>
+          <td width="230px">اسم العميل او الصفحه:'. $t['client'].'</td>
           <td width="300px" style="color:#FF0000;text-align:center;display:block;">كشف حساب ('.$t['status'].')</td>
           <td >التاريخ:'.$t['date'].'</td>
          </tr>
          <tr>
-          <td width="350px">الصافي للعميل:'.number_format($t['client_price']).'</td>
+          <td width="230px">الصافي للعميل:'.$t['client_price'].'</td>
           <td width="300px" style="text-align:center;display:block;">'.
                 'عدد الطلبيات  الكلي: '.$t['orders'].'<br />'.
                 'عدد طلبيات بغداد : '.$t['b_orders'].'<br />'.
@@ -321,7 +267,7 @@ $pdf = new MYPDF(PDF_PAGE_ORIENTATION, PDF_UNIT, PDF_PAGE_FORMAT, true, 'UTF-8',
 // set document information
 $pdf->SetCreator(PDF_CREATOR);
 $pdf->SetAuthor('07822816693');
-$pdf->SetTitle('تقرير الطلبيات');
+$pdf->SetTitle('كشف رواجع');
 $pdf->SetSubject($start."-".$end);
 // set some language dependent data:
 $lg = Array();
@@ -336,7 +282,7 @@ $pdf->setLanguageArray($lg);
 $pdf->SetFont('aealarabiya', '', 12);
 
 
-//$pdf->SetHeaderData("../../../".$config['Company_logo'],30, ' اسم الصفحه او البيح: '.$total['store']."               "." الفترة الزمنية: ".date("Y-m-d",strtotime($start))." || ".date("Y-m-d",strtotime($end))," حالة الطلبات : ".$status_name."\n"."السعر الصافي للعميل: ".number_format($total['client_price'])."                "."\n"."عدد الطلبيات: ".$total['orders']." ");
+//$pdf->SetHeaderData("../../../".$config['Company_logo'],30, ' ??? ?????? ?? ?????: '.$total['store']."               "." ?????? ???????: ".date("Y-m-d",strtotime($start))." || ".date("Y-m-d",strtotime($end))," ???? ??????? : ".$status_name."\n"."????? ?????? ??????: ".number_format($total['client_price'])."                "."\n"."??? ????????: ".$total['orders']." ");
 
 // set header and footer fonts
 $pdf->setHeaderFont(Array('aealarabiya', '', 12));
@@ -363,7 +309,7 @@ $pdf->AddPage('L', 'A4');
 
 // Persian and English content
 
-$htmlpersian = '		<table border="1" class="table" cellpadding="5">
+$htmlpersian = '		<table border="1" class="table">
 			       <thead>
 	  						<tr  class="head-tr">
                                         <th width="60">#</th>
@@ -374,8 +320,8 @@ $htmlpersian = '		<table border="1" class="table" cellpadding="5">
                                         <th width="80">مبلغ الوصل</th>
 										<th width="80">المبلغ المستلم</th>
 										<th width="80">مبلغ التوصيل</th>
-										<th>المبلغ الصافي للعميل</th>
-										<th>ملاحظات</th>
+										<th> المبلغ الصافي للعميل </th>
+										<th>الملاحظات</th>
 							</tr>
       	            </thead>
                             <tbody id="ordersTable">'
@@ -399,5 +345,5 @@ $pdf->Output(dirname(__FILE__).'/../invoice/'.$pdf_name, 'F');
 }else{
   $success = 2;
 }
-echo json_encode([$query,'success'=>$success,'invoice'=>$name]);
+echo json_encode(['num'=>$count,'success'=>$success,'invoice'=>$pdf_name]);
 ?>

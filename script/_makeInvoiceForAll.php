@@ -27,9 +27,31 @@ require("../config.php");
 
 $status = 4;
 $store = $_REQUEST['store'];
+$dev_price_b = $_REQUEST['dev_price_b'];
+$dev_price_o = $_REQUEST['dev_price_o'];
+try{
+if($store >= 1 && $dev_price_b > 999 && $dev_price_o > 999){
+    $sql= "select * from stores where id= ?";
+    $client =getData($con,$sql,[$store]);
+    if(count($client) > 0){
+    $sql= "delete from client_dev_price where client_id= ?";
+    $delete_dev_price = setData($con,$sql,[$client[0]['client_id']]);
+    $sql = "select * from cites";
+    $cities = getData($con,$sql);
+            foreach($cities as $city){
+                 $sql = "insert into client_dev_price (price,city_id,client_id) value(?,?,?)";
+                 if($city['id'] == 1){
+                  $update_price = setData($con,$sql,[$dev_price_b,$city['id'],$client[0]['client_id']]);
+                 }else{
+                  $update_price = setData($con,$sql,[$dev_price_o,$city['id'],$client[0]['client_id']]);
+                 }
+            }
+   }
 
+}
+}catch(PDOException $ex) {
 
-
+}
 $total = [];
 
 try{
@@ -152,6 +174,12 @@ if($orders > 0){
                    $dev_p = $config['dev_o'];
                   }
                 }
+                if($v['to_city'] == 1 && $dev_price_b > 999){
+                 $dev_p = $dev_price_b;
+                }
+                if($v['to_city'] != 1 && $dev_price_o > 999){
+                 $dev_p = $dev_price_o;
+                }
                 $data[$i]['dev_price'] = $dev_p;
                 if($data[$i]['order_status_id'] == 9){
                   $data[$i]['dev_price'] = 0;
@@ -172,15 +200,9 @@ if($orders > 0){
                if($data[$i]['repated'] > 1){
                  $bg = "repated";
                }
-              if($status == 9 && ($data[$i]['order_status_id'] == 6 || $data[$i]['order_status_id'] == 5)){
-                 $sql = "update orders set invoice_id2 =? where id=?";
-                 $res = setData($con,$sql,[$invoice,$v['id']]);
-                 $data[$i]['client_price'] = 0;
-
-              }else{
                 $sql = "update orders set invoice_id =? where id=?";
                 $res = setData($con,$sql,[$invoice,$v['id']]);
-              }
+
         $hcontent .=
          '<tr class="'.$bg.'">
            <td width="60"  align="center">'.($i+1).'</td>
@@ -339,5 +361,5 @@ $pdf->Output(dirname(__FILE__).'/../invoice/'.$pdf_name, 'F');
 }else{
   $success = 2;
 }
-echo json_encode(['num'=>$count,'success'=>$success,'invoice'=>$pdf_name]);
+echo json_encode([$cities,$update_price,'num'=>$count,'success'=>$success,'invoice'=>$pdf_name]);
 ?>

@@ -168,11 +168,8 @@ require_once("config.php");
     <body class="kt-page--loading-enabled kt-page--loading kt-quick-panel--right kt-demo-panel--right kt-offcanvas-panel--right kt-header--fixed kt-header-mobile--fixed kt-subheader--enabled kt-subheader--transparent kt-aside--enabled kt-aside--fixed kt-page--loading" >
         <!-- end::Global Config -->
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css">
-<a href="https://api.whatsapp.com/send?phone=009647822816693&text=مرحبا, من <?php echo $_SESSION['user_details']['name']."-(". $config['Company_name'].")";?>" class="float" target="_blank">
-<i class="fa fa-whatsapp my-float"></i>
-</a>
-    <script>
 
+<script>
 var KTAppOptions = {
     "colors": {
         "state": {

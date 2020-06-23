@@ -116,7 +116,7 @@ $se = $_SESSION['role'];
                         <li class="kt-menu__item " aria-haspopup="true" >
                             <a href="?page=pages/returnedToCityStore.php" class="kt-menu__link ">
                                 <i class="kt-menu__link-bullet kt-menu__link-bullet--dot"><span></span></i>
-                                <span class="kt-menu__link-text">ادخال رواجع المحافظات</span>
+                                <span class="kt-menu__link-text">ادخال رواجع المخزن</span>
                             </a>
                         </li>
                         <?php } ?>
@@ -203,6 +203,12 @@ $se = $_SESSION['role'];
                             <a href="?page=pages/branches.php" class="kt-menu__link ">
                                 <i class="kt-menu__link-bullet kt-menu__link-bullet--dot"><span></span></i>
                                 <span class="kt-menu__link-text">الفروع</span>
+                            </a>
+                        </li>
+                        <li class="kt-menu__item " aria-haspopup="true" >
+                            <a href="?page=pages/storage.php" class="kt-menu__link ">
+                                <i class="kt-menu__link-bullet kt-menu__link-bullet--dot"><span></span></i>
+                                <span class="kt-menu__link-text">المخازن</span>
                             </a>
                         </li>
                         <?php } ?>

@@ -10,9 +10,10 @@ $driver = $_REQUEST['driver_action'];
 $status = $_REQUEST['status_action'];
 $discount = $_REQUEST['discount'];
 $ids = $_REQUEST['ids'];
+$ac = $_SESSION['role'];
 $success="0";
 if(isset($_REQUEST['ids'])){
-  if($action == 'asign'){
+  if($action == 'asign' && ( $ac == 1 || $ac == 2 || $ac == 3 || $ac == 5)){
     if($driver >= 1){
       try{
          $query = "update orders set driver_id=? where id=?";
@@ -31,9 +32,11 @@ if(isset($_REQUEST['ids'])){
          $success="0";
       }
     }
+  }else{
+    $msg = "?????? ????????";
   }
   //---delete
-  if($action == 'delete'){
+  if($action == 'delete' && ( $ac == 1 || $ac == 2 || $ac == 3 || $ac == 5)){
 
       try{
          $query = "update orders set confirm=3 where id=?";
@@ -46,9 +49,11 @@ if(isset($_REQUEST['ids'])){
          $success="0";
       }
 
+  }else{
+    $msg = "?????? ????????";
   }
   //---update
-  if($action == 'status'){
+  if($action == 'status' && ( $ac == 1 || $ac == 2 || $ac == 3 || $ac == 5 || $ac == 6 || $ac == 7 || $ac == 8)){
     if($status >= 1){
       try{
          $query = "update orders set order_status_id=? where id=?";
@@ -113,5 +118,5 @@ if(isset($_REQUEST['ids'])){
   $success="2";
 }
 
-print_r(json_encode(array("success"=>$success,"data"=>$data)));
+echo (json_encode(array("success"=>$success,"data"=>$data)));
 ?>
