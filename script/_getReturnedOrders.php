@@ -14,6 +14,7 @@ $town= $_REQUEST['town'];
 $customer = $_REQUEST['customer'];
 $order = $_REQUEST['order_no'];
 $store= $_REQUEST['store'];
+$client= $_REQUEST['client'];
 $invoice= $_REQUEST['invoice'];
 $status = $_REQUEST['orderStatus'];
 $storageStatus = $_REQUEST['storageStatus'];
@@ -155,6 +156,11 @@ try{
   if($store >= 1){
     $filter .= " and orders.store_id=".$store;
   }
+
+  if($client >= 1){
+    $filter .= " and orders.client_id=".$client;
+  }
+
   if($invoice == 1){
     $filter .= " and  (
                        ((order_status_id<>6 and order_status_id<>5) and orders.invoice_id = 0) or
