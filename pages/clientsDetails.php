@@ -154,7 +154,7 @@ hr {
         				<div class="input-group-append">
         					<span class="input-group-text"><i class="la la-ellipsis-h"></i></span>
         				</div>
-        				<input onchange="getorders()" type="text" class="form-control kt-input" name="end" id="end" placeholder="الى" data-col-index="5">
+        				<input onchange="getStoreDetails();storeInfo();getInvoices();getStoreReturned();" type="text" class="form-control kt-input" name="end" id="end" placeholder="الى" data-col-index="5">
                 	</div>
          </div>
          </div>
@@ -495,7 +495,7 @@ function getInvoices(){
      });
      var myTable= $('#tb-invioces').DataTable({
       "oLanguage": {
-        "sLengthMenu": "عرض_MENU_سجل",
+        "sLengthMenu": "عرض _MENU_ سجل",
         "sSearch": "بحث:"
       },
 

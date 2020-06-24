@@ -39,15 +39,12 @@ $end = trim($_REQUEST['end']);
 
 $total = [];
 $money_status = trim($_REQUEST['money_status']);
-if(empty($end)) {
-  $end = "";
+if(!empty($end)) {
+   $end .=" 23:59:59";
 }else{
-   $end =date('Y-m-d', strtotime($end. ' + 1 day'));
-   $end .=" 00:00:00";
+  $end =date('Y-m-d H:i:s');
 }
-if(empty($start)) {
-  $start = "";
-}else{
+if(!empty($start)) {
    $start .=" 00:00:00";
 }
 
@@ -82,12 +79,12 @@ $where = "where orders.confirm=1 and
    $filter .= " and (order_status_id = 6 or order_status_id = 9 or order_status_id = 5)";
 
 
-  function validateDate($date, $format = 'Y-m-d H:i:s')
+    function validateDate($date, $format = 'Y-m-d H:i:s')
     {
         $d = DateTime::createFromFormat($format, $date);
         return $d && $d->format($format) == $date;
     }
-  if(validateDate($start) && validateDate($end)){
+    if(validateDate($start) && validateDate($end)){
       $filter .= " and orders.date between '".$start."' AND '".$end."'";
      }
      ///-----------------status
@@ -253,7 +250,7 @@ class MYPDF extends TCPDF {
          </tr>
          <tr>
           <td width="230px">اسم العميل او الصفحه:'. $t['client'].'</td>
-          <td width="400px" style="color:#FF0000;text-align:center;display:block;">كشف حساب ('.$t['status'].')</td>
+          <td width="300px" style="color:#FF0000;text-align:center;display:block;">كشف حساب ('.$t['status'].')</td>
           <td >التاريخ:'.$t['date'].'</td>
          </tr>
          <tr>
