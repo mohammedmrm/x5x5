@@ -42,7 +42,6 @@ if(file_exists("script/_access.php")){
 										<th>ID</th>
 										<th>اسم المخزن</th>
 										<th>الفرع</th>
-										<th>تعديل</th>
 							</tr>
       	            </thead>
                     <tbody id="storageTable">
@@ -77,10 +76,6 @@ $.ajax({
             '<td>'+this.id+'</td>'+
             '<td>'+this.name+'</td>'+
             '<td>'+this.branch_name+'</td>'+
-             '<td>'+
-                '<button class="btn btn-link btn-clean" onclick="editstorage('+this.id+')" data-toggle="modal" data-target="#editstorageModal"><span class="flaticon-edit"></sapn></button>'+
-                '<button class="btn btn-link btn-clean text-danger" onclick="deletestorage('+this.id+')" data-toggle="modal" data-target="#deletestorageModal"><span class="flaticon-delete"></sapn></button>'+
-            '</td>'+
        '</tr>');
      });
      $("#tb-storage").DataTable().destroy()
