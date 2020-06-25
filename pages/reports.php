@@ -201,7 +201,7 @@ legend
             </div>
             <div class="col-lg-2 kt-margin-b-10-tablet-and-mobile">
             	<label>الصفحه:</label>
-            	<select onchange="" data-show-subtext="true" data-live-search="true"  class="selectpicker form-control kt-input" id="store" name="store" data-col-index="7">
+            	<select onchange="" data-actions-box="true" data-show-subtext="true" data-live-search="true"  class="selectpicker form-control kt-input" id="store" name="store" data-col-index="7">
             		<option value="">Select</option>
             	</select>
             </div>
@@ -247,7 +247,7 @@ legend
             </div>
             <div class="col-lg-2 kt-margin-b-10-tablet-and-mobile">
             	<label>المندوب:</label>
-                <select id="driver" name="driver"   data-live-search="true" class="form-control kt-input" data-col-index="2">
+                <select id="driver" name="driver"  data-actions-box="true" data-live-search="true" class="form-control kt-input" data-col-index="2">
             	</select>
             </div>
             <div class="col-lg-2 kt-margin-b-10-tablet-and-mobile">
