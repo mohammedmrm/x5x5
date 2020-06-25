@@ -347,5 +347,5 @@ $pdf->Output(dirname(__FILE__).'/../invoice/'.$pdf_name, 'F');
 }else{
   $success = 2;
 }
-echo json_encode(['num'=>$count,'success'=>$success,'invoice'=>$pdf_name]);
+echo json_encode([$query,'num'=>$count,'success'=>$success,'invoice'=>$pdf_name]);
 ?>

@@ -76,5 +76,5 @@ $data= getData($con,$sql.$filter,[$id]);
 if(count($data)>0){
   $success =1;
 }
-echo json_encode(array("success"=>$success,"data"=>$data));
+echo json_encode(array($sql,"success"=>$success,"data"=>$data));
 ?>
