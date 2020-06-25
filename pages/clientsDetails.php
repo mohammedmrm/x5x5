@@ -328,6 +328,7 @@ function  getStoreDetails(){
     data:$("#storedataform").serialize(),
     beforeSend:function(){
        $("#store_info").addClass('loading');
+       $("#tb-orders-reciverd").addClass('loading');
        $("#tb-invioces").DataTable().destroy();
        $('#tb-orders-reciverd').DataTable().destroy();
        $('#orders-reciverd').html("");
@@ -337,6 +338,7 @@ function  getStoreDetails(){
     },
     success:function(res){
       $("#store_info").removeClass('loading');
+      $("#tb-orders-reciverd").removeClass('loading');
       console.log(res);
       content ="";
       $.each(res.data,function(k,v){
@@ -387,6 +389,7 @@ function  getStoreDetails(){
     },
     error:function(e){
      $("#store_info").removeClass('loading');
+     $("#tb-orders-reciverd").removeClass('loading');
      console.log(e);
     }
   })
