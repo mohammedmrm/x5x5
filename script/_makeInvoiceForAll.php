@@ -28,6 +28,9 @@ $style='
    background-color: #33CC00;
    color:#111;
   }
+  .price_bg {
+    background-color: #9966FF;
+  }
   </style>
 ';
 require("../config.php");
@@ -182,6 +185,10 @@ if($orders > 0){
                if($data[$i]['repated'] > 1){
                  $bg = "repated";
                }
+               $price_bg ="";
+               if($data[$i]['new_price'] !== $data[$i]['price']){
+                 $price_bg = "price_bg";
+               }
                 $sql = "update orders set invoice_id =? where id=?";
                 $res = setData($con,$sql,[$invoice,$v['id']]);
 
@@ -193,7 +200,7 @@ if($orders > 0){
            <td width="120" align="center">'.phone_number_format($data[$i]['customer_phone']).'</td>
            <td width="160" align="center" >'.$data[$i]['city'].' - '.$data[$i]['town'].' - '.$data[$i]['address'].'</td>
            <td width="80" align="center">'.number_format($data[$i]['price']).'</td>
-           <td width="80" align="center">'.number_format($data[$i]['new_price']).'</td>
+           <td width="80" class="'.$price_bg.'" align="center">'.number_format($data[$i]['new_price']).'</td>
            <td width="80" align="center">'.number_format($data[$i]['dev_price']).'</td>
            <td align="center">'.number_format($data[$i]['client_price']).'</td>
            <td align="center">'.$note.'</td>
