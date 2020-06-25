@@ -16,16 +16,19 @@ if(isset($_REQUEST['ids'])){
   if($action == 'asign' && ( $ac == 1 || $ac == 2 || $ac == 3 || $ac == 5)){
     if($driver >= 1){
       try{
-         $query = "update orders set driver_id=? where id=?";
+         $query = "update orders set driver_id=? where id=? and invoice_id=0 and driver_invoice_id=0 and storage_id=0";
          $record = "call update_or_insert(?,?,?)";
          $order = "update orders set order_status_id = ? where id =?";
          $query2 = "insert into tracking (order_id,order_status_id,date,staff_id) values(?,?,?,?)";
          foreach($ids as $v){
            $data = setData($con,$query,[$driver,$v]);
-           setData($con,$record,[$driver,$v,3]);
-           setData($con,$order,[3,$v]);
-           setData($con,$query2,[$v,3,date('Y-m-d H:i:s'),$_SESSION['userid']]);
-           $success="1";
+           if($data > 0){
+               setData($con,$record,[$driver,$v,3]);
+               setData($con,$order,[3,$v]);
+               setData($con,$query2,[$v,3,date('Y-m-d H:i:s'),$_SESSION['userid']]);
+               $success="1";
+           }
+
          }
       } catch(PDOException $ex) {
          $data=["error"=>$ex];
