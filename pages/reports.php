@@ -196,30 +196,30 @@ legend
             </div>
             <div class="col-lg-2 kt-margin-b-10-tablet-and-mobile">
             	<label>فرع الارسال:</label>
-            	<select onchange="getorders()" class="form-control kt-input" id="to_branch" name="to_branch" data-col-index="6">
+            	<select onchange="" class="form-control kt-input" id="to_branch" name="to_branch" data-col-index="6">
             	</select>
             </div>
             <div class="col-lg-2 kt-margin-b-10-tablet-and-mobile">
             	<label>الصفحه:</label>
-            	<select onchange="getorders()" data-show-subtext="true" data-live-search="true"  class="selectpicker form-control kt-input" id="store" name="store" data-col-index="7">
+            	<select onchange="" data-show-subtext="true" data-live-search="true"  class="selectpicker form-control kt-input" id="store" name="store" data-col-index="7">
             		<option value="">Select</option>
             	</select>
             </div>
             <div class="col-lg-2 kt-margin-b-10-tablet-and-mobile">
             	<label>الحالة:</label>
-            	<select onchange="getorders()"  title="اختر الحالة" class="form-control kt-input" id="orderStatus" name="orderStatus[]" data-live-search="true" data-show-subtext="true" data-actions-box="true" multiple data-col-index="7">
+            	<select onchange=""  title="اختر الحالة" class="form-control kt-input" id="orderStatus" name="orderStatus[]" data-live-search="true" data-show-subtext="true" data-actions-box="true" multiple data-col-index="7">
             		<option value="">Select</option>
             	</select>
             </div>
             <div class="col-lg-2 kt-margin-b-10-tablet-and-mobile">
             	<label>المحافظة المرسل لها:</label>
-            	<select id="city" name="city"  onchange="getorders();getTowns2($('#town'),$(this).val());" data-live-search="true" class="form-control kt-input" data-col-index="2">
+            	<select id="city" name="city"  onchange="getTowns2($('#town'),$(this).val());" data-live-search="true" class="form-control kt-input" data-col-index="2">
             		<option value="">Select</option>
                 </select>
             </div>
             <div class="col-lg-2 kt-margin-b-10-tablet-and-mobile">
             	<label>حالة التكرار:</label>
-                <select name="repated" onchange="getorders()" class="selectpicker form-control kt-input" data-col-index="2">
+                <select name="repated" onchange="" class="selectpicker form-control kt-input" data-col-index="2">
             		<option value="">عرض الكل</option>
             		<option value="1">عرض المكرر فقط</option>
             		<option value="2">عرض غير المكرر</option>
@@ -229,30 +229,30 @@ legend
           <div class="row kt-margin-b-20">
             <div class="col-lg-1 kt-margin-b-10-tablet-and-mobile">
             	<label>رقم الوصل:</label>
-            	<input id="order_no" name="order_no" value="<?php if(!empty($_GET['order_no'])){ echo $_GET['order_no'];} ?>" onkeyup="getorders()" type="text" class="form-control kt-input" placeholder="" data-col-index="0">
+            	<input id="order_no" name="order_no" value="<?php if(!empty($_GET['order_no'])){ echo $_GET['order_no'];} ?>" onkeyup="" type="text" class="form-control kt-input" placeholder="" data-col-index="0">
             </div>
             <div class="col-lg-2 kt-margin-b-10-tablet-and-mobile">
             	<label>اسم او هاتف المستلم:</label>
-            	<input name="customer" onkeyup="getorders()" type="text" class="form-control kt-input" placeholder="" data-col-index="1">
+            	<input name="customer" onkeyup="" type="text" class="form-control kt-input" placeholder="" data-col-index="1">
             </div>
             <div class="col-lg-3 kt-margin-b-10-tablet-and-mobile">
             <label>الفترة الزمنية :</label>
             <div class="input-daterange input-group" id="kt_datepicker">
-  				<input value="<?php echo date('Y-m-d', strtotime(' - 7 day'));?>" onchange="getorders()" type="text" class="form-control kt-input" name="start" id="start" placeholder="من" data-col-index="5">
+  				<input value="<?php echo date('Y-m-d', strtotime(' - 7 day'));?>" onchange="" type="text" class="form-control kt-input" name="start" id="start" placeholder="من" data-col-index="5">
   				<div class="input-group-append">
   					<span class="input-group-text"><i class="la la-ellipsis-h"></i></span>
   				</div>
-  				<input onchange="getorders()" type="text" class="form-control kt-input" name="end"  id="end" placeholder="الى" data-col-index="5">
+  				<input  type="text" class="form-control kt-input" name="end"  id="end" placeholder="الى" data-col-index="5">
           	</div>
             </div>
             <div class="col-lg-2 kt-margin-b-10-tablet-and-mobile">
             	<label>المندوب:</label>
-                <select id="driver" name="driver" onchange="getorders()"  data-live-search="true" class="form-control kt-input" data-col-index="2">
+                <select id="driver" name="driver"   data-live-search="true" class="form-control kt-input" data-col-index="2">
             	</select>
             </div>
             <div class="col-lg-2 kt-margin-b-10-tablet-and-mobile">
             	<label>حالة تسليم المبلغ للعميل:</label>
-                <select name="money_status" onchange="getorders()" class="selectpicker form-control kt-input" data-col-index="2">
+                <select name="money_status"  class="selectpicker form-control kt-input" data-col-index="2">
             		<option value="">... اختر...</option>
             		<option value="1">تم تسليم المبلغ</option>
             		<option value="0">لم يتم تسليم المبلغ</option>
@@ -260,7 +260,7 @@ legend
             </div>
             <div class="col-lg-2 kt-margin-b-10-tablet-and-mobile">
             	<label>حالة الطلبات من الكشف</label>
-                <select id="invoice" name="invoice" onchange="getorders()" class="selectpicker form-control kt-input" data-col-index="2">
+                <select id="invoice" name="invoice"  class="selectpicker form-control kt-input" data-col-index="2">
             		<option value="">... اختر...</option>
             		<option value="1">طلبات بدون كشف</option>
             		<option value="2">طلبات كشف</option>
@@ -271,29 +271,29 @@ legend
           <div class="row kt-margin-b-20">
             <div class="col-lg-2 kt-margin-b-10-tablet-and-mobile">
             	<label>المنطقه:</label>
-                <select id="town" name="town" onchange="getorders()" class="form-control kt-input" data-col-index="2">
+                <select id="town" name="town"  class="form-control kt-input" data-live-search="true" data-col-index="2">
             	</select>
             </div>
             <div class="col-lg-2 kt-margin-b-10-tablet-and-mobile">
             	<label>حالة التاكيد من الفروع</label>
-                <select id="confirm" name="confirm" onchange="getorders()" class="selectpicker form-control kt-input" data-col-index="2">
+                <select id="confirm" name="confirm"  class="selectpicker form-control kt-input" data-col-index="2">
             		<option value="all">الكل</option>
             		<option value="1">الطلبيات المؤكدة</option>
             		<option value="4">الطلبيات الغير المؤكدة</option>
                 </select>
             </div>
-            <div class="col-lg-2 kt-margin-b-10-tablet-and-mobile">
+<!--            <div class="col-lg-2 kt-margin-b-10-tablet-and-mobile">
             	<label>حالة المخزن</label>
-                <select id="storageStatus" name="storageStatus" onchange="getorders()" class="selectpicker form-control kt-input" data-col-index="2">
+                <select id="storageStatus" name="storageStatus"  class="selectpicker form-control kt-input" data-col-index="2">
             		<option value="all">الكل</option>
             		<option value="1">بدون كشف </option>
             		<option value="2">لديها كشف  ولم يتم التحاسب</option>
             		<option value="3">لديها كشف وتم التحاسب</option>
                 </select>
-            </div>
+            </div>-->
             <div class="col-lg-2 kt-margin-b-10-tablet-and-mobile">
             	<label>حالة الاستعلامات</label>
-                <select id="callcenter" name="callcenter" onchange="getorders()" class="selectpicker form-control kt-input" data-col-index="2">
+                <select id="callcenter" name="callcenter"  class="selectpicker form-control kt-input" data-col-index="2">
             		<option value="all">الكل</option>
             		<option value="1">تم الاستعلام</option>
             		<option value="2">لم يتم الاستعلام</option>
@@ -306,6 +306,10 @@ legend
             <div class="col-lg-2 kt-margin-b-10-tablet-and-mobile">
                 	<label class="">.</label><br />
                     <input id="download" name="download" type="button" value="تحميل التقرير" data-toggle="modal" data-target="#reportOptionsModal" class="btn btn-success" placeholder="" data-col-index="1">
+            </div>
+            <div class="col-lg-2 kt-margin-b-10-tablet-and-mobile">
+                	<label class="">.</label><br />
+                    <input  type="button" value="بحث" onclick="getorders()"  class="btn btn-warning" placeholder="" data-col-index="1">
             </div>
             <div class="col-lg-2 kt-margin-b-10-tablet-and-mobile">
               	<label>عدد السجلات</label>
@@ -683,6 +687,13 @@ legend
 <script src="js/getManagers.js" type="text/javascript"></script>
 <script src="js/getAllDrivers.js" type="text/javascript"></script>
 <script type="text/javascript">
+$(document).keydown(function(e) {
+if (event.which === 13 || event.keyCode === 13 ) {
+    event.stopPropagation();
+    event.preventDefault();
+    getorders();
+}
+});
 var myTable;
 getStores($("#store"));
 getStores($("#e_store_id"));

@@ -169,6 +169,8 @@ if($orders > 0){
                   $data[$i]['dev_price'] = 0;
                   $dev_p = 0;
                   $data[$i]['dicount']=0;
+                  $data[$i]['new_price']=0;
+                  $data[$i]['client_price']=0;
                 }
                 $data[$i]['client_price'] = ($data[$i]['new_price'] -  $dev_p) + $data[$i]['discount'];
                $note =  $data[$i]['note'];

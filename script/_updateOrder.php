@@ -160,7 +160,7 @@ if($v->passes() && $date_err =="" && $premission) {
   if(!empty($date)){
     $up .= ' , date="'.$date.'"';
   }
-  $where = " where id =".$id;
+  $where = " where id =".$id."  and invoice_id=0 and driver_invoice_id=0";
   $sql .= $up.$where;
  $result = setData($con,$sql);
 if($result > 0){

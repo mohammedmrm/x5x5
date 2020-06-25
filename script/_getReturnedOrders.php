@@ -184,7 +184,7 @@ try{
   if(count($status) > 0){
     foreach($status as $stat){
       if($stat > 0){
-        $s .= " or order_status_id=".$stat;
+        $s .= " or orders.order_status_id=".$stat;
       }
     }
   }

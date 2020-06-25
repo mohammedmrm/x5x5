@@ -37,12 +37,12 @@ min-height: 100px;
           <div class="row kt-margin-b-20">
             <div class="col-lg-2 kt-margin-b-10-tablet-and-mobile">
             	<label>الفرع:</label>
-            	<select onchange="getorders()" class="form-control kt-input" id="branch" name="branch" data-col-index="6">
+            	<select onchange="" class="form-control kt-input" id="branch" name="branch" data-col-index="6">
             	</select>
             </div>
             <div class="col-lg-2 kt-margin-b-10-tablet-and-mobile">
             	<label>الصفحه:</label>
-            	<select onchange="getorders()" data-show-subtext="true" data-live-search="true"  class="selectpicker form-control kt-input" id="store" name="store" data-col-index="7">
+            	<select onchange="" data-show-subtext="true" data-live-search="true"  class="selectpicker form-control kt-input" id="store" name="store" data-col-index="7">
             		<option value="">Select</option>
             	</select>
             </div>
@@ -54,13 +54,13 @@ min-height: 100px;
             </div>
             <div class="col-lg-2 kt-margin-b-10-tablet-and-mobile">
             	<label>المحافظة المرسل لها:</label>
-            	<select id="city" name="city" onchange="getorders()" class="form-control kt-input" data-col-index="2">
+            	<select id="city" name="city" onchange="" class="form-control kt-input" data-col-index="2">
             		<option value="">Select</option>
                 </select>
             </div>
             <div class="col-lg-2 kt-margin-b-10-tablet-and-mobile">
             	<label>حالة الطلبات من الكشف</label>
-                <select id="invoice" name="invoice" onchange="getorders()" class="selectpicker form-control kt-input" data-col-index="2">
+                <select id="invoice" name="invoice" onchange="" class="selectpicker form-control kt-input" data-col-index="2">
             		<option value="">... اختر...</option>
             		<option value="1">طلبات بدون كشف</option>
             		<option value="2">طلبات كشف</option>
@@ -68,7 +68,7 @@ min-height: 100px;
             </div>
             <div class="col-lg-2 kt-margin-b-10-tablet-and-mobile">
             	<label>حالة التكرار:</label>
-                <select name="repated" onchange="getorders()" class="selectpicker form-control kt-input" data-col-index="2">
+                <select name="repated" onchange="" class="selectpicker form-control kt-input" data-col-index="2">
             		<option value="">عرض الكل</option>
             		<option value="1">عرض المكرر فقط</option>
             		<option value="2">عرض غير المكرر</option>
@@ -80,11 +80,11 @@ min-height: 100px;
           <div class="row kt-margin-b-20">
             <div class="col-lg-2 kt-margin-b-10-tablet-and-mobile">
             	<label>رقم الوصل:</label>
-            	<input id="order_no" name="order_no" value="<?php if(!empty($_GET['order_no'])){ echo $_GET['order_no'];} ?>" onkeyup="getorders()" onkeydown="if(event.keyCode==13) getorders();" type="text" class="form-control kt-input" placeholder="" data-col-index="0">
+            	<input id="order_no" name="order_no" value="<?php if(!empty($_GET['order_no'])){ echo $_GET['order_no'];} ?>"  type="text" class="form-control kt-input" placeholder="" data-col-index="0">
             </div>
             <div class="col-lg-2 kt-margin-b-10-tablet-and-mobile">
             	<label>اسم او هاتف المستلم:</label>
-            	<input name="customer" onkeyup="getorders()" type="text" class="form-control kt-input" placeholder="" data-col-index="1">
+            	<input name="customer" onkeyup="" type="text" class="form-control kt-input" placeholder="" data-col-index="1">
             </div>
             <div class="col-lg-2 kt-margin-b-10-tablet-and-mobile">
             	<label>المندوب:</label>
@@ -93,7 +93,7 @@ min-height: 100px;
             </div>
             <div class="col-lg-2 kt-margin-b-10-tablet-and-mobile">
             	<label>حالة تسليم المبلغ للعميل:</label>
-                <select name="money_status" onchange="getorders()" class="selectpicker form-control kt-input" data-col-index="2">
+                <select name="money_status" onchange="" class="selectpicker form-control kt-input" data-col-index="2">
             		<option value="">... اختر...</option>
             		<option value="1">تم تسليم المبلغ</option>
             		<option value="0">لم يتم تسليم المبلغ</option>
@@ -102,22 +102,26 @@ min-height: 100px;
             <div class="col-lg-3 kt-margin-b-10-tablet-and-mobile">
             <label>الفترة الزمنية :</label>
             <div class="input-daterange input-group" id="kt_datepicker">
-  				<input value="" onchange="getorders()" type="text" class="form-control kt-input" name="start" id="start" placeholder="من" data-col-index="5">
+  				<input value="" onchange="" type="text" class="form-control kt-input" name="start" id="start" placeholder="من" data-col-index="5">
   				<div class="input-group-append">
   					<span class="input-group-text"><i class="la la-ellipsis-h"></i></span>
   				</div>
-  				<input onchange="getorders()" type="text" class="form-control kt-input" name="end"  id="end" placeholder="الى" data-col-index="5">
+  				<input onchange="" type="text" class="form-control kt-input" name="end"  id="end" placeholder="الى" data-col-index="5">
           	</div>
             </div>
           <div class="kt-separator kt-separator--border-dashed kt-separator--space-md"></div>
           </div>
             <div class="col-lg-2 kt-margin-b-10-tablet-and-mobile">
             	<label>حالة التاكيد من الفروع</label>
-                <select id="confirm" name="confirm" onchange="getorders()" class="selectpicker form-control kt-input" data-col-index="2">
+                <select id="confirm" name="confirm" onchange="" class="selectpicker form-control kt-input" data-col-index="2">
             		<option value="all">الكل</option>
             		<option value="1">الطلبيات المؤكدة</option>
             		<option value="4">الطلبيات الغير المؤكدة</option>
                 </select>
+            </div>
+            <div class="col-lg-2 kt-margin-b-10-tablet-and-mobile">
+            	<label>.</label> <br />
+            	<input type="button" class="btn btn-success" value="بحث" id="updateStatues"  onclick="getorders()"/>
             </div>
           </fieldset>
           <div class="row kt-margin-b-20">
@@ -206,9 +210,13 @@ min-height: 100px;
 <script type="text/javascript">
 getStores($("#store"));
 getAllDrivers($("#driver"));
-
-
-
+$(document).keydown(function(e) {
+if (event.which === 13 || event.keyCode === 13 ) {
+    event.stopPropagation();
+    event.preventDefault();
+    getorders();
+}
+});
 function getorders(){
   options = $("#setOrderStatus").html();
 $.ajax({
