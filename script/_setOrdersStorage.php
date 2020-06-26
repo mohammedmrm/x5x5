@@ -11,10 +11,10 @@ $msg="";
 
 if(count($ids)){
       try{
-         $sql = "update orders set storage_id=? where id = ? and (order_status_id=? or order_status_id=? or order_status_id=? )";
+          $sql2 = "update orders set storage_id=? where id = ? and (order_status_id=? or order_status_id=? or order_status_id=? )";
           foreach($ids as $v){
-           $data = setData($con,$sql,[$_SESSION['user_details']['storage_id'],$v,9,6,5]);
-           $success="1";
+            $data = setData($con,$sql2,[$_SESSION['user_details']['storage_id'],$v,9,6,5]);
+            $success="1";
             $sql ="insert into storage_tracking (order_id,staff_id,status) values(?,?,?)";
             setData($con,$sql,[$v,$_SESSION['userid'],1]);
           }
@@ -27,5 +27,5 @@ if(count($ids)){
   $msg = "فشل تأكيد الطلبيات";
   $success = 0;
 }
-echo json_encode([$ids,'success'=>$success, 'msg'=>$msg]);
+echo json_encode([$data,$ids,'success'=>$success, 'msg'=>$msg]);
 ?>
