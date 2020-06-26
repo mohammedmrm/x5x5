@@ -101,7 +101,7 @@ foreach($onumber as $k=>$val){
   if($by == 'store'){
       $v->validate([
           'manger'        => [$manger,    'required|int'],
-          'order_no'      => [$prefix.$onumber[$k],  'required|min(1)|max(100)|unique('.$check.'")'],
+          'order_no'      => [$prefix.$onumber[$k],  'required|int|min(1)|max(100)|unique('.$check.'")'],
           'prefix'        => [$prefix,  'min(1)|max(10)'],
           'order_type'    => [$order_type/*$order_type[$k]*/,    'required|min(3)|max(10)'],
           'weight'        => [$weight/*$weight[$k]*/,   'int'],
@@ -122,7 +122,7 @@ foreach($onumber as $k=>$val){
       $v->validate([
           'mainbranch'    => [$mainbranch,    'required|int'],
           'manger'        => [$manger,    'required|int'],
-          'order_no'      => [$onumber[$k],    'required|min(1)|max(100)|unique('.$check.'")'],
+          'order_no'      => [$onumber[$k],    'required|int|min(1)|max(100)|unique('.$check.'")'],
           'prefix'        => [$prefix,  'min(1)|max(10)'],
           'order_type'    => [$order_type/*$order_type[$k]*/,    'required|min(3)|max(10)'],
           'weight'        => [$weight/*$weight[$k]*/,   'int'],
