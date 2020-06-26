@@ -828,7 +828,7 @@ $.ajax({
        icon = "<br /><span  data-toggle='kt-tooltip' data-placement='top' data-original-title='تم الاحالة الى مندوب' class='fa-2x text-success flaticon2-delivery-truck'></span>";
      }
      if(this.driver_invoice_id > 0){
-        icon = "<a href='driver_invoice/"+this.driver_invoice_path+"'>رقم الكشف المندوب: "+this.driver_invoice_id+"</a>";
+        icon = "<br /><a href='driver_invoice/"+this.driver_invoice_path+"'>رقم الكشف المندوب: "+this.driver_invoice_id+"</a>";
      }
      if(this.confirm == 4){
        bg ="bg-warning";
