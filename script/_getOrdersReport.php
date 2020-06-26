@@ -69,7 +69,7 @@ try{
             cites.name as city,towns.name as town,branches.name as branch_name,to_branch.name as to_branch_name,
             order_status.status as status_name,staff.name as staff_name,b.rep as repated , driver.name as driver_name,
             orders.invoice_id as invoice_id,invoice.path as invoice_path,invoice.invoice_status as invoice_status,
-            orders.driver_invoice_id as driver_invoice_id,driver_invoice.path as driver_invoice_path,driver_invoice.driver_invoice_status as driver_invoice_status
+            orders.driver_invoice_id as driver_invoice_id,driver_invoice.path as driver_invoice_path,driver_invoice.invoice_status as driver_invoice_status
             from orders left join
             clients on clients.id = orders.client_id
             left join cites on  cites.id = orders.to_city
