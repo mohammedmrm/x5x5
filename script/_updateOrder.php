@@ -190,5 +190,5 @@ $error = [
            'premission'=>$premission
            ];
 }
-echo json_encode(['success'=>$success, 'error'=>$error,$_POST]);
+echo json_encode([$sql,'success'=>$success, 'error'=>$error,$_POST]);
 ?>
