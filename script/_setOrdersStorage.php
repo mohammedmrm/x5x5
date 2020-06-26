@@ -27,5 +27,5 @@ if(count($ids)){
   $msg = "فشل تأكيد الطلبيات";
   $success = 0;
 }
-echo json_encode(['success'=>$success, 'msg'=>$msg]);
+echo json_encode([$ids,'success'=>$success, 'msg'=>$msg]);
 ?>

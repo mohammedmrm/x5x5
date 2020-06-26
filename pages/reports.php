@@ -238,7 +238,7 @@ legend
             <div class="col-lg-3 kt-margin-b-10-tablet-and-mobile">
             <label>الفترة الزمنية :</label>
             <div class="input-daterange input-group" id="kt_datepicker">
-  				<input value="<?php echo date('Y-m-d', strtotime(' - 7 day'));?>" onchange="" type="text" class="form-control kt-input" name="start" id="start" placeholder="من" data-col-index="5">
+  				<input value="" onchange="" type="text" class="form-control kt-input" name="start" id="start" placeholder="من" data-col-index="5">
   				<div class="input-group-append">
   					<span class="input-group-text"><i class="la la-ellipsis-h"></i></span>
   				</div>
@@ -826,6 +826,9 @@ $.ajax({
        icon = "<br /><span  data-toggle='kt-tooltip' data-placement='top' data-original-title='لم يتم احالة الطلب الى مندوب' class='fa-2x text-danger flaticon-truck'></span>";
      }else{
        icon = "<br /><span  data-toggle='kt-tooltip' data-placement='top' data-original-title='تم الاحالة الى مندوب' class='fa-2x text-success flaticon2-delivery-truck'></span>";
+     }
+     if(this.driver_invoice_id > 0){
+        icon = "<a href='driver_invoice/"+this.driver_invoice_path+"'>رقم الكشف المندوب: "+this.driver_invoice_id+"</a>";
      }
      if(this.confirm == 4){
        bg ="bg-warning";

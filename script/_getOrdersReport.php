@@ -1,6 +1,6 @@
 <?php
 session_start();
-error_reporting(0);
+//error_reporting(0);
 header('Content-Type: application/json');
 require("_access.php");
 access([1,2,5]);
@@ -68,7 +68,8 @@ try{
             stores.name as store_name,a.nuseen_msg,callcenter.name as callcenter_name,
             cites.name as city,towns.name as town,branches.name as branch_name,to_branch.name as to_branch_name,
             order_status.status as status_name,staff.name as staff_name,b.rep as repated , driver.name as driver_name,
-            orders.invoice_id as invoice_id,invoice.path as invoice_path,invoice.invoice_status as invoice_status
+            orders.invoice_id as invoice_id,invoice.path as invoice_path,invoice.invoice_status as invoice_status,
+            orders.driver_invoice_id as driver_invoice_id,driver_invoice.path as driver_invoice_path,driver_invoice.driver_invoice_status as driver_invoice_status,
             from orders left join
             clients on clients.id = orders.client_id
             left join cites on  cites.id = orders.to_city
@@ -81,6 +82,7 @@ try{
             left join staff as callcenter on  callcenter.id = orders.callcenter_id
             left join order_status on  order_status.id = orders.order_status_id
             left join invoice on invoice.id = orders.invoice_id
+            left join driver_invoice on driver_invoice.id = orders.driver_invoice_id
             left JOIN client_dev_price on client_dev_price.client_id = orders.client_id AND client_dev_price.city_id = orders.to_city
             left join (
              select count(*) as nuseen_msg, max(order_id) as order_id from message
