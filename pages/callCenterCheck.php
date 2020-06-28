@@ -30,6 +30,12 @@ legend
 .returned {
   background-color: #FFCCCC!important;
 }
+.replace {
+  background-color: #FFFF99!important;
+}
+.half {
+  background-color: #FF9933 !important;
+}
 
 </style>
 
@@ -153,7 +159,7 @@ legend
               </div>
             </div>
 
-        <table class="table table-striped table-bordered  responsive no-wrap" id="tb-orders">
+        <table class="table table-striped table-bordered  table-checkable responsive nowrap" id="tb-orders">
 			       <thead>
 	  						<tr>
 										<th>تاكيد</th>
@@ -237,6 +243,7 @@ $.ajax({
   success:function(res){
    console.log(res);
    //saveEventDataLocally(res)
+   $("#tb-orders").removeClass("loading");
    $("#tb-orders").DataTable().destroy();
    $('#ordersTable').html("");
    $("#pagination").html("");
@@ -291,6 +298,10 @@ $.ajax({
      bg = "";
      if(this.order_status_id == 9){
        bg= "returned";
+     }else if(this.order_status_id == 6){
+       bg= "half";
+     }else if(this.order_status_id == 5){
+       bg= "replace";
      }
       $('#ordersTable').append(
        '<tr class="'+bg+'">'+
@@ -320,7 +331,7 @@ $.ajax({
        "bFilter": false,
        serverPaging: true
       });
-      $("#tb-orders").removeClass("loading");
+
     },
    error:function(e){
      $("#tb-orders").removeClass("loading");
