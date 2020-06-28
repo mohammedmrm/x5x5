@@ -36,7 +36,69 @@ legend
 .half {
   background-color: #FF9933 !important;
 }
+ .chatbody {
+  height: 400px;
+  border:1px solid #A9A9A9;
+  border-radius: 10px;
+  overflow-y: scroll;
+  padding-top:5px;
+ }
+ .msg {
+   display: block;
+   position: relative;
+   margin-bottom:15px;
+   padding-bottom:10px;
+ }
+ .other{
+   position: relative;
+   margin-left:0px;
+   width:80%;
+   margin-right:auto;
+   text-align: left !important;
+ }
+ .other .content {
+   background-color: #F8F8FF;
+   border-top-right-radius: 5px;
+   border-bottom-right-radius: 5px;
+   text-align: left !important;
+ }
 
+ .mine {
+   position: relative;
+   width:80%;
+   margin-left:0px;
+   margin-right: 0px;
+
+ }
+ .mine .content {
+   background-color: #008B8B;
+   color:#F8F8FF;
+   border-top-left-radius: 5px;
+   border-bottom-left-radius: 5px;
+ }
+
+ .content{
+   position: relative;
+   padding:5px;
+   padding-left:15px;
+   padding-right:15px;
+   display:inline-block;
+   min-width:10px;
+   max-width:80%;
+   font-size: 14px;
+   color:#000000;
+ }
+.name {
+  position: relative;
+  display: inline-block;
+  font-size:10px;
+}
+.time {
+  display:inline-block;
+  position: relative;
+  font-size: 10px;
+  color: #696969;
+}
 </style>
 
 <div class="kt-content  kt-grid__item kt-grid__item--fluid kt-grid kt-grid--hor" id="kt_content">
@@ -159,7 +221,7 @@ legend
               </div>
             </div>
 
-        <table class="table table-striped table-bordered  table-checkable responsive nowrap" id="tb-orders">
+        <table class="table table-striped table-bordered  table-checkable  nowrap" id="tb-orders">
 			       <thead>
 	  						<tr>
 										<th>تاكيد</th>
@@ -169,6 +231,7 @@ legend
 										<th width="150px">رقم هاتف المستلم</th>
 										<th>عنوان المستلم</th>
 										<th>الحالة</th>
+										<th>اخر ملاحظة</th>
 										<th>مبلغ الوصل</th>
                                         <th>المبلغ المستلم</th>
 										<th>حالة المبلغ</th>
@@ -186,6 +249,7 @@ legend
 										<th width="150px">رقم هاتف المستلم</th>
 										<th>عنوان المستلم</th>
 										<th>الحالة</th>
+                                        <th>اخر ملاحظة</th>
 										<th>مبلغ الوصل</th>
                                         <th>المبلغ المستلم</th>
 										<th>حالة المبلغ</th>
@@ -206,8 +270,45 @@ legend
         </form>
 		<!--end: Datatable -->
 	</div>
-</div>	</div>
-<!-- end:: Content -->				</div>
+</div>
+</div>
+<!-- end:: Content -->
+</div>
+<div class="modal fade" id="chatOrderModal" role="dialog">
+    <div class="modal-dialog ">
+      <!-- Modal content-->
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal"></button>
+          <h4 class="modal-title">المحادثات</h4>
+        </div>
+        <div class="modal-body">
+		<!--begin::Portlet-->
+        <div class="row">
+            <div class="col-12 chatbody" id="chatbody">
+
+            </div>
+        </div>
+        <div class="row"><hr /></div>
+        <div class="row">
+          <div class="col-12">
+             <div class="input-group">
+                   <button onclick="sendMessage()" class="btn btn-info btn-sm" id="btn-chat">ارسال</button>
+                   <textarea id="message" type="text" class="form-control input-sm" placeholder=""></textarea>
+             </div>
+             <input type="hidden"  id="chat_order_id"/>
+             <input type="hidden" value="0" id="last_msg"/>
+          </div>
+        </div>
+        <!--end::Portlet-->
+        </div>
+      </div>
+
+    </div>
+  </div>
+<input type="hidden" id="user_id" value="<?php echo $_SESSION['userid'];?>"/>
+<input type="hidden" id="user_branch" value="<?php echo $_SESSION['user_details']['branch_id'];?>"/>
+<input type="hidden" id="user_role" value="<?php echo $_SESSION['role'];?>"/>
 <!--begin::Page Vendors(used by this page) -->
 <script src="assets/vendors/custom/datatables/datatables.bundle.js" type="text/javascript"></script>
 <!--begin::Page Scripts(used by this page) -->
@@ -285,9 +386,21 @@ $.ajax({
    }
 
    $.each(res.data,function(){
-     callcenter ="تم التدقيق من قبل "+this.callcenter_name;
+     nuseen_msg =this.nuseen_msg;
+     notibg = "kt-badge--danger";
+     if(this.nuseen_msg == null){
+       nuseen_msg = "";
+       notibg="";
+     }
+     callcenter ='<button type="button" class="btn btn-icon" onclick="OrderChat('+this.id+');setMsgSeen('+this.id+')" data-toggle="modal" data-target="#chatOrderModal">'+
+                   '<span class="kt-header__topbar-icon"> <i class="flaticon-chat"></i> <span class="kt-badge  kt-badge--notify kt-badge--sm '+notibg+'">'+nuseen_msg+'</span> </span>'+
+                  '</button>';
+
+
      if(this.callcenter_id == 0){
-       callcenter = '<button type="button" class="btn btn-clean text-success" onclick="callCenter('+this.id+')"><span class="fa fa-check"></span></button>';
+       callcenter += '<button type="button" class="btn btn-clean text-success" onclick="callCenter('+this.id+')"><span class="fa fa-check"></span></button>';
+     }else {
+       callcenter +="<br /> تم التدقيق من قبل "+this.callcenter_name;
      }
      bg = "";
      if(this.order_status_id == 9){
@@ -308,6 +421,7 @@ $.ajax({
             '<td>'+phone_format(this.customer_phone)+'</td>'+
             '<td>'+this.city+'/'+this.town+'<br />'+this.address+'</td>'+
             '<td>'+this.status_name+'</td>'+
+            '<td>'+this.t_note+'</td>'+
             '<td>'+formatMoney(this.price)+'</td>'+
             '<td>'+formatMoney(this.new_price)+'</td>'+
             '<td>'+this.money_status+'</td>'+
@@ -320,6 +434,7 @@ $.ajax({
         "sLengthMenu": "عرض_MENU_سجل",
         "sSearch": "بحث:"
       },
+       'scrollX':true,
        "bPaginate": false,
        "bLengthChange": false,
        "bFilter": false,
@@ -388,7 +503,7 @@ function callCenter(id){
         success:function(res){
          if(res.success == 1){
            Toast.success('تم  تاكيد التبليغ');
-           getorderStatus($("#orderStatusesTable"));
+           getorders();
          }else{
            Toast.warning(res.msg);
          }
@@ -399,6 +514,98 @@ function callCenter(id){
         }
       });
   }
+}
+function OrderChat(id,last){
+  if(id != $("#chat_order_id").val()){
+    chat = 1;
+    $("#chatbody").html("");
+  }else{
+    chat = 0;
+  }
+  $("#chat_order_id").val(id);
+
+  $.ajax({
+    url:"script/_getMessages.php",
+    type:"POST",
+    data:{order_id:$("#chat_order_id").val(),last:last},
+    beforeSend:function(){
+
+    },
+    success:function(res){
+       if(res.success == 1){
+         if(res.last <= 0){
+             $("#chatbody").html("");
+         }
+         $.each(res.data,function(){
+            clas = 'other';
+           if(this.is_client == 1){
+                name = this.client_name
+                role = "عميل"
+           }else{
+               name = this.staff_name
+               if(this.from_id== $("#user_id").val()){
+                 clas = 'mine';
+               }
+             role =  this.role_name;
+           }
+           message =
+           "<div class='row'>"+
+             "<div class='msg "+clas+"' msq-id='"+this.id+"'>"+
+                "<span class='name'>"+name+ " ( "+role+" ) "+"</span><br />"+
+                "<span class='content'>"+this.message+"</span><br />"+
+                "<span class='time'>"+this.date+"</span><br />"+
+             "</div>"+
+           "</div>"
+           $("#chatbody").append(message);
+           $("#last_msg").val(this.id);
+         });
+          $('#chatbody').animate({scrollTop: $('#chatbody')[0].scrollHeight},100);
+            $("#spiner").remove();
+       }
+    },
+    error:function(e){
+      console.log(e);
+    }
+  });
+}
+function sendMessage(){
+  $.ajax({
+    url:"script/_sendMessage.php",
+    type:"POST",
+    data:{message:$("#message").val(), order_id:$("#chat_order_id").val()},
+    beforeSend:function(){
+      $("#chatbody").append('<div id="spiner" class="clearfix"><span class="spinner-border"></span></div>');
+      $('#chatbody').animate({scrollTop: $('#chatbody')[0].scrollHeight},100);
+      $("#message").val("");
+    },
+    success:function(res){
+       $('#chatbody').animate({scrollTop: $('#chatbody')[0].scrollHeight},100);
+       //OrderChat($("#chat_order_id").val(),$("#last_msg").val());
+       console.log(res);
+    },
+    error:function(e){
+      console.log(e);
+    }
+  });
+}
+var mychatCaller;
+$("#chatOrderModal").on('show.bs.modal', function(){
+mychatCaller = setInterval(function(){
+  OrderChat($("#chat_order_id").val(),$("#last_msg").val());
+}, 1000);
+});
+$("#chatOrderModal").on('hide.bs.modal', function(){
+clearInterval(mychatCaller);
+});
+function setMsgSeen(id){
+     $.ajax({
+    url:"script/_setMsgSeen.php",
+    type:"POST",
+    data:{id:id},
+    success:function(res){
+      getorders();
+    }
+  });
 }
 </script>
 <script src="./assets/js/demo1/pages/components/forms/widgets/bootstrap-datetimepicker.js" type="text/javascript"></script>

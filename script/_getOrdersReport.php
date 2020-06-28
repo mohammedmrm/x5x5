@@ -55,16 +55,16 @@ try{
 
   $query = "select orders.*, date_format(orders.date,'%Y-%m-%d') as date,
             if(to_city = 1,
-                 if(order_status_id=9,0,if(client_dev_price.price is null,(".$config['dev_b']." - discount),(client_dev_price.price - discount))),
-                 if(order_status_id=9,0,if(client_dev_price.price is null,(".$config['dev_o']." - discount),(client_dev_price.price - discount)))
+                 if(orders.order_status_id=9,0,if(client_dev_price.price is null,(".$config['dev_b']." - discount),(client_dev_price.price - discount))),
+                 if(orders.order_status_id=9,0,if(client_dev_price.price is null,(".$config['dev_o']." - discount),(client_dev_price.price - discount)))
             )as dev_price,
             new_price -
               (if(to_city = 1,
-                  if(order_status_id=9,0,if(client_dev_price.price is null,(".$config['dev_b']." - discount),(client_dev_price.price - discount))),
-                  if(order_status_id=9,0,if(client_dev_price.price is null,(".$config['dev_o']." - discount),(client_dev_price.price - discount)))
+                  if(orders.order_status_id=9,0,if(client_dev_price.price is null,(".$config['dev_b']." - discount),(client_dev_price.price - discount))),
+                  if(orders.order_status_id=9,0,if(client_dev_price.price is null,(".$config['dev_o']." - discount),(client_dev_price.price - discount)))
                  )
-             ) as client_price,if(order_status_id=9,0,discount) as discount,
-            clients.name as client_name,clients.phone as client_phone,
+             ) as client_price,if(orders.order_status_id=9,0,discount) as discount,
+            clients.name as client_name,clients.phone as client_phone,if(tracking.note is null,'',tracking.note) as t_note,
             stores.name as store_name,a.nuseen_msg,callcenter.name as callcenter_name,
             cites.name as city,towns.name as town,branches.name as branch_name,to_branch.name as to_branch_name,
             order_status.status as status_name,staff.name as staff_name,b.rep as repated , if(driver.name is null,'غير معروف',driver.name) as driver_name,if(driver.phone is null,'0',driver.phone)  as driver_phone,
@@ -95,7 +95,10 @@ try{
               GROUP BY order_no
               HAVING COUNT(orders.id) > 1
             ) b on b.order_no = orders.order_no
-
+            left join (
+              select max(id) as last_id,order_id from tracking group by order_id
+            )c on c.order_id = orders.id
+            left join tracking on c.last_id = tracking.id
             ";
 
   if($_SESSION['role'] == 1 || $_SESSION['role'] == 5 || $_SESSION['role'] == 9){
@@ -152,7 +155,7 @@ try{
     $filter .= " and orders.store_id=".$store;
   }
   if($invoice == 1){
-    $filter .= " and ((orders.invoice_id ='' or orders.invoice_id =0) or ((order_status_id=6 or order_status_id=5) and (orders.invoice_id2 ='' or orders.invoice_id2 =0)))";
+    $filter .= " and ((orders.invoice_id ='' or orders.invoice_id =0) or ((orders.order_status_id=6 or orders.order_status_id=5) and (orders.invoice_id2 ='' or orders.invoice_id2 =0)))";
   }else if($invoice == 2){
     $filter .= " and ((orders.invoice_id !='' and orders.invoice_id != 0))";
   }
@@ -168,7 +171,7 @@ try{
   if(count($status) > 0){
     foreach($status as $stat){
       if($stat > 0){
-        $s .= " or order_status_id=".$stat;
+        $s .= " or orders.order_status_id=".$stat;
       }
     }
   }
@@ -260,5 +263,5 @@ if($store >=1){
    $total=["error"=>$ex];
    $success="0";
 }
-echo json_encode(array($sqlt,"success"=>$success,"data"=>$data,'total'=>$total,"pages"=>$pages,"page"=>$page));
+echo json_encode(array("success"=>$success,"data"=>$data,'total'=>$total,"pages"=>$pages,"page"=>$page));
 ?>
