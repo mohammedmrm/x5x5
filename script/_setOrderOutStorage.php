@@ -1,6 +1,6 @@
 <?php
 session_start();
-//error_reporting(0);
+error_reporting(0);
 header('Content-Type: application/json');
 require("_access.php");
 access([1,5,2]);
@@ -17,7 +17,7 @@ $v->validate([
     ]);
 
 if($v->passes()){
-         $sql = "update orders set storage_id=? where storage_id = ? and id = ? and (order_status_id=? or order_status_id=? or order_status_id=? )";
+         $sql = "update orders set storage_id=? where storage_id = ? and id = ? and (order_status_id=? or order_status_id=? or order_status_id=?)";
          $result = setData($con,$sql,[0,$_SESSION['user_details']['storage_id'],$id,9,6,5]);
          if($result > 0){
             $success = 1;

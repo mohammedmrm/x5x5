@@ -128,6 +128,14 @@ $se = $_SESSION['role'];
                             </a>
                         </li>
                         <?php } ?>
+                        <?php  if($se==1 || $se==9 || $se==99){?>
+                        <li class="kt-menu__item " aria-haspopup="true" >
+                            <a href="?page=pages/callCenterCheck.php" class="kt-menu__link ">
+                                <i class="kt-menu__link-bullet kt-menu__link-bullet--dot"><span></span></i>
+                                <span class="kt-menu__link-text">متابعة الطلبيات</span>
+                            </a>
+                        </li>
+                        <?php } ?>
                         <?php  if($se==1 ||  $se==99){?>
                         <li class="kt-menu__item " aria-haspopup="true" >
                             <a href="?page=pages/deleted.php" class="kt-menu__link ">

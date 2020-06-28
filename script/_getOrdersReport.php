@@ -3,7 +3,7 @@ session_start();
 error_reporting(0);
 header('Content-Type: application/json');
 require("_access.php");
-access([1,2,5]);
+access([1,2,5,3,9]);
 require("dbconnection.php");
 require("../config.php");
 
@@ -67,7 +67,7 @@ try{
             clients.name as client_name,clients.phone as client_phone,
             stores.name as store_name,a.nuseen_msg,callcenter.name as callcenter_name,
             cites.name as city,towns.name as town,branches.name as branch_name,to_branch.name as to_branch_name,
-            order_status.status as status_name,staff.name as staff_name,b.rep as repated , driver.name as driver_name,
+            order_status.status as status_name,staff.name as staff_name,b.rep as repated , if(driver.name is null,'غير معروف',driver.name) as driver_name,if(driver.phone is null,'0',driver.phone)  as driver_phone,
             orders.invoice_id as invoice_id,invoice.path as invoice_path,invoice.invoice_status as invoice_status,
             orders.driver_invoice_id as driver_invoice_id,driver_invoice.path as driver_invoice_path,driver_invoice.invoice_status as driver_invoice_status
             from orders left join
@@ -98,7 +98,7 @@ try{
 
             ";
 
-  if($_SESSION['role'] == 1 || $_SESSION['role'] == 5){
+  if($_SESSION['role'] == 1 || $_SESSION['role'] == 5 || $_SESSION['role'] == 9){
      $where = "where";
   }else{
      $where = "where (from_branch = '".$_SESSION['user_details']['branch_id']."' or to_branch = '".$_SESSION['user_details']['branch_id']."') and ";
@@ -161,7 +161,7 @@ try{
                       customer_phone like '%".$customer."%')";
   }
   if(!empty($order)){
-    $filter .= " and orders.order_no like '%".$order."%'";
+    $filter .= " and orders.order_no = '".$order."'";
   }
   ///-----------------status
   $s = "";

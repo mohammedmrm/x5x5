@@ -9,7 +9,7 @@ if(! in_array($_SESSION['user_details']['role_id'],$access_roles)){
     die();
 }*/
 require_once("script/_access.php");
-access([1,2,3,4,5,6]);
+access([1,2,3,4,5,6,7,8,9,10,11,12]);
 require_once("config.php");
 
 

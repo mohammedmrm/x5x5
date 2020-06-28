@@ -9,7 +9,7 @@ if(empty($username) || empty($password)){
   $msg = "جميع الحقول مطلوبة";
 }else{
   require_once("dbconnection.php");
-  $sql = "select * from staff where phone = ? and status=1";
+  $sql = "select staff.*,role.home as home from staff inner join role on role.id = staff.role_id where phone = ? and status=1";
   $result = getData($con,$sql,[$username]);
   if(count($result) != 1 || !password_verify($password,$result[0]['password']) ){
     $msg = "اسم المستخدم او كلمة المرور غير صحيحة";
@@ -22,5 +22,8 @@ if(empty($username) || empty($password)){
     $_SESSION['user_details']=$result[0];
   }
 }
-echo json_encode(['msg'=>$msg,"redirect"=>$_REQUEST['redirect'] ]);
+if($result[0]['home'] == ""){
+  $result[0]['home'] = "dashboard.php";
+}
+echo json_encode(['msg'=>$msg,"redirect"=>$_REQUEST['redirect'],"home"=>$result[0]['home']]);
 ?>

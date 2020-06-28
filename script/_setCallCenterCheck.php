@@ -3,7 +3,7 @@ session_start();
 error_reporting(0);
 header('Content-Type: application/json');
 require("_access.php");
-access([1,2,3,5]);
+access([1,9]);
 $id= $_REQUEST['id'];
 $success = 0;
 $msg="";
@@ -17,9 +17,10 @@ $v->validate([
     ]);
 
 if($v->passes()){
-         if($_SESSION['role'] == 1 || $_SESSION['role'] == 5){
+         if($_SESSION['role'] == 1 || $_SESSION['role'] == 9){
             $sql = "update orders set callcenter_id =? where id = ?";
             $result = setData($con,$sql,[$_SESSION['userid'],$id]);
+            $success = 1;
          }else{
             $msg = "لا تملك صلاحية";
          }
