@@ -3,7 +3,22 @@
 if(!isset($_SESSION)){
 session_start();
 }
-require_once("dbconnection.php");
+try{
+
+$con2 = new PDO('mysql:host=localhost;dbname=nahar', "root",
+"Toto1988", array(PDO::MYSQL_ATTR_INIT_COMMAND => "SET NAMES 'UTF8'"));
+//$con->exec("SET CHARACTER SET UTF8");
+$con->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+}catch(PDOException  $e ){
+echo "Error: ".$e;
+}
+function getData2($db,$query,$parm = []) {
+  $stmt = $db->prepare($query);
+  $stmt->execute($parm);
+  $rows = $stmt->fetchAll(PDO::FETCH_ASSOC);
+  return $rows;
+}
+
 if(isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] === 'on'){
      $link = "https";
 }else{
@@ -21,7 +36,7 @@ $link .= $_SERVER['REQUEST_URI'];
 function access($access_roles = []){
   if(!empty($_COOKIE['username']) && !empty($_COOKIE['password'])){
     $sql = "select staff.*,role.home as home from staff inner join role on role.id = staff.role_id where phone = ? and password =? and status=1";
-    $result = getData($GLOBALS['con'],$sql,[$_COOKIE['username'],$_COOKIE['password']]);
+    $result = getData2($GLOBALS['con2'],$sql,[$_COOKIE['username'],$_COOKIE['password']]);
   }
   if(count($result)> 0){
     $_SESSION['login']=1;
