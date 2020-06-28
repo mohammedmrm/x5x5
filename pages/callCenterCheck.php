@@ -219,6 +219,9 @@ legend
               		<option value="250">250</option>
               	</select>
               </div>
+            <div class="col-lg-3 kt-margin-b-10-tablet-and-mobile">
+                <br /><label class="fa-2x">عدد الطلبيات:&nbsp;</label><label class="fa-2x" id="total-orders"> 0 </label>
+            </div>
             </div>
 
         <table class="table table-striped table-bordered  table-checkable  nowrap" id="tb-orders">
@@ -338,6 +341,7 @@ $.ajax({
   success:function(res){
    console.log(res);
    //saveEventDataLocally(res)
+   $("#total-orders").text(res.total[0].orders);
    $("#tb-orders").removeClass("loading");
    $("#tb-orders").DataTable().destroy();
    $('#ordersTable').html("");
