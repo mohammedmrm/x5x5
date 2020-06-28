@@ -499,9 +499,10 @@ function getInvoices(){
      var myTable= $('#tb-invioces').DataTable({
       "oLanguage": {
         "sLengthMenu": "عرض _MENU_ سجل",
-        "sSearch": "بحث:"
-      },
+        "sSearch": "بحث:",
 
+      },
+      "order": [],
       });
 
      console.log(res);

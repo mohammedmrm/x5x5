@@ -162,7 +162,7 @@ try{
   }
   if(!empty($order)){
     $filter .= " and orders.order_no = '".$order."'";
-  }
+  } 
   ///-----------------status
   $s = "";
   if(count($status) > 0){

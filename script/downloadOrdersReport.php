@@ -135,7 +135,11 @@ try{
               HAVING COUNT(orders.id) > 1
             ) b on b.order_no = orders.order_no
             ";
-   $where = "where";
+    if($_SESSION['role'] == 1 || $_SESSION['role'] == 5 || $_SESSION['role'] == 9){
+       $where = "where";
+    }else{
+       $where = "where (from_branch = '".$_SESSION['user_details']['branch_id']."' or to_branch = '".$_SESSION['user_details']['branch_id']."') and ";
+    }
    if($confirm == 1 || $confirm == 4){
     $filter .= " and orders.confirm ='".$confirm."'";
    }else{
@@ -194,9 +198,7 @@ try{
   }
 
 
-  if(empty($storage)){
-   $filter .= " and orders.storage_id = 0";
-  }else if($storage > 0){
+  if($storage > 0){
    $filter .= " and orders.storage_id =".$storage;
   }
   
