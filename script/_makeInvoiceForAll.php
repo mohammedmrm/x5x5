@@ -1,6 +1,6 @@
 <?php
 //-- create invoce fo recived orders only
-ini_set('max_execution_time', 600); 
+ini_set('max_execution_time', 60000); 
 ob_start();
 session_start();
 error_reporting(0);
