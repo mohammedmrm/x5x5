@@ -1,16 +1,13 @@
 <?php
-//error_reporting(0);
+error_reporting(0);
 if(!isset($_SESSION)){
 session_start();
 }
 try{
-
 $con2 = new PDO('mysql:host=localhost;dbname=nahar', "root",
 "TOto1988", array(PDO::MYSQL_ATTR_INIT_COMMAND => "SET NAMES 'UTF8'"));
-//$con->exec("SET CHARACTER SET UTF8");
 $con2->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 }catch(PDOException  $e ){
-
 }
 function getData2($db,$query,$parm = []) {
   $stmt = $db->prepare($query);
