@@ -3,7 +3,7 @@ session_start();
 error_reporting(0);
 header('Content-Type: application/json');
 require("_access.php");
-access([1,2,5,3,9]);
+access([1,2,3,4,5,6,7,8,9,10,11,12]); 
 require("dbconnection.php");
 require("../config.php");
 
@@ -162,7 +162,7 @@ try{
   }
   if(!empty($order)){
     $filter .= " and orders.order_no = '".$order."'";
-  } 
+  }
   ///-----------------status
   $s = "";
   if(count($status) > 0){

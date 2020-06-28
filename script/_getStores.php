@@ -3,12 +3,12 @@ session_start();
 header('Content-Type: application/json');
 error_reporting(0);
 require("_access.php");
-access([1,2,3,4,5,6]);
+access([1,2,3,4,5,6,7,8,9,10,11,12]);
 $client = $_REQUEST['client'];
 
 require("dbconnection.php");
 try{
-  if($_SESSION['role'] == 1 || $_SESSION['role'] == 5 || $_SESSION['role'] == 7){
+  if($_SESSION['role'] == 1 || $_SESSION['role'] == 5 || $_SESSION['role'] == 7 || $_SESSION['role'] == 9){
        $branch ="";
   }else{
    $branch = " and clients.branch_id=".$_SESSION['user_details']['branch_id'];

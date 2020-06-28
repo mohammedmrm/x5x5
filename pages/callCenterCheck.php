@@ -54,7 +54,7 @@ legend
 	<div class="kt-portlet__head">
 		<div class="kt-portlet__head-label">
 			<h1 class="text-danger kt-portlet__head-title">
-			  <b>تأكيد طلبيات الافرع</b>
+			  <b>متابعة الطلبات</b>
 			</h1>
 		</div>
 	</div>
@@ -202,13 +202,7 @@ legend
 		</nav>
      	</div>
         <hr />
-          <fieldset><legend>التحديثات</legend>
-          <div class="row kt-margin-b-20">
-            <div class="col-lg-2 kt-margin-b-10-tablet-and-mobile">
-            	<input type="button" onclick="confirmOrders()" class="btn btn-info btn-lg" value="تأكيد كل المحدد" />
-            </div>
-          </div>
-          </fieldset>
+
         </form>
 		<!--end: Datatable -->
 	</div>
