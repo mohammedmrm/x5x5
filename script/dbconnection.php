@@ -1,10 +1,10 @@
 ﻿<?php
-error_reporting(0);
+//error_reporting(0);
 date_default_timezone_set('Asia/Baghdad');
 try{
 
 $con = new PDO('mysql:host=localhost;dbname=nahar', "root",
-"root", array(PDO::MYSQL_ATTR_INIT_COMMAND => "SET NAMES 'UTF8'"));
+"", array(PDO::MYSQL_ATTR_INIT_COMMAND => "SET NAMES 'UTF8'"));
 $con->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 }catch(PDOException  $e ){
 //echo "Error: ".$e;

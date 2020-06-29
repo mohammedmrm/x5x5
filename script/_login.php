@@ -1,6 +1,6 @@
 <?php
 header('Content-type:application/json');
-error_reporting(0);
+//error_reporting(0);
 session_start();
 $username = $_REQUEST['username'];
 $password = $_REQUEST['password'];

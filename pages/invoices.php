@@ -244,7 +244,7 @@ function getInvoices(){
      console.log(res);
 
      $.each(res.data,function(){
-
+      btn ="";
      if(this.invoice_status == 1){
        invoice_status = "<span >تم التحاسب<span>";
        btn = '<button type="button" class="btn btn-danger" onclick="unpayInvoice('+this.id+')" >الغأ التحاسب</button>';
