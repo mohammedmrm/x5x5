@@ -155,12 +155,12 @@ include("config.php");
 			</div>
             <div class="form-group col-lg-2">
 				<label>المبلغ الكلي</label>
-				<input   price="price" onkeyup="CurrencyFormatted($(this),$(this).val())" style="direction: ltr;" type="text" class="form-control sp" id="order" name="order_price[]" placeholder="المبلغ" value="">
+				<input  onfocus="this.select();" price="price" onkeyup="CurrencyFormatted($(this),$(this).val())" style="direction: ltr;" type="text" class="form-control sp" id="order" name="order_price[]" placeholder="المبلغ" value="">
 				<span id="order_price_err1" class="form-text text-danger"></span>
 			</div>
             <div class="form-group col-lg-2">
             	<label>رقم الوصل:</label>
-            	<input  no="no" id="order_no1" onkeyup="$(this).val($(this).val().replace(/[^0-9]+/g, ''))" name="order_no[]" barcode="barcode"  type="text" class="form-control kt-input sp" placeholder="">
+            	<input onfocus="this.select();" no="no" id="order_no1" onkeyup="$(this).val($(this).val().replace(/[^0-9]+/g, ''))" name="order_no[]" barcode="barcode"  type="text" class="form-control kt-input sp" placeholder="">
                <span id="order_no_err1" class="form-text text-danger"></span>
            </div>
 			<div class="form-group col-lg-2">
@@ -192,8 +192,10 @@ include("config.php");
 				<span id="order_note_err1" class="form-text text-danger"></span>
 			</div>
             <div class="form-group  col-lg-2">
-            <br />
-				<span case="case" class="form-text text-success"></span>
+				<label>تسليم مبلغ</label>
+                <input  type="checkbox"  onclick="moneycheck(1)" class="form-control" id="money1" name="money[]"/>
+                <input  type="hidden" class="form-control" id="moneycheck1" name="moneycheck[]"/>
+				<span id="money_err1"  class="form-text text-danger"></span>
 			</div>
             <div class="form-group  col-lg-2">
 				<label>اضافه على كل حال</label>
@@ -625,12 +627,12 @@ function addMore(){
 			</div>
            <div  class="form-group col-lg-2">
 				<label>المبلغ الكلي</label>
-				<input foucs="foucs" price="price" onkeyup="CurrencyFormatted($(this))" type="text" class="form-control sp" id="order_price`+number+`" name="order_price[]" placeholder="المبلغ" value="">
+				<input onfocus="this.select();" foucs="foucs" price="price" onkeyup="CurrencyFormatted($(this))" type="text" class="form-control sp" id="order_price`+number+`" name="order_price[]" placeholder="المبلغ" value="">
 				<span id="order_price_err`+number+`" class="form-text text-danger"></span>
 			</div>
             <div class="form-group col-lg-2">
             	<label>رقم الوصل:</label>
-            	<input  no="no" id="order_no`+number+`" onkeyup="$(this).val($(this).val().replace(/[^0-9]+/g, ''))" value="" name="order_no[]"  type="text" class="form-control sp" placeholder="">
+            	<input  onfocus="this.select();" no="no" id="order_no`+number+`" onkeyup="$(this).val($(this).val().replace(/[^0-9]+/g, ''))" value="" name="order_no[]"  type="text" class="form-control sp" placeholder="">
                 <span id="order_no_err`+number+`" class="form-text text-danger"></span>
             </div>
 			<div class="form-group col-lg-2">
@@ -663,8 +665,10 @@ function addMore(){
 				<span id="order_note_err`+number+`" class="form-text text-danger"></span>
 			</div>
             <div class="form-group  col-lg-2">
-				<br />
-				<span case="case" class="form-text text-success"></span>
+				<label>تسليم مبلغ</label>
+                <input  type="checkbox" onclick="moneycheck(`+number+`)" class="form-control" id="money`+number+`" name="money[]"/>
+                <input  type="hidden" id="moneycheck`+number+`" name="moneycheck[]"/
+				<span id="money_err`+number+`"  class="form-text text-danger"></span>
 			</div>
             <div class="form-group  col-lg-2">
 				<label>اضافه على كل حال</label>
@@ -783,6 +787,8 @@ function addOrders(){
          $("#orderstabledata input[name='order_note[]']").val("");
          $("#orderstabledata input[name='order_address[]']").val("");
          $('[city="city"]').val("");
+         $('[store="store"]').val("");
+         $('[town="town"]').val("");
          $(".selectpicker").selectpicker('refresh');
          Toast.success('تم الاضافة');
          $("#kt_form .text-danger").text("");
@@ -1015,6 +1021,13 @@ function check(id){
     $("#check"+id).val(1);
  }else{
     $("#check"+id).val(0);
+ }
+}
+function moneycheck(id){
+ if($("#money"+id).is(':checked')){
+    $("#moneycheck"+id).val(1);
+ }else{
+    $("#moneycheck"+id).val(0);
  }
 }
 function addClientAndPage(){

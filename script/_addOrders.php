@@ -25,7 +25,7 @@ $v->addRule('isPhoneNumber', function($value, $input, $args) {
 $v->addRuleMessage('isPrice', 'المبلغ غير صحيح');
 
 $v->addRule('isPrice', function($value, $input, $args) {
-  if(preg_match("/^(0|\-\d*|\d*)(\.\d{2})?$/",$value)){
+  if(preg_match("/^(0|\d*)(\.\d{2})?$/",$value)){
     $x=(bool) 1;
   }
   return   $x;
@@ -61,6 +61,7 @@ $order_id = $_REQUEST['order_id'];
 $prefix = $_REQUEST['prefix'];
 $order_type = "multi";//$_REQUEST['order_type'];
 $weight = 1;//$_REQUEST['weight'];
+$money = $_REQUEST['moneycheck'];
 $qty = 1;//$_REQUEST['qty'];
 $order_price = str_replace(',','',$_REQUEST['order_price']);
 $order_price = str_replace('.','',$order_price);
@@ -155,6 +156,10 @@ if($v->passes()) {
       $c =0;
       foreach($onumber as $k=>$val){
             $no=$_REQUEST['num'][$k];
+            if($money[$k] == 1){
+              $order_price[$k] = '-'.$order_price[$k];
+              $order_note[$k] = $order_note[$k]. " (تسليم مبلغ)";
+            }
             $sql = "select * from driver_towns where town_id = ?";
             $getdriver = getData($con,$sql,[$town_to[$k]]);
             if(count($getdriver) > 0){
@@ -269,6 +274,10 @@ if($v->passes()) {
      $c =0;
    foreach($onumber as $k=>$val){
             $no=$_REQUEST['num'][$k];
+            if($money[$k] == 1){
+              $order_price[$k] = '-'.$order_price[$k];
+              $order_note[$k] = $order_note[$k]. " (تسليم مبلغ)";
+            }
             $sql = "select * from driver_towns where town_id = ?";
             $getdriver = getData($con,$sql,[$town_to[$k]]);
             if(count($getdriver) > 0){
