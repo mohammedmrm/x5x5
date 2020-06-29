@@ -15,8 +15,8 @@ if(empty($username) || empty($password)){
     $msg = "اسم المستخدم او كلمة المرور غير صحيحة";
   }else{
     $msg = 1;
-    setcookie('username', $result[0]['phone'], time() + (86400 * 30), "/");
-    setcookie('password', $result[0]['password'], time() + (86400 * 30), "/");
+    setcookie('username_d', $result[0]['phone'], time() + (86400 * 30), "/");
+    setcookie('password_d', $result[0]['password'], time() + (86400 * 30), "/");
     $_SESSION['login']=1;
     $_SESSION['username']=$result[0]['phone'];
     $_SESSION['userid']=$result[0]['id'];

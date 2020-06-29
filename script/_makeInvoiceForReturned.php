@@ -251,7 +251,7 @@ class MYPDF extends TCPDF {
           <td></td>
          </tr>
          <tr>
-          <td width="230px">اسم العميل او الصفحه:'. $t['client'].'</td>
+          <td width="230px">اسم العميل او الصفحه:('. $t['client'].') - '.$t['store'].'</td>
           <td width="300px" style="color:#FF0000;text-align:center;display:block;">كشف حساب ('.$t['status'].')</td>
           <td >التاريخ:'.$t['date'].'</td>
          </tr>

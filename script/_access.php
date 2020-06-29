@@ -5,7 +5,7 @@ session_start();
 }
 try{
 $con2 = new PDO('mysql:host=localhost;dbname=nahar', "root",
-"TOto1988", array(PDO::MYSQL_ATTR_INIT_COMMAND => "SET NAMES 'UTF8'"));
+"root", array(PDO::MYSQL_ATTR_INIT_COMMAND => "SET NAMES 'UTF8'"));
 $con2->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 }catch(PDOException  $e ){
 }
@@ -31,7 +31,7 @@ $link .= $_SERVER['HTTP_HOST'];
 $link .= $_SERVER['REQUEST_URI'];
 
 function access($access_roles = []){
-  if(!empty($_COOKIE['username']) && !empty($_COOKIE['password'])){
+  if(!empty($_COOKIE['username_d']) && !empty($_COOKIE['password_d'])){
     $sql = "select staff.*,role.home as home from staff inner join role on role.id = staff.role_id where phone = ? and password =? and status=1";
     $result = getData2($GLOBALS['con2'],$sql,[$_COOKIE['username'],$_COOKIE['password']]);
   }
