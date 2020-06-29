@@ -15,7 +15,7 @@ require_once("config.php");
 
 ?>
 <!-- Theme: Keen - The Ultimate Bootstrap Admin ThemeAuthor: KeenThemesWebsite: http://www.keenthemes.com/Contact: support@keenthemes.comFollow: www.twitter.com/keenthemesDribbble: www.dribbble.com/keenthemesLike: www.facebook.com/keenthemesLicense: You must have a valid license purchased only from https://themes.getbootstrap.com/product/keen-the-ultimate-bootstrap-admin-theme/ in order to legally use the theme for your project.-->
-<html  lang="en" >
+<html  lang="ar" >
     <!-- begin::Head -->
     <head>
         <meta charset="utf-8"/>
