@@ -155,7 +155,7 @@ include("config.php");
 			</div>
             <div class="form-group col-lg-2">
 				<label>المبلغ الكلي</label>
-				<input  onfocus="this.select();" price="price" onkeyup="CurrencyFormatted($(this),$(this).val())" style="direction: ltr;" type="text" class="form-control sp" id="order" name="order_price[]" placeholder="المبلغ" value="">
+				<input  onfocus="$(this).select();" price="price" oninput="CurrencyFormatted($(this),$(this).val())" style="direction: ltr;" type="text" class="form-control sp" id="order" name="order_price[]" placeholder="المبلغ" value="">
 				<span id="order_price_err1" class="form-text text-danger"></span>
 			</div>
             <div class="form-group col-lg-2">
@@ -171,7 +171,7 @@ include("config.php");
 			</div>
             <div class="form-group  col-lg-2">
 				<label>القضاء او المنطقه</label>
-				<select   town="town" data-show-subtext="true" data-live-search="true" type="text" class="selectpicker  form-control dropdown-primary" name="town[]" id="town1"  value="">
+				<select   town="town" data-lang="ar" data-language="ar" data-show-subtext="true" data-live-search="true" type="text" class="selectpicker  form-control dropdown-primary" name="town[]" id="town1"  value="">
 
                 </select>
                 <span id="town_err" class="form-text text-danger"></span>
@@ -627,7 +627,7 @@ function addMore(){
 			</div>
            <div  class="form-group col-lg-2">
 				<label>المبلغ الكلي</label>
-				<input onfocus="this.select();" foucs="foucs" price="price" onkeyup="CurrencyFormatted($(this))" type="text" class="form-control sp" id="order_price`+number+`" name="order_price[]" placeholder="المبلغ" value="">
+				<input onfocus="this.select();" foucs="foucs" price="price" oninput="CurrencyFormatted($(this))" type="text" class="form-control sp" id="order_price`+number+`" name="order_price[]" placeholder="المبلغ" value="">
 				<span id="order_price_err`+number+`" class="form-text text-danger"></span>
 			</div>
             <div class="form-group col-lg-2">

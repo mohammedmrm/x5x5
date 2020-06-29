@@ -126,7 +126,7 @@ legend
         <form id="ordertabledata" class="kt-form kt-form--fit kt-margin-b-20">
           <fieldset><legend>فلتر</legend>
           <div class="row kt-margin-b-20">
-            <div class="col-lg-2 kt-margin-b-10-tablet-and-mobile">
+<!--            <div class="col-lg-2 kt-margin-b-10-tablet-and-mobile">
             	<label>الفرع:</label>
             	<select onchange="getclient()" class="form-control kt-input" id="branch" name="branch" data-col-index="6">
             	</select>
@@ -142,7 +142,7 @@ legend
             	<select onchange="" data-show-subtext="true" data-live-search="true"  class="selectpicker form-control kt-input" id="store" name="store" data-col-index="7">
             		<option value="">Select</option>
             	</select>
-            </div>
+            </div>-->
             <div class="col-lg-2 kt-margin-b-10-tablet-and-mobile">
             	<label>الحالة:</label>
             	<select onchange="" class="form-control kt-input" id="orderStatus" name="orderStatus[]" data-col-index="7">
@@ -159,14 +159,12 @@ legend
   				<input onchange="" type="text" class="form-control kt-input" name="end"  id="end" placeholder="الى" data-col-index="5">
           	</div>
             </div>
-          </div>
-          <div class="row kt-margin-b-20">
             <div class="col-lg-2 kt-margin-b-10-tablet-and-mobile">
             	<label>رقم الوصل:</label>
             	<input id="order_no" name="order_no" onkeyup="" type="text" class="form-control kt-input" placeholder="" data-col-index="0">
             </div>
             <div class="col-lg-2 kt-margin-b-10-tablet-and-mobile">
-            	<label>اسم او هاتف المستلم:</label>
+            	<label> هاتف المستلم:</label>
             	<input name="customer" onkeyup="" type="text" class="form-control kt-input" placeholder="" data-col-index="1">
             </div>
             <div class="col-lg-2 kt-margin-b-10-tablet-and-mobile">
@@ -175,20 +173,20 @@ legend
             		<option value="">Select</option>
                 </select>
             </div>
-            <div class="col-lg-2 kt-margin-b-10-tablet-and-mobile">
+<!--            <div class="col-lg-2 kt-margin-b-10-tablet-and-mobile">
             	<label>الفرع المرسل له:</label>
             	<select id="to_branch" name="to_branch" onchange="getclient()" class="form-control kt-input" data-col-index="2">
             		<option value="">Select</option>
                 </select>
-            </div>
-            <div class="col-lg-2 kt-margin-b-10-tablet-and-mobile">
+            </div>-->
+<!--            <div class="col-lg-2 kt-margin-b-10-tablet-and-mobile">
             	<label>حالة التحاسب مع العميل:</label>
                 <select name="money_status" onchange="" class="form-control selectpicker" data-col-index="2">
             		<option value="">... اختر...</option>
             		<option value="1">تم التحاسب </option>
             		<option value="0">لم يتم التحاسب</option>
                 </select>
-            </div>
+            </div>-->
             <div class="col-lg-2 kt-margin-b-10-tablet-and-mobile">
             	<label>حالة الاستعلامات</label>
                 <select id="callcenter" name="callcenter"  class="selectpicker form-control kt-input" data-col-index="2">
@@ -197,8 +195,8 @@ legend
             		<option value="2">لم يتم الاستعلام</option>
                 </select>
             </div>
-            <div class="col-lg-2 kt-margin-t-10 kt-margin-b-10-tablet-and-mobile">
-            	<label>.</label>
+            <div class="col-lg-2 kt-margin-b-10-tablet-and-mobile">
+            	<label>.</label><br />
                 <input type="button" onclick="getorders()" class="btn btn-warning" value="بحث"/>
             </div>
           <div class="kt-separator kt-separator--border-dashed kt-separator--space-md"></div>
