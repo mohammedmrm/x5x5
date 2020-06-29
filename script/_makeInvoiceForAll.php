@@ -261,7 +261,7 @@ class MYPDF extends TCPDF {
                 'عدد طلبيات بغداد : '.$t['b_orders'].'<br />'.
                 'عدد طلبيات المحافظات : '.$t['o_orders'].'<br />'.
           '</td>
-          <td >رقم الكشف:'.$t['orders'].'</td>
+          <td >رقم الكشف:'.$t['invoice'].'</td>
          </tr>
         </table>
         ');
