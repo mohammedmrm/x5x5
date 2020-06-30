@@ -173,6 +173,11 @@ legend
             		<option value="">Select</option>
                 </select>
             </div>
+            <div class="col-lg-2 kt-margin-b-10-tablet-and-mobile">
+            	<label>المندوب:</label>
+                <select id="driver" name="driver"  data-actions-box="true" data-live-search="true" class="form-control kt-input" data-col-index="2">
+            	</select>
+            </div>
 <!--            <div class="col-lg-2 kt-margin-b-10-tablet-and-mobile">
             	<label>الفرع المرسل له:</label>
             	<select id="to_branch" name="to_branch" onchange="getclient()" class="form-control kt-input" data-col-index="2">
@@ -328,6 +333,7 @@ if (event.which === 13 || event.keyCode === 13 ) {
     getorders();
 }
 });
+getAllDrivers($("#driver"),$("#branch").val());
 function getorders(){
 $.ajax({
   url:"script/_getOrdersReport.php",
