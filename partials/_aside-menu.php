@@ -104,6 +104,14 @@ $se = $_SESSION['role'];
                             </a>
                         </li>
                         <?php } ?>
+                        <?php  if($se==1 || $se==2 || $se==3 || $se==5 || $se=99){?>
+                        <li class="kt-menu__item " aria-haspopup="true" >
+                            <a href="?page=pages/printDriverManfiest.php" class="kt-menu__link ">
+                                <i class="kt-menu__link-bullet kt-menu__link-bullet--dot"><span></span></i>
+                                <span class="kt-menu__link-text">طباعة منفيست المندوبين</span>
+                            </a>
+                        </li>
+                        <?php } ?>
                         <?php  if($se==1 || $se==2 || $se==3 || $se=99){?>
                         <li class="kt-menu__item " aria-haspopup="true" >
                             <a href="?page=pages/earnings.php" class="kt-menu__link ">

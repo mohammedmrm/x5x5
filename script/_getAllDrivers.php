@@ -11,10 +11,10 @@ try{
   $query = "select * from staff where role_id=4 and branch_id=?";
   $data = getData($con,$query,[$branch]);
   }else if($_SESSION['role']!= 1 && $_SESSION['role']!= 5){
-  $query = "select * from staff where role_id=4 and branch_id=?";
+  $query = "select * from staff where role_id=4 and branch_id=? order by name";
   $data = getData($con,$query,[$_SESSION['user_details']['branch_id']]);
   }else{
-  $query = "select * from staff where role_id=4";
+  $query = "select * from staff where role_id=4 order by name";
   $data = getData($con,$query);
   }
   $success="1";
