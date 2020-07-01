@@ -294,7 +294,8 @@ $.ajax({
    if(this.storage_id == 0){
      btn ='<button type="button" class="btn btn-icon text-danger btn-lg" onclick="setOrderStorage('+this.id+')"><span class="flaticon-download"></span></button>';
    }else if(this.storage_id != 0){
-    btn ='<button type="button" class="btn btn-icon text-success btn-lg" onclick="setOrderOutStorage('+this.id+')"><span class="flaticon-upload"></span></button>';
+     btn ='<button type="button" class="btn btn-icon text-success btn-lg" onclick="setOrderOutStorage('+this.id+')"><span class="flaticon-upload"></span></button>';
+     btn +='<button type="button" class="btn btn-icon text-info btn-lg" onclick="setOrderResend('+this.id+')"><span class="flaticon2-refresh"></span></button>';
    }else{
      btn ="";
    }
@@ -501,7 +502,29 @@ function setOrderOutToClient(id){
           console.log(e);
         }
       });
-  }    
+  }
+}
+
+function setOrderResend(id){
+  if(confirm("هل انت متاكد من اعاده ارسال الطلب")){
+        $.ajax({
+        url:"script/_setOrderResend.php",
+        type:"POST",
+        data:{id:id},
+        success:function(res){
+         if(res.success == 1){
+           Toast.success('تم اخراج واعادة ارسال الطلب');
+           getorders();
+         }else{
+           Toast.warning(res.msg);
+         }
+         console.log(res);
+        },
+        error:function(e){
+          console.log(e);
+        }
+      });
+  }
 }
 function makeInvoice() {
   if($("#storage").val() > 0 ){
