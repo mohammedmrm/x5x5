@@ -56,18 +56,9 @@ try{
             ) b on b.order_no = orders.order_no";
 
   $query = "select orders.*, date_format(orders.date,'%Y-%m-%d') as date,
-            if(to_city = 1,
-                 if(order_status_id=9,0,if(client_dev_price.price is null,(".$config['dev_b']." - discount),(client_dev_price.price - discount))),
-                 if(order_status_id=9,0,if(client_dev_price.price is null,(".$config['dev_o']." - discount),(client_dev_price.price - discount)))
-            )as dev_price,
-            new_price -
-              (if(to_city = 1,
-                  if(order_status_id=9,0,if(client_dev_price.price is null,(".$config['dev_b']." - discount),(client_dev_price.price - discount))),
-                  if(order_status_id=9,0,if(client_dev_price.price is null,(".$config['dev_o']." - discount),(client_dev_price.price - discount)))
-                 )
-             ) as client_price,if(order_status_id=9,0,discount) as discount,
             clients.name as client_name,clients.phone as client_phone,storage.name as storage_name,
             stores.name as store_name,a.nuseen_msg,callcenter.name as callcenter_name,
+            if(order_status_id <> 4 ,if(orders.storage_id =0,'عند المندوب',if(orders.storage_id =-1,'عند العميل',storage.name)),'') as storage_status,
             cites.name as city,towns.name as town,branches.name as branch_name,to_branch.name as to_branch_name,
             order_status.status as status_name,staff.name as staff_name,b.rep as repated , driver.name as driver_name,
             orders.invoice_id as invoice_id,invoice.path as invoice_path,invoice.invoice_status as invoice_status

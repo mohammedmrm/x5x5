@@ -205,7 +205,7 @@ try{
                       customer_phone like '%".$customer."%')";
   }
   if(!empty($order)){
-    $filter .= " and orders.order_no like '%".$order."%'";
+    $filter .= " and orders.order_no = '".$order."'";
   }
 
   ///-----------------status

@@ -312,9 +312,9 @@ $.ajax({
                 btn+
             '</td>'+
             '<td>'+this.order_no+'</td>'+
-            '<td>'+this.status_name+'</td>'+
+            '<td>'+this.status_name+'<br />('+this.storage_status+')</td>'+
             '<td>'+this.driver_name+'</td>'+
-            '<td>'+this.storage_name+'</td>'+
+            '<td>'+this.storage_status+'</td>'+
             '<td>'+this.store_name+'<br />'+phone_format(this.client_phone)+'</td>'+
             '<td>'+phone_format(this.customer_phone)+'</td>'+
             '<td>'+this.city+'/'+this.town+'<br />'+this.address+'</td>'+
