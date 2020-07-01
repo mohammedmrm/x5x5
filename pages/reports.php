@@ -853,7 +853,7 @@ $.ajax({
             '<td>'+this.store_name+'<br />'+(this.client_phone)+'</td>'+
             '<td>'+this.city+'/'+this.town+''+
             '<br />'+(this.customer_phone)+'</td>'+
-            '<td>'+this.status_name+'</td>'+
+            '<td>'+this.status_name+'<br /> ('+this.storage_status+')</td>'+
             '<td>'+date+'</td>'+
             '<td>'+formatMoney(this.price)+'</td>'+
             '<td>'+formatMoney(this.new_price)+'</td>'+

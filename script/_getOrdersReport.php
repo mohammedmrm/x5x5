@@ -64,6 +64,7 @@ try{
                   if(orders.order_status_id=9,0,if(client_dev_price.price is null,(".$config['dev_o']." - discount),(client_dev_price.price - discount)))
                  )
              ) as client_price,if(orders.order_status_id=9,0,discount) as discount,
+              if(orders.order_status_id <> 4 ,if(orders.storage_id =0,'عند المندوب',if(orders.storage_id =-1,'عند العميل',storage.name)),'عند الزبون') as storage_status,
             clients.name as client_name,clients.phone as client_phone,if(tracking.note is null,'',tracking.note) as t_note,
             stores.name as store_name,a.nuseen_msg,callcenter.name as callcenter_name,
             cites.name as city,towns.name as town,branches.name as branch_name,to_branch.name as to_branch_name,
@@ -77,6 +78,7 @@ try{
             left join towns on  towns.id = orders.to_town
             left join branches on  branches.id = orders.from_branch
             left join branches as to_branch on  to_branch.id = orders.to_branch
+            left join storage  on  storage.id = orders.storage_id
             left join staff on  staff.id = orders.manager_id
             left join staff as driver on  driver.id = orders.driver_id
             left join staff as callcenter on  callcenter.id = orders.callcenter_id
