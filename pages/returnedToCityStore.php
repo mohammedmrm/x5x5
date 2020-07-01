@@ -298,6 +298,9 @@ $.ajax({
    }else{
      btn ="";
    }
+   if(this.storage_id == 1 ){
+     btn +=  '<button type="button" class="btn btn-icon text-warning btn-lg" onclick="setOrderOutToClient('+this.id+')"><span class="flaticon-reply"></span></button>';
+   }
       $('#ordersTable').append(
        '<tr>'+
             '<td>'+
@@ -478,6 +481,27 @@ function setOrderStorage(id){
           console.log(e);
         }
       });
+}
+function setOrderOutToClient(id){
+  if(confirm("هل انت متاكد من ارجاع الطلب للعميل؟")){
+        $.ajax({
+        url:"script/_setOrderOutToClient.php",
+        type:"POST",
+        data:{id:id},
+        success:function(res){
+         if(res.success == 1){
+           Toast.success('تم ارجاع الطلب للعميل');
+           getorders();
+         }else{
+           Toast.warning(res.msg);
+         }
+         console.log(res);
+        },
+        error:function(e){
+          console.log(e);
+        }
+      });
+  }    
 }
 function makeInvoice() {
   if($("#storage").val() > 0 ){
