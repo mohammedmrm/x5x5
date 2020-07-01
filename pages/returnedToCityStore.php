@@ -166,15 +166,12 @@ legend
 										<th>الحالة</th>
 										<th>المندوب</th>
 										<th>المخزن</th>
-										<th width="150px">اسم و هاتف العميل</th>
-										<th width="150px">رقم هاتف المستلم</th>
+										<th>اسم و هاتف العميل</th>
+										<th>رقم هاتف المستلم</th>
 										<th>عنوان المستلم</th>
-										<th>مبلغ الوصل</th>
-                                        <th>مع التوصيل</th>
-										<th>مبلغ التوصيل</th>
-                                        <th>الخصم</th>
-                                        <th>حالة المبلغ</th>
-                                        <th width="100px">التاريخ</th>
+                                        <th>التاريخ</th>
+                                        <th>مبلغ الوصل</th>
+										<th>المبلغ المستلم</th>
 						   </tr>
       	            </thead>
                             <tbody id="ordersTable">
@@ -187,15 +184,13 @@ legend
 										<th>الحالة</th>
 										<th>المندوب</th>
 										<th>المخزن</th>
-										<th width="150px">اسم و هاتف العميل</th>
-										<th width="150px">رقم هاتف المستلم</th>
+										<th>اسم و هاتف العميل</th>
+										<th>رقم هاتف المستلم</th>
 										<th>عنوان المستلم</th>
-										<th>مبلغ الوصل</th>
-                                        <th>مع التوصيل</th>
-										<th>مبلغ التوصيل</th>
-                                        <th>الخصم</th>
-                                        <th>حالة المبلغ</th>
-                                        <th width="100px">التاريخ</th>
+                                        <th>التاريخ</th>
+                                        <th>مبلغ الوصل</th>
+										<th>المبلغ المستلم</th>
+
 				   </tr>
 	           </tfoot>
 		</table>
@@ -318,12 +313,9 @@ $.ajax({
             '<td>'+this.store_name+'<br />'+phone_format(this.client_phone)+'</td>'+
             '<td>'+phone_format(this.customer_phone)+'</td>'+
             '<td>'+this.city+'/'+this.town+'<br />'+this.address+'</td>'+
-            '<td>'+formatMoney(this.price)+'</td>'+
-            '<td>'+this.with_dev+'</td>'+
-            '<td>'+formatMoney(this.dev_price)+'</td>'+
-            '<td>'+formatMoney(this.discount)+'</td>'+
-            '<td>'+this.money_status+'</td>'+
             '<td>'+this.date+'</td>'+
+            '<td>'+formatMoney(this.price)+'</td>'+
+            '<td>'+formatMoney(this.new_price)+'</td>'+
          '</tr>');
      });
 
