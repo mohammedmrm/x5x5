@@ -6,7 +6,7 @@ session_start();
 error_reporting(0);
 header('Content-Type: application/json');
 require("_access.php");
-access([1,2]);
+access([1,2,5]);
 require_once("dbconnection.php");
 
 $style='
@@ -25,11 +25,14 @@ $style='
     background-color:#E0FFFF;
   }
   .head-tr {
-   background-color: #33CC00;
+   background-color: #70F89C;
    color:#111;
   }
   .price_bg {
     background-color: #9966FF;
+  }
+  .row_bg {
+    background-color: #E9FAE9;
   }
   </style>
 ';
@@ -185,6 +188,10 @@ if($orders > 0){
                if($data[$i]['repated'] > 1){
                  $bg = "repated";
                }
+               $row_bg = "";
+               if(($i%2) == 1 && $data[$i]['order_status_id'] != 6 && $data[$i]['order_status_id'] != 5 && $data[$i]['repated'] <= 1){
+                  $row_bg = "row_bg";
+               }
                $price_bg ="";
                if($data[$i]['new_price'] !== $data[$i]['price']){
                  $price_bg = "price_bg";
@@ -193,7 +200,7 @@ if($orders > 0){
                 $res = setData($con,$sql,[$invoice,$v['id']]);
 
         $hcontent .=
-         '<tr class="'.$bg.'">
+         '<tr class="'.$bg.' '.$row_bg.'">
            <td width="60"  align="center">'.($i+1).'</td>
            <td width="100" align="center">'.$data[$i]['dat'].'</td>
            <td width="80"  align="center">'.$data[$i]['order_no'].'</td>
@@ -230,6 +237,7 @@ if($orders > 0){
     } catch(PDOException $ex) {
        $data=["error"=>$ex];
        $success="0";
+       echo $ex;
     }
 
 require_once("../tcpdf/tcpdf.php");
@@ -239,32 +247,7 @@ class MYPDF extends TCPDF {
         $t = $GLOBALS['total'];
         $this->SetFont('aealarabiya', 'B', 12);
         // Title
-        $this->writeHTML('
-
-         <table>
-         <tr>
-          <td rowspan="4"><img src="../img/logos/logo.png" height="90px"/></td>
-          <td></td>
-          <td></td>
-          <td></td>
-          <td></td>
-         </tr>
-         <tr>
-          <td width="350px">اسم العميل او الصفحه : ('.$t['client'].')'.$t['store'].'</td>
-          <td width="300px" style="color:#FF0000;text-align:center;display:block;">كشف حساب العميل</td>
-          <td >التاريخ:'.date('Y-m-d').'</td>
-         </tr>
-         <tr>
-          <td width="350px">الصافي للعميل:'.number_format($t['client_price']).'</td>
-          <td width="300px" style="text-align:center;display:block;">'.
-                'عدد الطلبيات  الكلي: '.$t['orders'].'<br />'.
-                'عدد طلبيات بغداد : '.$t['b_orders'].'<br />'.
-                'عدد طلبيات المحافظات : '.$t['o_orders'].'<br />'.
-          '</td>
-          <td >رقم الكشف:'.$t['invoice'].'</td>
-         </tr>
-        </table>
-        ');
+        $this->writeHTML('');
     }
 }
 $pdf = new MYPDF(PDF_PAGE_ORIENTATION, PDF_UNIT, PDF_PAGE_FORMAT, true, 'UTF-8', false);
@@ -295,7 +278,7 @@ $pdf->setFooterFont(Array(PDF_FONT_NAME_DATA, '', PDF_FONT_SIZE_DATA));
 
 
 // set margins
-$pdf->SetMargins(PDF_MARGIN_LEFT, 32, PDF_MARGIN_RIGHT);
+$pdf->SetMargins(5, 5, 10);
 $pdf->SetHeaderMargin(5);
 $pdf->SetFooterMargin(PDF_MARGIN_FOOTER);
 // set auto page breaks
@@ -313,8 +296,36 @@ $pdf->setImageScale(PDF_IMAGE_SCALE_RATIO);
 $pdf->AddPage('L', 'A4');
 
 // Persian and English content
-
-$htmlpersian = '		<table border="1" class="table" cellpadding="5">
+$header ='
+             <table>
+             <tr>
+                    <td ></td>
+                    <td width="300"></td>
+                    <td style="text-align:left;" width="300" rowspan="5">
+                      <img src="../img/logos/logo.png" height="100px"/>
+                    </td>
+             </tr>
+             <tr>
+                    <td style="text-align:right;"><span align="right" style="color:#DC143C;">كشف حساب العميل</span></td>
+                    <td  width="350" rowspan="4">
+                    '.
+                      'عدد الطلبيات  الكلي: '.$total['orders'].'<br />'.
+                      'عدد طلبيات بغداد : '.$total['b_orders'].'<br />'.
+                      'عدد طلبيات المحافظات : '.$total['o_orders'].
+                    '</td>
+             </tr>
+             <tr>
+                    <td style="text-align:right;">اسم العميل و الصفحه: ( '.$total['client'].' ) '.$total['client'].'</td>
+             </tr>
+             <tr>
+                    <td style="text-align:right;">التاريخ:'.date('Y-m-d').'</td>
+             </tr>
+             <tr>
+                    <td style="text-align:right;">رقم الكشف:'.$total['invoice'].'</td>
+             </tr>
+            </table>
+        ';
+$htmlpersian = '<table border="1" class="table" cellpadding="3">
 			       <thead>
 	  						<tr  class="head-tr">
                                         <th width="60">#</th>
@@ -334,7 +345,7 @@ $htmlpersian = '		<table border="1" class="table" cellpadding="5">
                             '</tbody>
 		</table>
         ';
-$pdf->WriteHTML($style.$htmlpersian, true, 0, true, 0);
+$pdf->WriteHTML($style.$header.$htmlpersian, true, false, false, false,'');
 
 // set LTR direction for english translation
 $pdf->setRTL(false);
@@ -346,9 +357,11 @@ $pdf->Ln();
 ob_end_clean();
 //print_r($hcontent);
 
+//$pdf->Output('order'.date('Y-m-d h:i:s').'.pdf', 'I');
 $pdf->Output(dirname(__FILE__).'/../invoice/'.$pdf_name, 'F');
 }else{
-  $success = 2;
+ $success = 2;
+
 }
-echo json_encode([$cities,$update_price,'num'=>$count,'success'=>$success,'invoice'=>$pdf_name]);
+echo json_encode([$data,$cities,$update_price,'num'=>$count,'success'=>$success,'invoice'=>$pdf_name]);
 ?>
