@@ -458,7 +458,7 @@ if($reportType ==  2 || $reportType ==  3){
                     <td ></td>
                     <td width="350"></td>
                     <td width="300" rowspan="4">
-                      <img src="../img/logos/logo.png" height="80px"/>
+                      <img src="../img/logos/logo.png" height="100px"/>
                     </td>
              </tr>
              <tr>
@@ -491,7 +491,7 @@ if($reportType ==  2 || $reportType ==  3){
                     </td>
                     <td width="350"></td>
                     <td width="300" rowspan="4">
-                      <img src="../img/logos/logo.png" height="80px"/>
+                      <img src="../img/logos/logo.png" height="100px"/>
                     </td>
              </tr>
              <tr>
