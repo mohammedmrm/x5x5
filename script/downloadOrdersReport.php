@@ -294,7 +294,7 @@ try{
       $i++;
     }
       $total['orders'] = $orders;
-      if($to_branch >=1){
+      if($city >=1){
        $total['to'] ='المحافظه : '.  $data[0]['city'];
       }else{
        $total['to'] = 'المحافظه : '. 'لم يتم تحديد محافظه';
@@ -464,7 +464,6 @@ if($reportType ==  2 || $reportType ==  3){
              <tr>
                     <td style="text-align:right;">'.$total['to'].'</td>
                     <td  width="350" rowspan="4">
-                       <span align="right" style="color:#DC143C;"></span><br />
                     '.
                       'عدد الطلبيات  الكلي: '.$total['orders'].'<br />'.
                       'عدد طلبيات بغداد : '.$total['b_orders'].'<br />'.
