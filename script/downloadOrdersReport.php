@@ -478,7 +478,7 @@ if($reportType ==  2 || $reportType ==  3){
              <tr>
                     <td style="text-align:right;">التاريخ:'.date('Y-m-d').'</td>
              </tr>
-            </table><br /><br />
+            </table>
             ';
 
         }else{
