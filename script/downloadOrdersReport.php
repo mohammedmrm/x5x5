@@ -363,7 +363,6 @@ try{
             if($data[$i]['confirm'] > 1){
                 $bg = "unc";
             }
-            if()
     $hcontent .=
      '<tr class="'.$bg.'">
        <td width="60"  align="center">'.($i+1).'</td>
