@@ -464,7 +464,7 @@ if($reportType ==  2 || $reportType ==  3){
              <tr>
                     <td style="text-align:right;">'.$total['to'].'</td>
                     <td  width="350" rowspan="4">
-                       <span align="right" style="color:#DC143C;">التسليمات المطلوبه</span><br />
+                       <span align="right" style="color:#DC143C;"></span><br />
                     '.
                       'عدد الطلبيات  الكلي: '.$total['orders'].'<br />'.
                       'عدد طلبيات بغداد : '.$total['b_orders'].'<br />'.
@@ -487,8 +487,8 @@ if($reportType ==  2 || $reportType ==  3){
             '
              <table>
              <tr>
-                    <td >
-                     <span style="text-align:right;" style="color:#DC143C;">التسليمات المطلوبه</span>
+                    <td style="text-align:right;">
+                     <span style="color:#DC143C;">التسليمات المطلوبه</span>
                     </td>
                     <td width="350"></td>
                     <td width="300" rowspan="4">
