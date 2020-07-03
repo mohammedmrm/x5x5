@@ -29,7 +29,7 @@ $style='
    color:#111;
   }
   .price_bg {
-    background-color: #9966FF;
+    background-color: #70F89C;
   }
   .row_bg {
     background-color: #E9FAE9;
