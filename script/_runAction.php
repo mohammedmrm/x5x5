@@ -23,9 +23,9 @@ if(isset($_REQUEST['ids'])){
          foreach($ids as $v){
            $data = setData($con,$query,[$driver,$v]);
            if($data > 0){
-               setData($con,$record,[$driver,$v,3]);
-               setData($con,$order,[3,$v]);
-               setData($con,$query2,[$v,3,date('Y-m-d H:i:s'),$_SESSION['userid']]);
+               //setData($con,$record,[$driver,$v,3]);
+               //setData($con,$order,[3,$v]);
+               //setData($con,$query2,[$v,3,date('Y-m-d H:i:s'),$_SESSION['userid']]);
                $success="1";
            }
 
