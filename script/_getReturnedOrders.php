@@ -91,7 +91,11 @@ try{
             ";
 
     $where = "where (order_status_id=6 or order_status_id=9 or order_status_id=5) and ";
-
+    if(($_SESSION['role'] == 1 || $_SESSION['role'] == 5 || $_SESSION['role'] == 8) &&  $_SESSION['user_details']['branch_id'] == 1){
+      $filter .= "";
+    }else{
+       $filter .= " and (from_branch = '".$_SESSION['user_details']['branch_id']."' or to_branch = '".$_SESSION['user_details']['branch_id']."') ";
+    }
    if($confirm == 1 || $confirm == 4){
     $filter .= " and orders.confirm ='".$confirm."'";
    }else{
