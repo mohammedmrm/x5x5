@@ -432,7 +432,7 @@ $pdf->setFooterFont(Array(PDF_FONT_NAME_DATA, '', PDF_FONT_SIZE_DATA));
 
 
 // set margins
-$pdf->SetMargins(5,5,5);
+$pdf->SetMargins(5,10,10);
 $pdf->SetHeaderMargin(5);
 $pdf->SetFooterMargin(PDF_MARGIN_FOOTER);
 // set auto page breaks
