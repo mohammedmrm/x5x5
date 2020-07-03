@@ -300,19 +300,16 @@ $header ='
              <table>
              <tr>
                     <td ></td>
-                    <td width="300"></td>
-                    <td style="text-align:left;" width="300" rowspan="5">
-                      <img src="../img/logos/logo.png" height="100px"/>
-                    </td>
-             </tr>
-             <tr>
-                    <td style="text-align:right;"><span align="right" style="color:#DC143C;">كشف حساب العميل</span></td>
-                    <td  width="350" rowspan="4">
+                    <td width="350" rowspan="5">
+                    <span align="right" style="color:#DC143C;">كشف حساب العميل</span><br />
                     '.
                       'عدد الطلبيات  الكلي: '.$total['orders'].'<br />'.
                       'عدد طلبيات بغداد : '.$total['b_orders'].'<br />'.
                       'عدد طلبيات المحافظات : '.$total['o_orders'].
                     '</td>
+                    <td style="text-align:center;" width="300" rowspan="5">
+                      <img src="../img/logos/logo.png" height="100px"/>
+                    </td>
              </tr>
              <tr>
                     <td style="text-align:right;">اسم العميل و الصفحه: ( '.$total['client'].' ) '.$total['client'].'</td>
@@ -322,6 +319,9 @@ $header ='
              </tr>
              <tr>
                     <td style="text-align:right;">رقم الكشف:'.$total['invoice'].'</td>
+             </tr>
+             <tr>
+                 <td style="text-align:right;">المبلغ الصافي للعميل:'.number_format($total['client_price']).'</td>
              </tr>
             </table>
         ';
