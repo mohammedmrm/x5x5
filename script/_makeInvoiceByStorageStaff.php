@@ -204,7 +204,7 @@ if($orders > 0){
                 $res = setData($con,$sql,[$invoice,$v['id']]);
               }
         $hcontent .=
-         '<tr class="'.$bg.'">
+         '<tr class="'.$bg.'  '.$row_bg.'">
            <td width="60"  align="center">'.($i+1).'</td>
            <td width="100" align="center">'.$data[$i]['dat'].'</td>
            <td width="80"  align="center">'.$data[$i]['order_no'].'</td>
