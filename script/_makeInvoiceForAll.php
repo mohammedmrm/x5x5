@@ -221,6 +221,10 @@ if($orders > 0){
        $total['invoice'] = $invoice;
        $total['status'] = $status_name;
        $total['date'] = $res[0]['date'];
+        $hcontent .= '<tr>
+                         <td colspan="5" style="text-align:center;font-size:20px;"> المجموع</td>
+                         <td colspan="5" style="text-align:center;font-size:20px;">'.number_format($total['client_price']).'</td>
+                      </tr>';
     }
 
 
@@ -301,8 +305,9 @@ $header ='
              <tr>
                     <td ></td>
                     <td width="350" rowspan="5">
-                    <span align="right" style="color:#DC143C;">كشف حساب العميل</span><br />
-                    '.
+                      <br />
+                      <span align="right" style="color:#DC143C;">كشف حساب العميل</span><br />
+                      '.
                       'عدد الطلبيات  الكلي: '.$total['orders'].'<br />'.
                       'عدد طلبيات بغداد : '.$total['b_orders'].'<br />'.
                       'عدد طلبيات المحافظات : '.$total['o_orders'].
@@ -321,7 +326,7 @@ $header ='
                     <td style="text-align:right;">رقم الكشف:'.$total['invoice'].'</td>
              </tr>
              <tr>
-                 <td style="text-align:right;">المبلغ الصافي للعميل:'.number_format($total['client_price']).'</td>
+                 <td style="text-align:right;font-size:20px;">المبلغ الصافي للعميل : '.number_format($total['client_price']).'</td>
              </tr>
             </table>
         ';
