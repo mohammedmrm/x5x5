@@ -544,6 +544,7 @@ function makeInvoice() {
                     window.open('invoice/'+res.invoice, '_blank');
                   }else{
                     Toast.warning("خطأ");
+                    Toast.warning(res.msg);
                   }
                   console.log(res);
                 },
