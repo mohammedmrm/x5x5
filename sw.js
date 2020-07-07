@@ -1132,7 +1132,6 @@ self.__precacheManifest = [
     revision: "0f76f616dfdcbec3148d8e934486ba97",
   },
 
-  { url: "index.php", revision: "f1c474e85b8bb6edfd2667844d257df5" },
   { url: "install.php", revision: "23736ba16f9cf4d7c1eb3fde1eded1e7" },
   { url: "js/alert.js", revision: "f13b73a2ea45588cc618f355731216be" },
   { url: "js/app.js", revision: "d41d8cd98f00b204e9800998ecf8427e" },
