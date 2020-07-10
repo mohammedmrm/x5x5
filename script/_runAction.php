@@ -117,6 +117,36 @@ if(isset($_REQUEST['ids'])){
           $success="0";
       }
   }
+  //---update money status
+  if($action == 'returnedToStore9'){
+      try{
+         $query = "update orders set order_status_id = ?, storage_id = ? where id = ?";
+         foreach($ids as $v){
+           $data = setData($con,$query,[9,$_SESSION['user_details']['storage_id'],$v]);
+           $query2 = "insert into tracking (order_id,order_status_id,date,staff_id) values(?,?,?,?)";
+           setData($con,$query2,[$v,9,date('Y-m-d H:i:s'),$_SESSION['userid']]);
+           $success="1";
+         }
+      } catch(PDOException $ex) {
+          $data=["error"=>$ex];
+          $success="0";
+      }
+  }
+  //---update money status
+  if($action == 'returnedToStore6'){
+      try{
+         $query = "update orders set order_status_id = ?, storage_id = ? where id = ?";
+         foreach($ids as $v){
+           $data = setData($con,$query,[6,$_SESSION['user_details']['storage_id'],$v]);
+           $query2 = "insert into tracking (order_id,order_status_id,date,staff_id) values(?,?,?,?)";
+           setData($con,$query2,[$v,6,date('Y-m-d H:i:s'),$_SESSION['userid']]);
+           $success="1";
+         }
+      } catch(PDOException $ex) {
+          $data=["error"=>$ex];
+          $success="0";
+      }
+  }
 }else{
   $success="2";
 }
