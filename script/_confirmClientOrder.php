@@ -17,13 +17,12 @@ $v->validate([
     ]);
 
 if($v->passes()){
-         $sql = "update orders set confirm=1,manager_id=? where id = ?";
-
-         $result = setData($con,$sql,[$id,$_SESSION['userid']]);
+         $sql = "update orders set confirm=1,manager_id=?,date=? where id = ? and confirm=5";
+         $result = setData($con,$sql,[$id,$_SESSION['userid'],date("Y-m-d")]);
          if($result > 0){
             $success = 1;
          }else{
-            $msg = "فشل التأكيد";
+            $msg = "فشل التأكيد, قد يكون ماكد مسبقاً";
          }
 }else{
   $msg = "فشل التأكيد";

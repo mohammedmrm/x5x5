@@ -199,6 +199,7 @@ legend
 <script src="assets/vendors/custom/datatables/datatables.bundle.js" type="text/javascript"></script>
 <!--begin::Page Scripts(used by this page) -->
 <script src="assets/js/demo1/pages/components/datatables/extensions/responsive.js" type="text/javascript"></script>
+<script src="js/scanner-jquery.js" type="text/javascript"></script>
 <script src="js/getBraches.js" type="text/javascript"></script>
 <script src="js/getClients.js" type="text/javascript"></script>
 <script src="js/getStores.js" type="text/javascript"></script>
@@ -348,6 +349,15 @@ getorderStatus($("#orderStatus"));
 getorderStatus($("#status_action"));
 getCities($("#city"));
 
+});
+$(document).scannerDetection({
+	timeBeforeScanTest: 200, // wait for the next character for upto 200ms
+	startChar: [120], // Prefix character for the cabled scanner (OPL6845R)
+	endChar: [13], // be sure the scan is complete if key 13 (enter) is detected
+	avgTimeByChar: 40, // it's not a barcode if a character takes longer than 40ms
+	onComplete: function(barcode, qty){
+     confirmOrder(Number(barcode));
+    } // main callback function
 });
 function disable(){
   if($("#action").val() == 'asign'){

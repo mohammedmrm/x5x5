@@ -11,9 +11,9 @@ $msg="";
 
 if(count($ids)){
       try{
-         $sql = "update orders set confirm=1,manager_id=? where id = ?";
+         $sql = "update orders set confirm=1,manager_id=?date=? where id = ? and confirm=5";
          foreach($ids as $v){
-           $data = setData($con,$sql,[$v,$_SESSION['userid']]);
+           $data = setData($con,$sql,[$v,$_SESSION['userid'],date("Y-m-d")]);
            $success="1";
          }
       } catch(PDOException $ex) {
