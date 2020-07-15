@@ -16,5 +16,5 @@ try{
    $data=["error"=>$ex];
    $success="0";
 }
-echo json_encode([$query,"success"=>$success,"data"=>$data,'messgae'=>""]);
+echo json_encode(["success"=>$success,"data"=>$data,'messgae'=>""]);
 ?>
