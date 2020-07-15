@@ -9,9 +9,9 @@ $token = $_REQUEST['token'];
 require_once("../script/dbconnection.php");
 try{
 
-   $query = "select stores.*, clients.name as client_name , clients.phone as client_phone
-   from stores inner join clients on clients.id = stores.client_id
-   where clients.api_token=?";
+  $query = "select stores.*, clients.name as client_name , clients.phone as client_phone
+  from stores inner join clients on clients.id = stores.client_id
+  where clients.api_token=?";
   $data = getData($con,$query,[$token]);
   $success="1";
 } catch(PDOException $ex) {
