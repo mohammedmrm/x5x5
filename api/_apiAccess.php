@@ -6,7 +6,7 @@ header('Content-Type: application/json');
 $access = (bool) 0;
 require_once("../script/dbconnection.php");
 if(!(empty($_REQUEST['token']))){
-$token = $_REQUEST['token'];
+  $token = $_REQUEST['token'];
 }else{
   $token = "";
 }
@@ -17,7 +17,7 @@ if(count($res) == 1){
 }
 function access(){
   if(!$GLOBALS['access']){
-    die(json_encode(['message'=>'refused']));
+     die(json_encode(['message'=>'refused']));
   }
 }
 ?>
