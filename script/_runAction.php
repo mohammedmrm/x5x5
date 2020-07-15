@@ -16,7 +16,7 @@ if(isset($_REQUEST['ids'])){
   if($action == 'asign' && ( $ac == 1 || $ac == 2 || $ac == 3 || $ac == 5)){
     if($driver >= 1){
       try{
-         $query = "update orders set driver_id=? where id=? and invoice_id=0 and driver_invoice_id=0 and storage_id=0";
+         $query = "update orders set driver_id=? where id=? and driver_invoice_id=0 and storage_id=0";
          $record = "call update_or_insert(?,?,?)";
          $order = "update orders set order_status_id = ? where id =?";
          $query2 = "insert into tracking (order_id,order_status_id,date,staff_id) values(?,?,?,?)";
