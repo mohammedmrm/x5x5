@@ -1,14 +1,12 @@
 <?php
 session_start();
 header('Content-Type: application/json');
-error_reporting(0);
+//error_reporting(0);
 require_once("_apiAccess.php");
 access();
-$token = $_REQUEST['token'];
-
+$token = "tyerptyu342iir9t8grui3oe0tugfdnjkwlpo0tghfdnkjmlorgtufvjnkdmlgij";
 require_once("../script/dbconnection.php");
 try{
-
   $query = "select stores.*, clients.name as client_name , clients.phone as client_phone
   from stores inner join clients on clients.id = stores.client_id
   where clients.api_token=?";
