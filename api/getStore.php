@@ -3,8 +3,8 @@ session_start();
 header('Content-Type: application/json');
 //error_reporting(0);
 require_once("_apiAccess.php");
-access();
-$token = "tyerptyu342iir9t8grui3oe0tugfdnjkwlpo0tghfdnkjmlorgtufvjnkdmlgij";
+//access();
+$token = "";
 require_once("../script/dbconnection.php");
 try{
   $query = "select stores.*, clients.name as client_name , clients.phone as client_phone
