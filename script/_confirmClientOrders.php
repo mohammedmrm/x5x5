@@ -13,7 +13,7 @@ if(count($ids)){
       try{
          $sql = "update orders set confirm=1,manager_id=?date=? where id = ? and confirm=5";
          foreach($ids as $v){
-           $data = setData($con,$sql,[$v,$_SESSION['userid'],date("Y-m-d")]);
+           $data = setData($con,$sql,[$_SESSION['userid'],date("Y-m-d"),$v]);
            $success="1";
          }
       } catch(PDOException $ex) {

@@ -18,7 +18,7 @@ $v->validate([
 
 if($v->passes()){
          $sql = "update orders set confirm=1,manager_id=?,date=? where id = ? and confirm=5";
-         $result = setData($con,$sql,[$id,$_SESSION['userid'],date("Y-m-d")]);
+         $result = setData($con,$sql,[$_SESSION['userid'],date("Y-m-d"),$id]);
          if($result > 0){
             $success = 1;
          }else{
