@@ -22,7 +22,7 @@ $style='
     background-color: #FFFACD;
   }
   .repated {
-    background-color:#E0FFFF;
+    background-color:#DA3A3A;
   }
   .head-tr {
    background-color: #70F89C;
@@ -91,13 +91,18 @@ try{
   $query = "select orders.*, date_format(orders.date,'%Y-%m-%d') as dat,
             clients.name as client_name,clients.phone as client_phone,
             cites.name as city,towns.name as town,branches.name as branch_name,
-            stores.name as store_name
+            stores.name as store_name, b.rep as repated
             from orders
             left join clients on clients.id = orders.client_id
             left join cites on  cites.id = orders.to_city
             left join stores on  stores.id = orders.store_id
             left join towns on  towns.id = orders.to_town
             left join branches on  branches.id = orders.to_branch
+            left join (
+             select order_no,count(*) as rep from orders  where confirm = 1 and store_id=".$store."
+              GROUP BY order_no
+              HAVING COUNT(orders.id) > 1
+            ) b on b.order_no = orders.order_no
             ";
   $where = "where orders.confirm=1  and invoice_id = 0 and ";
   $filter = "";
@@ -141,8 +146,8 @@ if($orders > 0){
         $content = "";
         $success = 0;
         $pdf_name = date('Y-m-d')."_".uniqid().".pdf";
-        $sql = "insert into invoice (path,store_id,orders_status) values(?,?,?)";
-        $res = setData($con,$sql,[$pdf_name,$store,$status]);
+        $sql = "insert into invoice (path,store_id,orders_status,invoice_status) values(?,?,?,?)";
+        $res = setData($con,$sql,[$pdf_name,$store,$status,1]);
     if($res > 0){
       $success = 1;
       $sql = "select * from invoice where path=? and store_id =? order by date DESC limit 1";
@@ -196,14 +201,15 @@ if($orders > 0){
                if($data[$i]['new_price'] !== $data[$i]['price']){
                  $price_bg = "price_bg";
                }
-                $sql = "update orders set invoice_id =? where id=?";
-                $res = setData($con,$sql,[$invoice,$v['id']]);
+
+               $sql = "update orders set invoice_id =? where id=?";
+               $res = setData($con,$sql,[$invoice,$v['id']]);
 
         $hcontent .=
          '<tr class="'.$bg.' '.$row_bg.'">
            <td width="60"  align="center">'.($i+1).'</td>
            <td width="100" align="center">'.$data[$i]['dat'].'</td>
-           <td width="80"  align="center">'.$data[$i]['order_no'].'</td>
+           <td width="80" align="center">'.$data[$i]['order_no'].'</td>
            <td width="120" align="center">'.phone_number_format($data[$i]['customer_phone']).'</td>
            <td width="160" align="center" >'.$data[$i]['city'].' - '.$data[$i]['town'].' - '.$data[$i]['address'].'</td>
            <td width="80" align="center">'.number_format($data[$i]['price']).'</td>

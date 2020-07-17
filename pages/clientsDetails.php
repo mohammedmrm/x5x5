@@ -656,7 +656,9 @@ function unpayInvoice(id){
         success:function(res){
          if(res.success == 1){
            Toast.success('تم الدفع');
+           getInvoices();
            getStoreDetails();
+           getStoreReturned();
          }else{
            Toast.warning(res.msg);
          }

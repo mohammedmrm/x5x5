@@ -99,7 +99,7 @@ try{
             ) b on b.order_no = orders.order_no
             left join (
               select max(id) as last_id,order_id from tracking group by order_id
-            )c on c.order_id = orders.id
+            ) c on c.order_id = orders.id
             left join tracking on c.last_id = tracking.id
             ";
 
