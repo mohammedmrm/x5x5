@@ -76,9 +76,9 @@ try{
                       customer_phone like '%".$customer."%')";
   }
   if(!empty($order)){
-    $filter .= " and order_no like '%".$order."%'";
+    $filter .= " and order_no = '".$order."'";
   }
-  ///-----------------status
+  //-----------------status
   if($status == 4){
     $filter .= " and (order_status_id =".$status." or order_status_id = 6 or order_status_id = 5)";
   }else if($status == 9){
