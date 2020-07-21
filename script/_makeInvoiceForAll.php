@@ -159,7 +159,7 @@ if($orders > 0){
                 $sql = "select * from client_dev_price where client_id=? and city_id=?";
                 $dev_price  = getData($con,$sql,[$v['client_id'],$v['to_city']]);
                 if(count($dev_price) > 0){
-                  $dev_p = $dev_price[0]['price'];
+                  $dev_p = $dev_price[0]['price']  ;
                 }else{
                   if($v['to_city'] == 1){
                    $dev_p = $config['dev_b'];
@@ -173,7 +173,11 @@ if($orders > 0){
                 if($v['to_city'] != 1 && $dev_price_o > 999){
                  $dev_p = $dev_price_o;
                 }
-                $data[$i]['dev_price'] = $dev_p;
+                $over500 = 0;
+                if($data[$i]['new_price']>500000){
+                  $over500 = (ceil($data[$i]['new_price']/500000) - 1) * $config['addOnOver500'];
+                }
+                $data[$i]['dev_price'] = $dev_p + $over500;
                 if($data[$i]['order_status_id'] == 9){
                   $data[$i]['dev_price'] = 0;
                   $dev_p = 0;

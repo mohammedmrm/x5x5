@@ -138,7 +138,7 @@ min-height: 100px;
               </div>
             <div class="col-lg-2 kt-margin-b-10-tablet-and-mobile">
             	<label>تحديث الحاله الى:</label>
-            	<select st='st'  class="form-control kt-input" onchange="setOrdersStatus()" id="setOrderStatus" name="setOrderStatus" data-col-index="7">
+            	<select st='st' data-size="5" class="form-control kt-input" onchange="setOrdersStatus()" id="setOrderStatus" name="setOrderStatus" data-col-index="7">
             		<option value="">Select</option>
             	</select>
             </div>
@@ -188,12 +188,18 @@ min-height: 100px;
                 <label>يوم</label>
             </div>
             <div class="col-lg-2 kt-margin-b-10-tablet-and-mobile">
+            	<label>المحافظة:</label>
+            	<select id="auto_city" onchange="" data-size="5"  class="form-control selectpicker" data-live-search="ture" data-col-index="2">
+            		<option value="">Select</option>
+                </select>
+            </div>
+            <div class="col-lg-2 kt-margin-b-10-tablet-and-mobile">
             	<label>.</label><br />
             	<input onclick="autoUpdate()"  value="تحديث الى واصل"  type="button"  class="btn btn-info" placeholder="" >
             </div>
           </div>
           </fieldset>
-          <?php } ?> 
+          <?php } ?>
         </div>
         </div>
         </form>
@@ -388,7 +394,7 @@ function autoUpdate(){
       $.ajax({
         url:"script/_autoUpdate.php",
         type:"POST",
-        data:{days: $("#days").val()},
+        data:{days: $("#days").val(),city:$("#auto_city").val()},
         beforeSend:function(){
             $("#autoUpdateDiv").addClass('loading');
         },
@@ -443,6 +449,7 @@ getorderStatus($("#orderStatus"),1);
 getorderStatus($("#status_action"),1);
 getorderStatus($("#setOrderStatus"),1);
 getCities($("#city"));
+getCities($("#auto_city"));
 
 });
 </script>

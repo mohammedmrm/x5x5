@@ -2,9 +2,10 @@
 session_start();
 error_reporting(0);
 header('Content-Type: application/json');
-require("_access.php");
+require_once("_access.php");
+require_once("../config.php");
 access([1,2,3,5]);
-require("dbconnection.php");
+require_once("dbconnection.php");
 $branch = $_REQUEST['branch'];
 $to_branch = $_REQUEST['to_branch'];
 $city = $_REQUEST['city'];
@@ -36,7 +37,7 @@ try{
             if(to_city = 1,
                  if(order_status_id=9,0,if(client_dev_price.price is null,(".$config['dev_b']." - discount),(client_dev_price.price - discount))),
                  if(order_status_id=9,0,if(client_dev_price.price is null,(".$config['dev_o']." - discount),(client_dev_price.price - discount)))
-            )as dev_price,if(order_status_id=9,0,discount) as discount
+            ) + if(new_price > 500000 ,( (ceil(new_price/500000)-1) * ".$config['addOnOver500']." ),0) as dev_price,if(order_status_id=9,0,discount) as discount
             from orders left join
             clients on clients.id = orders.client_id
             left join cites on  cites.id = orders.to_city
@@ -128,5 +129,5 @@ if($success == '1'){
     }
   }
 }
-echo (json_encode(array("success"=>$success,"data"=>$data,'pages'=>$pages,'page'=>$page+1)));
+echo (json_encode(array($query,"success"=>$success,"data"=>$data,'pages'=>$pages,'page'=>$page+1)));
 ?>
