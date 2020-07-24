@@ -59,7 +59,7 @@ table.dataTable tr th.select-checkbox.selected::after {
 <script type="text/javascript">
 function getcities(){
 $.ajax({
-  url:"script/_getcities.php",
+  url:"script/_getCities.php",
   type:"POST",
   data:{city: $("#city").val()},
   success:function(res){
