@@ -254,6 +254,14 @@ $se = $_SESSION['role'];
                         <?php } ?>
                         <?php  if($se==1 || $se=99){?>
                         <li class="kt-menu__item " aria-haspopup="true" >
+                            <a href="?page=pages/autoUpdate.php" class="kt-menu__link ">
+                                <i class="kt-menu__link-bullet kt-menu__link-bullet--dot"><span></span></i>
+                                <span class="kt-menu__link-text">التحديث التلقائي</span>
+                            </a>
+                        </li>
+                        <?php } ?>
+                        <?php  if($se==1 || $se=99){?>
+                        <li class="kt-menu__item " aria-haspopup="true" >
                             <a href="?page=pages/emergencyAccoutn.php" class="kt-menu__link ">
                                 <i class="kt-menu__link-bullet kt-menu__link-bullet--dot"><span></span></i>
                                 <span class="kt-menu__link-text">حسابات طؤارى</span>
