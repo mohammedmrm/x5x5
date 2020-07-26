@@ -107,8 +107,12 @@ background-color: #FFFF99;
           <div class="row kt-margin-b-20">
             <div class="col-lg-3 kt-margin-b-10-tablet-and-mobile">
             	<label>المخزن:</label>
-            	<select  onchange='getStorageInvoices();' data-live-search="true" class="form-control kt-input" id="client" name="client" data-col-index="6">
+            	<select  onchange='getStorageInvoices();' data-live-search="true" class="form-control kt-input" id="storage_id" name="storage" data-col-index="6">
             	</select>
+            </div>
+            <div class="col-lg-2 kt-margin-b-10-tablet-and-mobile">
+            	<label>رقم الكشف:</label>
+            	<input id="id" name="id" class="form-control"/>
             </div>
             <div class="col-lg-3 kt-margin-b-10-tablet-and-mobile">
             <label>الفترة الزمنية :</label>
@@ -295,6 +299,7 @@ function deleteStorageInvoice(id){
 }
 $( document ).ready(function(){
  getStorage($("#storage"));
+ getStorage($("#storage_id"));
  getInvoices();
 });
 

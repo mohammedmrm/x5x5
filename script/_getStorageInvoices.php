@@ -32,9 +32,11 @@ try{
 
 
     if($storage >= 1){
-       $filter .= " and storage_invoice.storage_id =".$store;
+       $filter .= " and storage_invoice.storage_id =".$storage;
     }
-
+    if($id >= 1){
+       $filter .= " and storage_invoice.id =".$id;
+    }
     $query .=  $filter;
     $query .=  " order by storage_invoice.date DESC limit 100";
     $data = getData($con,$query);
@@ -43,5 +45,5 @@ try{
    $data=["error"=>$ex];
    $success="0";
 }
-print_r(json_encode(array("success"=>$success,"data"=>$data)));
+print_r(json_encode(array($query,"success"=>$success,"data"=>$data)));
 ?>
