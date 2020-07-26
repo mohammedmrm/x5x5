@@ -77,17 +77,14 @@ try{
             left join towns on  towns.id = orders.to_town
             left join branches on  branches.id = orders.to_branch
             ";
-  $where = "where orders.confirm=1 and (
-                 ((order_status_id<>6 and order_status_id<>5) and orders.invoice_id = 0) or
-                 ((order_status_id=6 or order_status_id=5) and (orders.invoice_id2=0))
-                ) and storage_id='".$storage."' and storage_invoice_id=0";
+  $where = "where orders.confirm=1 and storage_id='".$storage."' and storage_invoice_id=0";
   $filter = "";
   if($client >= 1){
     $filter .= " and client_id=".$client;
   }
   if($store >= 1){
     $filter .= " and store_id=".$store;
-   }
+  }
      ///-----------------status
   $s = "";
   if(count($status) > 0){
