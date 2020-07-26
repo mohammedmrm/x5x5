@@ -42,6 +42,7 @@ $client= $_REQUEST['client'];
 $statues = $_REQUEST['orderStatus'];
 $store = $_REQUEST['store'];
 $storage = $_REQUEST['storage'];
+$storage_invoice = $_REQUEST['storage_invoice'];
 $driver = $_REQUEST['driver'];
 $start = trim($_REQUEST['start']);
 $end = trim($_REQUEST['end']);
@@ -61,22 +62,25 @@ try{
   $count = "select count(*) as count,
                SUM(IF (to_city = 1,1,0)) as  b_orders,
                SUM(IF (to_city > 1,1,0)) as  o_orders
-            from orders ";
+            from orders
+            left join stores on  stores.id = orders.store_id
+            ";
   $query = "select orders.*, date_format(orders.date,'%Y-%m-%d') as dat,
             clients.name as client_name,clients.phone as client_phone,
             cites.name as city,towns.name as town,branches.name as branch_name,
-            stores.name as store_name
+            stores.name as store_name,storage.name as storage_name
             from orders
             left join clients on clients.id = orders.client_id
             left join cites on  cites.id = orders.to_city
             left join stores on  stores.id = orders.store_id
+            left join storage on  storage.id = orders.storage_id
             left join towns on  towns.id = orders.to_town
             left join branches on  branches.id = orders.to_branch
             ";
   $where = "where orders.confirm=1 and (
                  ((order_status_id<>6 and order_status_id<>5) and orders.invoice_id = 0) or
                  ((order_status_id=6 or order_status_id=5) and (orders.invoice_id2=0))
-                ) and storage_id='".$storage."'";
+                ) and storage_id='".$storage."' and storage_invoice_id=0";
   $filter = "";
   if($client >= 1){
     $filter .= " and client_id=".$client;
@@ -137,7 +141,7 @@ try{
 }
 // set default header data
 $status = 9;
-$status_name = "كشف راجع";
+$status_name = "كشف راجع مخزن";
 
 
 
@@ -147,12 +151,12 @@ if($orders > 0){
         $content = "";
         $success = 0;
         $pdf_name = date('Y-m-d')."_".uniqid().".pdf";
-        $sql = "insert into invoice (path,store_id,orders_status) values(?,?,?)";
-        $res = setData($con,$sql,[$pdf_name,$store,$status]);
+        $sql = "insert into storage_invoice (path,storage_id,status) values(?,?,?)";
+        $res = setData($con,$sql,[$pdf_name,$storage,$status]);
     if($res > 0){
       $success = 1;
-      $sql = "select *,date_format(date,'%Y-%m-%d') as date from invoice where path=? and store_id =? order by date DESC limit 1";
-      $res = getData($con,$sql,[$pdf_name,$store]);
+      $sql = "select *,date_format(date,'%Y-%m-%d') as date from storage_invoice where path=? and storage_id =? order by date DESC limit 1";
+      $res = getData($con,$sql,[$pdf_name,$storage]);
       $invoice = $res[0]['id'];
       $date = $res[0]['date'];
 
@@ -170,14 +174,17 @@ if($orders > 0){
                   }
                 }
                 $data[$i]['dev_price'] = $dev_p;
+
+                $data[$i]['client_price'] = ($data[$i]['new_price'] -  $dev_p) + $data[$i]['discount'];
                 if($data[$i]['order_status_id'] == 9){
                   $data[$i]['dev_price'] = 0;
                   $dev_p = 0;
                   $data[$i]['dicount']=0;
                   $data[$i]['new_price']=0;
                   $data[$i]['client_price']=0;
+                }else{
+
                 }
-                $data[$i]['client_price'] = ($data[$i]['new_price'] -  $dev_p) + $data[$i]['discount'];
                $note =  $data[$i]['note'];
                $bg = "";
                if($data[$i]['order_status_id'] == 6){
@@ -195,14 +202,9 @@ if($orders > 0){
                if(($i%2) == 1 && $data[$i]['order_status_id'] != 6 && $data[$i]['order_status_id'] != 5 && $data[$i]['repated'] <= 1){
                   $row_bg = "row_bg";
                }
-              if(($data[$i]['order_status_id'] == 6 || $data[$i]['order_status_id'] == 5)){
-                 $sql = "update orders set invoice_id2 =? where id=?";
-                 $res = setData($con,$sql,[$invoice,$v['id']]);
-                 $data[$i]['client_price'] = 0;
-              }else{
-                $sql = "update orders set invoice_id =? where id=?";
-                $res = setData($con,$sql,[$invoice,$v['id']]);
-              }
+               $sql = "update orders set storage_invoice_id =? where id=?";
+               $res = setData($con,$sql,[$invoice,$v['id']]);
+
         $hcontent .=
          '<tr class="'.$bg.'  '.$row_bg.'">
            <td width="60"  align="center">'.($i+1).'</td>
@@ -230,13 +232,8 @@ if($orders > 0){
 
 
           $total['orders'] = $orders;
-          if($store >=1){
-           $total['client'] = $data[0]['client_name'];
-           $total['store'] = $data[0]['store_name'];
-          }else{
-           $total['client'] = 'غير معروف';
-           $total['store'] = 'غير معروف';
-          }
+          $total['storage_name'] = $data[0]['storage_name'];
+
 
     } catch(PDOException $ex) {
        $data=["error"=>$ex];
@@ -310,12 +307,10 @@ $header ='
                     <td  width="350" rowspan="4">
                     '.
                       'عدد الطلبيات  الكلي: '.$total['orders'].'<br />'.
-                      'عدد طلبيات بغداد : '.$total['b_orders'].'<br />'.
-                      'عدد طلبيات المحافظات : '.$total['o_orders'].
                     '</td>
              </tr>
              <tr>
-                    <td style="text-align:right;">اسم العميل و الصفحه: ( '.$total['client'].' ) '.$total['client'].'</td>
+                    <td style="text-align:right;">تم انشاء الكشف في مخزن:  '.$total['storage_name'].'</td>
              </tr>
              <tr>
                     <td style="text-align:right;">التاريخ:'.date('Y-m-d').'</td>
@@ -354,13 +349,13 @@ $pdf->SetFontSize(10);
 // print newline
 $pdf->Ln();
 //Close and output PDF document
-ob_end_clean();
+//ob_end_clean();
 //print_r($hcontent);
 
-$pdf->Output(dirname(__FILE__).'/../invoice/'.$pdf_name, 'F');
+$pdf->Output(dirname(__FILE__).'/../storage_invoice/'.$pdf_name, 'F');
 }else{
   $success = 2;
   $msg = "لايوجد طلبيات";
 }
-echo json_encode(['msg'=>$msg,'num'=>$count,'success'=>$success,'invoice'=>$pdf_name]);
+echo json_encode([$data,'msg'=>$msg,'num'=>$count,'success'=>$success,'invoice'=>$pdf_name]);
 ?>

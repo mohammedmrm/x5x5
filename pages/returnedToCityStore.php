@@ -119,16 +119,29 @@ legend
                 </select>
             </div>
             <div class="col-lg-2 kt-margin-b-10-tablet-and-mobile">
-            	<label>حالة الطلبات من الكشف</label>
+            	<label>حالة الكشف العميل</label>
                 <select id="invoice" name="invoice" onchange="getorders()" class="selectpicker form-control kt-input" data-col-index="2">
             		<option value="">... اختر...</option>
             		<option value="1">طلبات بدون كشف</option>
-            		<option value="2">طلبات كشف</option>
+            		<option value="2">طلبات بكشف</option>
+                </select>
+            </div>
+            <div class="col-lg-2 kt-margin-b-10-tablet-and-mobile">
+            	<label>حالة الكشف المخزن</label>
+                <select id="storage_invoice" name="storage_invoice" onchange="getorders()" class="selectpicker form-control kt-input" data-col-index="2">
+            		<option value="1">طلبات بدون كشف</option>
+            		<option value="2">طلبات بكشف</option>
+                    <option value="">الكل</option>
+
                 </select>
             </div>
             <div class="col-lg-2 kt-margin-b-10-tablet-and-mobile">
             	<label>.</label><br />
-            	<input onclick="makeInvoice()" type="button" class="btn btn-danger" value="انشاء كشف">
+            	<input onclick="makeInvoice()" type="button" class="btn btn-danger" value="انشاء كشف عميل">
+            </div>
+            <div class="col-lg-2 kt-margin-b-10-tablet-and-mobile">
+            	<label>.</label><br />
+            	<input onclick="makeStorageInvoice()" type="button" class="btn btn-info" value="انشاء كشف مخزن">
             </div>
             <div class="col-lg-2 kt-margin-b-10-tablet-and-mobile">
             	<label>.</label><br />
@@ -559,6 +572,39 @@ function makeInvoice() {
     }else{
       Toast.warning("يحب تحديد الصفحه");
     }
+  }else{
+     Toast.warning("يجب تحديد المخزن");
+  }
+}
+function makeStorageInvoice() {
+  if($("#storage").val() > 0 ){
+    if(Number($("#storage_invoice").val()) == 1){
+              $.ajax({
+                url:"script/_makeStorageInvoiceByStorageStaff.php",
+                data: $("#ordertabledata").serialize(),
+                beforeSend:function(){
+                 $("#ordertabledata").addClass("loading");
+                },
+                success:function(res){
+                  $("#ordertabledata").removeClass("loading");
+                  if(res.success == 1){
+                    getorders();
+                    var d = new Date();
+                    window.open('storage_invoice/'+res.invoice, '_blank');
+                  }else{
+                    Toast.warning("خطأ");
+                    Toast.warning(res.msg);
+                  }
+                  console.log(res);
+                },
+                error:function(e){
+                  $("#ordertabledata").removeClass("loading");
+                  console.log(e);
+                }
+              });
+      }else{
+        Toast.warning("يحب تحديد الطلبات بدون كشف مخزن");
+      }
   }else{
      Toast.warning("يجب تحديد المخزن");
   }
