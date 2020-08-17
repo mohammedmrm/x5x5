@@ -228,6 +228,7 @@ if($orders > 0){
           if($store >=1){
            $total['client'] = $data[0]['client_name'];
            $total['store'] = $data[0]['store_name'];
+           $total['client_phone'] = $data[0]['client_phone'];
           }else{
            $total['client'] = 'لم يتم تحديد عميل';
            $total['store'] = 'لم يتم التحديد';
@@ -313,7 +314,7 @@ $header ='
                     '</td>
              </tr>
              <tr>
-                    <td style="text-align:right;">اسم العميل و الصفحه: ( '.$total['client'].' ) '.$total['client'].'</td>
+                    <td style="text-align:right;">اسم العميل و الصفحه: '.$total['store'].' - '.$total['client_phone'].'</td>
              </tr>
              <tr>
                     <td style="text-align:right;">التاريخ:'.date('Y-m-d').'</td>
