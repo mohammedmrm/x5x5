@@ -80,10 +80,10 @@ try{
   $where = "where orders.confirm=1 and storage_id='".$storage."' and storage_invoice_id=0";
   $filter = "";
   if($client >= 1){
-    $filter .= " and client_id=".$client;
+    $filter .= " and orders.client_id=".$client;
   }
   if($store >= 1){
-    $filter .= " and store_id=".$store;
+    $filter .= " and orders.store_id=".$store;
   }
      ///-----------------status
   $s = "";
