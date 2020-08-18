@@ -102,10 +102,33 @@ background-color: #FFFF99;
 
 
 	<div class="kt-portlet__body">
+    <div class="row">
+    <div class="col-lg-12 kt-margin-b-10-tablet-and-mobile">
+        <span class="h4"> خلاصه بمبالغ الطلبيات التي تملك كشف عميل</span><hr />
+    </div>
+    <div class="col-lg-4 kt-margin-b-10-tablet-and-mobile">
+        <label class="h5">الدخل الكلي: <label class="text-accent" id="income"></label></label><br />
+        <label class="h5">عدد الطلبيات الكلي: <label class="text-accent" id="orders"></label></label><br />
+        <label class="h5">عدد الطلبيات الواصله: <label class="text-accent" id="orders_with_dev"></label></label><br />
+   </div>
+    <div class="col-lg-4 kt-margin-b-10-tablet-and-mobile">
+        <label class="h5">صافي العملاء: <label class="text-danger" id="client_price"></label></label><br />
+        <label class="h5">الارباح الكليه: <label class="text-success" id="earnings"></label></label><br />
+    </div>
+    <div class="col-lg-4 kt-margin-b-10-tablet-and-mobile">
+        <label class="h5">ارباح الشركه : <label class="text-success" id="real_earnings"></label></label><br />
+        <label class="h5">ارباح الفرع :  <label class="text-danger" id="branch_earnings"></label></label><br />
+    </div>
+    </div>
     <form id="invoicesForm" class="kt-form kt-form--fit kt-margin-b-20">
           <fieldset><legend>بحث عن كشف</legend>
           <div class="row kt-margin-b-20">
-            <div class="col-lg-3 kt-margin-b-10-tablet-and-mobile">
+            <div class="col-lg-2 kt-margin-b-10-tablet-and-mobile">
+            	<label>الفرع:</label>
+            	<select  onchange='getInvoices();' data-live-search="true" class="form-control kt-input" id="branch" name="branch" data-col-index="6">
+            	</select>
+            </div>
+            <div class="col-lg-2 kt-margin-b-10-tablet-and-mobile">
             	<label>العميل:</label>
             	<select  onchange='getStoresByClient($("#store"));getInvoices();' data-live-search="true" class="form-control kt-input" id="client" name="client" data-col-index="6">
             	</select>
@@ -117,7 +140,7 @@ background-color: #FFFF99;
             	</select>
             </div>
             <div class="col-lg-3 kt-margin-b-10-tablet-and-mobile">
-            <label>الفترة الزمنية :</label>
+            <label>الفترة الزمنية (تاريخ الكشف):</label>
             <div class="input-daterange input-group" id="kt_datepicker">
   				<input value="<?php echo date('Y-m-d', strtotime('-7 days'));?>" onchange="getInvoices()" type="text" class="form-control kt-input" name="start" id="start" placeholder="من" data-col-index="5">
   				<div class="input-group-append">
@@ -126,16 +149,21 @@ background-color: #FFFF99;
   				<input onchange="getInvoices()" type="text" class="form-control kt-input" name="end"  id="end" placeholder="الى" data-col-index="5">
           	</div>
             </div>
-            <div class="col-lg-2 kt-margin-b-10-tablet-and-mobile">
+            <div class="col-lg-1 kt-margin-b-10-tablet-and-mobile">
             	<label>بحث:</label><br />
             	<button type="button" onclick="getInvoices();" type="text" class="btn btn-success" value="" placeholder="" data-col-index="0">بحث
                     <span id="search"  role="status"></span>
                 </button>
             </div>
-          <div class="kt-separator kt-separator--border-dashed kt-separator--space-md"></div>
+            <div class="col-lg-2 kt-margin-b-10-tablet-and-mobile">
+              <label>اجره الفرع :</label>
+              <div class="input-daterange input-group" id="kt_datepicker">
+    				<input onchange="getInvoices()" type="number" step='250' min="0" class="form-control" name="branch_price"  id="branch_price">
+            	</div>
+          	</div>
+           <div class="kt-separator kt-separator--border-dashed kt-separator--space-md"></div>
           </div>
           </fieldset>
-
 		<!--begin: Datatable -->
         <div class="" id="section-to-print">
 		<table class="table  table-bordered  responsive no-wrap" id="tb-invioces">
@@ -177,14 +205,15 @@ background-color: #FFFF99;
 </div>
 
             <!--begin::Page Vendors(used by this page) -->
-                            <script src="assets/vendors/custom/datatables/datatables.bundle.js" type="text/javascript"></script>
+<script src="assets/vendors/custom/datatables/datatables.bundle.js" type="text/javascript"></script>
                         <!--end::Page Vendors -->
 
 
 
             <!--begin::Page Scripts(used by this page) -->
-                            <script src="assets/js/demo1/pages/components/datatables/extensions/responsive.js" type="text/javascript"></script>
+<script src="assets/js/demo1/pages/components/datatables/extensions/responsive.js" type="text/javascript"></script>
 <script src="js/getClients.js" type="text/javascript"></script>
+<script src="js/getBraches.js" type="text/javascript"></script>
 <script type="text/javascript">
 function getAllClient(ele){
    $.ajax({
@@ -242,7 +271,6 @@ function getInvoices(){
      },
      success:function(res){
      console.log(res);
-
      $.each(res.data,function(){
       btn ="";
      if(this.invoice_status == 1){
@@ -284,7 +312,15 @@ function getInvoices(){
             '</td>'+
         '</tr>');
      });
-
+      $.each(res.total,function(){
+         $("#income").text(formatMoney(this.income));
+         $("#orders").text(this.orders);
+         $("#orders_with_dev").text(this.orders_with_dev);
+         $("#earnings").text(formatMoney(this.earnings));
+         $("#real_earnings").text(formatMoney(this.real_earnings));
+         $("#branch_earnings").text(formatMoney(this.branch_earnings));
+         $("#client_price").text(formatMoney(this.client_price));
+      });
      var myTable= $('#tb-invioces').DataTable({
      columns:[
 
@@ -378,6 +414,7 @@ function unpayInvoice(id){
 }
 $( document ).ready(function(){
  getAllClient($("#client"));
+ getBraches($("#branch"));
  getStoresByClient($("#store"));
  getInvoices();
 });
