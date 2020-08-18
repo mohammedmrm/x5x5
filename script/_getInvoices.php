@@ -10,6 +10,9 @@ $start = $_REQUEST['start'];
 $end = $_REQUEST['end'];
 $branch= $_REQUEST['branch'];
 $branch_price = !$_REQUEST['branch_price'] ? 0 :$_REQUEST['branch_price'] ;
+if(empty($start)) {
+    $start = '0000-00-00';
+}
 if(empty($end)) {
    $end = date('Y-m-d', strtotime(' + 1 day'));
 }else{
@@ -85,14 +88,21 @@ try{
             count(orders.id) as orders
             from orders
             inner join clients on clients.id = orders.client_id
+            inner join stores on stores.id = orders.store_id
             inner join invoice on invoice.id = orders.invoice_id
             left JOIN client_dev_price
             on client_dev_price.client_id = orders.client_id AND client_dev_price.city_id = orders.to_city
             where orders.confirm = 1 and invoice.date between "'.$start.'" and "'.$end.' and orders.invoice_id<>0"
            ';
-    if($branch >= 1){
-       $sql .= " and orders.from_branch =".$branch;
-    }
+          if($client >= 1){
+             $sql .= " and stores.client_id =".$client;
+          }
+          if($branch >= 1){
+             $sql .= " and clients.branch_id =".$branch;
+          }
+          if($store >= 1){
+             $sql .= " and stores.store_id =".$store;
+          }
 $total[0] =[
  'discount'=>0,
  'orders_with_dev'=>0,
