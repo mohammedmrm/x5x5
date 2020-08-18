@@ -102,7 +102,7 @@ background-color: #FFFF99;
 
 
 	<div class="kt-portlet__body">
-    <div class="row">
+<!--    <div class="row">
     <div class="col-lg-12 kt-margin-b-10-tablet-and-mobile">
         <span class="h4"> خلاصه بمبالغ الطلبيات التي تملك كشف عميل</span><hr />
     </div>
@@ -115,7 +115,7 @@ background-color: #FFFF99;
         <label class="h5">صافي العملاء: <label class="text-danger" id="client_price"></label></label><br />
         <label class="h5">الارباح: <label class="text-success" id="earnings"></label></label><br />
     </div>
-    </div>
+    </div>-->
     <form id="invoicesForm" class="kt-form kt-form--fit kt-margin-b-20">
           <fieldset><legend>بحث عن كشف</legend>
           <div class="row kt-margin-b-20">
