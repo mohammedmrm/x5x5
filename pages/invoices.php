@@ -113,11 +113,7 @@ background-color: #FFFF99;
    </div>
     <div class="col-lg-4 kt-margin-b-10-tablet-and-mobile">
         <label class="h5">صافي العملاء: <label class="text-danger" id="client_price"></label></label><br />
-        <label class="h5">الارباح الكليه: <label class="text-success" id="earnings"></label></label><br />
-    </div>
-    <div class="col-lg-4 kt-margin-b-10-tablet-and-mobile">
-        <label class="h5">ارباح الشركه : <label class="text-success" id="real_earnings"></label></label><br />
-        <label class="h5">ارباح الفرع :  <label class="text-danger" id="branch_earnings"></label></label><br />
+        <label class="h5">الارباح: <label class="text-success" id="earnings"></label></label><br />
     </div>
     </div>
     <form id="invoicesForm" class="kt-form kt-form--fit kt-margin-b-20">

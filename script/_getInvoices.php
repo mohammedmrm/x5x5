@@ -59,20 +59,6 @@ try{
                       ),0
                   )
              ) as earnings,
-            sum(
-                 if(order_status_id = 4 or order_status_id = 5 or order_status_id = 6,
-                     if(to_city = 1,
-                           if(order_status_id=9,0,if(client_dev_price.price is null,('.$config['dev_b'].' - discount),(client_dev_price.price - discount))),
-                           if(order_status_id=9,0,if(client_dev_price.price is null,('.$config['dev_o'].' - discount),(client_dev_price.price - discount)))
-                      ) - '.$branch_price.',0
-                  )
-             ) as real_earnings,
-            sum(
-                 if(order_status_id = 4 or order_status_id = 5 or order_status_id = 6,
-                     '.$branch_price.',0
-                  )
-             ) as branch_earnings,
-
              sum(
                 if(order_status_id = 4 or order_status_id = 5 or order_status_id = 6,
                  new_price -
