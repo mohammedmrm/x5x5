@@ -86,7 +86,7 @@ try{
             from orders
             inner join clients on clients.id = orders.client_id
             inner join invoice on invoice.id = orders.invoice_id
-            inner JOIN client_dev_price
+            left JOIN client_dev_price
             on client_dev_price.client_id = orders.client_id AND client_dev_price.city_id = orders.to_city
             where orders.confirm = 1 and invoice.date between "'.$start.'" and "'.$end.' and orders.invoice_id<>0"
            ';
