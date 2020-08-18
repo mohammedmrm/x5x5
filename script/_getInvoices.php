@@ -99,7 +99,7 @@ $total[0] =[
  'income'=>0,
 ];
 if($_SESSION['role'] == 1){
-$total=getData($con,$sql);
+//$total=getData($con,$sql);
 }
     $data = getData($con,$query);
     $success="1";

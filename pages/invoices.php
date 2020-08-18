@@ -302,7 +302,7 @@ function getInvoices(){
             '</td>'+
         '</tr>');
      });
-      $.each(res.total,function(){
+/*      $.each(res.total,function(){
          $("#income").text(formatMoney(this.income));
          $("#orders").text(this.orders);
          $("#orders_with_dev").text(this.orders_with_dev);
@@ -310,7 +310,7 @@ function getInvoices(){
          $("#real_earnings").text(formatMoney(this.real_earnings));
          $("#branch_earnings").text(formatMoney(this.branch_earnings));
          $("#client_price").text(formatMoney(this.client_price));
-      });
+      });*/
      var myTable= $('#tb-invioces').DataTable({
      columns:[
 
