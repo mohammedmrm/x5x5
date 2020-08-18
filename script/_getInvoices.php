@@ -82,12 +82,11 @@ try{
              ) as client_price,
             sum(if(order_status_id = 4 or order_status_id = 5 or order_status_id = 6,new_price,0)) as income,
             sum(if(order_status_id = 4 or order_status_id = 5 or order_status_id = 6,1,0)) as orders_with_dev,
-            sum(if(order_status_id=9,0,discount)) as discount,
             count(orders.id) as orders
             from orders
-            left join clients on clients.id = orders.client_id
-            left join invoice on invoice.id = orders.invoice_id
-            left JOIN client_dev_price
+            inner join clients on clients.id = orders.client_id
+            inner join invoice on invoice.id = orders.invoice_id
+            inner JOIN client_dev_price
             on client_dev_price.client_id = orders.client_id AND client_dev_price.city_id = orders.to_city
             where orders.confirm = 1 and invoice.date between "'.$start.'" and "'.$end.' and orders.invoice_id<>0"
            ';
