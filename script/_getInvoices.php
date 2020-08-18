@@ -54,8 +54,8 @@ try{
             sum(
                  if(order_status_id = 4 or order_status_id = 5 or order_status_id = 6,
                      if(to_city = 1,
-                           if(order_status_id=9,0,if(client_dev_price.price is null,('.$config['dev_b'].' - discount),(client_dev_price.price - discount))),
-                           if(order_status_id=9,0,if(client_dev_price.price is null,('.$config['dev_o'].' - discount),(client_dev_price.price - discount)))
+                           if(client_dev_price.price is null,('.$config['dev_b'].' - discount),(client_dev_price.price - discount)),
+                           if(client_dev_price.price is null,('.$config['dev_o'].' - discount),(client_dev_price.price - discount))
                       ),0
                   )
              ) as earnings,
@@ -64,8 +64,8 @@ try{
                  new_price -
                  (
                      if(to_city = 1,
-                           if(order_status_id=9,0,if(client_dev_price.price is null,('.$config['dev_b'].' - discount),(client_dev_price.price - discount))),
-                           if(order_status_id=9,0,if(client_dev_price.price is null,('.$config['dev_o'].' - discount),(client_dev_price.price - discount)))
+                           if(client_dev_price.price is null,('.$config['dev_b'].' - discount),(client_dev_price.price - discount)),
+                           if(client_dev_price.price is null,('.$config['dev_o'].' - discount),(client_dev_price.price - discount))
                       )
                 ),0)
              ) as client_price,
@@ -78,7 +78,7 @@ try{
             inner join invoice on invoice.id = orders.invoice_id
             left JOIN client_dev_price
             on client_dev_price.client_id = orders.client_id AND client_dev_price.city_id = orders.to_city
-            where orders.confirm = 1 and invoice.date between "'.$start.'" and "'.$end.' and orders.invoice_id<>0"
+            where invoice.date between "'.$start.'" and "'.$end.'"
            ';
           if($client >= 1){
              $sql .= " and stores.client_id =".$client;
