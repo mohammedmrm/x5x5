@@ -158,7 +158,7 @@ background-color: #FFFF99;
             <div class="col-lg-2 kt-margin-b-10-tablet-and-mobile">
               <label>اجره الفرع :</label>
               <div class="input-daterange input-group" id="kt_datepicker">
-    				<input onchange="getInvoices()" type="number" step='250' min="0" class="form-control" name="branch_price"  id="branch_price">
+    				<input onchange="getInvoices()" type="number" value="4000" step='250' min="0" class="form-control" name="branch_price"  id="branch_price">
             	</div>
           	</div>
            <div class="kt-separator kt-separator--border-dashed kt-separator--space-md"></div>
