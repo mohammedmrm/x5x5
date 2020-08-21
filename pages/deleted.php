@@ -219,6 +219,7 @@ $.ajax({
   success:function(res){
    console.log(res);
    //saveEventDataLocally(res)
+    $("#tb-orders").removeClass("loading"); 
    $("#tb-orders").DataTable().destroy();
    $('#ordersTable').html("");
    $("#pagination").html("");
@@ -298,7 +299,7 @@ $.ajax({
        "bFilter": false,
        serverPaging: true
       });
-      $("#tb-orders").removeClass("loading");
+
     },
    error:function(e){
      $("#tb-orders").removeClass("loading");

@@ -305,6 +305,7 @@ hr {
 <script src="js/getStores.js" type="text/javascript"></script>
 <script type="text/javascript">
 $('#tb-returned').DataTable();
+$('#tb-orders-reciverd').DataTable();
 $('#start').datepicker({
     format: "yyyy-mm-dd",
     showMeridian: true,
@@ -402,12 +403,13 @@ function getStoreReturned(){
     type:"POST",
     data:$("#storedataform").serialize(),
     beforeSend:function(){
-       $("#tb-returned").DataTable().destroy();
+
        $("#tb-returned").addClass('loading');
        $("#returnedTable").html("");
     },
     success:function(res){
       $("#tb-returned").removeClass('loading');
+      $("#tb-returned").DataTable().destroy();
       console.log(res);
       content = "";
            $.each(res.data,function(){
@@ -443,13 +445,14 @@ function getInvoices(){
     type:"POST",
     data:{store:$("#store").val(),start:$("#start").val(),end:$("#end").val()},
     beforeSend:function(){
-      $("#tb-invioces").DataTable().destroy();
+
       $("#tb-invoices").addClass('loading');
       $("#invoicesTable").html("");
     },
     data:$("#storedataform").serialize(),
     success:function(res){
      $("#tb-invoices").removeClass('loading');
+     $("#tb-invioces").DataTable().destroy();
      bg ="";
     $.each(res.data,function(){
          if(this.orders_status == 4){

@@ -141,8 +141,8 @@ legend
             </div>
 
         <table class="table table-striped table-bordered table-hover table-checkable responsive no-wrap" id="tb-orders">
-			       <thead>
-	  						<tr>
+			               <thead>
+	  					    	<tr>
 										<th><input  id="allselector" type="checkbox"><span></span></th>
 										<th>رقم الشحنه</th>
                                         <th>رقم الوصل</th>
@@ -155,26 +155,26 @@ legend
                                         <th>الخصم</th>
                                         <th>حالة المبلغ</th>
                                         <th width="100px">التاريخ</th>
-						   </tr>
-      	            </thead>
+						        </tr>
+      	                   </thead>
                             <tbody id="ordersTable">
                             </tbody>
                             <tfoot>
-	                <tr>
-										<th></th>
-										<th>رقم الشحنه</th>
-										<th>رقم الوصل</th>
-										<th width="150px">اسم و هاتف العميل</th>
-										<th width="150px">رقم هاتف المستلم</th>
-										<th>عنوان المستلم</th>
-										<th>مبلغ الوصل</th>
-                                        <th>مع التوصيل</th>
-										<th>مبلغ التوصيل</th>
-                                        <th>الخصم</th>
-                                        <th>حالة المبلغ</th>
-                                        <th width="100px">التاريخ</th>
-				   </tr>
-	           </tfoot>
+            	                <tr>
+                                  <th></th>
+                                  <th>رقم الشحنه</th>
+                                  <th>رقم الوصل</th>
+                                  <th width="150px">اسم و هاتف العميل</th>
+                                  <th width="150px">رقم هاتف المستلم</th>
+                                  <th>عنوان المستلم</th>
+                                  <th>مبلغ الوصل</th>
+                                  <th>مع التوصيل</th>
+                                  <th>مبلغ التوصيل</th>
+                                  <th>الخصم</th>
+                                  <th>حالة المبلغ</th>
+                                  <th width="100px">التاريخ</th>
+            				   </tr>
+	                       </tfoot>
 		</table>
         <div class="kt-section__content kt-section__content--border">
 		<nav aria-label="...">
@@ -238,6 +238,7 @@ legend
 <script src="js/getAllDrivers.js" type="text/javascript"></script>
 <script src="js/getCities.js" type="text/javascript"></script>
 <script type="text/javascript">
+$('#tb-orders').DataTable();
 function getorders(){
 $.ajax({
   url:"script/_getOrders.php",
@@ -248,6 +249,7 @@ $.ajax({
   },
   success:function(res){
    console.log(res);
+   $("#tb-orders").removeClass("loading");
    //saveEventDataLocally(res)
    $("#tb-orders").DataTable().destroy();
    $('#ordersTable').html("");
@@ -317,12 +319,12 @@ $.ajax({
         "sLengthMenu": "عرض_MENU_سجل",
         "sSearch": "بحث:"
       },
+       "aaSorting": [],
        "bPaginate": false,
        "bLengthChange": false,
        "bFilter": false,
        serverPaging: true
       });
-      $("#tb-orders").removeClass("loading");
     },
    error:function(e){
      $("#tb-orders").removeClass("loading");

@@ -169,9 +169,21 @@ background-color: #FFFF99;
             </table>
         <hr>
         </div>
-        <div class="col-md-12" id="driver_data">
-
-
+        <div class="col-md-12">
+              <table class="table table-striped  table-bordered table-hover table-checkable responsive no-wrap" id="tb-driverdata">
+                        <thead>
+                        <tr>
+                          <td>عدد الطلبيات</td>
+                          <td>المبلغ الكلي</td>
+                          <td>مبلغ التوصيل</td>
+                          <td>الصافي للعميل</td>
+                          <td>الصافي للمندوب</td>
+                          <td>انشاء فاتوره</td>
+                        </tr>
+                        </thead>
+                         <tbody id="driver_total_data">
+                         </tbody>
+              </table>
         </div>
         <hr />
     	<table class="table  table-bordered  responsive no-wrap" id="tb-invioces">
@@ -220,8 +232,9 @@ background-color: #FFFF99;
 <script src="js/getAllDrivers.js" type="text/javascript"></script>
 <script src="js/getBraches.js" type="text/javascript"></script>
 <script type="text/javascript">
-$('#tb-orders').DataTable();
-$('#tb-invioces').DataTable();
+$("#tb-driverdata").DataTable();
+$("#tb-orders").DataTable();
+$("#tb-invioces").DataTable();
 function getorderStatus(elem){
 $.ajax({
   url:"script/_getorderStatus.php",
@@ -264,16 +277,16 @@ function  getdriverInvoices(){
     data:$("#driverInvoicesForm").serialize(),
     beforeSend:function(){
        $("#section-to-print").addClass('loading');
+    },
+    success:function(res){
+       $("#section-to-print").removeClass('loading');
+       $("#tb-driverdata").DataTable().destroy();
        $("#tb-orders").DataTable().destroy();
        $("#tb-invioces").DataTable().destroy();
        $("#driver_orders").html("");
-       $("#driver_data").html("");
+       $("#driver_total_data").html("");
        $("#invoicesTable").html("");
        $("#driver_orders").html("");
-    },
-    success:function(res){
-
-      $("#section-to-print").removeClass('loading');
       console.log(res);
       content ="";
       $.each(res.data,function(){
@@ -302,31 +315,19 @@ function  getdriverInvoices(){
 
       });
 
-      if(res.success == 1){
-      $("#driver_data").append(
-        '<table class="table table-striped  table-bordered">'+
-          '<tr>'+
-            '<td>عدد الطلبيات</td>'+
-            '<td>المبلغ الكلي</td>'+
-            '<td>مبلغ التوصيل</td>'+
-            '<td>الصافي للعميل</td>'+
-            '<td>الصافي للمندوب</td>'+
-            '<td>انشاء فاتوره</td>'+
-          '</tr>'+
-          '</tr>'+
+      $("#driver_total_data").append(
+         '</tr>'+
             '<td>'+res.pay.orders+'</td>'+
             '<td>'+formatMoney(res.pay.income)+'</td>'+
             '<td>'+formatMoney(res.pay.dev)+'</td>'+
             '<td>'+formatMoney(res.pay.client_price)+'</td>'+
             '<td class="text-danger">'+formatMoney(res.pay.driver_price)+'</td>'+
             '<td><button onclick="makeDriverInvoice()" type="button" class="btn btn-success">انشاء كشف</button></td>'+
-          '</tr>'+
-        '</table>'
+          '</tr>'
       );
-      }
-     $.each(res.invoice,function(){
-     bg = "";
-     if(this.invoice_status == 1){
+      $.each(res.invoice,function(){
+      bg = "";
+      if(this.invoice_status == 1){
        invoice_status = "تم التحاسب";
        btn = '<button type="button" class="btn btn-danger" onclick="unpayInvoice('+this.id+')" >الغأ التحاسب</button>';
      }else{
@@ -350,8 +351,8 @@ function  getdriverInvoices(){
         '</tr>');
      });
 
-     $('#tb-orders').DataTable();
-     var myTable= $('#tb-invioces').DataTable({
+
+     var myTable2= $('#tb-invioces').DataTable({
       "oLanguage": {
         "sLengthMenu": "عرض_MENU_سجل",
         "sSearch": "بحث:"
