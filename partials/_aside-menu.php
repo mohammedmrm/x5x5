@@ -260,6 +260,22 @@ $se = $_SESSION['role'];
                             </a>
                         </li>
                         <?php } ?>
+                        <?php  if($se==1 || $se==2 || $se=99){?>
+                        <li class="kt-menu__item " aria-haspopup="true" >
+                            <a href="?page=pages/salary.php" class="kt-menu__link ">
+                                <i class="kt-menu__link-bullet kt-menu__link-bullet--dot"><span></span></i>
+                                <span class="kt-menu__link-text">الرواتب</span>
+                            </a>
+                        </li>
+                        <?php } ?>
+                        <?php  if($se==1 || $se==2 || $se=99){?>
+                        <li class="kt-menu__item " aria-haspopup="true" >
+                            <a href="?page=pages/award.php" class="kt-menu__link ">
+                                <i class="kt-menu__link-bullet kt-menu__link-bullet--dot"><span></span></i>
+                                <span class="kt-menu__link-text">الغرامات والمكافأت</span>
+                            </a>
+                        </li>
+                        <?php } ?>
                         <?php  if($se==1 || $se=99){?>
                         <li class="kt-menu__item " aria-haspopup="true" >
                             <a href="?page=pages/autoUpdate.php" class="kt-menu__link ">
