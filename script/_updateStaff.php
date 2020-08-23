@@ -78,10 +78,10 @@ if($v->passes() && $img_err =="") {
     $imgpath = $branch."/".$id1.".jpg";
     move_uploaded_file($_FILES['e_staff_id']["tmp_name"], $destination);
     $sql = 'update staff set name = ?, email=?,phone=?,role_id=?,branch_id=?, id_copy = ?,salary=? where id=? and developer=0';
-    $result = setData($con,$sql,[$name,$email,$phone,$role,$branch,$imgpath,$id,$salary]);
+    $result = setData($con,$sql,[$name,$email,$phone,$role,$branch,$imgpath,$salary,$id]);
   }else{
     $sql = 'update staff set name = ?, email=?,phone=?,role_id=?,branch_id=?,salary=?  where id=? and developer=0';
-    $result = setData($con,$sql,[$name,$email,$phone,$role,$branch,$id,$salary]);
+    $result = setData($con,$sql,[$name,$email,$phone,$role,$branch,$salary,$id]);
   }
 
   if($result > 0){
