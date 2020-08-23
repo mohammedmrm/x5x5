@@ -52,6 +52,14 @@ $v->addRule('unique', function($value, $input, $args) {
     $exists = getData($GLOBALS['con'],"SELECT * FROM staff WHERE phone  ='".$value."'");
     return ! (bool) count($exists);
 });
+$v->addRuleMessage('isPrice', 'المبلغ غير صحيح');
+
+$v->addRule('isPrice', function($value, $input, $args) {
+  if(preg_match("/^(0|\d*)(\.\d{2})?$/",$value)){
+    $x=(bool) 1;
+  }
+  return   $x;
+});
 $v->addRuleMessages([
     'required' => 'الحقل مطلوب',
     'int'      => 'فقط الارقام مسموع بها',
@@ -67,7 +75,7 @@ $v->validate([
     'staff_phone'   => [$phone,   "required|unique|isPhoneNumber"],
     'staff_branch'  => [$branch,"required|int"],
     'staff_password'=> [$password,  'required|min(6)|max(16)'],
-    'staff_salary'=> [$salary,  'required|int|min(3)|max(7)'],
+    'staff_salary'=> [$salary,  'isPrice'],
     'staff_role'    => [$role,  'required|int']
 ]);
 
