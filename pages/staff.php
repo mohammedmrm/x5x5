@@ -238,6 +238,16 @@ getStorage($("#storage"));
                                 </div>
                             </div>
                             <div class="form-group row">
+                                <label class="col-xl-3 col-lg-3 col-form-label">الراتب</label>
+                                <div class="col-lg-9 col-xl-6">
+                                    <div class="input-group">
+                                        <div class="input-group-prepend"><span class="input-group-text"><i class="la la-at"></i></span></div>
+                                        <input type="number" min='0' step='10000' class="form-control" id="staff_salary" name="staff_salary" placeholder="الراتب" aria-describedby="basic-addon1">
+                                    </div>
+                                    <span class="form-text text-danger" id="staff_salary_err"></span>
+                                </div>
+                            </div>
+                            <div class="form-group row">
                                 <label class="col-xl-3 col-lg-3 col-form-label">البريد الالكتروني</label>
                                 <div class="col-lg-9 col-xl-6">
                                     <div class="input-group">
@@ -360,6 +370,16 @@ getStorage($("#storage"));
                                   <select data-show-subtext="true" data-live-search="true" type="text" class="selectpicker form-control dropdown-primary"  id="e_staff_role" name="e_staff_role"  value="">
                                   </select>
                                   <span class="form-text text-danger" id="e_staff_role_err"></span>
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                <label class="col-xl-3 col-lg-3 col-form-label">الراتب</label>
+                                <div class="col-lg-9 col-xl-6">
+                                    <div class="input-group">
+                                        <div class="input-group-prepend"><span class="input-group-text"><i class="la la-at"></i></span></div>
+                                        <input type="number" min='0' step='10000' class="form-control" id="e_staff_salary" name="e_staff_salary" placeholder="الراتب" aria-describedby="basic-addon1">
+                                    </div>
+                                    <span class="form-text text-danger" id="e_staff_salary_err"></span>
                                 </div>
                             </div>
                             <div class="form-group row">
@@ -525,13 +545,14 @@ function addStaff(){
            $("#staff_branch_err").text(res.error["staff_branch_err"]);
            $("#staff_password_err").text(res.error["staff_password_err"]);
            $("#staff_role_err").text(res.error["staff_role_err"]);
+           $("#staff_salary_err").text(res.error["staff_salary_err"]);
            $("#staff_id_err").text(res.error["staff_id_err"]);
            Toast.warning("هناك بعض المدخلات غير صالحة",'خطأ');
        }
       console.log(res);
     },
     error:function(e){
-     $("#addStaffForm").addClass('loading');
+     $("#addStaffForm").removeClass('loading');
      console.log(e);
      Toast.error('خطأ');
     }
@@ -550,6 +571,7 @@ function editStaff(id){
           $('#e_staff_name').val(this.name);
           $('#e_staff_email').val(this.email);
           $('#e_staff_phone').val(this.phone);
+          $('#e_staff_salary').val(this.salary);
           //$('#img').css('background-image','url("img/staff/'+this.id_copy+'")');
           $('select[name=e_staff_branch]').val(this.branch);
           $('#e_staff_role').val(this.role_id);
@@ -589,6 +611,7 @@ function updateStaff(){
            $("#e_staff_phone_err").text(res.error["staff_phone_err"]);
            $('#e_staff_password').val(res.error["staff_password_err"]);
            $("#e_staff_role_err").text(res.error["staff_role_err"]);
+           $("#e_staff_salary_err").text(res.error["e_staff_salary_err"]);
            $("#e_staff_branch_err").text(res.error["staff_branch_err"]);
            Toast.warning("هناك بعض المدخلات غير صالحة",'خطأ');
        }

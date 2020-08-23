@@ -573,7 +573,6 @@ $htmlpersian = '<table border="1" class="table" cellpadding="'.$space.'">
              //<th width="130">هاتف العميل</th>
 										
 }
-$pdf->WriteHTML($header, true, false, true, false, 'J');
 $pdf->WriteHTML($style.$header.$htmlpersian, true, false, true, false, 'J');
 
 // set LTR direction for english translation

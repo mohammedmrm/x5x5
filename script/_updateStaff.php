@@ -20,6 +20,7 @@ $email   = $_REQUEST['e_staff_email'];
 $phone   = $_REQUEST['e_staff_phone'];
 $password   = $_REQUEST['e_staff_password'];
 $branch    = $_REQUEST['e_staff_branch'];
+$salary   = $_REQUEST['e_staff_salary'];
 $role = $_REQUEST['e_staff_role'];
 
 
@@ -52,6 +53,7 @@ $v->validate([
     'staff_phone'   => [$phone,   "required|unique|isPhoneNumber"],
     'staff_password'=> [$password,"min(6)|max(20)"],
     'staff_role'    => [$role,   "required|int"],
+    'staff_salary'  => [$salary, "required|int|min(3)|max(7)"],
     'staff_branch'  => [$branch,  'required|int']
 ]);
 $valid_file_extensions = array(".jpg", ".jpeg", ".png");
@@ -75,12 +77,11 @@ if($v->passes() && $img_err =="") {
     $destination = "../img/staff/".$branch."/".$id1.".jpg";
     $imgpath = $branch."/".$id1.".jpg";
     move_uploaded_file($_FILES['e_staff_id']["tmp_name"], $destination);
-    $sql = 'update staff set name = ?, email=?,phone=?,role_id=?,branch_id=?, id_copy = ? where id=? and developer=0';
-    $result = setData($con,$sql,[$name,$email,$phone,$role,$branch,$imgpath,$id]);
+    $sql = 'update staff set name = ?, email=?,phone=?,role_id=?,branch_id=?, id_copy = ?,salary=? where id=? and developer=0';
+    $result = setData($con,$sql,[$name,$email,$phone,$role,$branch,$imgpath,$id,$salary]);
   }else{
-    $sql = 'update staff set name = ?, email=?,phone=?,role_id=?,branch_id=? where id=? and developer=0';
-    $result = setData($con,$sql,[$name,$email,$phone,$role,$branch,$id]);
-
+    $sql = 'update staff set name = ?, email=?,phone=?,role_id=?,branch_id=?,salary=?  where id=? and developer=0';
+    $result = setData($con,$sql,[$name,$email,$phone,$role,$branch,$id,$salary]);
   }
 
   if($result > 0){
@@ -102,6 +103,7 @@ if($v->passes() && $img_err =="") {
            'staff_phone_err'=>implode($v->errors()->get('staff_phone')),
            'staff_password_err'=>implode($v->errors()->get('staff_password')),
            'staff_role_err'  =>implode($v->errors()->get('staff_role')),
+           'staff_salary_err'  =>implode($v->errors()->get('staff_salary')),
            'staff_img_err'   =>$img_err,
            'staff_branch_err'=>implode($v->errors()->get('staff_branch'))
            ];

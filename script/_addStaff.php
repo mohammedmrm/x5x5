@@ -21,6 +21,7 @@ $phone   = $_REQUEST['staff_phone'];
 $password   = $_REQUEST['staff_password'];
 $branch   = $_REQUEST['staff_branch'];
 $role   = $_REQUEST['staff_role'];
+$salary   = $_REQUEST['staff_salary'];
 $img = $_FILES['staff_id'];
 $valid_file_extensions = array(".jpg", ".jpeg", ".png");
 if(isset($_FILES['staff_id']['tmp_name'])) {
@@ -66,6 +67,7 @@ $v->validate([
     'staff_phone'   => [$phone,   "required|unique|isPhoneNumber"],
     'staff_branch'  => [$branch,"required|int"],
     'staff_password'=> [$password,  'required|min(6)|max(16)'],
+    'staff_salary'=> [$salary,  'required|int|min(3)|max(7)'],
     'staff_role'    => [$role,  'required|int']
 ]);
 
@@ -76,9 +78,9 @@ if($v->passes() && $img_err == "") {
   $destination = "../img/staff/".$branch."/".$id.".jpg";
   $imgPath = $branch."/".$id.".jpg";
   move_uploaded_file($_FILES["staff_id"]["tmp_name"], $destination);
-  $sql = 'insert into staff (name,phone,email,branch_id,password,id_copy,role_id) values
-                             (?,?,?,?,?,?,?)';
-  $result = setData($con,$sql,[$name,$phone,$email,$branch,$pass,$imgPath,$role]);
+  $sql = 'insert into staff (name,phone,email,branch_id,password,id_copy,role_id,salary) values
+                             (?,?,?,?,?,?,?,?)';
+  $result = setData($con,$sql,[$name,$phone,$email,$branch,$pass,$imgPath,$role,$salary]);
   if($result > 0){
     $success = 1;
     $sql = 'select token from staff where role_id = 1';
@@ -97,6 +99,7 @@ if($v->passes() && $img_err == "") {
            'staff_phone_err'=>implode($v->errors()->get('staff_phone')),
            'staff_password_err'=>implode($v->errors()->get('staff_password')),
            'staff_branch_err'=>implode($v->errors()->get('staff_branch')),
+           'staff_salary_err'=>implode($v->errors()->get('staff_salary')),
            'staff_role_err'=>implode($v->errors()->get('staff_role')),
            'staff_id_err'=>$img_err
            ];
