@@ -12,7 +12,7 @@ try{
   from tracking
   left join order_status on tracking.order_status_id = order_status.id
   left join staff on tracking.staff_id = staff.id
-  where order_id=".$id." order by date";
+  where order_id=".$id." order by order.date";
   $data = getData($con,$query);
   if(count($data) > 0){
   $success="1";
