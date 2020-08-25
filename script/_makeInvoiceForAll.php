@@ -183,7 +183,7 @@ if($orders > 0){
                   $dev_p = 0;
                   $data[$i]['dicount']=0;
                 }
-                $data[$i]['client_price'] = ($data[$i]['new_price'] -  $dev_p) + $data[$i]['discount'];
+                $data[$i]['client_price'] = ($data[$i]['new_price'] -  $data[$i]['dev_price']) + $data[$i]['discount'];
                 $note =  $data[$i]['note'];
                 $bg = "";
                 if($data[$i]['order_status_id'] == 6){
@@ -232,8 +232,9 @@ if($orders > 0){
        $total['status'] = $status_name;
        $total['date'] = $res[0]['date'];
         $hcontent .= '<tr>
-                         <td colspan="5" style="text-align:center;font-size:20px;"> المجموع</td>
-                         <td colspan="5" style="text-align:center;font-size:20px;">'.number_format($total['client_price']).'</td>
+                         <td colspan="4" style="text-align:center;font-size:20px;">المبلغ الكلي:'.number_format($total['income']).'</td>
+                         <td colspan="3" style="text-align:center;font-size:20px;">صافي العميل:'.number_format($total['client_price']).'</td>
+                         <td colspan="3" style="text-align:center;font-size:20px;">صافي الشركه:'.number_format($total['dev_price']).'</td>
                       </tr>';
     }
 

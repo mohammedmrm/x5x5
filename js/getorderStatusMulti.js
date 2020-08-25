@@ -26,9 +26,6 @@ $.ajax({
      elem.append(
        '<option style="background-color:'+bg+'" value="'+this.id+'">'+this.status +'</option>'
      );
-     if(elem.attr('st') == 'st'){
-       getorders();
-     }
     });
     elem.selectpicker('refresh');
     },

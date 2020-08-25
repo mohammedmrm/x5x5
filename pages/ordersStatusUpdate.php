@@ -126,7 +126,7 @@ min-height: 100px;
           <div class="row kt-margin-b-20">
             <div class="col-lg-3 kt-margin-b-10-tablet-and-mobile">
               	<label>عدد السجلات في الصفحة الواحدة</label>
-              	<select onchange="getorders()" class="form-control selectpicker" name="limit" data-col-index="7">
+              	<select onchange="" class="form-control selectpicker" name="limit" data-col-index="7">
                     <option value="10">10</option>
               		<option value="15">15</option>
               		<option value="20">20</option>
@@ -250,7 +250,7 @@ $.ajax({
   success:function(res){
    $("#ordersTableDiv").removeClass('loading');
    $("#tb-orders").DataTable().destroy();
-   //console.log(res);
+   console.log(this,res);
    // saveEventDataLocally(res.data);
    $("#ordersTable").html("");
    $("#pagination").html("");
@@ -402,7 +402,7 @@ function autoUpdate(){
          $("#autoUpdateDiv").removeClass('loading');
          if(res.success == 1){
            Toast.success('تم تحديث ما بذمه المندوبين الى واصل');
-           getorders();
+           //getorders();
          }else{
            Toast.warning('خطأ');
          }
@@ -441,6 +441,7 @@ $('#end').datepicker({
     pickerPosition: 'bottom-left',
     defaultDate:'now'
 });
+getorders();
 getBraches($("#e_branch"));
 getBraches($("#e_branch_to"));
 getCities($("#e_city"));
@@ -450,7 +451,6 @@ getorderStatus($("#status_action"),1);
 getorderStatus($("#setOrderStatus"),1);
 getCities($("#city"));
 getCities($("#auto_city"));
-
 });
 </script>
   <div class="modal fade" id="editorderStatusModal" role="dialog">
