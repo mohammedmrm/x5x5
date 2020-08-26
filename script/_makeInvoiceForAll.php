@@ -232,9 +232,8 @@ if($orders > 0){
        $total['status'] = $status_name;
        $total['date'] = $res[0]['date'];
         $hcontent .= '<tr>
-                         <td colspan="4" style="text-align:center;font-size:20px;">المبلغ الكلي:'.number_format($total['income']).'</td>
-                         <td colspan="3" style="text-align:center;font-size:20px;">صافي العميل:'.number_format($total['client_price']).'</td>
-                         <td colspan="3" style="text-align:center;font-size:20px;">صافي الشركه:'.number_format($total['dev_price']).'</td>
+                         <td colspan="5" style="text-align:center;font-size:20px;">صافي العميل:</td>
+                         <td colspan="5" style="text-align:center;font-size:20px;">'.number_format($total['client_price']).'</td>
                       </tr>';
     }
 
