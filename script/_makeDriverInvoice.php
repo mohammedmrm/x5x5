@@ -166,14 +166,10 @@ if($orders > 0){
            $total['date'] = $date;
               $hcontent .=
                '<tr>
-                 <td colspan="3" align="center">المجموع</td>
+                 <td colspan="3" align="center" style="font-size:20px;">المبلغ الكلي: '.number_format($total['income']).'</td>
+                 <td colspan="3" align="center" style="font-size:20px;">صافي الشركه: '.number_format($total['income']-$total['driver_price']).'</td>
+                 <td colspan="3" align="center" style="font-size:20px;">صافي المندوب: '.number_format($total['driver_price']).'</td>
 
-                 <td width="120" align="center"></td>
-                 <td width="180" align="center"></td>
-                 <td align="center"></td>
-                 <td align="center">'.number_format($total['income']).'</td>
-                 <td align="center">'.number_format($total['driver_price']).'</td>
-                 <td align="center"></td>
                </tr>';
         }
         $total['orders'] = $orders;
