@@ -106,6 +106,7 @@ $.ajax({
               '<button class="btn btn-clean btn-icon-lg" onclick="deleteClient('+this.id+')" data-toggle="modal" data-target="#deleteClient"><span class="flaticon-delete"></sapn>'+
               '<button class="btn btn-clean btn-icon-lg" onclick="devPriceClient('+this.id+')" data-toggle="modal" data-target="#devPriceClient"><span class="flaticon-price-tag"></sapn>'+
               '<button class=" '+show+'btn btn-clean btn-icon-lg" onclick="editSetting('+this.id+')" data-toggle="modal" data-target="#showEarningsClient"><span class="flaticon-cogwheel"></sapn>'+
+              '<button class="btn btn-clean btn-icon-lg" onclick="getApiToken('+this.id+')" data-toggle="modal" data-target="#getToken"><span class="flaticon-feed"></sapn>'+
             '</button></td>'+
 
        '</tr>');
@@ -238,11 +239,59 @@ getAllclients($("#getAllclientsTable"));
       </div>
 
     </div>
-  </div>
+</div>
+<div class="modal fade" id="getToken" role="dialog">
+    <div class="modal-dialog">
+      <!-- Modal content-->
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal"></button>
+          <h4 class="modal-title">عرض التوكن الخاص بالعميل</h4>
+        </div>
+        <div class="modal-body">
+		<!--begin::Portlet-->
+		<div class="kt-portlet">
 
+			<!--begin::Form-->
+			<form class="kt-form" id="showEarningsForm">
+				<div class="kt-portlet__body">
+					<div class="form-group">
+                        <div class="input-group">
+    						<input type="text" class="form-control" id="token" placeholder="Type some value to copy">
+    						<div class="input-group-append">
+    							<a class="btn btn-secondary" data-clipboard="true" data-clipboard-target="#token"><i class="la la-copy"></i></a>
+    						</div>
+					    </div>
+					</div>
+					<div class="form-group">
+                        <div class="input-group">
+    						<input type="text" class="form-control" id="dns" placeholder="Type some value to copy">
+    						<div class="input-group-append">
+    							<a class="btn btn-secondary" data-clipboard="true" data-clipboard-target="#dns"><i class="la la-copy"></i></a>
+    						</div>
+					    </div>
+					</div>
+				</div>
+                <div class="kt-portlet__foot kt-portlet__foot--solid">
+					<div class="kt-form__actions kt-form__actions--right">
+						<button type="button" onclick="showEarnings()" class="btn btn-brand">تحديث</button>
+						<button type="reset" data-dismiss="modal" class="btn btn-secondary">الغاء</button>
+					</div>
+				</div>
+                <input type="hidden" id="sett_client_id" name="sett_client_id" />
+			</form>
+			<!--end::Form-->
+		</div>
+		<!--end::Portlet-->
+        </div>
+      </div>
+
+    </div>
+  </div>
 <script type="text/javascript" src="js/getCities.js"></script>
 <script type="text/javascript" src="js/getManagers.js"></script>
 <script type="text/javascript" src="js/getBraches.js"></script>
+ <script src="assets/js/demo1/pages/components/forms/widgets/clipboard.js" type="text/javascript"></script>
 <script>
 function editClient(id){
   $(".text-danger").text("");
@@ -380,7 +429,30 @@ function showEarnings(){
        }
     });
 }
-
+function getApiToken(id){
+    $.ajax({
+       url:"script/_getApiToken.php",
+       type:"POST",
+       data:{id: id},
+       beforeSend:function(){
+        $("#getToken").addClass('loading');
+       },
+       success:function(res){
+         $("#getToken").removeClass('loading');
+         console.log(res);
+       if(res.success == 1){
+          $("#token").val(res.token);
+       }else{
+           Toast.warning('خطأ');
+       }
+       },
+       error:function(e){
+        $("#getToken").removeClass('loading');
+        Toast.error('خطأ');
+        console.log(e);
+       }
+    });
+}
 </script>
   <!-- Modal -->
   <div class="modal fade " id="addClientModal" role="dialog">

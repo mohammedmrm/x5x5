@@ -1,6 +1,6 @@
 <?php
 $config = [
-   "Company_name"=>"شركة الاحمدي",
+   "Company_name"=>"شركة البرق",
    "Company_address"=>"بغداد-حي الجامعة",
    "Company_phone"=>"0784567890",
    "Company_reg"=>"الشركة مسجلة قانونياً",
