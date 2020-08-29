@@ -2,9 +2,9 @@
 session_start();
 error_reporting(0);
 header('Content-Type: application/json');
-require("_access.php");
+require_once("_access.php");
 access([1,2,3,5,6]);
-require("dbconnection.php");
+require_once("dbconnection.php");
 $id = $_REQUEST['id'];
 try{
 $query = "select * from clients where id=?";

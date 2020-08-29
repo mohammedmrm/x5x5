@@ -1,9 +1,9 @@
 <?php
 session_start();
 header('Content-Type: application/json');
-require("_access.php");
+require_once("_access.php");
 access([1,2,3,4,5,6]);
-require("dbconnection.php");
+require_once("dbconnection.php");
 $token = $_REQUEST['token'];
 try{
   if(!empty($token)){

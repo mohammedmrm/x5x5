@@ -2,10 +2,10 @@
 session_start();
 error_reporting(0);
 header('Content-Type: application/json');
-require("_access.php");
+require_once("_access.php");
 access([1,2]);
-require("dbconnection.php");
-require("_crpt.php");
+require_once("dbconnection.php");
+require_once("_crpt.php");
 
 use Violin\Violin;
 require_once('../validator/autoload.php');

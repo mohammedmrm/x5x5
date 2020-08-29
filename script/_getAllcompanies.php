@@ -2,9 +2,9 @@
 session_start();
 header('Content-Type: application/json');
 error_reporting(0);
-require("_access.php");
+require_once("_access.php");
 access([1]);
-require("dbconnection.php");
+require_once("dbconnection.php");
 $branch = $_REQUEST['branch'];
 try{
   $query = "select companies.* from companies";

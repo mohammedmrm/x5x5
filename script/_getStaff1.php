@@ -1,7 +1,7 @@
 <?php
 session_start();
 header('Content-Type: application/json');
-require("dbconnection.php");
+require_once("dbconnection.php");
 $id = $_REQUEST['id'];
 try{
   $query = "select * from staff where id = ?";

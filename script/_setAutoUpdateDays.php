@@ -1,10 +1,10 @@
 <?php
 session_start();
 header('Content-Type: application/json');
-require("_access.php");
+require_once("_access.php");
 error_reporting(0);
 access([1,2,3,4,5,6,7,8,9,10,11,12]);
-require("dbconnection.php");
+require_once("dbconnection.php");
 $config = $_REQUEST['config'];
 try{
   foreach($config as $v){

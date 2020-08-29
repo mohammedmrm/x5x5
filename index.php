@@ -103,10 +103,14 @@ require_once("config.php");
            overflow-x: hidden;
         }
 
-        body,body * :not([type="tel"]):not(.other):not(td):not(th):not(.datepicker) {
+        body,body * :not([type="tel"]):not(.other):not(td):not(th):not(.datepicker):not(div) {
             direction: rtl !important;
-            text-align: right !important;
+            text-align: right ;
         }
+        .note-editable, .summernote *{
+         text-align: initial !important;
+        }
+
         input[type=email],.form_datetime {
           direction: ltr !important;
         }

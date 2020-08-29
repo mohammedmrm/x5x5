@@ -2,7 +2,7 @@
 session_start();
 error_reporting(0);
 header('Content-Type: application/json');
-require("_access.php");
+require_once("_access.php");
 require_once("dbconnection.php");
 access([1,5,2]);
 $ids= $_REQUEST['ids'];

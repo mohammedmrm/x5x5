@@ -1,9 +1,9 @@
 <?php
 session_start();
 header('Content-Type: application/json');
-require("_access.php");
+require_once("_access.php");
 access([1]);
-require("dbconnection.php");
+require_once("dbconnection.php");
 try{
   $query = "select staff.* from staff where account_type=2";
 

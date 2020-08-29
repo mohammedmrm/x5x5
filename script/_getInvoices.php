@@ -2,7 +2,7 @@
 session_start();
 header('Content-Type: application/json');
 error_reporting(0);
-require("_access.php");
+require_once("_access.php");
 access([1,2,5]);
 $client = $_REQUEST['client'];
 $store = $_REQUEST['store'];
@@ -19,7 +19,7 @@ if(empty($end)) {
    $end = date('Y-m-d', strtotime($end.' + 1 day'));
 }
 
-require("dbconnection.php");
+require_once("dbconnection.php");
 try{
   $query = "select invoice.*,date_format(invoice.date,'%Y-%m-%d') as in_date,clients.name as client_name,clients.phone as client_phone
            ,stores.name as store_name

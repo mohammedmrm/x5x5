@@ -2,9 +2,9 @@
 session_start();
 error_reporting(0);
 header('Content-Type: application/json');
-require("_access.php");
+require_once("_access.php");
 access([1,2,3,5]);
-require("dbconnection.php");
+require_once("dbconnection.php");
 $branch = $_REQUEST['branch'];
 $to_branch = $_REQUEST['to_branch'];
 $city = $_REQUEST['city'];

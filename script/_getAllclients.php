@@ -2,9 +2,9 @@
 session_start();
 header('Content-Type: application/json');
 error_reporting(0);
-require("_access.php");
+require_once("_access.php");
 access([1,2,3,5]);
-require("dbconnection.php");
+require_once("dbconnection.php");
 $branch = $_REQUEST['branch'];
 try{
   if($_SESSION['user_details']['role_id'] == 1){

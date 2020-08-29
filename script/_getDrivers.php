@@ -1,9 +1,9 @@
 <?php
 session_start();
 header('Content-Type: application/json');
-require("_access.php");
+require_once("_access.php");
 access([1,2,3,4,5,6,7,8,9,10,11,12]);
-require("dbconnection.php");
+require_once("dbconnection.php");
 $branch = $_REQUEST['branch'];
 try{
   $query = "select * from staff where role_id=4 and branch_id=".$branch;

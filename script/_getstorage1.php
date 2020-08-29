@@ -1,9 +1,9 @@
 <?php
 session_start();
 header('Content-Type: application/json');
-require("_access.php");
+require_once("_access.php");
 access([1,2,3]);
-require("dbconnection.php");
+require_once("dbconnection.php");
 $id = $_REQUEST['id'];
 try{
   $query = "select * from storage where id = ?";

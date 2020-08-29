@@ -1,9 +1,9 @@
 <?php
 session_start();
 header('Content-Type: application/json');
-require("_access.php");
+require_once("_access.php");
 access([1,2,3,5]);
-require("dbconnection.php");
+require_once("dbconnection.php");
 $id = $_REQUEST['id'];
 try{
   $query = "select *, date_format(orders.date,'%Y-%m-%d') as date from orders where id = ?";

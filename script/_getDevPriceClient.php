@@ -1,8 +1,8 @@
 <?php
 session_start();
 header('Content-Type: application/json');
-require("dbconnection.php");
-require("../config.php");
+require_once("dbconnection.php");
+require_once("../config.php");
 $id= $_REQUEST['id'];
 $success=0;
 $i=0;

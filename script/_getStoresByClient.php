@@ -2,11 +2,11 @@
 session_start();
 header('Content-Type: application/json');
 error_reporting(0);
-require("_access.php");
+require_once("_access.php");
 access([1,2,3,4,5]);
 $client = $_REQUEST['client'];
 
-require("dbconnection.php");
+require_once("dbconnection.php");
 try{
 
    $query = "select stores.*, clients.name as client_name , clients.phone as client_phone

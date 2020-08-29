@@ -2,9 +2,9 @@
 session_start();
 error_reporting(0);
 header('Content-Type: application/json');
-require("_access.php");
+require_once("_access.php");
 access([1,2,5]);
-require("dbconnection.php");
+require_once("dbconnection.php");
 $action = $_REQUEST['action'];
 $driver = $_REQUEST['driver_action'];
 $status = $_REQUEST['status_action'];

@@ -2,13 +2,13 @@
 session_start();
 //error_reporting(0);
 header('Content-Type: application/json');
-require("_access.php");
+require_once("_access.php");
 access([1,5,2]);
 $staff= $_REQUEST['s_staff_id'];
 $storage= $_REQUEST['storage'];
 $success = 0;
 $msg="";
-require("dbconnection.php");
+require_once("dbconnection.php");
 use Violin\Violin;
 require_once('../validator/autoload.php');
 $v = new Violin;

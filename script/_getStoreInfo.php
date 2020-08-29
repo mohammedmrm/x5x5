@@ -2,10 +2,10 @@
 session_start();
 header('Content-Type: application/json');
 error_reporting(0);
-require("_access.php");
+require_once("_access.php");
 access([1,2,3,4,5]);
 $id = $_REQUEST['store'];
-require("dbconnection.php");
+require_once("dbconnection.php");
 try{
   $query = "select stores.*,
     count(orders.id) as total, date_format(stores.date,'%Y-%m-%d') as date,

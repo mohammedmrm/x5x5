@@ -6,6 +6,10 @@ $config = [
    "Company_reg"=>"الشركة مسجلة قانونياً",
    "Company_email"=>"nahar@nahar.com",
    "Company_logo"=>"img/logos/logo.png",
+   "c_ad1"=>"اعلان 1",
+   "c_ad2"=>"اعلان 2",
+   "d_ad1"=>"اعلان 1",
+   "d_ad2"=>"اعلان 2",
    "dev_b"=>5000,               //سعر توصيل بغدلد
    "dev_o"=>10000,                //سعر توصيل باقي المحافظات
    "driver_price"=>3000,                //اجرة المندوب
@@ -26,5 +30,11 @@ function phone_number_format($number) {
  }
   return $number;
 
+}
+require_once("script/dbconnection.php");
+$sql = "select * from setting";
+$setting = getData($con,$sql);
+foreach($setting as $val){
+  $config[$val['control']] =  $val['value'];
 }
 ?>

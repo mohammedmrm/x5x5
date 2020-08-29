@@ -2,12 +2,12 @@
 ob_start();
 session_start();
 error_reporting(0);
-require("_access.php");
+require_once("_access.php");
 access([1,2,3,5]);
 require_once("dbconnection.php");
 
 
-require("../config.php");
+require_once("../config.php");
 
 $branch = $_REQUEST['branch'];
 $to_branch = $_REQUEST['to_branch'];

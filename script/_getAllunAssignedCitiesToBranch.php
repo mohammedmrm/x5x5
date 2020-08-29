@@ -2,9 +2,9 @@
 session_start();
 error_reporting(0);
 header('Content-Type: application/json');
-require("_access.php");
+require_once("_access.php");
 access([1,2,3]);
-require("dbconnection.php");
+require_once("dbconnection.php");
 $query = "select * from cites
           where cites.id NOT in (SELECT city_id from branch_cities) ";
 

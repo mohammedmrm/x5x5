@@ -1,11 +1,11 @@
 <?php
 session_start();
 header('Content-Type: application/json');
-require("_access.php");
+require_once("_access.php");
 access([1,2]);
 $id = $_REQUEST['id'];
 if(!empty($id)){
-require("dbconnection.php");
+require_once("dbconnection.php");
 try{
   $query = "select name,id,email,phone,branch_id,show_earnings from clients where id=?";
   $data = getData($con,$query,[$id]);

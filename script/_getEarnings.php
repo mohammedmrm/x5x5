@@ -2,9 +2,9 @@
 session_start();
 //error_reporting(0);
 header('Content-Type: application/json');
-require("../script/_access.php");
+require_once("../script/_access.php");
 access([1,2,5,3]);
-require("../script/dbconnection.php");
+require_once("../script/dbconnection.php");
 require_once("../config.php");
 $start = trim($_REQUEST['start']);
 $end = trim($_REQUEST['end']);
