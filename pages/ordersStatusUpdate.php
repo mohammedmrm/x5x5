@@ -238,7 +238,7 @@ if (event.which === 13 || event.keyCode === 13 ) {
 }
 });
 function getorders(){
-  options = $("#setOrderStatus").html();
+  options = `<option style="" value="">-- اختر الحالة --</option><option style="background-color:" value="1">تم تسجيل الطلب</option><option style="background-color:" value="2">جاهز للارسال</option><option style="background-color:" value="3">بالطريق مع المندوب</option><option style="background-color:#9CDE7C" value="4">تم تسليم الطلب</option><option style="background-color:#FFFFAC" value="5">استبدال الطلب</option><option style="background-color:" value="6">راجع جزئي</option><option style="background-color:" value="7">مؤجل </option><option style="background-color:" value="8">تغير عنوان</option><option style="background-color:#F2A69B" value="9">راجع كلي</option><option style="background-color:" value="10">راجع بمخزن المحافظه</option><option style="background-color:" value="11">راجع بالمخزن الرئيسي</option><option style="background-color:" value="12">راجع للعميل</option><option style="background-color:" value="13">اعادة ارسال</option>`;
 $.ajax({
   url:"script/_getOrdersReport.php",
   type:"POST",
@@ -441,7 +441,6 @@ $('#end').datepicker({
     pickerPosition: 'bottom-left',
     defaultDate:'now'
 });
-getorders();
 getBraches($("#e_branch"));
 getBraches($("#e_branch_to"));
 getCities($("#e_city"));
@@ -451,6 +450,7 @@ getorderStatus($("#status_action"),1);
 getorderStatus($("#setOrderStatus"),1);
 getCities($("#city"));
 getCities($("#auto_city"));
+getorders();
 });
 </script>
   <div class="modal fade" id="editorderStatusModal" role="dialog">

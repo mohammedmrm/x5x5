@@ -117,5 +117,5 @@ if(!empty($_REQUEST['d_ad2'])) {
     $i++;
 }
 
-echo json_encode([$_FILES,$_REQUEST,'update'=>$i,'success'=>1, 'error'=>$error]);
+echo json_encode([!empty($_FILES['logo']),'update'=>$i,'success'=>1, 'error'=>$error]);
 ?>
