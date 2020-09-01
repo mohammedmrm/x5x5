@@ -12,7 +12,7 @@ $msg="";
 
 if($invoice > 0 && $storage > 0){
       try{
-         if($storage == $_SESSION['uesr_details']['storage_id'] || $_SESSION['role'] == 1){
+         if($storage == $_SESSION['user_details']['storage_id'] || $_SESSION['role'] == 1){
            $sql = "update orders set storage_id=? where storage_invoice_id=?";
            $res = setData($con,$sql,[$storage,$invoice]);
            if($res){
