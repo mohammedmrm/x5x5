@@ -206,7 +206,7 @@ if($orders > 0){
                  $price_bg = "price_bg";
                }
 
-               $sql = "update orders set invoice_id =? where id=?";
+               $sql = "update orders set invoice_id =? , money_status = 1 where id=?";
                $res = setData($con,$sql,[$invoice,$v['id']]);
 
         $hcontent .=
