@@ -318,6 +318,16 @@ $se = $_SESSION['role'];
                             </a>
                         </li>
                         <?php } ?>
+                        <?php  if($se==1 || $se==5 || $se=99){?>
+                        <li class="kt-menu__item" aria-haspopup="true"
+                            data-toggle="kt-tooltip" title="" data-placement="top" data-original-title="عرض وتعديل حالات الطلب"
+                                                   >
+                            <a href="?page=pages/pays.php" class="kt-menu__link ">
+                                <i class="kt-menu__link-bullet kt-menu__link-bullet--dot"><span></span></i>
+                                <span class="kt-menu__link-text">الصرفيات</span>
+                            </a>
+                        </li>
+                        <?php } ?>
                      </ul>
                 </div>
             </li>
