@@ -103,7 +103,7 @@ if(!empty($_REQUEST['c_ad2'])) {
 /////------driver app
 if(!empty($_REQUEST['d_ad1'])) {
     $sql = "update setting set value = ? where control=?";
-    setData($con,$sql,[$_REQUEST['c_ad1'],'c_ad1']);
+    setData($con,$sql,[$_REQUEST['d_ad1'],'d_ad1']);
     $i++;
 }
 if(!empty($_FILES['logo'])) {
