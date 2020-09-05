@@ -56,7 +56,11 @@ if($_REQUEST['price'] > 0){
 
 
 try{
- $count = "select count(*) as count from orders where driver_invoice_id = 0 and orders.confirm=1 and driver_id=".$driver;
+ $count = "select count(*) as count,
+            sum(if(order_status_id=4 or order_status_id=6 or order_status_id=5,".$driver_price.",0)) as driver_price,
+            sum(if(order_status_id=4 or order_status_id=6 or order_status_id=5,new_price,0)) as total
+          from orders
+          where driver_invoice_id = 0 and orders.confirm=1 and driver_id=".$driver;
  $query = "select orders.*,date_format(orders.date,'%Y-%m-%d') as dat,  order_status.status as status_name,
           cites.name as city_name,driver.name as driver,
           towns.name as town_name,b.rep as repated ,
@@ -119,8 +123,8 @@ if($orders > 0){
         $content = "";
         $success = 0;
         $pdf_name = date('Y-m-d')."_".uniqid().".pdf";
-        $sql = "insert into driver_invoice (path,driver_id,invoice_status) values(?,?,?)";
-        $res = setData($con,$sql,[$pdf_name,$driver,1]);
+        $sql = "insert into driver_invoice (path,driver_id,invoice_status,staff_id,total,driver_price) values(?,?,?,?,?,?)";
+        $res = setData($con,$sql,[$pdf_name,$driver,1,$_SESSION['userid'],$count1[0]['total'],$count1[0]['driver_price']]);
         if($res > 0){
           $success = 1;
           $sql = "select *,date_format(date,'%Y-%m-%d') as date from driver_invoice where path=? and driver_id =? order by date DESC limit 1";
@@ -129,7 +133,9 @@ if($orders > 0){
           $date = $res[0]['date'];
 
             foreach($data as $k=>$v){
-              $total['income'] += $data[$i]['new_price'];
+              if(in_array($data[$i]['order_status_id'],[4,6,5])){
+                $total['income'] += $data[$i]['new_price'];
+              }
               $bg ="";
               if($data[$i]['order_status_id'] == 6){
                 $bg = "red";
@@ -201,13 +207,13 @@ class MYPDF extends TCPDF {
           <td></td>
          </tr>
          <tr>
-          <td width="230px">اسم المندوب:'. $t['driver'].'</td>
+          <td width="230px"> اسم المندوب : '. $t['driver'].'</td>
           <td width="400px" style="color:#00008B;text-align:center;display:block;">كشف حسااب المندوب</td>
           <td >التاريخ:'.$t['date'].'</td>
          </tr>
          <tr>
-          <td width="230px">الصافي للمندوب:'.$t['driver_price'].'</td>
-          <td width="400px" style="text-align:center;display:block;">عدد الطلبيات:'.$t['orders'].'</td>
+          <td width="230px"> الصافي للمندوب : '.$t['driver_price']. '</td>
+          <td width="400px" style="text-align:center;display:block;"> عدد الطلبيات : '.$t['orders'].'</td>
           <td >رقم الكشف:'.$t['invoice'].'</td>
          </tr>
         </table>
@@ -296,5 +302,5 @@ $pdf->Output(dirname(__FILE__).'/../driver_invoice/'.$pdf_name, 'F');
 }else{
   $success = 2;
 }
-echo json_encode(['success'=>$success,'invoice'=>$pdf_name]);
+echo json_encode([$count,'success'=>$success,'invoice'=>$pdf_name]);
 ?>

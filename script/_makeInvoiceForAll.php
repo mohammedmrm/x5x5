@@ -86,8 +86,15 @@ $total = [];
 try{
   $count = "select count(*) as count,
                SUM(IF (to_city = 1,1,0)) as  b_orders,
-               SUM(IF (to_city > 1,1,0)) as  o_orders
-            from orders ";
+               SUM(IF (to_city > 1,1,0)) as  o_orders,
+                if(to_city = 1,
+                     if(client_dev_price.price is null,(".$config['dev_b']." - discount),(client_dev_price.price - discount)),
+                     if(client_dev_price.price is null,(".$config['dev_o']." - discount),(client_dev_price.price - discount))
+                ) + if(new_price > 500000 ,( (ceil(new_price/500000)-1) * ".$config['addOnOver500']." ),0) as dev_price,
+                sum(new_price) as income
+            from orders
+            left JOIN client_dev_price on client_dev_price.client_id = orders.client_id AND client_dev_price.city_id = orders.to_city
+            ";
   $query = "select orders.*, date_format(orders.date,'%Y-%m-%d') as dat,
             clients.name as client_name,clients.phone as client_phone,
             cites.name as city,towns.name as town,branches.name as branch_name,
@@ -146,8 +153,8 @@ if($orders > 0){
         $content = "";
         $success = 0;
         $pdf_name = date('Y-m-d')."_".uniqid().".pdf";
-        $sql = "insert into invoice (path,store_id,orders_status,invoice_status) values(?,?,?,?)";
-        $res = setData($con,$sql,[$pdf_name,$store,$status,1]);
+        $sql = "insert into invoice (path,store_id,orders_status,invoice_status,staff_id,total,dev_price) values(?,?,?,?,?,?,?)";
+        $res = setData($con,$sql,[$pdf_name,$store,$status,1,$_SESSION['userid'],$count1[0]['income'],$count1[0]['dev_price']]);
     if($res > 0){
       $success = 1;
       $sql = "select * from invoice where path=? and store_id =? order by date DESC limit 1";
@@ -236,19 +243,15 @@ if($orders > 0){
                          <td colspan="5" style="text-align:center;font-size:20px;">'.number_format($total['client_price']).'</td>
                       </tr>';
     }
-
-
-
-          $total['orders'] = $orders;
-          if($store >=1){
-           $total['client'] = $data[0]['client_name'];
-           $total['store'] = $data[0]['store_name'];
-           $total['client_phone'] = $data[0]['client_phone'];
-          }else{
-           $total['client'] = '/';
-           $total['store'] = '/';
-          }
-
+    $total['orders'] = $orders;
+    if($store >=1){
+     $total['client'] = $data[0]['client_name'];
+     $total['store'] = $data[0]['store_name'];
+     $total['client_phone'] = $data[0]['client_phone'];
+    }else{
+     $total['client'] = '/';
+     $total['store'] = '/';
+    }
     } catch(PDOException $ex) {
        $data=["error"=>$ex];
        $success="0";
@@ -379,5 +382,5 @@ $pdf->Output(dirname(__FILE__).'/../invoice/'.$pdf_name, 'F');
  $success = 2;
 
 }
-echo json_encode([$data,$cities,$update_price,'num'=>$count,'success'=>$success,'invoice'=>$pdf_name]);
+echo json_encode([$data,$count1,'num'=>$count,'success'=>$success,'invoice'=>$pdf_name]);
 ?>
