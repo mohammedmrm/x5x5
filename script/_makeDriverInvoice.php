@@ -63,7 +63,7 @@ try{
           where driver_invoice_id = 0 and orders.confirm=1 and driver_id=".$driver;
  $query = "select orders.*,date_format(orders.date,'%Y-%m-%d') as dat,  order_status.status as status_name,
           cites.name as city_name,driver.name as driver,
-          towns.name as town_name,b.rep as repated ,
+          towns.name as town_name,b.rep as repated ,stores.name as store_name,
             if(to_city = 1,
                  if(client_dev_price.price is null,(".$config['dev_b']." - discount),(client_dev_price.price - discount)),
                  if(client_dev_price.price is null,(".$config['dev_o']." - discount),(client_dev_price.price - discount))
@@ -80,6 +80,7 @@ try{
           left join cites on orders.to_city = cites.id
           left join staff driver on driver.id = orders.driver_id
           left join towns on orders.to_town = towns.id
+          left join stores on stores.id = orders.store_id
           left JOIN client_dev_price on client_dev_price.client_id = orders.client_id AND client_dev_price.city_id = orders.to_city
           left join (
              select order_no,count(*) as rep from orders  where confirm = 1 and driver_id = '".$driver."'
@@ -154,7 +155,8 @@ if($orders > 0){
                  <td width="100" align="center">'.$data[$i]['dat'].'</td>
                  <td class="'.$repated_bg.'" align="center">'.$data[$i]['order_no'].'</td>
                  <td width="120" align="center">'.phone_number_format($data[$i]['customer_phone']).'</td>
-                 <td width="180" align="center">'.$data[$i]['city_name'].' - '.$data[$i]['town_name'].' - '.$data[$i]['adress'].'</td>
+                 <td align="center">'.$data[$i]['store_name'].'</td>
+                 <td width="150" align="center">'.$data[$i]['city_name'].' - '.$data[$i]['town_name'].' - '.$data[$i]['adress'].'</td>
                  <td align="center">'.number_format($data[$i]['price']).'</td>
                  <td  class="'.$price_bg.'" align="center">'.number_format($data[$i]['new_price']).'</td>
                  <td align="center">'.number_format($data[$i]['driver_price']).'</td>
@@ -274,7 +276,8 @@ $htmlpersian = '		<table border="1" class="table" cellpadding="2">
                                         <th width="100">تاريخ الادخال</th>
 										<th>رقم الوصل</th>
 										<th width="120">هاتف المستلم</th>
-										<th width="180">عنوان المستلم</th>
+										<th >اسم الصفحه</th>
+										<th width="150">عنوان المستلم</th>
                                         <th>مبلغ الوصل</th>
 										<th>المبلغ المستلم</th>
 										<th>المبلغ الصافي للمندوب</th>
