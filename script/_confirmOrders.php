@@ -4,7 +4,7 @@ error_reporting(0);
 header('Content-Type: application/json');
 require_once("_access.php");
 require_once("dbconnection.php");
-access([1,5,2]);
+access([1,5,2,7]);
 $ids= $_REQUEST['ids'];
 $success = 0;
 $msg="";

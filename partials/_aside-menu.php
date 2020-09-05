@@ -28,7 +28,7 @@ $se = $_SESSION['role'];
                           </a>
                       </li>
                       <?php } ?>
-                      <?php  if($se == 1 || $se == 2 || $se == 3 || $se == 5 || $se=99){?>
+                      <?php  if($se == 1 || $se == 2 || $se == 3 || $se == 5 || $se == 6 || $se == 7 || $se == 8 || $se == 9  || $se=99){?>
                       <li class="kt-menu__item " aria-haspopup="true">
                           <a href="?page=pages/addorders.php" class="kt-menu__link ">
                               <i class="kt-menu__link-bullet kt-menu__link-bullet--dot"><span></span></i>
@@ -44,7 +44,7 @@ $se = $_SESSION['role'];
                           </a>
                       </li>
                        <?php } ?>
-                       <?php  if($se == 1 || $se == 2 || $se == 3 || $se == 5 || $se=99){?>
+                       <?php  if($se == 1 || $se == 2 || $se == 3 || $se == 5 || $se == 6 || $se == 7 || $se == 8 || $se == 9  || $se=99){?>
                         <li class="kt-menu__item" aria-haspopup="true"
                              >
                             <a href="?page=pages/ordersActions.php" class="kt-menu__link ">
@@ -72,7 +72,7 @@ $se = $_SESSION['role'];
                             </a>
                         </li>
                         <?php } ?>
-                        <?php  if($se==1 || $se==2 || $se==3 || $se==5  || $se=99){?>
+                        <?php  if($se == 1 || $se == 2 || $se == 3 || $se == 5 || $se == 6 || $se == 7 || $se == 8 || $se == 9  || $se=99){?>
                         <li class="kt-menu__item " aria-haspopup="true" >
                             <a href="?page=pages/reports.php" class="kt-menu__link ">
                                 <i class="kt-menu__link-bullet kt-menu__link-bullet--dot"><span></span></i>
@@ -80,7 +80,7 @@ $se = $_SESSION['role'];
                             </a>
                         </li>
                         <?php } ?>
-                        <?php  if($se==1 || $se==2 || $se==3 || $se==5  || $se=99){?>
+                        <?php  if($se == 1 || $se == 2 || $se == 3 || $se == 5 || $se == 6 || $se == 7 || $se == 8 || $se == 9  || $se=99){?>
                         <li class="kt-menu__item " aria-haspopup="true" >
                             <a href="?page=pages/ordersStatusUpdate.php" class="kt-menu__link ">
                                 <i class="kt-menu__link-bullet kt-menu__link-bullet--dot"><span></span></i>
@@ -88,7 +88,7 @@ $se = $_SESSION['role'];
                             </a>
                         </li>
                         <?php } ?>
-                        <?php  if($se==1 || $se==2 || $se==3 || $se==5 || $se=99){?>
+                        <?php  if($se==1 || $se==2 ||  $se==5 || $se=99){?>
                         <li class="kt-menu__item " aria-haspopup="true" >
                             <a href="?page=pages/invoices.php" class="kt-menu__link ">
                                 <i class="kt-menu__link-bullet kt-menu__link-bullet--dot"><span></span></i>
@@ -96,7 +96,7 @@ $se = $_SESSION['role'];
                             </a>
                         </li>
                         <?php } ?>
-                        <?php  if($se==1 || $se==2 || $se==3 || $se==5 || $se=99){?>
+                        <?php  if($se==1 || $se==2 || $se==5 || $se=99){?>
                         <li class="kt-menu__item " aria-haspopup="true" >
                             <a href="?page=pages/driverInvoices.php" class="kt-menu__link ">
                                 <i class="kt-menu__link-bullet kt-menu__link-bullet--dot"><span></span></i>
@@ -104,7 +104,7 @@ $se = $_SESSION['role'];
                             </a>
                         </li>
                         <?php } ?>
-                        <?php  if($se==1 || $se==2 || $se==3 || $se==5 || $se=99){?>
+                        <?php  if($se==1 || $se==2 || $se==3 || $se==7 || $se==5 || $se=99){?>
                         <li class="kt-menu__item " aria-haspopup="true" >
                             <a href="?page=pages/printDriverManfiest.php" class="kt-menu__link ">
                                 <i class="kt-menu__link-bullet kt-menu__link-bullet--dot"><span></span></i>
@@ -112,7 +112,7 @@ $se = $_SESSION['role'];
                             </a>
                         </li>
                         <?php } ?>
-                        <?php  if($se==1 || $se==2 || $se==3 || $se=99){?>
+                        <?php  if($se==1 || $se==2 || $se==5 || $se=99){?>
                         <li class="kt-menu__item " aria-haspopup="true" >
                             <a href="?page=pages/earnings.php" class="kt-menu__link ">
                                 <i class="kt-menu__link-bullet kt-menu__link-bullet--dot"><span></span></i>
@@ -120,7 +120,7 @@ $se = $_SESSION['role'];
                             </a>
                         </li>
                         <?php } ?>
-                        <?php  if($se==1 || $se==2 || $se==3 || $se==5 || $se=99){?>
+                        <?php  if($se==1 || $se==2 || $se==3 || $se==7 || $se==8  || $se==5 || $se=99){?>
                         <li class="kt-menu__item " aria-haspopup="true" >
                             <a href="?page=pages/storageInvoices.php" class="kt-menu__link ">
                                 <i class="kt-menu__link-bullet kt-menu__link-bullet--dot"><span></span></i>
@@ -128,7 +128,7 @@ $se = $_SESSION['role'];
                             </a>
                         </li>
                         <?php } ?>                        
-                        <?php  if($se==1 || $se==2 || $se==5 || $se=99){?>
+                        <?php  if($se==1 || $se==2 || $se==5 || $se==7 || $se==8 || $se=99){?>
                         <li class="kt-menu__item " aria-haspopup="true" >
                             <a href="?page=pages/returnedToCityStore.php" class="kt-menu__link ">
                                 <i class="kt-menu__link-bullet kt-menu__link-bullet--dot"><span></span></i>
@@ -136,7 +136,7 @@ $se = $_SESSION['role'];
                             </a>
                         </li>
                         <?php } ?>
-                        <?php  if($se==1 || $se==2 || $se==5 || $se==99){?>
+                        <?php  if($se==1 || $se==2 || $se==3 || $se==7  || $se==5 || $se==99){?>
                         <li class="kt-menu__item " aria-haspopup="true" >
                             <a href="?page=pages/confirmBranchOrders.php" class="kt-menu__link ">
                                 <i class="kt-menu__link-bullet kt-menu__link-bullet--dot"><span></span></i>
@@ -144,7 +144,7 @@ $se = $_SESSION['role'];
                             </a>
                         </li>
                         <?php } ?>
-                        <?php  if($se==1 || $se==2 || $se==5 || $se==99){?>
+                        <?php  if($se==1 || $se==2 || $se==3 || $se==7 || $se==5 || $se==99){?>
                         <li class="kt-menu__item " aria-haspopup="true" >
                             <a href="?page=pages/confirmClientOrders.php" class="kt-menu__link ">
                                 <i class="kt-menu__link-bullet kt-menu__link-bullet--dot"><span></span></i>
@@ -152,7 +152,7 @@ $se = $_SESSION['role'];
                             </a>
                         </li>
                         <?php } ?>
-                        <?php  if($se==1 || $se==9 || $se==99){?>
+                        <?php  if($se==1 || $se==9 || $se==5 || $se==99){?>
                         <li class="kt-menu__item " aria-haspopup="true" >
                             <a href="?page=pages/callCenterCheck.php" class="kt-menu__link ">
                                 <i class="kt-menu__link-bullet kt-menu__link-bullet--dot"><span></span></i>
@@ -187,7 +187,7 @@ $se = $_SESSION['role'];
                         <li class="kt-menu__item kt-menu__item--parent" aria-haspopup="true" >
                             <span class="kt-menu__link"><span class="kt-menu__link-text flaticon2-settings">العملاء</span></span>
                         </li>
-                        <?php  if($se==1 || $se==2 || $se==3 || $se==5 || $se=99){?>
+                        <?php  if($se==1 || $se==2  || $se==3 ||  $se==5 || $se=99){?>
                         <li class="kt-menu__item " aria-haspopup="true" >
                             <a href="?page=pages/clients.php" class="kt-menu__link ">
                                 <i class="kt-menu__link-bullet kt-menu__link-bullet--dot"><span></span></i>

@@ -1,9 +1,9 @@
 <?php
 session_start();
-//error_reporting(0);
+error_reporting(0);
 header('Content-Type: application/json');
 require_once("_access.php");
-access([1,2,3,5,6]);
+access([1,2,3,5,8]);
 require_once("dbconnection.php");
 
 $success = 0;

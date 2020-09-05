@@ -1,7 +1,7 @@
 <?php
 if(file_exists("script/_access.php")){
 require_once("script/_access.php");
-access([1,2,5,3]);
+access([1,2,5,3,7,9,8]);
 }
 ?>
 <style>

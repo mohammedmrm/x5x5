@@ -3,7 +3,7 @@ session_start();
 header('Content-Type: application/json');
 error_reporting(0);
 require_once("_access.php");
-access([1,2,3,5]);
+access([1,2,3,5,8]);
 require_once("dbconnection.php");
 require_once("../config.php");
 $id = $_REQUEST['store'];

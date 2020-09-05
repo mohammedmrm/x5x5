@@ -5,7 +5,7 @@ session_start();
 error_reporting(0);
 header('Content-Type: application/json');
 require_once("_access.php");
-access([1]);
+access([1,2,5]);
 require_once("dbconnection.php");
 $style='
 <style>

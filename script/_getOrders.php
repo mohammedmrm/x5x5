@@ -4,7 +4,7 @@ error_reporting(0);
 header('Content-Type: application/json');
 require_once("_access.php");
 require_once("../config.php");
-access([1,2,3,5]);
+access([1,2,3,5,7,8,9]);
 require_once("dbconnection.php");
 $branch = $_REQUEST['branch'];
 $to_branch = $_REQUEST['to_branch'];

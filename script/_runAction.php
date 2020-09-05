@@ -3,7 +3,7 @@ session_start();
 error_reporting(0);
 header('Content-Type: application/json');
 require_once("_access.php");
-access([1,2,5]);
+access([1,2,5,8,7]);
 require_once("dbconnection.php");
 $action = $_REQUEST['action'];
 $driver = $_REQUEST['driver_action'];

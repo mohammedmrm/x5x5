@@ -3,7 +3,7 @@ ob_start();
 session_start();
 error_reporting(0);
 require_once("_access.php");
-access([1,2,3,5]);
+access([1,2,5]);
 require_once("dbconnection.php");
 $style='
 <style>

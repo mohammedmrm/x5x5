@@ -3,7 +3,7 @@ session_start();
 error_reporting(0);
 header('Content-Type: application/json');
 require_once("_access.php");
-access([1,2,3,5,6]);
+access([1,2,3,5,6,7,8,9]);
 require_once("dbconnection.php");
 $city = $_REQUEST['city'];
 if(empty($city)){

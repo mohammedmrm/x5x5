@@ -3,7 +3,7 @@ session_start();
 error_reporting(0);
 header('Content-Type: application/json');
 require_once("_access.php");
-access([1,2,5]);
+access([1,2,5,7]);
 require_once("dbconnection.php");
 $branch = $_REQUEST['branch'];
 $to_branch = $_REQUEST['to_branch'];

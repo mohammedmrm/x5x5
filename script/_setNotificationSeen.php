@@ -3,7 +3,7 @@ session_start();
 error_reporting(0);
 header('Content-Type: application/json');
 require_once("_access.php");
-access([1,2,3,4,5]);
+access([1,2,3,4,5,7,8,9]);
 require_once("dbconnection.php");
 $user_id = $_SESSION['userid'];
 $id = $_REQUEST['id'];
