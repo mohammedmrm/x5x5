@@ -326,7 +326,7 @@ $.ajax({
             '</td>'+
             '<td>'+this.order_no+'</td>'+
             '<td>'+formatMoney(this.price)+'</td>'+
-            '<td>'+this.client_name+'<br />'+(this.client_phone)+'</td>'+
+            '<td>'+this.store_name+'<br />'+(this.client_phone)+'</td>'+
             '<td>'+
               '<select status="status" class="form-control" style="height:40px;" name="status[]"  value="">'+
                 options+
