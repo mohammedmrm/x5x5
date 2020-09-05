@@ -189,10 +189,12 @@ background-color: #FFFF99;
     	<table class="table  table-bordered  responsive no-wrap" id="tb-invioces">
 	       <thead>
  						<tr>
-      						<th>#</th>
       						<th>رقم الفاتوره</th>
       						<th>اسم المندوب</th>
       						<th>رقم هاتف المندوب</th>
+      						<th>المحاسب</th>
+      						<th>المبلغ الكلي</th>
+      						<th>اجره المندوب</th>
       						<th>التاريخ</th>
       						<th>الملف</th>
       						<th>حالة الكشف</th>
@@ -337,10 +339,12 @@ function  getdriverInvoices(){
      }
       $("#invoicesTable").append(
        '<tr class="">'+
-            '<td></td>'+
             '<td>'+this.id+'</td>'+
             '<td>'+this.driver_name+'</td>'+
             '<td>'+this.driver_phone+'</td>'+
+            '<td>'+this.staff_name+'</td>'+
+            '<td>'+this.total+'</td>'+
+            '<td>'+this.driver_price+'</td>'+
             '<td>'+this.in_date+'</td>'+
             '<td><a href="driver_invoice/'+this.path+'" target="_blank">تحميل ملف الفاتوره</a></td>'+
             '<td>'+invoice_status+'</td>'+

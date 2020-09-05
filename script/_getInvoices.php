@@ -22,10 +22,12 @@ if(empty($end)) {
 require_once("dbconnection.php");
 try{
   $query = "select invoice.*,date_format(invoice.date,'%Y-%m-%d') as in_date,clients.name as client_name,clients.phone as client_phone
-           ,stores.name as store_name
+           ,stores.name as store_name,staff.name as staff_name
            from invoice
            inner join stores on stores.id = invoice.store_id
            inner join clients on stores.client_id = clients.id
+           left join staff on staff.id = invoice.staff_id
+
            ";
 
     function validateDate($date, $format = 'Y-m-d')

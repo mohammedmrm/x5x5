@@ -159,11 +159,13 @@ background-color: #FFFF99;
 		<table class="table  table-bordered  responsive no-wrap" id="tb-invioces">
 			       <thead>
 	  						<tr>
-        						<th>#</th>
         						<th>رقم الفاتوره</th>
         						<th>اسم الصفحه</th>
         						<th>اسم العميل</th>
         						<th>رقم هاتف العميل</th>
+        						<th>المحاسب</th>
+        						<th>المبلغ الكلي</th>
+        						<th>مبلغ التوصيل</th>
         						<th>التاريخ</th>
         						<th>الملف</th>
         						<th>حالة الكشف</th>
@@ -288,11 +290,13 @@ function getInvoices(){
      }
       $("#invoicesTable").append(
        '<tr class="'+bg+'">'+
-            '<td></td>'+
             '<td>'+this.id+'</td>'+
             '<td>'+this.store_name+'</td>'+
             '<td>'+this.client_name+'</td>'+
             '<td>'+this.client_phone+'</td>'+
+            '<td>'+this.staff_name+'</td>'+
+            '<td>'+this.total+'</td>'+
+            '<td>'+this.dev_price+'</td>'+
             '<td>'+this.in_date+'</td>'+
             '<td><a href="invoice/'+this.path+'" target="_blank">تحميل ملف الكشف</a></td>'+
             '<td>'+invoice_status+'</td>'+
@@ -312,19 +316,6 @@ function getInvoices(){
          $("#client_price").text(formatMoney(this.client_price));
       });*/
      var myTable= $('#tb-invioces').DataTable({
-     columns:[
-
-    //"dummy" configuration
-        { visible: true, css:'tdstyle' }, //col 1
-        { visible: true, css:'tdstyle' }, //col 2
-        { visible: true, css:'tdstyle' }, //col 3
-        { visible: true }, //col 4
-        { visible: true }, //col 5
-        { visible: true }, //col 6
-        { visible: true }, //col 7
-        { visible: true }, //col 8
-        { visible: true }, //col 9
-        ],
       "oLanguage": {
         "sLengthMenu": "عرض_MENU_سجل",
         "sSearch": "بحث:"

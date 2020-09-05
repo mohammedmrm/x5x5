@@ -82,10 +82,11 @@ foreach($res as $k=>$val){
           $res4= $res4[0];
 }
 $sql2 = "select driver_invoice.*,date_format(driver_invoice.date,'%Y-%m-%d') as in_date,clients.name as client_name,clients.phone as client_phone
-           ,stores.name as store_name
+           ,stores.name as store_name,staff.name as staff_name
            from driver_invoice
-           inner join stores on stores.id = driver_invoice.store_id
-           inner join clients on stores.client_id = clients.id
+           left join stores on stores.id = driver_invoice.store_id
+           left join clients on stores.client_id = clients.id
+           left join staff on staff.id = driver_invoice.staff_id
            where driver_id=? order by driver_invoice.date DESC limit 25";
 $res2 = getData($con,$sql2,[$id,$start,$end]);
 echo json_encode(array($sql2,$start,"success"=>$success,"data"=>$data,"invoice"=>$res2,'pay'=>$res4));

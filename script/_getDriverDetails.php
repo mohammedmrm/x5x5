@@ -115,9 +115,10 @@ if($v->passes()) {
           $res4= getData($con,$sql,[$id]);
           $res4= $res4[0];
 $sql2 = "select driver_invoice.*,date_format(driver_invoice.date,'%Y-%m-%d') as in_date,
-           staff.name as driver_name, staff.phone as driver_phone
+           staff.name as driver_name, staff.phone as driver_phone,acco.name as staff_name
            from driver_invoice
            left join  staff on staff.id = driver_invoice.driver_id
+           left join staff as acco on acco.id = driver_invoice.staff_id
            where driver_id='".$id."'";
         if(validateDate($start) && validateDate($end)){
           $sql2 .= " order by driver_invoice.date DESC limit 25";

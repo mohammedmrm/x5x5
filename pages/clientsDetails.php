@@ -263,6 +263,9 @@ hr {
                         						<th>اسم الصفحه</th>
                         						<th>اسم العميل</th>
                         						<th>رقم هاتف العميل</th>
+                        						<th>المحاسب</th>
+                        						<th>المبلغ الكلي</th>
+                        						<th>مبلغ التوصيل</th>
                         						<th>التاريخ</th>
                         						<th>الملف</th>
                         						<th>حالة الفاتورة</th>
@@ -491,6 +494,9 @@ function getInvoices(){
             '<td>'+this.store_name+'</td>'+
             '<td>'+this.client_name+'</td>'+
             '<td>'+this.client_phone+'</td>'+
+            '<td>'+this.staff_name+'</td>'+
+            '<td>'+this.total+'</td>'+
+            '<td>'+this.dev_price+'</td>'+
             '<td>'+this.in_date+'</td>'+
             '<td><a href="invoice/'+this.path+'" target="_blank">تحميل ملف الفاتوره</a></td>'+
             '<td>'+invoice_status+'</td>'+
