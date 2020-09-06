@@ -11,7 +11,7 @@ $end = $_REQUEST['end'];
 $branch= $_REQUEST['branch'];
 $branch_price = !$_REQUEST['branch_price'] ? 0 :$_REQUEST['branch_price'] ;
 if(empty($start)) {
-    $start = '0000-00-00';
+    $start = '1000-10-10';
 }
 if(empty($end)) {
    $end = date('Y-m-d', strtotime(' + 1 day'));
@@ -27,7 +27,6 @@ try{
            inner join stores on stores.id = invoice.store_id
            inner join clients on stores.client_id = clients.id
            left join staff on staff.id = invoice.staff_id
-
            ";
 
     function validateDate($date, $format = 'Y-m-d')
@@ -109,5 +108,5 @@ if($_SESSION['role'] == 1){
    $data=["error"=>$ex];
    $success="0";
 }
-print_r(json_encode(array("success"=>$success,"data"=>$data,"total"=>$total)));
+print_r(json_encode(array($query,"success"=>$success,"data"=>$data,"total"=>$total)));
 ?>
