@@ -127,6 +127,8 @@ if(isset($_REQUEST['ids'])){
            $data = setData($con,$query,[9,$_SESSION['user_details']['storage_id'],$v]);
            $query2 = "insert into tracking (order_id,order_status_id,date,staff_id) values(?,?,?,?)";
            setData($con,$query2,[$v,9,date('Y-m-d H:i:s'),$_SESSION['userid']]);
+            $sql ="insert into storage_tracking (order_id,staff_id,status) values(?,?,?)";
+            setData($con,$sql,[$v,$_SESSION['userid'],2]);
            $success="1";
          }
       } catch(PDOException $ex) {
@@ -142,6 +144,8 @@ if(isset($_REQUEST['ids'])){
            $data = setData($con,$query,[6,$_SESSION['user_details']['storage_id'],$v]);
            $query2 = "insert into tracking (order_id,order_status_id,date,staff_id) values(?,?,?,?)";
            setData($con,$query2,[$v,6,date('Y-m-d H:i:s'),$_SESSION['userid']]);
+           $sql ="insert into storage_tracking (order_id,staff_id,status) values(?,?,?)";
+           setData($con,$sql,[$v,$_SESSION['userid'],2]);
            $success="1";
          }
       } catch(PDOException $ex) {
