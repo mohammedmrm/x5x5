@@ -83,7 +83,12 @@ foreach($Orders as $k=>$val){
 }
 
 if($v->passes()) {
+   $not=0;
+   $add=0;
    foreach($Orders as $k=>$val){
+            $sql = "select from orders where store_id=? and remote_id=?";
+            $check = getData($con,$sql,[$store,$val["id"]]);
+            if(count($check) == 0){
             $no=$_REQUEST['num'][$k];
             if($money[$k] == 1){
               $val['price'] = '-'.$val['note'];
@@ -125,23 +130,30 @@ if($v->passes()) {
               $order_address[$k] = "";
             }
             $new_price = $val['price'];
+
             $sql = 'insert into orders (driver_id,order_no,order_type,weight,qty,
                                     price,dev_price,from_branch,
                                     client_id,store_id,customer_name,
-                                    customer_phone,to_city,to_town,to_branch,with_dev,note,new_price,address,company_id,confirm)
+                                    customer_phone,to_city,to_town,to_branch,with_dev,note,new_price,address,company_id,confirm,remote_id)
                                     VALUES
-                                    (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)';
+                                    (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)';
            $result = setDataWithLastID($con,$sql,
                          [$driver,$val['order_no'],$val['order_type'],$val['weight'],$val['items'],
                           $val['price'],$dev_price,$mainbranch,
                           $client,$store,$val['customer_name'],
-                          $val['customer_phone'],$val['city_id'],$val['town_id'],$to_branch,$with_dev,$val['note'],$new_price,$val['addess'],$company,$confirm]);
+                          $val['customer_phone'],$val['city_id'],$val['town_id'],$to_branch,$with_dev,$val['note'],$new_price,$val['addess'],$company,$confirm,$val['id']]);
            if($result > 1){
              $data[] = ['barcode'=>$result,'id'=>$val['id'],'order_no'=>$val['order_no']];
              $success = 1;
            }
+            $add++;
+           }else{
+            $not++;
+           }
       //--- END-- this for add order tracking record
    }
+   $data['count']['added']=$add;
+   $data['count']['not']=$not;
 }else{
 $error = [
            'no'=>$no,
@@ -161,4 +173,3 @@ $error = [
 }
 ob_end_clean();
 echo json_encode(['success'=>$success,'error'=>$error,'data'=>$data]);
-?>

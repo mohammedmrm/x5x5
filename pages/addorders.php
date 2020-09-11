@@ -5,7 +5,7 @@ if(file_exists("script/_access.php")){
 }
 ?>
 <?
-include("config.php");
+require_once("config.php");
 ?>
 <style>
 
