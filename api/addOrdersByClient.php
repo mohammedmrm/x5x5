@@ -11,6 +11,7 @@ require_once("../config.php");
 use Violin\Violin;
 require_once('../validator/autoload.php');
 $error = [];
+$success = 0;
 $store = $_REQUEST['store'];
 $v = new Violin;
 $v->addRuleMessage('isPhoneNumber', 'رقم هاتف غير صحيح ');
@@ -86,9 +87,9 @@ if($v->passes()) {
    $not=0;
    $add=0;
    foreach($Orders as $k=>$val){
-            $sql = "select from orders where store_id=? and remote_id=?";
+/*            $sql = "select from orders where store_id=? and remote_id=?";
             $check = getData($con,$sql,[$store,$val["id"]]);
-            if(count($check) == 0){
+            if(count($check) == 0){*/
             $no=$_REQUEST['num'][$k];
             if($money[$k] == 1){
               $val['price'] = '-'.$val['note'];
@@ -146,10 +147,10 @@ if($v->passes()) {
              $data[] = ['barcode'=>$result,'id'=>$val['id'],'order_no'=>$val['order_no']];
              $success = 1;
            }
-            $add++;
+/*            $add++;
            }else{
             $not++;
-           }
+           }*/
       //--- END-- this for add order tracking record
    }
    //$data['count']['added']=$add;
@@ -172,4 +173,5 @@ $error = [
            ];
 }
 ob_end_clean();
-echo json_encode(['success'=>$success,'error'=>$error,'data'=>$data,$check]);
+echo json_encode(['success'=>$success,'error'=>$error,'data'=>$data]);
+?>
