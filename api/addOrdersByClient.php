@@ -11,6 +11,7 @@ require_once("../config.php");
 use Violin\Violin;
 require_once('../validator/autoload.php');
 $error = [];
+$data = [];
 $success = 0;
 $store = $_REQUEST['store'];
 $v = new Violin;
