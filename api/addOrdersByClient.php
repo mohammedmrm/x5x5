@@ -152,8 +152,8 @@ if($v->passes()) {
            }
       //--- END-- this for add order tracking record
    }
-   $data['count']['added']=$add;
-   $data['count']['not']=$not;
+   //$data['count']['added']=$add;
+   //$data['count']['not']=$not;
 }else{
 $error = [
            'no'=>$no,
@@ -172,4 +172,4 @@ $error = [
            ];
 }
 ob_end_clean();
-echo json_encode(['success'=>$success,'error'=>$error,'data'=>$data]);
+echo json_encode(['success'=>$success,'error'=>$error,'data'=>$data,$check]);
