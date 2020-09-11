@@ -10,6 +10,7 @@ $to_branch = $_REQUEST['to_branch'];
 $city = $_REQUEST['city'];
 $customer = $_REQUEST['customer'];
 $order = $_REQUEST['order_no'];
+$barcode = $_REQUEST['barcode'];
 $client= $_REQUEST['client'];
 $store= $_REQUEST['store'];
 $status = $_REQUEST['orderStatus'];
@@ -45,6 +46,9 @@ try{
   $filter = " and orders.confirm = 5 ";
   if($branch >= 1){
    $filter .= " and from_branch =".$branch;
+  }
+  if($barcode >= 1){
+   $filter .= " and orders.id =".$barcode;
   }
   if($to_branch >= 1){
    $filter .= " and to_branch =".$to_branch;

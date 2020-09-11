@@ -4,7 +4,7 @@ error_reporting(0);
 header('Content-Type: application/json');
 require_once("_access.php");
 access([1,5,2,7,8]);
-$id= $_REQUEST['id'];
+$id= trim($_REQUEST['id']);
 $success = 0;
 $msg="";
 require_once("dbconnection.php");
@@ -22,7 +22,7 @@ if($v->passes()){
          if($result > 0){
             $success = 1;
          }else{
-            $msg = "فشل التأكيد, قد يكون ماكد مسبقاً";
+            $msg = "فشل التأكيد, قد يكون مؤكد مسبقاً";
          }
 }else{
   $msg = "فشل التأكيد";

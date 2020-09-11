@@ -94,6 +94,10 @@ legend
             	<input id="order_no" name="order_no" onkeyup="getorders()" type="text" class="form-control kt-input" placeholder="" data-col-index="0">
             </div>
             <div class="col-lg-2 kt-margin-b-10-tablet-and-mobile">
+            	<label>رقم الشحنه:</label>
+            	<input id="barcode" name="barcode" oninput="getorders()" type="text" class="form-control kt-input" placeholder="" data-col-index="0">
+            </div>
+            <div class="col-lg-2 kt-margin-b-10-tablet-and-mobile">
             	<label>اسم او هاتف المستلم:</label>
             	<input name="customer" onkeyup="getorders()" type="text" class="form-control kt-input" placeholder="" data-col-index="1">
             </div>
