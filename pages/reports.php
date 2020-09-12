@@ -1261,10 +1261,9 @@ function OrderTracking(id){
                             '</a>'+
                             '<span class="kt-timeline__item-info h5 text-info"> حدث من قبل : '+this.staff_name+'</span>'+
                             '<div class="kt-timeline__item-info">'+
-                                this.note+
-                            '</div>'+
-                            '<div class="kt-timeline__item-info">'+
-                                this.status+
+                              this.note+
+                            '<br />'+
+                              this.status+
                             '</div>'+
                         '</div>'
             );
