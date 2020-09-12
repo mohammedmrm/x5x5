@@ -12,6 +12,7 @@ if(!(empty($_REQUEST['token']))){
 }
 $sql = 'select * from clients where api_token=?';
 $res  = getData($con,$sql,[$token]);
+$clinetdata = $res[0];
 if(count($res) == 1){
   $access = (bool) 1;
 }
