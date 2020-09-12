@@ -12,7 +12,7 @@ foreach($res as $v){
     $auto = "SET @uids := '';
               UPDATE
               orders SET order_status_id = 4
-               WHERE order_status_id = 3 and invoice_id = 0 and driver_invoice_id = 0 and confirm=1 and city = '".$v['city_id']."'
+               WHERE (order_status_id = 3 or order_status_id = 1) and driver_id > 0 and invoice_id = 0 and driver_invoice_id = 0 and confirm=1 and to_city = '".$v['city_id']."' and
               DATE(date) < DATE_SUB(CURDATE(), INTERVAL ".$v['days']." DAY) AND ( SELECT @uids := CONCAT_WS(',', id, @uids));
               SELECT @uids as ids;";
     $ids = getAllUpdatedIds($mysqlicon,$auto);
