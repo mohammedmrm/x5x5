@@ -60,7 +60,7 @@ $result = getData($con,$sql);
      $auto = "SET @uids := '';
                UPDATE
                orders SET order_status_id = 4
-                WHERE order_status_id = 3 and invoice_id = 0 and driver_invoice_id = 0 and confirm=1 and to_city = '".$val['city_id']."',
+                WHERE order_status_id = 3 and invoice_id = 0 and driver_invoice_id = 0 and confirm=1 and to_city = '".$val['city_id']."' and
                DATE(date) < DATE_SUB(CURDATE(), INTERVAL ".$val['days']." DAY) AND ( SELECT @uids := CONCAT_WS(',', id, @uids));
                SELECT @uids as ids;";
      $ids = getAllUpdatedIds($mysqlicon,$auto);
