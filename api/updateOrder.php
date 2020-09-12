@@ -121,12 +121,6 @@ if($v->passes() && $date_err =="" ) {
   if(!empty($order_iprice)){
     $up .= ' , new_price="'.$price.'"';
   }
-  if(!empty($store) && $store > 0){
-    $up .= ' , store_id="'.$store.'"';
-  }
-  if(!empty($client) && $client > 0){
-    $up .= ' , client_id="'.$client.'"';
-  }
   if(!empty($customer_phone)){
     $up .= ' , customer_phone="'.$customer_phone.'"';
   }
