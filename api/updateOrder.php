@@ -2,8 +2,8 @@
 session_start();
 error_reporting(0);
 header('Content-Type: application/json');
-require_once("_access.php");
-access([1,2,3,5,7,8]);
+require_once("_apiAccess.php");
+access();
 require_once("dbconnection.php");
 require_once("../config.php");
 
@@ -65,9 +65,9 @@ $customer_name = $_REQUEST['order']['e_customer_name'];
 $customer_phone = $_REQUEST['order']['e_customer_phone'];
 $city_to = $_REQUEST['order']['e_city'];
 $town_to = $_REQUEST['order']['e_town'];
-$order_note= $_REQUEST[['order']'e_order_note'];
+$order_note= $_REQUEST['order']['e_order_note'];
 $price = $_REQUEST['price'];
-$barcode = $_REQUEST['barcode']
+$barcode = $_REQUEST['barcode'];
 $date= $_REQUEST['order']['e_date'];
 if(!validateDate($date)){
   $date_err = "تاريخ غير صالح";
