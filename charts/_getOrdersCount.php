@@ -69,7 +69,7 @@ foreach($res as $val){
    $idss = explode (",", $ids[0][0]);
    $tracking = "insert into tracking (order_id,order_status_id,note,staff_id) values(?,?,?,?)";
    foreach($idss as $id){
-     $addTrack = setData($con,$tracking,[$id,4,'( تم تحديث الطلب تقائياً) ',$_SESSION['userid']]);
+     $addTrack = setData($con,$tracking,[$id,4,'( تم تحديث الطلب تقائياً) ',2]);
    }
  }
 }
