@@ -64,7 +64,7 @@ foreach($res as $val){
               UPDATE
               orders SET order_status_id = 4
               WHERE (order_status_id = 3 or order_status_id = 1) and driver_id > 0 and invoice_id = 0 and driver_invoice_id = 0 and confirm=1 and to_city = '".$val['city_id']."' and
-              DATE(date) < DATE_SUB(CURDATE(), INTERVAL ".$val['days']." DAY) AND ( SELECT @uids := CONCAT_WS(',', id, @uids)) limit 10;
+              DATE(date) < DATE_SUB(CURDATE(), INTERVAL ".$val['days']." DAY) AND ( SELECT @uids := CONCAT_WS(',', id, @uids)) limit 100;
               SELECT @uids as ids;";
    $ids = getAllUpdatedIds($mysqlicon,$auto);
    $idss = explode (",", $ids[0][0]);
