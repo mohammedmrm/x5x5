@@ -133,7 +133,7 @@ if($v->passes() && $date_err =="" ) {
   if(!empty($date)){
     $up .= ' , date="'.$date.'"';
   }
-  $where = " where id =".$barcode."  and invoice_id=0 and driver_invoice_id=0 and confrim = 5 and client_id=?";
+  $where = " where id =".$barcode."  and invoice_id=0 and driver_invoice_id=0 and confirm = 5 and client_id=?";
   $sql .= $up.$where;
   $result = setData($con,$sql,[$clinetdata['id']]);
   if($result > 0){
