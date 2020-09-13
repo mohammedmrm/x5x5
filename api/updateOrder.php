@@ -83,7 +83,7 @@ $v->validate([
     'order_price'   => [$order_price,   "isPrice"],
     'order_discount'=> [$order_discount,"isPrice"],
     'store'         => [$store,  'int'],
-    'customer_name' => [$customer_name, 'isPhoneNumber'],
+    'customer_name' => [$customer_name, 'min(2)|max(100)'],
     'customer_phone'=> [$customer_phone,'isPhoneNumber'],
     'city'          => [$city_to,  'int'],
     'town'          => [$town_to,  'int'],
