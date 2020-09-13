@@ -1,13 +1,14 @@
 <?php
 session_start();
-error_reporting(0);
+//error_reporting(0);
+header("Access-Control-Allow-Origin: *");
 header('Content-Type: application/json');
 require_once("_apiAccess.php");
 access();
 require_once("dbconnection.php");
 require_once("../config.php");
 
-use Violin\Violin;
+/*use Violin\Violin;
 require_once('../validator/autoload.php');
 $v = new Violin;
 function validateDate($date, $format = 'Y-m-d')
@@ -94,7 +95,7 @@ $response = [];
 $sql ="select * from orders where id = ?";
 $order = setData($con,$sql,[$id]);
 if($v->passes() && $date_err =="" ) {
-
+  try{
   $sql = 'update orders set order_no="'.$number.'"';
   $up = "";
   if(!empty($weight) && $weight > 0){
@@ -139,6 +140,7 @@ if($v->passes() && $date_err =="" ) {
   if($result > 0){
     $success = 1;
   }
+  }
 }else{
 $error = [
            'id'=> implode($v->errors()->get('id')),
@@ -154,6 +156,6 @@ $error = [
            'date'=>$date_err,
            'premission'=>$premission
            ];
-}
-echo json_encode([$sql,'success'=>$success, 'error'=>$error]);
+}*/
+echo json_encode([$_REQUEST,'success'=>$success, 'error'=>$error]);
 ?>
