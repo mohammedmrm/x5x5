@@ -1,14 +1,13 @@
 <?php
 session_start();
-//error_reporting(0);
-header("Access-Control-Allow-Origin: *");
+error_reporting(0);
 header('Content-Type: application/json');
 require_once("_apiAccess.php");
 access();
-require_once("dbconnection.php");
+require_once("../script/dbconnection.php");
 require_once("../config.php");
 
-/*use Violin\Violin;
+use Violin\Violin;
 require_once('../validator/autoload.php');
 $v = new Violin;
 function validateDate($date, $format = 'Y-m-d')
@@ -140,7 +139,10 @@ if($v->passes() && $date_err =="" ) {
   if($result > 0){
     $success = 1;
   }
-  }
+  }catch(PDOException $ex) {
+   $error=["error"=>$ex];
+   $success="0";
+}
 }else{
 $error = [
            'id'=> implode($v->errors()->get('id')),
@@ -156,6 +158,6 @@ $error = [
            'date'=>$date_err,
            'premission'=>$premission
            ];
-}*/
+}
 echo json_encode([$_REQUEST,'success'=>$success, 'error'=>$error]);
 ?>
