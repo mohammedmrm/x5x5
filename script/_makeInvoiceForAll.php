@@ -87,10 +87,12 @@ try{
   $count = "select count(*) as count,
                SUM(IF (to_city = 1,1,0)) as  b_orders,
                SUM(IF (to_city > 1,1,0)) as  o_orders,
-                if(to_city = 1,
-                     if(client_dev_price.price is null,(".$config['dev_b']." - discount),(client_dev_price.price - discount)),
-                     if(client_dev_price.price is null,(".$config['dev_o']." - discount),(client_dev_price.price - discount))
-                ) + if(new_price > 500000 ,( (ceil(new_price/500000)-1) * ".$config['addOnOver500']." ),0) as dev_price,
+                sum(
+                  if(to_city = 1,
+                       if(client_dev_price.price is null,(".$config['dev_b']." - discount),(client_dev_price.price - discount)),
+                       if(client_dev_price.price is null,(".$config['dev_o']." - discount),(client_dev_price.price - discount))
+                  ) + if(new_price > 500000 ,( (ceil(new_price/500000)-1) * ".$config['addOnOver500']." ),0)
+                ) as dev_price,
                 sum(new_price) as income
             from orders
             left JOIN client_dev_price on client_dev_price.client_id = orders.client_id AND client_dev_price.city_id = orders.to_city
