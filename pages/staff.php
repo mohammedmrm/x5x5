@@ -482,7 +482,7 @@ getStorage($("#storage"));
       <div class="modal-content">
         <div class="modal-header">
           <button type="button" class="close" data-dismiss="modal"></button>
-          <h4 class="modal-title">عرض او اخفاء الكشوفات والارباح</h4>
+          <h4 class="modal-title">تحديد مخزن</h4>
         </div>
         <div class="modal-body">
 		<!--begin::Portlet-->
@@ -492,9 +492,8 @@ getStorage($("#storage"));
 			<form class="kt-form" id="setStaffStorageForm">
 				<div class="kt-portlet__body">
 					<div class="form-group">
-						<label>حالة عرض الكشوفات والارباح</label>
+						<label>حدد مخزن الموظف</label>
 						<select type="text" class="selectpicker form-control dropdown-primary" name="storage" id="storage">
-
                         </select>
                         <span class="form-text text-danger" id="show_earnings_err"></span>
 					</div>

@@ -5,7 +5,7 @@ function getStorage(elem){
      success:function(res){
        elem.html("");
        elem.append(
-           '<option value="">... اختر ...</option>'
+           '<option value="0">... اختر ...</option>'
        );
        $.each(res.data,function(){
          elem.append("<option value='"+this.id+"'>"+this.name+"</option>");
