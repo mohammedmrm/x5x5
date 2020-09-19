@@ -82,6 +82,21 @@ try{
   if($client >= 1){
     $filter .= " and orders.client_id=".$client;
   }
+  if($branch >= 1){
+   $filter .= " and from_branch =".$branch;
+  }
+  if($to_branch >= 1){
+   $filter .= " and to_branch =".$to_branch;
+  }
+  if($driver >= 1){
+   $filter .= " and driver_id =".$driver;
+  }
+  if($city >= 1){
+    $filter .= " and to_city=".$city;
+  }
+  if($town >= 1){
+    $filter .= " and to_town=".$town;
+  }    
   if($store >= 1){
     $filter .= " and orders.store_id=".$store;
   }

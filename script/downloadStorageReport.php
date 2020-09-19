@@ -590,5 +590,5 @@ $pdf->Ln();
 //Close and output PDF document
 ob_end_clean();
 
-$pdf->Output('order'.date('Y-m-d h:i:s').'.pdf', 'I');
+$pdf->Output($branch.'-order'.date('Y-m-d h:i:s').'.pdf', 'I');
 ?>
