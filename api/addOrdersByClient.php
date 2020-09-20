@@ -72,7 +72,7 @@ foreach($Orders as $k=>$val){
           'order_price'   => [$val['price'],"isPrice"],
           'store'         => [$store,'required|int'],
           'customer_name' => [$val['customer_name'],  'max(200)'],
-          'customer_phone'=> [$val['customer_phone'],  'required|isPhoneNumber'],
+          'customer_phone'=> [$val['customer_phone'], 'required|isPhoneNumber'],
           'city'          => [$val['city_id'],'required|int'],
           'town'          => [$val['town_id'],'required|int'],
           'order_note'    => [$val['note'],   'max(250)'],
@@ -91,7 +91,7 @@ if($v->passes()) {
    foreach($Orders as $k=>$val){
             $sql = "select * from orders where store_id=? and remote_id=?";
             $check = getData($con,$sql,[$store,$val["id"]]);
-            if(count($check) == 0){
+            if(count($check) >= 0){
             $no=$_REQUEST['num'][$k];
             if($money[$k] == 1){
               $val['price'] = '-'.$val['note'];
