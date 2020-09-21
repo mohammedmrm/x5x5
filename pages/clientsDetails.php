@@ -621,6 +621,8 @@ function payInvoice(id){
          if(res.success == 1){
            Toast.success('تم الدفع');
            getInvoices();
+           getStoreDetails();
+           getStoreReturned();
          }else{
            Toast.warning(res.msg);
          }
@@ -664,7 +666,7 @@ function unpayInvoice(id){
         data:{id:id},
         success:function(res){
          if(res.success == 1){
-           Toast.success('تم الدفع');
+           Toast.success('تم');
            getInvoices();
            getStoreDetails();
            getStoreReturned();
