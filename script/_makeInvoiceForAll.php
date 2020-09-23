@@ -91,7 +91,9 @@ try{
                   if(to_city = 1,
                        if(client_dev_price.price is null,(".$config['dev_b']." - discount),(client_dev_price.price - discount)),
                        if(client_dev_price.price is null,(".$config['dev_o']." - discount),(client_dev_price.price - discount))
-                  ) + if(new_price > 500000 ,( (ceil(new_price/500000)-1) * ".$config['addOnOver500']." ),0)
+                  )
+                  + if(new_price > 500000 ,( (ceil(new_price/500000)-1) * ".$config['addOnOver500']." ),0)
+                  + if(weight > 1 ,( (weight-1) * ".$config['weightPrice']." ),0)
                 ) as dev_price,
                 sum(new_price) as income
             from orders
@@ -186,7 +188,11 @@ if($orders > 0){
                 if($data[$i]['new_price']>500000){
                   $over500 = (ceil($data[$i]['new_price']/500000) - 1) * $config['addOnOver500'];
                 }
-                $data[$i]['dev_price'] = $dev_p + $over500;
+                $weightPrice = 0;
+                if($data[$i]['weight']>1){
+                  $weightPrice = ($data[$i]['weight'] - 1) * $config['weightPrice'];
+                }
+                $data[$i]['dev_price'] = $dev_p + $over500 + $weightPrice;
                 if($data[$i]['order_status_id'] == 9){
                   $data[$i]['dev_price'] = 0;
                   $dev_p = 0;

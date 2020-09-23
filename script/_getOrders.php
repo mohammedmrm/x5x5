@@ -37,7 +37,11 @@ try{
             if(to_city = 1,
                  if(order_status_id=9,0,if(client_dev_price.price is null,(".$config['dev_b']." - discount),(client_dev_price.price - discount))),
                  if(order_status_id=9,0,if(client_dev_price.price is null,(".$config['dev_o']." - discount),(client_dev_price.price - discount)))
-            ) + if(new_price > 500000 ,( (ceil(new_price/500000)-1) * ".$config['addOnOver500']." ),0) as dev_price,if(order_status_id=9,0,discount) as discount
+            )
+            + if(new_price > 500000 ,( (ceil(new_price/500000)-1) * ".$config['addOnOver500']." ),0)
+            + if(weight > 1 ,( (weight-1) * ".$config['weightPrice']." ),0)
+            as dev_price,
+            if(order_status_id=9,0,discount) as discount
             from orders left join
             clients on clients.id = orders.client_id
             left join cites on  cites.id = orders.to_city

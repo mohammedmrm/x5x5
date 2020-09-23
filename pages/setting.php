@@ -89,6 +89,15 @@ include_once('config.php');
 										</div>
 									</div>
                                     <div class="form-group row">
+										<label class="col-3 col-form-label">الاجره الاضافيه لكل 1 كيلوغرام اضافي</label>
+										<div class="col-9">
+											<div class="input-group">
+												<input type="number" min='0'step="250" name="weightPrice" id="weightPriceOver500" value="<?php echo $config['weightPrice']?>" class="form-control"  value="loop">
+												<span class="form-text text-danger" d="weightPrice_err"></span>
+											</div>
+										</div>
+									</div>
+                                    <div class="form-group row">
 										<label class="col-3 col-form-label">شعار الشركه</label>
 										<div class="col-4">
 											<div class="input-group">

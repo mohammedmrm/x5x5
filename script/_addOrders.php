@@ -60,7 +60,7 @@ $onumber = $_REQUEST['order_no'];
 $order_id = $_REQUEST['order_id'];
 $prefix = $_REQUEST['prefix'];
 $order_type = "multi";//$_REQUEST['order_type'];
-$weight = 1;//$_REQUEST['weight'];
+$weight = $_REQUEST['weight'];
 $money = $_REQUEST['moneycheck'];
 $qty = 1;//$_REQUEST['qty'];
 $order_price = str_replace(',','',$_REQUEST['order_price']);
@@ -105,7 +105,7 @@ foreach($onumber as $k=>$val){
           'order_no'      => [$prefix.$onumber[$k],  'required|int|min(1)|max(100)|unique('.$check.'")'],
           'prefix'        => [$prefix,  'min(1)|max(10)'],
           'order_type'    => [$order_type/*$order_type[$k]*/,    'required|min(3)|max(10)'],
-          'weight'        => [$weight/*$weight[$k]*/,   'int'],
+          'weight'        => [$weight[$k],   'required|int'],
           'qty'           => [$qty/*$qty[$k]*/,'int'],
           'order_price'   => [$order_price[$k],   "isPrice"],
           'store'         => [$mainstore,  'required|int'],
@@ -126,7 +126,7 @@ foreach($onumber as $k=>$val){
           'order_no'      => [$onumber[$k],    'required|int|min(1)|max(100)|unique('.$check.'")'],
           'prefix'        => [$prefix,  'min(1)|max(10)'],
           'order_type'    => [$order_type/*$order_type[$k]*/,    'required|min(3)|max(10)'],
-          'weight'        => [$weight/*$weight[$k]*/,   'int'],
+          'weight'        => [$weight[$k],   'required|int'],
           'qty'           => [$qty/*$qty[$k]*/,'int'],
           'order_price'   => [$order_price[$k],   "isPrice"],
           'store'         => [$store[$k],  'required|int'],
@@ -216,7 +216,7 @@ if($v->passes()) {
                                     ';
 
         $result = setData($con,$sql,
-                         [$driver,$manger,$prefix.$onumber[$k],$order_type,$weight,$qty,
+                         [$driver,$manger,$prefix.$onumber[$k],$order_type,$weight[$k],$qty,
                           $order_price[$k],$dev_price,$client_phone[$k],$customer_name,
                           $customer_phone[$k],$city_to[$k],$town_to[$k],$to_branch,$with_dev,$order_note[$k],$order_address[$k],$confirm,date('Y-m-d H:m:i'),$new_price,$order_id[$k]]);
          // get nofificaton tokens
@@ -238,7 +238,7 @@ if($v->passes()) {
                                     VALUES
                                     (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)';
         $result = setDataWithLastID($con,$sql,
-                         [$driver,$manger,$prefix.$onumber[$k],$order_type,$weight,$qty,
+                         [$driver,$manger,$prefix.$onumber[$k],$order_type,$weight[$k],$qty,
                           $order_price[$k],$dev_price,$mainbranch,
                           $client,$client_phone[$k],$mainstore,$customer_name,
                           $customer_phone[$k],$city_to[$k],$town_to[$k],$to_branch,$with_dev,$order_note[$k],$new_price,$order_address[$k],$company,$confirm]);
@@ -334,7 +334,7 @@ if($v->passes()) {
                                     where id = ?
                                     ';
         $result = setData($con,$sql,
-                         [$driver,$manger,$prefix.$onumber[$k],$order_type,$weight,$qty,
+                         [$driver,$manger,$prefix.$onumber[$k],$order_type,$weight[$k],$qty,
                           $order_price[$k],$dev_price,$client_phone[$k],$customer_name,
                           $customer_phone[$k],$store[$k],$town_to[$k],$to_branch,$with_dev,$order_note[$k],$order_address[$k],$confirm,date('Y-m-d H:m:i'),$new_price,$order_id[$k]]);
           $sql = 'select token from clients where id = ? ';
@@ -407,27 +407,6 @@ $error = [
            'order_address'=>implode($v->errors()->get('order_address'))
            ];
 }
-//---auto update
-// $sql = "select * from auto_update";
-// $res = getData($con,$sql);
-// foreach($res as $val){
-//     ///-- auto status update ---
-//     if($val['active'] == 1){
-//     $auto = "SET @uids := '';
-//               UPDATE
-//               orders SET order_status_id = 4
-//                WHERE order_status_id = 3 and invoice_id = 0 and driver_invoice_id = 0 and confirm=1 and city = '".$val['city_id']."'
-//               DATE(date) < DATE_SUB(CURDATE(), INTERVAL ".$val['days']." DAY) AND ( SELECT @uids := CONCAT_WS(',', id, @uids));
-//               SELECT @uids as ids;";
-//     $ids = getAllUpdatedIds($mysqlicon,$auto);
-//     $ids = explode (",", $ids[0][0]);
-//     $tracking = "insert into tracking (order_id,order_status_id,note,staff_id) values(?,?,?,?)";
-//     foreach($ids as $id){
-//       $addTrack = setData($con,$tracking,[$id,4,'( تم تحديث الطلب تقائياً) ',$_SESSION['userid']]);
-//     }
-//   }
-// }
-//$fcm = sendNotification($tokens,$orders,'طلبات','اضافه مجموعه طلبيات','orderDetails.php');
 echo json_encode([$_REQUEST,'no'=>$no,'c'=>$c-1,'success'=>$success, 'error'=>$error]);
 
 ?>

@@ -192,6 +192,11 @@ require_once("config.php");
 				<span id="order_note_err1" class="form-text text-danger"></span>
 			</div>
             <div class="form-group  col-lg-2">
+				<label>الوزن</label>
+				<input  type="weight" phone="phone" style="direction: ltr !important;"   value="1" class="form-control" noseq="1" id="weight1" name="weight[]"/>
+				<span id="weight_err1"  class="form-text text-danger"></span>
+			</div>            
+            <div class="form-group  col-lg-2">
 				<label>تسليم مبلغ</label>
                 <input  type="checkbox"  onclick="moneycheck(1)" class="form-control" id="money1" name="money[]"/>
                 <input  type="hidden" class="form-control" id="moneycheck1" name="moneycheck[]"/>
@@ -665,6 +670,11 @@ function addMore(){
 				<span id="order_note_err`+number+`" class="form-text text-danger"></span>
 			</div>
             <div class="form-group  col-lg-2">
+				<label>الوزن</label>
+				<input  type="number" weight="weight" style="direction: ltr !important;"   value="1" class="form-control" noseq="`+number+`" id="weight`+number+`" name="weight[]"/>
+				<span id="weight_err`+number+`"  class="form-text text-danger"></span>
+			</div>
+            <div class="form-group  col-lg-2">
 				<label>تسليم مبلغ</label>
                 <input  type="checkbox" onclick="moneycheck(`+number+`)" class="form-control" id="money`+number+`" name="money[]"/>
                 <input  type="hidden" id="moneycheck`+number+`" name="moneycheck[]"/
@@ -680,7 +690,7 @@ function addMore(){
 				<label>تاريخ الزبون</label> <br />
 				<button type="button"  class="btn btn-clean btn-icon-lg" onclick="customerHistory(`+number+`)"><span class="fa fa-history"></span></button>
             </div>
-            <div class="form-group  col-lg-4">
+            <div class="form-group  col-lg-2">
              <br />
                <div id="customerHistory`+number+`"></div>
             </div>

@@ -57,12 +57,17 @@ try{
             if(to_city = 1,
                  if(orders.order_status_id=9,0,if(client_dev_price.price is null,(".$config['dev_b']." - discount),(client_dev_price.price - discount))),
                  if(orders.order_status_id=9,0,if(client_dev_price.price is null,(".$config['dev_o']." - discount),(client_dev_price.price - discount)))
-            ) + if(new_price > 500000 ,( (ceil(new_price/500000)-1) * ".$config['addOnOver500']." ),0) as dev_price,
+            )
+            + if(new_price > 500000 ,( (ceil(new_price/500000)-1) * ".$config['addOnOver500']." ),0)
+            + if(weight > 1 ,( (weight-1) * ".$config['weightPrice']." ),0)
+            as dev_price,
             new_price -
               (if(to_city = 1,
                   if(orders.order_status_id=9,0,if(client_dev_price.price is null,(".$config['dev_b']." - discount),(client_dev_price.price - discount))),
                   if(orders.order_status_id=9,0,if(client_dev_price.price is null,(".$config['dev_o']." - discount),(client_dev_price.price - discount)))
-                 ) + if(new_price > 500000 ,( (ceil(new_price/500000)-1) * ".$config['addOnOver500']." ),0)
+                 )
+                 + if(new_price > 500000 ,( (ceil(new_price/500000)-1) * ".$config['addOnOver500']." ),0)
+                 + if(weight > 1 ,( (weight-1) * ".$config['weightPrice']." ),0)
              ) as client_price,if(orders.order_status_id=9,0,discount) as discount,
               if(orders.order_status_id <> 4 ,if(orders.storage_id =0,'عند المندوب',if(orders.storage_id =-1,'عند العميل',storage.name)),'عند الزبون') as storage_status,
             clients.name as client_name,clients.phone as client_phone,if(tracking.note is null,'',tracking.note) as t_note,
