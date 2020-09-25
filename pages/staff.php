@@ -80,17 +80,15 @@ access([1,2]);
 </div>
 
 
-            <!--begin::Page Vendors(used by this page) -->
-                            <script src="assets/vendors/custom/datatables/datatables.bundle.js" type="text/javascript"></script>
-                        <!--end::Page Vendors -->
+<!--begin::Page Vendors(used by this page) -->
+<script src="assets/vendors/custom/datatables/datatables.bundle.js" type="text/javascript"></script>
+<!--end::Page Vendors -->
+<!--begin::Page Scripts(used by this page) -->
+<script src="assets/js/demo1/pages/components/datatables/extensions/responsive.js" type="text/javascript"></script>
+<!--begin::Page Scripts(used by this page) -->
 
-
-
-            <!--begin::Page Scripts(used by this page) -->
-                            <script src="assets/js/demo1/pages/components/datatables/extensions/responsive.js" type="text/javascript"></script>
-            <!--begin::Page Scripts(used by this page) -->
-                            <script src="./assets/js/demo1/pages/custom/profile/overview-3.js" type="text/javascript"></script>
-                            <script src="./assets/js/demo1/pages/custom/profile/profile.js" type="text/javascript"></script>
+<script src="./assets/js/demo1/pages/custom/profile/overview-3.js" type="text/javascript"></script>
+<script src="js/getCities.js" type="text/javascript"></script>
 <script src="js/getBraches.js" type="text/javascript"></script>
 <script src="js/getRoles.js" type="text/javascript"></script>
 <script src="js/getStorage.js" type="text/javascript"></script>
@@ -108,6 +106,8 @@ $.ajax({
       btn ='';
      if(this.role_id == 4){
        btn = "<button data-toggle='modal' data-target='#driverTownsModal' class='btn btn-warning text-white' onclick='getDriverTowns("+this.id+")'>مناطق</button>"
+     }else if(this.role_id == 9){
+       btn = "<button data-toggle='modal' data-target='#callcenterCitiesModal' class='btn btn-info text-white' onclick='getCallcenterCities("+this.id+")'>المحافظات</button>"
      }
      elem.append(
        '<tr>'+
@@ -162,6 +162,7 @@ function setSatffStorage(){
 $(document).ready(function(){
 getStaff($("#staffTable"));
 getStorage($("#storage"));
+getCities($("#city"));
 });
 
 
@@ -514,6 +515,61 @@ getStorage($("#storage"));
 
     </div>
   </div>
+<div class="modal fade" id="callcenterCitiesModal" role="dialog">
+    <div class="modal-dialog modal-lg">
+      <!-- Modal content-->
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal">&times;</button>
+          <h4 class="modal-title">محافظات الاستعلامات</h4>
+        </div>
+        <div class="modal-body">
+        <!--Begin:: App Content-->
+        <div class="kt-grid__item kt-grid__item--fluid kt-app__content">
+            <div class="kt-portlet">
+                <form class="kt-form kt-form--label-right" id="callcenterCitiesForm">
+                  <fieldset><legend>اضافه محافظه</legend>
+                  <div class="row kt-margin-b-20">
+                    <div class="col-lg-3 kt-margin-b-10-tablet-and-mobile">
+                    	<label>المحافظه:</label>
+                        <select data-live-search="true" class="form-control selectpicker" id="city" name="city"></select>
+                    </div>
+                    <div class="col-lg-3 kt-margin-b-10-tablet-and-mobile">
+                    	<label>اضافه:</label><br>
+                    	<button type="button" onclick="setCityToCallcenter()" class="btn btn-success" value="" placeholder="" data-col-index="0">اضافه
+
+                        </button>
+                    </div>
+                    <div class="col-lg-4 kt-margin-b-10-tablet-and-mobile">
+                    	<label>اسم الموظف:</label><br>
+                    	<label id="callcenter_name"></label><br>
+                    </div>
+                  </div>
+                  </fieldset>
+		<!--begin: Datatable -->
+		<table class="table table-striped- table-bordered table-hover table-checkable responsive no-wrap" id="tb-callcenterCity">
+			       <thead>
+	  						<tr>
+										<th>ID</th>
+										<th>المحافظه</th>
+										<th>حذف</th>
+
+		  					</tr>
+      	            </thead>
+                    <tbody id="callcenterCity">
+                    </tbody>
+		</table>
+		<!--end: Datatable -->
+        <input type="hidden" value="" id="callcenter_id" name="callcenter_id" />
+                </form>
+            </div>
+        </div>
+        <!--End:: App Content-->
+        </div>
+      </div>
+
+    </div>
+</div>
 
 <script>
 function addStaff(){
@@ -644,6 +700,7 @@ function deleteStaff(id){
   }
 }
 $("#tb-driverTown").DataTable();
+$("#tb-callcenterCity").DataTable();
 function getDriverTowns(id){
       $('#driver_id').val(id);
       $.ajax({
@@ -725,6 +782,87 @@ function deleteDriverTown(id){
       });
   }
 }
+
+function getCallcenterCities(id){
+      $('#callcenter_id').val(id);
+      $.ajax({
+        url:"script/_getCallcenterCities.php",
+        type:"POST",
+        data:{id:id},
+        beforeSend:function(){
+          $("#tb-callcenterCity").DataTable().destroy();
+        },
+        success:function(res){
+         if(res.success == 1){
+          $('#callcenterCity').html("");
+          $('#driver_name').text(res.name.name);
+
+          $.each(res.data,function(){
+            $('#callcenterCity').append(
+            '<tr>'+
+              '<td>'+this.id+'</td>'+
+              '<td>'+this.city_name+'</td>'+
+              '<td><button type="button" onclick="deleteCallcenterCity('+this.id+')" class="btn btn-icon btn-danger"><span class="flaticon-delete"></span></button></td>'+
+            '</tr>'
+            );
+          });
+          $("#tb-callcenterCity").DataTable();
+         }else{
+
+         }
+         console.log(res)
+        } ,
+        error:function(e){
+          console.log(e);
+        }
+      });
+}
+function setCityToCallcenter(){
+      $.ajax({
+        url:"script/_setCityToCallcenter.php",
+        type:"POST",
+        data:$("#callcenterCitiesForm").serialize(),
+        beforeSend:function(){
+          $("#callcenterCitiesForm").addClass("loading");
+        },
+        success:function(res){
+        $("#callcenterCitiesForm").removeClass("loading");
+         if(res.success == 1){
+           Toast.success(res.msg);
+           getCallcenterCities($('#callcenter_id').val());
+         }else{
+           Toast.warning(res.msg);
+         }
+         console.log(res)
+        } ,
+        error:function(e){
+          $("#driverTownsForm").removeClass("loading");
+          console.log(e);
+        }
+      });
+}
+function deleteCallcenterCity(id){
+  if(confirm("هل انت متاكد من الحذف")){
+      $.ajax({
+        url:"script/_deleteCallcenterCity.php",
+        type:"POST",
+        data:{id:id},
+        success:function(res){
+         if(res.success == 1){
+           Toast.success('تم الحذف');
+           getCallcenterCities($('#callcenter_id').val());
+         }else{
+           Toast.warning(res.msg);
+         }
+         console.log(res)
+        } ,
+        error:function(e){
+          console.log(e);
+        }
+      });
+  }
+}
+
 getBraches($("#staff_branch"));
 getRoles($("#staff_role"));
 getAllunAssignedTowns($("#town"));
