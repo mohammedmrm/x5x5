@@ -36,6 +36,14 @@ $se = $_SESSION['role'];
                           </a>
                       </li>
                       <?php } ?>
+                      <?php  if($se == 1 || $se == 2 || $se == 3 || $se == 5 || $se == 6 || $se == 7 || $se == 8 || $se == 9  || $se=99){?>
+                      <li class="kt-menu__item " aria-haspopup="true">
+                          <a href="?page=pages/orderAssign.php" class="kt-menu__link ">
+                              <i class="kt-menu__link-bullet kt-menu__link-bullet--dot"><span></span></i>
+                              <span class="kt-menu__link-text">احاله الطلبيات الى شركه توصيل</span>
+                          </a>
+                      </li>
+                      <?php } ?>
                       <?php  if($se == 99){?>
                        <li class="kt-menu__item" aria-haspopup="true">
                           <a href="?page=pages/editDeleteOrder.php" class="kt-menu__link ">

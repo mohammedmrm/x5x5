@@ -29,9 +29,9 @@ access([1]);
 <div class="kt-portlet kt-portlet--mobile">
 	<div class="kt-portlet__head">
 		<div class="kt-portlet__head-label">
-			<h3 class="kt-portlet__head-title">
-				العملاء
-			</h3>
+			<h1 class="kt-portlet__head-title">
+				شركات التوصيل
+			</h1>
 		</div>
 	</div>
 
@@ -68,14 +68,13 @@ access([1]);
 
 
             <!--begin::Page Vendors(used by this page) -->
-                            <script src="assets/vendors/custom/datatables/datatables.bundle.js" type="text/javascript"></script>
-                        <!--end::Page Vendors -->
 
-
-
-            <!--begin::Page Scripts(used by this page) -->
-                            <script src="assets/js/demo1/pages/components/datatables/extensions/responsive.js" type="text/javascript"></script>
-                       <script type="text/javascript">
+<!--begin::Page Vendors(used by this page) -->
+ <script src="assets/vendors/custom/datatables/datatables.bundle.js" type="text/javascript"></script>
+<!--end::Page Vendors -->
+<!--begin::Page Scripts(used by this page) -->
+<script src="assets/js/demo1/pages/components/datatables/extensions/responsive.js" type="text/javascript"></script>
+<script type="text/javascript">
 function getAllcompanies(elem){
 $.ajax({
   url:"script/_getAllcompanies.php",
@@ -84,15 +83,15 @@ $.ajax({
     $("#Company_table").addClass('loading');
   },
   success:function(res){
-   $("#tb-getAllcompanies").DataTable().destroy();
    console.log(res);
-   elem.html("");
    $("#Company_table").removeClass('loading');
+   $("#tb-getAllcompanies").DataTable().destroy();
+   elem.html("");
    $.each(res.data,function(){
      elem.append(
        '<tr>'+
             '<td>'+this.id+'</td>'+
-            '<td><img src="img/'+this.logo+'" width="100px"></td>'+
+            '<td><img src="img/logos/companies/'+this.logo+'" width="100px"></td>'+
             '<td>'+this.name+'</td>'+
             '<td>'+this.phone+'</td>'+
             '<td>'+this.text1+'</td>'+
@@ -141,23 +140,38 @@ getAllcompanies($("#getAllcompaniesTable"));
 				<div class="kt-portlet__body">
 					<div class="form-group">
 						<label>اسم الشركه:</label>
-						<input type="name" id="e_Company_name" name="e_Company_name" class="form-control"  placeholder="ادخل الاسم الكامل">
+						<input type="name" id="e_Company_name" name="e_company_name" class="form-control"  placeholder="ادخل الاسم الكامل">
 						<span class="form-text  text-danger" id="e_Company_name_err"></span>
 					</div>
 					<div class="form-group">
 						<label>شعار الشركه:</label>
-						<input type="file" id="e_Company_phone" name="e_Company_phone" class="form-control" placeholder="ادخل رقم الهاتف">
-						<span  id="e_Company_phone_err"class="form-text  text-danger"></span>
+						<input type="file" id="e_company_logo" name="e_company_logo" class="form-control" placeholder="ادخل رقم الهاتف">
+						<span  id="e_Company_logo_err"class="form-text  text-danger"></span>
 					</div>
+  					<div class="form-group">
+  						<label>توكن:</label>
+  						<input type="text" id="e_Company_token" name="e_company_token" class="form-control" placeholder="ex: 1r76yuiort34984.....">
+  						<span  id="e_Company_token_err"class="form-text  text-danger"></span>
+  					</div>
+                      					<div class="form-group">
+  						<label>الموقع الالكتروني:</label>
+  						<input type="text" id="e_Company_dns" name="e_company_dns" class="form-control" placeholder="ex: www.example.com">
+  						<span  id="e_Company_dns_err"class="form-text  text-danger"></span>
+  					</div>
 					<div class="form-group">
 						<label>رقم الهاتف:</label>
-						<input type="text" id="e_Company_phone" name="e_Company_phone" class="form-control" placeholder="ادخل رقم الهاتف">
+						<input type="text" id="e_Company_phone" name="e_company_phone" class="form-control" placeholder="ادخل رقم الهاتف">
 						<span  id="e_Company_phone_err"class="form-text  text-danger"></span>
 					</div>
 					<div class="form-group">
 						<label>النص الاول:</label>
-						<textarea id="e_Company_text1" name="e_Company_text1" class="form-control"></textarea>
-						<span class="form-text  text-danger" id="e_Company_password_err"></span>
+						<textarea id="e_Company_text1" name="e_company_text1" class="form-control"></textarea>
+						<span class="form-text  text-danger" id="e_Company_text1_err"></span>
+					</div>
+					<div class="form-group">
+						<label>النص الثاني:</label>
+						<textarea id="e_Company_text2" name="e_company_text2" class="form-control"></textarea>
+						<span class="form-text  text-danger" id="e_Company_text2_err"></span>
 					</div>
 	            </div>
 	            <div class="kt-portlet__foot kt-portlet__foot--solid">
@@ -166,7 +180,7 @@ getAllcompanies($("#getAllcompaniesTable"));
 						<button type="reset" data-dismiss="modal" class="btn btn-secondary">الغاء</button>
 					</div>
 				</div>
-                <input type="hidden" id="editCompanyid" name="editCompanyid" />
+                <input type="hidden" id="editCompanyid" name="editcompanyid" />
 			</form>
 			<!--end::Form-->
 		</div>
@@ -176,16 +190,10 @@ getAllcompanies($("#getAllcompaniesTable"));
 
     </div>
   </div>
-
-<script type="text/javascript" src="js/getCities.js"></script>
-<script type="text/javascript" src="js/getManagers.js"></script>
-<script type="text/javascript" src="js/getBraches.js"></script>
 <script>
 function editCompany(id){
   $(".text-danger").text("");
   $("#editCompanyid").val(id);
-  getCities($("#e_Company_city"));
-  getManagers($("#e_Company_manager"));
   $.ajax({
     url:"script/_getCompanyByID.php",
     data:{id: id},
@@ -197,10 +205,12 @@ function editCompany(id){
       if(res.success == 1){
         $.each(res.data,function(){
           $('#e_Company_name').val(this.name);
-          $('#e_Company_email').val(this.email);
+          $('#e_Company_token').val(this.token);
+          $('#e_Company_dns').val(this.dns);
           $('#e_Company_phone').val(this.phone);
-          $('#e_Company_branch').selectpicker('val', this.branch_id);
-        });
+          $('#e_Company_text1').val(this.text1);
+          $('#e_Company_text2').val(this.text2);
+       });
       }
       console.log(res);
     },
@@ -212,10 +222,15 @@ function editCompany(id){
 }
 function updateCompany(){
     $(".text-danger").text("");
+    var myform = document.getElementById('editCompanyForm');
+    var fd = new FormData(myform);
     $.ajax({
        url:"script/_updateCompany.php",
        type:"POST",
-       data:$("#editCompanyForm").serialize(),
+       data:fd,
+       processData: false,  // tell jQuery not to process the data
+       contentType: false,
+       cache: false,
        beforeSend:function(){
         $("#editCompanyForm").addClass('loading');
        },
@@ -227,11 +242,12 @@ function updateCompany(){
           Toast.success('تم التحديث');
           getAllcompanies($("#getAllcompaniesTable"));
        }else{
-           $("#e_Company_branch_err").text(res.error["Company_branch_err"]);
-           $("#e_Company_name_err").text(res.error["Company_name_err"]);
-           $("#e_Company_email_err").text(res.error["Company_email_err"]);
-           $("#e_Company_phone_err").text(res.error["Company_phone_err"]);
-           $("#e_Company_password_err").text(res.error["Company_password_err"]);
+           $("#e_Company_name_err").text(res.error["name"]);
+           $("#e_Company_dns_err").text(res.error["dns"]);
+           $("#e_Company_phone_err").text(res.error["phone"]);
+           $("#e_Company_token_err").text(res.error["token"]);
+           $("#e_Company_text1_err").text(res.error["text1"]);
+           $("#e_Company_text2_err").text(res.error["text2"]);
            Toast.warning("هناك بعض المدخلات غير صالحة",'خطأ');
        }
        },
@@ -293,6 +309,16 @@ function deleteCompany(id){
   						<span  id="Company_logo_err"class="form-text  text-danger"></span>
   					</div>
   					<div class="form-group">
+  						<label>توكن:</label>
+  						<input type="text" name="Company_token" class="form-control" placeholder="ex: 1r76yuiort34984.....">
+  						<span  id="Company_token_err"class="form-text  text-danger"></span>
+  					</div>
+                      					<div class="form-group">
+  						<label>الموقع الالكتروني:</label>
+  						<input type="text" name="Company_dns" class="form-control" placeholder="ex: www.example.com">
+  						<span  id="Company_dns_err"class="form-text  text-danger"></span>
+  					</div>
+  					<div class="form-group">
   						<label>رقم الهاتف:</label>
   						<input type="text" name="Company_phone" class="form-control" placeholder="ادخل رقم الهاتف">
   						<span  id="Company_phone_err"class="form-text  text-danger"></span>
@@ -307,6 +333,7 @@ function deleteCompany(id){
   						<textarea  name="Company_text2" class="form-control" ></textarea>
   						<span class="form-text  text-danger" id="Company_text2_err"></span>
   					</div>
+
   	            </div>
                 </div>
 	            <div class="kt-portlet__foot kt-portlet__foot--solid">
@@ -357,6 +384,8 @@ function deleteCompany(id){
            $("#Company_text1_err").text(res.error["Company_text1_err"]);
            $("#Company_text2_err").text(res.error["Company_text2_err"]);
            $("#Company_logo_err").text(res.error["Company_logo_err"]);
+           $("#Company_token_err").text(res.error["Company_token_err"]);
+           $("#Company_dns_err").text(res.error["Company_dns_err"]);
        }
      },
      error:function(e){

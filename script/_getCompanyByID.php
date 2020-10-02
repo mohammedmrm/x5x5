@@ -1,19 +1,19 @@
 <?php
 session_start();
 header('Content-Type: application/json');
-error_reporting(0);
 require("_access.php");
-access([1]);
+access([1,2]);
+$id = $_REQUEST['id'];
+if(!empty($id)){
 require("dbconnection.php");
-$branch = $_REQUEST['branch'];
 try{
-  $query = "select companies.* from companies";
-
-  $data = getData($con,$query);
+  $query = "select * from companies where id=?";
+  $data = getData($con,$query,[$id]);
   $success="1";
 } catch(PDOException $ex) {
    $data=["error"=>$ex];
    $success="0";
 }
-print_r(json_encode(array("success"=>$success,"data"=>$data)));
+}
+echo json_encode(array("success"=>$success,"data"=>$data));
 ?>

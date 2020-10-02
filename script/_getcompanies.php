@@ -1,9 +1,9 @@
 <?php
 session_start();
 header('Content-Type: application/json');
-require_once("_access.php");
-access([1,2,3,4,5,6]);
-require_once("dbconnection.php");
+require("_access.php");
+access([1,2,3,4,5,6,10]);
+require("dbconnection.php");
 try{
   $query = "select * from companies";
   $data = getData($con,$query);
