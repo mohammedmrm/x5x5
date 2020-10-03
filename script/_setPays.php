@@ -45,8 +45,8 @@ $v->validate([
 
 $month_err = implode($v->errors()->get('year'))."-".implode($v->errors()->get('month'));
 if($v->passes())  {
- $sql = "insert into pays (reason,price,note) values (?,?,?)";
- $res = setData($con,$sql,[$reason,$money,$note]);
+ $sql = "insert into pays (reason,price,note,staff_id) values (?,?,?,?)";
+ $res = setData($con,$sql,[$reason,$money,$note,$_SESSION['userid']]);
  if($res > 0){
    $success = 1;
  }
