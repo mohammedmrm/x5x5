@@ -71,12 +71,24 @@ foreach($res as $val){
    $tracking = "insert into tracking (order_id,order_status_id,note,staff_id) values(?,?,?,?)";
    foreach($idss as $id){
      if($id > 0){
-     $addTrack = setData($con,$tracking,[$id,4,'( تم تحديث الطلب تقائياً) ',$_SESSION['userid']]);
+     $addTrack = setData($con,$tracking,[$id,4,'( تم تحديث الطلب تلقائياً) ',$_SESSION['userid']]);
      $j++;
      }
    }
  }
 }
+  //--delete old notifications
+  $delete = "delete FROM notification WHERE date < DATE_SUB(NOW(), INTERVAL 3 MONTH)";
+  setData($con,$delete);
+  //--delete old tracking
+  $delete = "delete FROM tracking WHERE date < DATE_SUB(NOW(), INTERVAL 3 MONTH)";
+  setData($con,$delete);
+  //---delete old messages
+  $delete = "delete FROM message WHERE date < DATE_SUB(NOW(), INTERVAL 3 MONTH)";
+  setData($con,$delete);
+  //---delete old storage_tracking
+  $delete = "delete FROM storage_tracking WHERE date < DATE_SUB(NOW(), INTERVAL 6 MONTH)";
+  setData($con,$delete);
 
 echo json_encode(['data'=>$result,$j]);
 ?>
