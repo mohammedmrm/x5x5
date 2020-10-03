@@ -183,6 +183,17 @@ getAllclients($("#getAllclientsTable"));
 						<input type="password" id="e_client_password" name="e_client_password" class="form-control" placeholder="ادخل كلمة السر">
 						<span class="form-text  text-danger" id="e_client_password_err"></span>
 					</div>
+                    <label class="text-warning">اذا كان العميل شركه توصيل تستخدم نفس البرنامج</label>
+					<div class="form-group">
+						<label>توكن المزامنه</label>
+						<input type="text" id="e_client_token" name="e_client_token" class="form-control" placeholder="">
+						<span  id="e_client_token_err"class="form-text  text-danger"></span>
+					</div>
+					<div class="form-group">
+						<label>Dns</label>
+						<input type="text" id="e_client_dns" name="e_client_dns" class="form-control" placeholder="">
+						<span class="form-text  text-danger" id="e_client_dns_err"></span>
+					</div>
 	            </div>
 	            <div class="kt-portlet__foot kt-portlet__foot--solid">
 					<div class="kt-form__actions kt-form__actions--right">
@@ -291,7 +302,7 @@ getAllclients($("#getAllclientsTable"));
 <script type="text/javascript" src="js/getCities.js"></script>
 <script type="text/javascript" src="js/getManagers.js"></script>
 <script type="text/javascript" src="js/getBraches.js"></script>
- <script src="assets/js/demo1/pages/components/forms/widgets/clipboard.js" type="text/javascript"></script>
+<script src="assets/js/demo1/pages/components/forms/widgets/clipboard.js" type="text/javascript"></script>
 <script>
 function editClient(id){
   $(".text-danger").text("");
@@ -312,6 +323,8 @@ function editClient(id){
           $('#e_client_email').val(this.email);
           $('#e_client_phone').val(this.phone);
           $('#e_client_branch').selectpicker('val', this.branch_id);
+          $('#e_client_token').val(this.sync_token);
+          $('#e_client_dns').val(this.sync_dns);
         });
       }
       console.log(res);
@@ -344,6 +357,8 @@ function updateClient(){
            $("#e_client_email_err").text(res.error["client_email_err"]);
            $("#e_client_phone_err").text(res.error["client_phone_err"]);
            $("#e_client_password_err").text(res.error["client_password_err"]);
+           $("#e_client_token_err").text(res.error["client_token_err"]);
+           $("#e_client_dns_err").text(res.error["client_dns_err"]);
            Toast.warning("هناك بعض المدخلات غير صالحة",'خطأ');
        }
        },
@@ -499,6 +514,17 @@ function getApiToken(id){
   						<input type="password" name="client_password" class="form-control" placeholder="ادخل كلمة السر">
   						<span class="form-text  text-danger" id="client_password_err"></span>
   					</div>
+                    <label class="text-warning">اذا كان العميل شركه توصيل تستخدم نفس البرنامج</label>
+					<div class="form-group">
+						<label>توكن المزامنه</label>
+						<input type="text" id="client_token" name="client_token" class="form-control" placeholder="">
+						<span  id="client_token_err"class="form-text  text-danger"></span>
+					</div>
+					<div class="form-group">
+						<label>Dns</label>
+						<input type="text" id="client_dns" name="client_dns" class="form-control" placeholder="">
+						<span class="form-text  text-danger" id="client_dns_err"></span>
+					</div>
   	            </div>
   	            </div>
                   <div class="col-md-6">
@@ -600,6 +626,8 @@ function getApiToken(id){
            $("#client_email_err").text(res.error["client_email_err"]);
            $("#client_branch_err").text(res.error["client_branch_err"]);
            $("#client_password_err").text(res.error["client_password_err"]);
+           $("#client_token_err").text(res.error["client_token_err"]);
+           $("#client_dns_err").text(res.error["client_dns_err"]);
        }
 
      },

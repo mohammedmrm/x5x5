@@ -134,14 +134,14 @@ if($v->passes()) {
             }
             $new_price = $val['price'];
 
-            $sql = 'insert into orders (driver_id,order_no,order_type,weight,qty,
+            $sql = 'insert into orders (isfrom,driver_id,order_no,order_type,weight,qty,
                                     price,dev_price,from_branch,
                                     client_id,store_id,customer_name,
                                     customer_phone,to_city,to_town,to_branch,with_dev,note,new_price,address,company_id,confirm,remote_id)
                                     VALUES
-                                    (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)';
+                                    (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)';
            $result = setDataWithLastID($con,$sql,
-                         [$driver,$val['order_no'],$val['order_type'],$val['weight'],$val['items'],
+                         [2,$driver,$val['order_no'],$val['order_type'],$val['weight'],$val['items'],
                           $val['price'],$dev_price,$mainbranch,
                           $client,$store,$val['customer_name'],
                           $val['customer_phone'],$val['city_id'],$val['town_id'],$to_branch,$with_dev,$val['note'],$new_price,$val['addess'],$company,$confirm,$val['id']]);

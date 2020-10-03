@@ -19,6 +19,8 @@ $email   = $_REQUEST['client_email'];
 $password= $_REQUEST['client_password'];
 $phone   = $_REQUEST['client_phone'];
 $branch  = $_REQUEST['client_branch'];
+$token = $_REQUEST['client_token'];
+$dns  = $_REQUEST['client_dns'];
 $dev_b  = $_REQUEST['client_dev_price_b'];
 $dev_o  = $_REQUEST['client_dev_price_o'];
 $dev_e  = $_REQUEST['client_dev_price_e'];
@@ -73,15 +75,17 @@ $v->validate([
     'client_password'=> [$password,'required|min(6)|max(16)'],
     'client_phone'   => [$phone,   "required|isPhoneNumber|unique(clients,phone)"],
     'client_branch'  => [$branch,  'required|int|max(2)'],
+    'client_token'   => [$token, 'min(5)|max(250)'],
+    'client_dns'     => [$dns,   'min(3)|max(250)'],
     'client_dev_price_b'=> [$dev_b,  'int|max(5)'],
-    'client_dev_price_o'=> [$dev_o ,  'int|max(5)'],
+    'client_dev_price_o'=> [$dev_o , 'int|max(5)'],
 ]);
 
 if($v->passes()) {
   $password = hashPass($password);
-  $sql = 'insert into clients (name,phone,email,password,branch_id) values
-                              (?,?,?,?,?)';
-  $result = setData($con,$sql,[$name,$phone,$email,$password,$branch]);
+  $sql = 'insert into clients (name,phone,email,password,branch_id,sync_token,sync_dns) values
+                              (?,?,?,?,?,?,?)';
+  $result = setData($con,$sql,[$name,$phone,$email,$password,$branch,$token,$dns]);
   if($result > 0){
     $success = 1;
     $sql = "select * from clients where phone=? and branch_id=?";
@@ -126,6 +130,8 @@ if($v->passes()) {
            'client_password_err'=>implode($v->errors()->get('client_password')),
            'client_phone_err'=>implode($v->errors()->get('client_phone')),
            'client_branch_err'=>implode($v->errors()->get('client_branch')),
+           'client_token_err'=>implode($v->errors()->get('client_token')),
+           'client_dns_err'=>implode($v->errors()->get('client_dns')),
            'client_dev_price_b'=>implode($v->errors()->get('client_dev_price_b')),
            'client_dev_price_o'=>implode($v->errors()->get('client_dev_price_o')),
            ];

@@ -7,7 +7,7 @@ $id = $_REQUEST['id'];
 if(!empty($id)){
 require_once("dbconnection.php");
 try{
-  $query = "select name,id,email,phone,branch_id,show_earnings from clients where id=?";
+  $query = "select name,id,email,phone,branch_id,show_earnings,sync_token,sync_dns from clients where id=?";
   $data = getData($con,$query,[$id]);
   $success="1";
 } catch(PDOException $ex) {
