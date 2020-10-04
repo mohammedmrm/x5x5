@@ -83,7 +83,7 @@ foreach($res as $val){
    $tracking = "insert into tracking (order_id,order_status_id,note,staff_id) values(?,?,?,?)";
    foreach($idss as $id){
        $sql = "select isfrom ,clients.sync_token as token,clients.dns as dns from orders
-               inner join clients oo clients.id = orders.client_id
+               inner join clients on clients.id = orders.client_id
                where id=?";
        $order = getData($con,$sql,[$id]);
        if($order[0]['isfrom'] == 2){

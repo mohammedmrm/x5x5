@@ -87,7 +87,7 @@ function httpPost($url, $data)
            }
            ///---sync
            $sql = "select isfrom ,clients.sync_token as token,clients.dns as dns from orders
-                   inner join clients oo clients.id = orders.client_id
+                   inner join clients on clients.id = orders.client_id
                    where id=?";
            $order = getData($con,$sql,[$v]);
            if($order[0]['isfrom'] == 2){
