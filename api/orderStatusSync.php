@@ -80,7 +80,7 @@ $response = [];
 if($v->passes()  ) {
  try{
       $sql = "select * from companies where sync_token=?";
-      $company = getData($con,$sql,$token);
+      $company = getData($con,$sql,[$token]);
       if(count($company) == 1){
           $sql =" select * from orders where bar_code =? and delivery_company_id=?";
           $order = getData($con,$sql,[$barcode,$company[0]['id']]);
@@ -138,5 +138,5 @@ $error = [
            'item_no'=>implode($v->errors()->get('item_no')),
         ];
 }
-echo json_encode([$company,$order,$_REQUEST,'success'=>$success, 'error'=>$error]);
+echo json_encode([$company,count($company),$order,$_REQUEST,'success'=>$success, 'error'=>$error]);
 ?>
