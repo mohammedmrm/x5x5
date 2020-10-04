@@ -9,6 +9,17 @@ require_once("dbconnection.php");
 $ids = $_REQUEST['ids'];
 $statues = $_REQUEST['status'];
 $success="0";
+function httpPost($url, $data)
+{
+    $curl = curl_init($url);
+    curl_setopt($curl, CURLOPT_POST, true);
+    curl_setopt($curl, CURLOPT_SSL_VERIFYPEER, false);
+    curl_setopt($curl, CURLOPT_POSTFIELDS, http_build_query($data));
+    curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
+    $response = curl_exec($curl);
+    curl_close($curl);
+    return $response;
+}
 if(isset($_REQUEST['ids'])){
       try{
          $query = "update orders set order_status_id=? where id=? and invoice_id=0 and driver_invoice_id=0 and storage_id=0";
@@ -24,6 +35,22 @@ if(isset($_REQUEST['ids'])){
                setData($con,$updateRecord,[$statues[$i],$v]);
                if($statues[$i] == 9){
                  setData($con,$price,[0,$v]);
+               }
+               ///---sync
+               $sql = "select isfrom,delivery_company_id from orders where id=?";
+               $order = getData($con,$sql,[$v]);
+               if($order[0]['isfrom'] == 2){
+                 $sql = "select * from companies where id=?";
+                 $company = getData($con,$sql,[$order[0]['delivery_company_id']]);
+                 if(count($company) == 1){
+                     $response = httpPost($company[0]['dns'].'/api/orderStatusSync.php',
+                      [
+                       'token'=>$company[0]['token'],
+                       'status'=>$statues[$i],
+                       'note'=>'',
+                       'id'=>$v,
+                      ]);
+                  }
                }
              }
              $success="1";

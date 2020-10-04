@@ -12,6 +12,7 @@ $discount = $_REQUEST['discount'];
 $ids = $_REQUEST['ids'];
 $ac = $_SESSION['role'];
 $success="0";
+$response=[];
 if(isset($_REQUEST['ids'])){
   if($action == 'asign' && ( $ac == 1 || $ac == 2 || $ac == 3 || $ac == 5)){
     if($driver >= 1){
@@ -58,6 +59,17 @@ if(isset($_REQUEST['ids'])){
     $msg = "?????? ????????";
   }
   //---update
+function httpPost($url, $data)
+{
+    $curl = curl_init($url);
+    curl_setopt($curl, CURLOPT_POST, true);
+    curl_setopt($curl, CURLOPT_SSL_VERIFYPEER, false);
+    curl_setopt($curl, CURLOPT_POSTFIELDS, http_build_query($data));
+    curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
+    $response = curl_exec($curl);
+    curl_close($curl);
+    return $response;
+}
   if($action == 'status' && ( $ac == 1 || $ac == 2 || $ac == 3 || $ac == 5 || $ac == 6 || $ac == 7 || $ac == 8)){
     if($status >= 1){
       try{
@@ -72,6 +84,22 @@ if(isset($_REQUEST['ids'])){
            $success="1";
            if($status == 9){
                setData($con,$price,[0,$v]);
+           }
+           ///---sync
+           $sql = "select isfrom,delivery_company_id from orders where id=?";
+           $order = getData($con,$sql,[$v]);
+           if($order[0]['isfrom'] == 2){
+             $sql = "select * from companies where id=?";
+             $company = getData($con,$sql,[$order[0]['delivery_company_id']]);
+             if(count($company) == 1){
+                 $response = httpPost($company[0]['dns'].'/api/orderStatusSync.php',
+                  [
+                   'token'=>$company[0]['token'],
+                   'status'=>$status,
+                   'note'=>'',
+                   'id'=>$v,
+                  ]);
+              }
            }
          }
       } catch(PDOException $ex) {
@@ -157,5 +185,5 @@ if(isset($_REQUEST['ids'])){
   $success="2";
 }
 
-echo (json_encode(array("success"=>$success,"data"=>$data)));
+echo (json_encode(array("success"=>$success,"data"=>$data,"response"=>json_decode(substr($response, 3)))));
 ?>

@@ -7,6 +7,7 @@ access([1,2,5,3]);
 require("../script/dbconnection.php");
 $start = trim($_REQUEST['start']);
 $end = trim($_REQUEST['end']);
+$response = [];
 if(empty($end)) {
   $end = date('Y-m-d h:i:s', strtotime($end. ' + 1 day'));
 }else{
@@ -57,6 +58,17 @@ $sql = "select * from auto_update";
 $res = getData($con,$sql);
 $ids=[];
 $j=0;
+function httpPost($url, $data)
+{
+    $curl = curl_init($url);
+    curl_setopt($curl, CURLOPT_POST, true);
+    curl_setopt($curl, CURLOPT_SSL_VERIFYPEER, false);
+    curl_setopt($curl, CURLOPT_POSTFIELDS, http_build_query($data));
+    curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
+    $response = curl_exec($curl);
+    curl_close($curl);
+    return $response;
+}
 foreach($res as $val){
    ///-- auto status update ---
    if($val['active'] == 1){
@@ -70,6 +82,21 @@ foreach($res as $val){
    $idss = explode (",", $ids[0][0]);
    $tracking = "insert into tracking (order_id,order_status_id,note,staff_id) values(?,?,?,?)";
    foreach($idss as $id){
+     $sql = "select isfrom,delivery_company_id from orders where id=?";
+     $order = getData($con,$sql,[$id]);
+     if($order[0]['isfrom'] == 2){
+       $sql = "select * from companies where id=?";
+       $company = getData($con,$sql,[$order[0]['delivery_company_id']]);
+       if(count($company) == 1){
+           $response = httpPost($company[0]['dns'].'/api/orderStatusSync.php',
+            [
+             'token'=>$company[0]['token'],
+             'status'=>4,
+             'note'=>'( تم تحديث الطلب تلقائياً) ',
+             'id'=>$id,
+            ]);
+        }
+     }
      if($id > 0){
      $addTrack = setData($con,$tracking,[$id,4,'( تم تحديث الطلب تلقائياً) ',$_SESSION['userid']]);
      $j++;
@@ -90,5 +117,5 @@ foreach($res as $val){
   $delete = "delete FROM storage_tracking WHERE date < DATE_SUB(NOW(), INTERVAL 6 MONTH)";
   setData($con,$delete);
 
-echo json_encode(['data'=>$result,$j]);
+echo json_encode(['data'=>$result,$j,"response"=>json_decode(substr($response, 3))]);
 ?>
