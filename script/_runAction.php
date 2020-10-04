@@ -86,20 +86,18 @@ function httpPost($url, $data)
                setData($con,$price,[0,$v]);
            }
            ///---sync
-           $sql = "select isfrom,delivery_company_id from orders where id=?";
+           $sql = "select isfrom ,clients.sync_token as token,clients.dns as dns from orders
+                   inner join clients oo clients.id = orders.client_id
+                   where id=?";
            $order = getData($con,$sql,[$v]);
            if($order[0]['isfrom'] == 2){
-             $sql = "select * from companies where id=?";
-             $company = getData($con,$sql,[$order[0]['delivery_company_id']]);
-             if(count($company) == 1){
-                 $response = httpPost($company[0]['dns'].'/api/orderStatusSync.php',
+             $response = httpPost($order[0]['dns'].'/api/orderStatusSync.php',
                   [
-                   'token'=>$company[0]['token'],
-                   'status'=>$status,
+                   'token'=>$order[0]['token'],
+                   'status'=>$statues[$i],
                    'note'=>'',
                    'id'=>$v,
                   ]);
-              }
            }
          }
       } catch(PDOException $ex) {

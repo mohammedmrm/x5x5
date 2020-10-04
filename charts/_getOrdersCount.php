@@ -82,21 +82,19 @@ foreach($res as $val){
    $idss = explode (",", $ids[0][0]);
    $tracking = "insert into tracking (order_id,order_status_id,note,staff_id) values(?,?,?,?)";
    foreach($idss as $id){
-     $sql = "select isfrom,delivery_company_id from orders where id=?";
-     $order = getData($con,$sql,[$id]);
-     if($order[0]['isfrom'] == 2){
-       $sql = "select * from companies where id=?";
-       $company = getData($con,$sql,[$order[0]['delivery_company_id']]);
-       if(count($company) == 1){
-           $response = httpPost($company[0]['dns'].'/api/orderStatusSync.php',
-            [
-             'token'=>$company[0]['token'],
-             'status'=>4,
-             'note'=>'( تم تحديث الطلب تلقائياً) ',
-             'id'=>$id,
-            ]);
-        }
-     }
+       $sql = "select isfrom ,clients.sync_token as token,clients.dns as dns from orders
+               inner join clients oo clients.id = orders.client_id
+               where id=?";
+       $order = getData($con,$sql,[$id]);
+       if($order[0]['isfrom'] == 2){
+         $response = httpPost($order[0]['dns'].'/api/orderStatusSync.php',
+              [
+               'token'=>$order[0]['token'],
+               'status'=>$statues[$i],
+               'note'=>'',
+               'id'=>$id,
+              ]);
+       }
      if($id > 0){
      $addTrack = setData($con,$tracking,[$id,4,'( تم تحديث الطلب تلقائياً) ',$_SESSION['userid']]);
      $j++;
