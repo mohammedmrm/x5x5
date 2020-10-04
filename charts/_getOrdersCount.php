@@ -82,9 +82,9 @@ foreach($res as $val){
    $idss = explode (",", $ids[0][0]);
    $tracking = "insert into tracking (order_id,order_status_id,note,staff_id) values(?,?,?,?)";
    foreach($idss as $id){
-       $sql = "select isfrom ,clients.sync_token as token,clients.dns as dns from orders
+       $sql = "select isfrom ,clients.sync_token as token,clients.sync_dns as dns from orders
                inner join clients on clients.id = orders.client_id
-               where id=?";
+               where orders.id=?";
        $order = getData($con,$sql,[$id]);
        if($order[0]['isfrom'] == 2){
          $response = httpPost($order[0]['dns'].'/api/orderStatusSync.php',
