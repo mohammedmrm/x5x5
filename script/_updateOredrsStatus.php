@@ -65,5 +65,5 @@ if(isset($_REQUEST['ids'])){
   $success="2";
 }
 
-echo json_encode([$_REQUEST,"success"=>$success,"data"=>$data]);
+echo json_encode([$_REQUEST,"success"=>$success,"data"=>$data,"response"=>json_decode(substr($response, 3))]);
 ?>
