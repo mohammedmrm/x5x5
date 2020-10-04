@@ -72,8 +72,8 @@ $v->validate([
     'status'  => [$status,  "int"],
     'city'    => [$city,    'int'],
     'town'    => [$town,    'int'],
-    'token'   => [$town,    'required|min(5)|max(250)'],
-    'item_no' => [$town,    'int'],
+    'token'   => [$token,    'required|min(5)|max(250)'],
+    'item_no' => [$item_no,    'int'],
 ]);
 
 $response = [];
