@@ -138,5 +138,5 @@ $error = [
            'item_no'=>implode($v->errors()->get('item_no')),
         ];
 }
-echo json_encode([$token,$_REQUEST,'success'=>$success, 'error'=>$error]);
+echo json_encode([$company,$order,$_REQUEST,'success'=>$success, 'error'=>$error]);
 ?>
