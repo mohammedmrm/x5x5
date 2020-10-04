@@ -72,8 +72,8 @@ $v->validate([
     'status'  => [$status,  "int"],
     'city'    => [$city,    'int'],
     'town'    => [$town,    'int'],
-    'token'   => [$token,    'required|min(5)|max(250)'],
-    'item_no' => [$item_no,    'int'],
+    'token'   => [$token,   'required|min(5)|max(250)'],
+    'item_no' => [$item_no, 'int'],
 ]);
 
 $response = [];
@@ -138,5 +138,5 @@ $error = [
            'item_no'=>implode($v->errors()->get('item_no')),
         ];
 }
-echo json_encode([$_REQUEST,'success'=>$success, 'error'=>$error]);
+echo json_encode([$token,$_REQUEST,'success'=>$success, 'error'=>$error]);
 ?>
