@@ -90,7 +90,7 @@ foreach($res as $val){
          $response = httpPost($order[0]['dns'].'/api/orderStatusSync.php',
               [
                'token'=>$order[0]['token'],
-               'status'=>$statues[$i],
+               'status'=>4,
                'note'=>'',
                'id'=>$id,
               ]);

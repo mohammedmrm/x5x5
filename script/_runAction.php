@@ -94,7 +94,7 @@ function httpPost($url, $data)
              $response = httpPost($order[0]['dns'].'/api/orderStatusSync.php',
                   [
                    'token'=>$order[0]['token'],
-                   'status'=>$statues[$i],
+                   'status'=>$status,
                    'note'=>'',
                    'id'=>$v,
                   ]);
@@ -153,9 +153,23 @@ function httpPost($url, $data)
            $data = setData($con,$query,[9,$_SESSION['user_details']['storage_id'],$v]);
            $query2 = "insert into tracking (order_id,order_status_id,date,staff_id) values(?,?,?,?)";
            setData($con,$query2,[$v,9,date('Y-m-d H:i:s'),$_SESSION['userid']]);
-            $sql ="insert into storage_tracking (order_id,staff_id,status) values(?,?,?)";
-            setData($con,$sql,[$v,$_SESSION['userid'],2]);
+           $sql ="insert into storage_tracking (order_id,staff_id,status) values(?,?,?)";
+           setData($con,$sql,[$v,$_SESSION['userid'],2]);
            $success="1";
+           ///---sync
+           $sql = "select isfrom ,clients.sync_token as token,clients.sync_dns as dns from orders
+                   inner join clients on clients.id = orders.client_id
+                   where orders.id=?";
+           $order = getData($con,$sql,[$v]);
+           if($order[0]['isfrom'] == 2){
+             $response = httpPost($order[0]['dns'].'/api/orderStatusSync.php',
+                  [
+                   'token'=>$order[0]['token'],
+                   'status'=>9,
+                   'note'=>'',
+                   'id'=>$v,
+                  ]);
+           }
          }
       } catch(PDOException $ex) {
           $data=["error"=>$ex];
@@ -173,6 +187,20 @@ function httpPost($url, $data)
            $sql ="insert into storage_tracking (order_id,staff_id,status) values(?,?,?)";
            setData($con,$sql,[$v,$_SESSION['userid'],2]);
            $success="1";
+           ///---sync
+           $sql = "select isfrom ,clients.sync_token as token,clients.sync_dns as dns from orders
+                   inner join clients on clients.id = orders.client_id
+                   where orders.id=?";
+           $order = getData($con,$sql,[$v]);
+           if($order[0]['isfrom'] == 2){
+             $response = httpPost($order[0]['dns'].'/api/orderStatusSync.php',
+                  [
+                   'token'=>$order[0]['token'],
+                   'status'=>6,
+                   'note'=>'',
+                   'id'=>$v,
+                  ]);
+           }
          }
       } catch(PDOException $ex) {
           $data=["error"=>$ex];
