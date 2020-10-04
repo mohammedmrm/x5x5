@@ -103,7 +103,7 @@ if($v->passes()  ) {
               $result = setData($con,$sql,[$clinetdata['id']]);
               if($result > 0){
                 $success = 1;
-                $sql = 'insert into tracking (order_status_id,note,items_no,order_id,staff_id) values(?,?,?,?)';
+                $sql = 'insert into tracking (order_status_id,note,items_no,order_id,staff_id) values(?,?,?,?,?)';
                 $result = setData($con,$sql,[$status,$note,$item_no,$order_id,-1]);
                 $sql = "select staff.token as s_token, clients.token as c_token from orders inner join staff
                         on
