@@ -125,8 +125,20 @@ legend
                 </select>
             </div>
             <div class="col-lg-2 kt-margin-b-10-tablet-and-mobile">
+            	<label>بغداد او محافظات:</label>
+            	<select id="BOrO" name="BOrO" onchange="getorders()" class="form-control kt-input" data-col-index="2">
+            		<option value="all">الكل</option>
+            		<option value="1">يغداد</option>
+            		<option value="2">محافظات</option>
+                </select>
+            </div>
+            <div class="col-lg-2 kt-margin-b-10-tablet-and-mobile">
                 	<label>عدد السجلات</label>
                 	<input onchange="getorders()" type="number" value="10" class="form-control kt-input" name="limit" data-col-index="7" />
+            </div>
+            <div class="col-lg-2 kt-margin-b-10-tablet-and-mobile">
+                	<label class=" fa-2x">عدد الطلبيات</label><br />
+                	<label class="text-info fa-2x" id="orders_count">0</label>
             </div>
           </div>
           </fieldset>
@@ -192,6 +204,7 @@ legend
 <script src="js/getorderStatus.js" type="text/javascript"></script>
 <script src="js/getCompanies.js" type="text/javascript"></script>
 <script src="js/getCities.js" type="text/javascript"></script>
+<script src="js/getBraches.js" type="text/javascript"></script>
 <script type="text/javascript">
 function download_Receipts(){
     var domain = "script/downloadReceipts.php?";
@@ -256,6 +269,7 @@ $.ajax({
          );
      }
    }
+   $("#orders_count").text(res.orders);
    i=0;
    $.each(res.data,function(){
       $('#ordersTable').append(
@@ -325,6 +339,7 @@ function getclient(){
 }
 
 $(document).ready(function(){
+  getBraches($("#branch"));
   getCompanies($('#company'));
   getorders();
 $("#allselector").change(function() {

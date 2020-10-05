@@ -19,6 +19,8 @@ $start = trim($_REQUEST['start']);
 $end = trim($_REQUEST['end']);
 $limit = trim($_REQUEST['limit']);
 $page = trim($_REQUEST['p']);
+$BOrO  = trim($_REQUEST['BOrO']);
+
 $assignStatus= trim($_REQUEST['assignStatus']);
 $money_status = trim($_REQUEST['money_status']);
 if(!empty($end)) {
@@ -92,6 +94,11 @@ try{
   }else if($assignStatus == 2){
     $filter .= " and orders.delivery_company_id > 0";
   }
+  if($BOrO== 1){
+     $filter .= " and orders.to_city = 1";
+  }else if($BOrO == 2){
+    $filter .= " and orders.to_city > 1";
+  }
   //-----------------status
   if($status == 4){
     $filter .= " and (order_status_id =".$status." or order_status_id = 6 or order_status_id = 5)";
@@ -142,5 +149,5 @@ if($success == '1'){
     }
   }
 }
-echo (json_encode(array($query,"success"=>$success,"data"=>$data,'pages'=>$pages,'page'=>$page+1)));
+echo (json_encode(array($_REQUEST,"success"=>$success,"data"=>$data,'pages'=>$pages,'page'=>$page+1,'orders'=>$ps[0]['count'])));
 ?>
