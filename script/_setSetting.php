@@ -121,6 +121,12 @@ if(!empty($_FILES['logo'])) {
    if(move_uploaded_file($_FILES['logo']['tmp_name'],'../img/logos/logo.png')){
     $i++;
    }
+   if(move_uploaded_file($_FILES['logo']['tmp_name'],'../../driver/img/logos/logo.png')){
+    $i++;
+   }
+   if(move_uploaded_file($_FILES['logo']['tmp_name'],'..../client/img/logos/logo.png')){
+    $i++;
+   }
 }
 if(!empty($_REQUEST['d_ad2'])) {
     $sql = "update setting set value = ? where control=?";

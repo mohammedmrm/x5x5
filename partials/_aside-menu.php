@@ -215,6 +215,12 @@ $se = $_SESSION['role'];
                             </a>
                         </li>
                         <li class="kt-menu__item " aria-haspopup="true" >
+                            <a href="?page=pages/loan.php" class="kt-menu__link ">
+                                <i class="kt-menu__link-bullet kt-menu__link-bullet--dot"><span></span></i>
+                                <span class="kt-menu__link-text">سلف العملاء</span>
+                            </a>
+                        </li>
+                        <li class="kt-menu__item " aria-haspopup="true" >
                             <a href="?page=pages/receipt.php" class="kt-menu__link ">
                                 <i class="kt-menu__link-bullet kt-menu__link-bullet--dot"><span></span></i>
                                 <span class="kt-menu__link-text">طلبات الوصولات</span>
