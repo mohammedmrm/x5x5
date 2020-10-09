@@ -22,11 +22,8 @@ $res = getData($con,$sql,[$user_id]);
 $unseen = $res[0]['unseen'];
 $sql = 'select *,notification.id as n_id from notification
         left join orders on orders.id = notification.order_id
-        left join (
-         SELECT max(id) as id,max(from_id) as from_id,order_id FROM  message where from_id=? group by order_id
-        ) msg on msg.order_id = notification.order_id
-        where (for_client = 0 and staff_id = ?) or msg.from_id = ?
-        group by notification.date ORDER BY `notification`.`date` DESC limit 30';
+        where (for_client = 0 and staff_id = ?)
+        group by notification.date ORDER BY `notification`.`date` DESC limit 100';
 $result = getData($con,$sql,[$user_id,$user_id,$user_id]);
 $success = 1;
 echo json_encode(['success'=>$success,"data"=>$result,'unseen'=>$unseen]);
