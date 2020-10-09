@@ -30,8 +30,8 @@ $v->validate([
 ]);
 $msg = "";
 if($v->passes() ) {
-  $sql = "select * from callcenter_cities where city_id=?";
-  $res = getData($con,$sql,[$city]);
+  $sql = "select * from callcenter_cities where city_id=? and callcenter_id=?";
+  $res = getData($con,$sql,[$city,$callcenter]);
   if(count($res) < 1){
       $sql = 'insert into callcenter_cities (callcenter_id,city_id,manager_id) values (?,?,?)';
       $result = setData($con,$sql,[$callcenter,$city,$_SESSION['userid']]);
