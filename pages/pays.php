@@ -57,6 +57,7 @@
 								<th>المبلغ</th>
 								<th>التاريخ</th>
 								<th>الملاحضات</th>
+								<th>حذف</th>
 							</tr>
       	            </thead>
                             <tbody id="MoneyMainTable">
@@ -220,6 +221,9 @@ $.ajax({
             '<td>'+formatMoney(this.price)+'</td>'+
             '<td>'+this.date+'</td>'+
             '<td >'+this.note+'</td>'+
+            '<td >'+
+                '<button type="button" class="btn btn-clean btn-link" onclick="deleteMoneyMain('+this.p_id+')" data-toggle="modal" data-target="#deleteloansModal"><span class="flaticon-delete"></sapn></button>'+
+            '</td>'+
         '</tr>');
      });
      $("#tb-MoneyMain").DataTable().destroy();
@@ -321,7 +325,7 @@ function deleteMoneyMain(id){
         success:function(res){
          if(res.success == 1){
            Toast.success('تم الحذف');
-           getMoneyMain();
+           getPays();
          }else{
            Toast.warning(res.msg);
          }

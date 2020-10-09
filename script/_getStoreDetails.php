@@ -93,5 +93,10 @@ $query = "select orders.*,date_format(orders.date,'%Y-%m-%d') as dat,  order_sta
           }
           $res4= getData($con,$sql,[$id]);
           $res4= $res4[0];
-echo json_encode(array($query,"success"=>$success,"data"=>$data,'pay'=>$res4));
+$sql= "select * from stores where id= ?";
+$client =getData($con,$sql,[$id]);
+$sql = "SELECT sum(if(type = 1,(price),0)) as total,sum(if(type = 1,price,-price)) as balance, client_id from loans where client_id=? GROUP by client_id ";
+$balance = getData($con,$sql,[$client[0]['client_id']]);
+
+echo json_encode(array($query,"success"=>$success,"data"=>$data,'pay'=>$res4,'balance'=>$balance[0]['balance']));
 ?>

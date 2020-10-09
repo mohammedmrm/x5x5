@@ -17,12 +17,16 @@ $error = [];
 $client    = $_REQUEST['loan_client'];
 $price    = $_REQUEST['loan_price'];
 $note    = $_REQUEST['loan_note'];
-$center  = (bool) $_REQUEST['center'];
-if($center){
-   $center = 1;
-}else{
-  $center = 0;
-}
+
+$v->addRuleMessage('isPrice', 'المبلغ غير صحيح');
+
+$v->addRule('isPrice', function($value, $input, $args) {
+  if(preg_match("/^(0|\d*)(\.\d{2})?$/",$value)){
+    $x=(bool) 1;
+  }
+  return   $x;
+});
+
 $v->addRuleMessages([
     'required' => 'الحقل مطلوب',
     'int'      => 'فقط الارقام مسموع بها',
@@ -31,23 +35,23 @@ $v->addRuleMessages([
 ]);
 
 $v->validate([
-    'city'   => [$city, 'required|max(3)|int'],
-    'town'   => [$town, 'required|max(50)|min(3)|uniqueTownName('.$city.')'],
-    'center' => [$center, 'min(1)|max(1)']
+    'client'  => [$client, 'required|max(3)|int'],
+    'price'   => [$price, 'required|isPrice'],
+    'note'    => [$note, 'min(1)|max(1)']
 ]);
 
 if($v->passes()) {
-  $sql = 'insert into towns (city_id,center,name) values
+  $sql = 'insert into loans (client_id,price,note) values
                              (?,?,?)';
-  $result = setData($con,$sql,[$city,$center,$town]);
+  $result = setData($con,$sql,[$client,$price,$note]);
   if($result > 0){
     $success = 1;
   }
 }else{
   $error = [
-           'city_err'=> implode($v->errors()->get('city')),
-           'town_err'=>implode($v->errors()->get('town')),
-           'center_err'=>implode($v->errors()->get('center')),
+           'client_err'=> implode($v->errors()->get('client')),
+           'price_err'=>implode($v->errors()->get('price')),
+           'note_err'=>implode($v->errors()->get('note')),
            ];
 }
 echo json_encode(['success'=>$success, 'error'=>$error,$_POST]);

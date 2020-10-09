@@ -41,7 +41,7 @@ function validateDate($date, $format = 'Y-m-d')
 
 if($start_err == "" && $end_err == "")  {
 
-  $sql= "select *,DATE_FORMAT(pays.date,'%Y-%m-%d %h:%i') as date from pays
+  $sql= "select *,pays.id as p_id ,DATE_FORMAT(pays.date,'%Y-%m-%d %h:%i') as date from pays
          left join staff on staff.id = pays.staff_id
          where pays.date between '".$start."' and '".$end."'
          order by pays.date DESC

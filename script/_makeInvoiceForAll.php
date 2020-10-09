@@ -1,7 +1,7 @@
 <?php
 //-- create invoce fo recived orders only
 ini_set('max_execution_time', 60000);
-ob_start();
+//ob_start();
 session_start();
 error_reporting(0);
 header('Content-Type: application/json');
@@ -40,6 +40,7 @@ require("../config.php");
 
 $status = 4;
 $store = $_REQUEST['store'];
+$loan_outcome = $_REQUEST['loan_outcome'];
 $dev_price_b = $_REQUEST['dev_price_b'];
 $dev_price_o = $_REQUEST['dev_price_o'];
 $start = trim($_REQUEST['start']);
@@ -149,9 +150,28 @@ try{
 }
 // set default header data
 $status_name = "مستلمة";
+$msg = "";
+      //---- check if the client has a loan--- start
+      $sql= "select * from stores where id= ?";
+      $client =getData($con,$sql,[$store]);
+      $sql = "SELECT sum(if(type = 1,(price),0)) as total,sum(if(type = 1,price,-price)) as balance, client_id from loans where client_id=? GROUP by client_id ";
+      $balance = getData($con,$sql,[$client[0]['client_id']]);
+      if(count($balance) == 1){
+         if($loan_outcome > $balance['0']['balance']){
+           $msg = "المبلغ المستقطع من السلفه اكبر من المتوفر";
+         }else{
+           $msg ="";
+         }
+      }else{
+        if(empty($loan_outcome) || $loan_outcome == 0){
+           $msg = "";
+        }else{
+           $msg = "لايوجد سلفه لهذا العميل";
+        }
 
-
-if($orders > 0){
+      }
+      //---- check if the client has a loan--- end
+if($orders > 0 && $msg == ""){
     try{
         $i = 0;
         $content = "";
@@ -250,6 +270,12 @@ if($orders > 0){
                          <td colspan="5" style="text-align:center;font-size:20px;">صافي العميل:</td>
                          <td colspan="5" style="text-align:center;font-size:20px;">'.number_format($total['client_price']).'</td>
                       </tr>';
+      //---- check if the client has a loan--- start
+      if($loan_outcome > 0){
+          $sql = "insert into loans (type,price,invoice_id,client_id) values(?,?,?,?)";
+          $outcome = setData($con,$sql,[0,$loan_outcome,$invoice,$client[0]['client_id']]);
+      }
+      //---- check if the client has a loan--- end
     }
     $total['orders'] = $orders;
     if($store >=1){
@@ -390,5 +416,5 @@ $pdf->Output(dirname(__FILE__).'/../invoice/'.$pdf_name, 'F');
  $success = 2;
 
 }
-echo json_encode([$data,$count1,'num'=>$count,'success'=>$success,'invoice'=>$pdf_name]);
+echo json_encode([$data,$count1,'num'=>$count,'success'=>$success,'invoice'=>$pdf_name,'msg'=>$msg]);
 ?>

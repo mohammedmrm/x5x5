@@ -35,6 +35,7 @@ if(file_exists("script/_access.php")){
 			</h3>
 		</div>
 	</div>
+    <form id="loanFillterForm">
     <div class="col-lg-2 kt-margin-b-10-tablet-and-mobile">
     	<label>العميل:</label>
     	<select onchange="getloans()" id="client" name="client" class="form-control kt-input" id="branch" name="branch" data-col-index="6">
@@ -59,6 +60,7 @@ if(file_exists("script/_access.php")){
 								<th>العميل</th>
 								<th>المبلغ</th>
 								<th>التاريخ</th>
+								<th>سحب او سلفه</th>
 								<th>تعديل</th>
                             </tr>
       	            </thead>
@@ -70,6 +72,7 @@ if(file_exists("script/_access.php")){
 								<th>العميل</th>
 								<th>المبلغ</th>
 								<th>التاريخ</th>
+								<th>سحب او سلفه</th>
 								<th>تعديل</th>
 
 					</tr>
@@ -77,8 +80,11 @@ if(file_exists("script/_access.php")){
 		</table>
 		<!--end: Datatable -->
 	</div>
-</div>	</div>
-<!-- end:: Content -->				</div>
+</form>
+</div>
+</div>
+<!-- end:: Content -->
+</div>
 
 
             <!--begin::Page Vendors(used by this page) -->
@@ -89,31 +95,40 @@ function getloans(){
 $.ajax({
   url:"script/_getLoans.php",
   type:"POST",
-  data:{city: $("#city").val()},
+  data:$("#loanFillterForm").serialize(),
   success:function(res){
    console.log(res);
    $("#tb-loans").DataTable().destroy();
    $("#loansTable").html("");
    $.each(res.data,function(){
+     if(this.type == 1){
+       bg="text-success";
+       type = "سلفه";
+     }else{
+       bg="text-danger";
+       type="سحب"
+     }
      $("#loansTable").append(
-       '<tr>'+
-            '<td>'+this.id+'</td>'+
-            '<td>'+this.name+'</td>'+
-            '<td>'+this.price+'</td>'+
-            '<td>'+this.date+'</td>'+
-            '<td>'+
-                '<button class="btn btn-clean btn-link" onclick="editLoan('+this+')" data-toggle="modal" data-target="#editloansModal"><span class="flaticon-edit"></sapn></button>'+
-                '<button class="btn btn-clean btn-link" onclick="deleteLoan('+this+')" data-toggle="modal" data-target="#deleteloansModal"><span class="flaticon-delete"></sapn></button>'+
+       '<tr class="">'+
+            '<td class=" fa-2x '+bg+'">'+this.l_id+'</td>'+
+            '<td class=" fa-2x '+bg+'">'+this.name+'</td>'+
+            '<td class=" fa-2x '+bg+'">'+formatMoney(this.price)+'</td>'+
+            '<td class=" fa-2x '+bg+'">'+this.date+'</td>'+
+            '<td class=" fa-2x '+bg+'">'+type+'</td>'+
+            '<td class=" fa-2x '+bg+'">'+
+                '<button class="btn btn-clean btn-link '+bg+'" onclick="editLoan('+this.price+','+this.client_id+',\''+this.note+'\','+this.l_id+')" data-toggle="modal" data-target="#editloansModal"><span class="flaticon-edit"></sapn></button>'+
+                '<button class="btn btn-clean btn-link '+bg+'" onclick="deleteLoan('+this.l_id+')" data-toggle="modal" data-target="#deleteloansModal"><span class="flaticon-delete"></sapn></button>'+
             '</td>'+
-
        '</tr>');
      });
      var myTable= $('#tb-loans').DataTable({
         className: 'select-checkbox',
+        "ordering": false,
         targets: 0,
         "oLanguage": {
         "sLengthMenu": "عرض _MENU_ سجل",
-        "sSearch": "بحث:" ,
+        "sSearch": "بحث:",
+
         select: {
         style: 'os',
         selector: 'td:first-child'
@@ -152,7 +167,7 @@ getloans();
 					</div>
                     <div class="form-group">
 						<label>المبلغ</label>
-						<input type="name" name="town_name" class="form-control"  placeholder="الميلغ">
+						<input type="name" name="loan_price" class="form-control"  placeholder="الميلغ">
 						<span class="form-text  text-danger" id="loan_price_err"></span>
 					</div>
 	            </div>
@@ -189,7 +204,7 @@ getloans();
 				<div class="kt-portlet__body">
 					<div class="form-group">
 						<label>العميل</label>
-						<select data-show-subtext="true" data-live-search="true" class="selectpicker form-control " name="e_loan_client_err" id="e_loan_client_err"  value="">
+						<select data-show-subtext="true" data-live-search="true" class="selectpicker form-control " name="e_loan_client" id="e_loan_client"  value="">
                         </select>
                         <span class="form-text text-danger" id="e_loan_client_err"></span>
 					</div>
@@ -220,6 +235,7 @@ getloans();
 <script>
 getClients($("#loan_client"));
 getClients($("#client"));
+getClients($("#e_loan_client"));
 function addLoan(){
   $.ajax({
     url:"script/_addLoan.php",
@@ -235,9 +251,9 @@ function addLoan(){
          Toast.success('تم الاضافة');
          getloans($("#loansesTable"));
        }else{
-           $("#town_name_err").text(res.error["town_err"]);
-           $("#town_city_err").text(res.error["city_err"]);
-           $("#center_err").text(res.error["center_err"]);
+           $("#loan_client_err").text(res.error["client_err"]);
+           $("#loan_price_err").text(res.error["price_err"]);
+           $("#loan_note_err").text(res.error["note_err"]);
            Toast.warning("هناك بعض المدخلات غير صالحة",'خطأ');
        }
 
@@ -248,12 +264,11 @@ function addLoan(){
     }
   });
 }
-function editLoan(loan){
-  $("#editloansid").val(loan.id);
-  getCities($("#e_town_city"));
-  $('#e_loan_client').val(loan.client_id);
-  $('#e_loan_client').selectpicker('val',loan.client_id);
-  $('#e_loan_price').val(loan.price);
+function editLoan(price,client,note,id){
+  $("#editloanid").val(id);
+  $('#e_loan_client').val(client);
+  $('#e_loan_client').selectpicker('val',client);
+  $('#e_loan_price').val(price);
 
 }
 function updateLoan(){

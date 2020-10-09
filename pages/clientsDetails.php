@@ -157,6 +157,10 @@ hr {
         				<input onchange="getStoreDetails();storeInfo();getInvoices();getStoreReturned();" type="text" class="form-control kt-input" name="end" id="end" placeholder="الى" data-col-index="5">
                 	</div>
          </div>
+         <div class="col-md-3">
+             <label class="fa-2x">السلفه</label> <br />
+             <label id="loan_balance" class="fa-2x">0</label>
+         </div>
          </div>
           </fieldset>
           <div class="row">
@@ -343,6 +347,7 @@ function  getStoreDetails(){
     success:function(res){
       $("#store_info").removeClass('loading');
       $("#tb-orders-reciverd").removeClass('loading');
+      $("#loan_balance").text(res.balance);
       console.log(res);
       content ="";
       $.each(res.data,function(k,v){
@@ -374,6 +379,8 @@ function  getStoreDetails(){
             '<td>مبلغ التوصيل</td>'+
             '<td>الخصم</td>'+
             '<td>الصافي للعميل</td>'+
+            '<td>مبلغ السلفه</td>'+
+            '<td>مقدار السحب من مبلغ السلفه</td>'+
             '<td>انشاء فاتوره</td>'+
           '</tr>'+
           '</tr>'+
@@ -382,6 +389,8 @@ function  getStoreDetails(){
             '<td>'+res.pay.dev+'</td>'+
             '<td>'+res.pay.discount+'</td>'+
             '<td>'+res.pay.client_price+'</td>'+
+            '<td>'+res.balance+'</td>'+
+            '<td><input type="text" class="form-control" value="0" id="loan_outcome" name="loan_outcome" /></td>'+
             '<td><button onclick="makeInvoice()" type="button" class="btn btn-success">انشاء كشف</button></td>'+
           '</tr>'+
         '</table>'
@@ -568,6 +577,7 @@ function makeInvoice() {
                     getStoreDetails();
                     window.open('invoice/'+res.invoice, '_blank');
                   }else{
+                   Toast.warning(res.msg);
                    Toast.warning("خطأ");
                   }
                 },
