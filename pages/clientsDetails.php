@@ -415,13 +415,12 @@ function getStoreReturned(){
     type:"POST",
     data:$("#storedataform").serialize(),
     beforeSend:function(){
-
        $("#tb-returned").addClass('loading');
-       $("#returnedTable").html("");
-    },
+     },
     success:function(res){
       $("#tb-returned").removeClass('loading');
       $("#tb-returned").DataTable().destroy();
+      $("#returnedTable").html("");
       console.log(res);
       content = "";
            $.each(res.data,function(){
