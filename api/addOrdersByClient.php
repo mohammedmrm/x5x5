@@ -1,7 +1,7 @@
 <?php
-ob_start();
+//ob_start();
 session_start();
-error_reporting(0);
+//error_reporting(0);
 header("Access-Control-Allow-Origin: *");
 header("Content-Type: application/json; charset=UTF-8");
 require_once("_apiAccess.php");
@@ -174,6 +174,6 @@ $error = [
            'order_address'=>implode($v->errors()->get('order_address'))
            ];
 }
-ob_end_clean();
+//ob_end_clean();
 echo json_encode(['success'=>$success,'error'=>$error,"count"=>$count,'data'=>$data]);
 ?>
