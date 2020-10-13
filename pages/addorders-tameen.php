@@ -81,7 +81,17 @@ include("config.php");
 	<div class="kt-portlet__body">
     <form id="orderstabledata" class="kt-form kt-form--fit kt-margin-b-20">
          <div id="order-section">
-         <div class="row ">
+         <div class="row">
+            <div class="form-group col-lg-2">
+                <label> اضافه عميل و صفحه</label><br />
+                <input data-toggle="modal" data-target="#addClientModal" type="button" class="btn btn-primary" name="add_client" id="add_client" value="اضافة عميل و صفحه"/>
+             </div>
+            <div class="form-group col-lg-2">
+                <label> اضافه صفحه فقط</label><br />
+                <input data-toggle="modal" data-target="#addStoreModal" type="button" class="btn btn-success" name="add_client"  value="اضافه صفحه فقط"/>
+            </div>
+         </div>
+         <div class="row">
          <div class="col-lg-6">
 			<div class="form-group"  >
 				<label>الصفحه (البيج)</label>
@@ -359,6 +369,8 @@ include("config.php");
 getCities($("#city"));
 getTowns($("#town"),$("#city").val());
 getStores($("#store"));
+getBraches($("#branch_to1"));
+getBraches($("#client_branch"));
 function checkanyway(){
  if($("#checkbox").is(':checked')){
     $("#check").val(1);
@@ -515,8 +527,11 @@ function addOrders(){
          $("#orderstabledata input[name='order_note']").val("");
          $("#orderstabledata input[name='order_address']").val("");
          $('[city="city"]').val("");
+         $('#store').val("");
+         $('#town').val("");
          $(".selectpicker").selectpicker('refresh');
          Toast.success('تم الاضافة');
+         $("#store").next().focus();
        }else{
            $("#order_no_err").text(res.error["order_no"]);
            $("#order_type_err").text(res.error["order_type"]);
