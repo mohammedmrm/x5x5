@@ -29,7 +29,7 @@
             'sound' => 'mySound',
             'click_action' => $link
         ];
-        $extraNotificationData = ["message" => $notification,"moredata" =>$data];
+        $extraNotificationData = ["link" => $link,"moredata" =>$data];
 
         $fcmNotification = [
             'registration_ids' => $token, //multple token array
@@ -48,7 +48,7 @@
              'body'   => $body,
              'title'  =>$title,
              "sound"=>'default',
-             'subtitle'=> $order,
+             'subtitle'=> $orders[0],
              'vibrate'=> [300,100,400,100,400,100,400],
              'vibrationPattern'=> [300,100,400,100,400,100,400],
              'data' => $extraNotificationData
