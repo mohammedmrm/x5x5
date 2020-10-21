@@ -53,7 +53,7 @@ access([1,2,5]);
                     <label class="h4">الفترة الزمنية: <label class="" id="total_peroid"></label></label><br />
                     <label class="h4">مجموع الارباح: <label class="text-success" id="total_earnings"></label></label><br />
                     <label class="h4">مجموع صافي العملاء: <label class="text-danger" id="total_client_price"></label></label><br />
-                    <label class="h4">مجموع السلف: <label class="text-warning" id="total_discount"></label></label><br />
+                    <label class="h4">مجموع السلف في ذمه  العملاء: <label class="text-warning" id="total_discount"></label></label><br />
                     <label class="h4">في ذمه الشركه: <label class="text-info" id="total_with_company"></label></label><br />
                     <label class="h4">عدد الطلبيات: <label class="text-info" id="total_orders"></label></label><br />
                 </div>
@@ -84,7 +84,7 @@ access([1,2,5]);
 								<th>اسم العميل</th>
 								<th>رقم الهاتف</th>
 								<th>عدد الطلبات</th>
-								<th>مجموع السلف</th>
+								<th>سلفه في ذمه العميل</th>
 								<th>الدخل الكلي</th>
 								<th>صافي التوصيل</th>
 								<th>الصافي للعميل</th>

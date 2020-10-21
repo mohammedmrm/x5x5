@@ -119,7 +119,7 @@ if($_SESSION['user_details']['role_id'] == 1){
 }
 $sql1 = $sql."  GROUP by  orders.client_id";
 $data =  getData($con,$sql1);
-$total=getData($con,$sql);
+$total=  getData($con,$sql);
 
 $total[0]['start'] = date('Y-m-d', strtotime($start));
 $total[0]['end'] = date('Y-m-d', strtotime($end." -1 day"));
