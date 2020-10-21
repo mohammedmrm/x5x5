@@ -30,12 +30,13 @@ if(validateDate($start) && validateDate($end)){
     $filter .= " and loans.client_id=".$client;
   }
 try{
-  $query = "SELECT *,loans.id as l_id FROM loans INNER join clients on clients.id = loans.client_id order by loans.date DESC";
+  $query = "SELECT *,loans.id as l_id FROM loans INNER join clients on clients.id = loans.client_id";
   if($filter != ""){
     $filter = preg_replace('/^ and/', '', $filter);
     $filter = $where." ".$filter;
     $query .= " ".$filter;
   }
+   $query .= ' order by loans.date DESC';
   $data = getData($con,$query);
   $success="1";
 } catch(PDOException $ex) {

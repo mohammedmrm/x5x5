@@ -266,15 +266,22 @@ if($orders > 0 && $msg == ""){
        $total['invoice'] = $invoice;
        $total['status'] = $status_name;
        $total['date'] = $res[0]['date'];
-        $hcontent .= '<tr>
-                         <td colspan="5" style="text-align:center;font-size:20px;">صافي العميل:</td>
-                         <td colspan="5" style="text-align:center;font-size:20px;">'.number_format($total['client_price']).'</td>
-                      </tr>';
+
       //---- check if the client has a loan--- start
       if($loan_outcome > 0){
           $sql = "insert into loans (type,price,invoice_id,client_id) values(?,?,?,?)";
           $outcome = setData($con,$sql,[0,$loan_outcome,$invoice,$client[0]['client_id']]);
-      }
+          $hcontent .= '<tr>
+                           <td colspan="4" style="text-align:center;font-size:20px;">صافي العميل: '.number_format($total['client_price']).'</td>
+                           <td colspan="3" style="text-align:center;font-size:20px;">المخصوم من السلفه : '.number_format($loan_outcome).'</td>
+                           <td colspan="3" style="text-align:center;font-size:20px;">الباقي من السلفه : '.number_format(($balance['0']['balance'] - $loan_outcome)).'</td>
+                        </tr>';
+     }else{
+            $hcontent .= '<tr>
+                           <td colspan="5" style="text-align:center;font-size:20px;">صافي العميل:</td>
+                           <td colspan="5" style="text-align:center;font-size:20px;">'.number_format($total['client_price']).'</td>
+                        </tr>';
+     }
       //---- check if the client has a loan--- end
     }
     $total['orders'] = $orders;

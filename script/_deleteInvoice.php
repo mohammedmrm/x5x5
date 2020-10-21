@@ -38,6 +38,8 @@ if($v->passes()){
                    $result = setData($con,$sql,[$id]);
                  }
                  unlink('../invoice/'.$re[0]['path']);
+                 $sql = "delete from loans where invoice_id=?";
+                 setData($con,$sql,[$id]);
              }else{
                 $msg = "فشل  حذف كشف";
              }
