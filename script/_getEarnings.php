@@ -49,7 +49,7 @@ if($_SESSION['user_details']['role_id'] == 1){
                         )
                    ),0
                 )
-             ) as with_company,
+             ) as with_company,a.balance,
              sum(if(order_status_id = 4 or order_status_id = 5 or order_status_id = 6,new_price,0)) as income,
              sum(if(order_status_id=9,0,discount)) as discount,
              count(orders.id) as orders,
@@ -61,8 +61,12 @@ if($_SESSION['user_details']['role_id'] == 1){
             left join branches on  branches.id = clients.branch_id
             left JOIN client_dev_price
             on client_dev_price.client_id = orders.client_id AND client_dev_price.city_id = orders.to_city
+            left join (
+                      SELECT sum(if(type = 1,(price),0)) as total,sum(if(type = 1,price,-price)) as balance, client_id
+                      from loans where client_id=? GROUP by client_id
+            ) a on a.client_id = orders.client_id
             where date between "'.$start.'" and "'.$end.'"
-             and orders.confirm = 1 ';
+            and orders.confirm = 1 ';
 
 }else{
   $sql = 'select
