@@ -55,6 +55,7 @@ access([1,2,5]);
                     <label class="h4">مجموع صافي العملاء: <label class="text-danger" id="total_client_price"></label></label><br />
                     <label class="h4">مجموع السلف في ذمه  العملاء: <label class="text-warning" id="total_discount"></label></label><br />
                     <label class="h4">في ذمه الشركه: <label class="text-info" id="total_with_company"></label></label><br />
+                    <label class="h4">الصرفيات: <label class="text-info" id="total_pays"></label></label><br />
                     <label class="h4">عدد الطلبيات: <label class="text-info" id="total_orders"></label></label><br />
                 </div>
 
@@ -140,6 +141,7 @@ $.ajax({
    $("#total_discount").text(formatMoney(res.total[0].balance));
    $("#total_with_company").text(formatMoney(res.total[0].with_company));
    $("#total_client_price").text(formatMoney(res.total[0].client_price));
+   $("#total_pays").text(formatMoney(res.total[0].pays));
    $("#total_orders").text(formatMoney(res.total[0].orders));
    $.each(res.data,function(){
      elem.append(
