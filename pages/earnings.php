@@ -137,7 +137,7 @@ $.ajax({
    elem.html("");
    $("#total_peroid").text(res.total[0].start+" || "+res.total[0].end);
    $("#total_earnings").text(formatMoney(res.total[0].earnings));
-   $("#total_discount").text(formatMoney(res.total[0].discount));
+   $("#total_discount").text(formatMoney(res.total[0].balance));
    $("#total_with_company").text(formatMoney(res.total[0].with_company));
    $("#total_client_price").text(formatMoney(res.total[0].client_price));
    $("#total_orders").text(formatMoney(res.total[0].orders));
@@ -149,7 +149,7 @@ $.ajax({
             '<td>'+this.name+'</td>'+
             '<td>'+this.phone+'</td>'+
             '<td>'+this.orders+'</td>'+
-            '<td>'+formatMoney(this.discount)+'</td>'+
+            '<td>'+formatMoney(this.balance)+'</td>'+
             '<td>'+formatMoney(this.income)+'</td>'+
             '<td class="text-success">'+formatMoney(this.earnings)+'</td>'+
             '<td class="text-danger">'+formatMoney(this.client_price)+'</td>'+
