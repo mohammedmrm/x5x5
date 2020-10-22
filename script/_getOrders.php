@@ -115,7 +115,7 @@ try{
         return $d && $d->format($format) == $date;
     }
   if(validateDate($start) && validateDate($end)){
-      $filter .= " and date between '".$start."' AND '".$end."'";
+      $filter .= " and orders.date between '".$start."' AND '".$end."'";
      }
   if($filter != ""){
     $filter = preg_replace('/^ and/', '', $filter);

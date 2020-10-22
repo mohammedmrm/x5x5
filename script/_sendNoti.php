@@ -59,8 +59,10 @@
             $expo = ExponentPhpSDK\Expo::normalSetup();
             // Subscribe the recipient to the server
             foreach($token as $v){
-              $recipient= $v;
-              $expo->subscribe($channelName, $recipient);
+              if (substr($v, 0, 17) == 'ExponentPushToken') {
+                $recipient= $v;
+                $expo->subscribe($channelName, $recipient);
+              }
             }
             // Notify an interest with a notification
             $r = $expo->notify([$channelName], $notification);
